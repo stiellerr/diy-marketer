@@ -5,6 +5,7 @@ import cleanCSS from 'gulp-clean-css'
 import gulpif from 'gulp-if'
 import sourcemaps from 'gulp-sourcemaps'
 import imagemin from 'gulp-imagemin'
+//import imagemin from 'imagemin'
 import del from 'del'
 import webpack from "webpack-stream"
 import named from 'vinyl-named'
@@ -61,7 +62,8 @@ export const styles = () => {
         .pipe(gulpif(!PRODUCTION, sourcemaps.init()))
         .pipe(sass().on('error', sass.logError))
         .pipe(postcss([ autoprefixer() ]))
-        .pipe(gulpif(PRODUCTION, cleanCSS({ compatibility:'ie8'})))
+        //.pipe(gulpif(PRODUCTION, cleanCSS({ compatibility:'ie8'})))
+        .pipe(gulpif(PRODUCTION, cleanCSS()))
         .pipe(gulpif(!PRODUCTION, sourcemaps.write()))
         .pipe(gulp.dest(paths.styles.dest))
         .pipe(server.stream());
