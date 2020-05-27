@@ -10,14 +10,14 @@ class MyComponent extends React.Component {
 
         return null;
         /*
+        (
             <div className="x">
-                
                 {[1, 2, 3].map(item => (
                     <div>{item}</div>
                 ))}
-                
             </div>
-            */
+        );
+        */
     }
 }
 

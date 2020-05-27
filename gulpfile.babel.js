@@ -64,7 +64,10 @@ const paths = {
             "!.gitignore",
             "!gulpfile.babel.js",
             "!package.json",
-            "!package-lock.json"
+            "!package-lock.json",
+            "!.eslintrc.js",
+            "!.prettierignore",
+            "!.prettierrc"
         ],
         dest: "packaged"
     }
