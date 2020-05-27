@@ -11,7 +11,6 @@ import webpack from "webpack-stream";
 import named from "vinyl-named";
 import browserSync from "browser-sync";
 import zip from "gulp-zip";
-import replace from "gulp-replace";
 import info from "./package.json";
 import rename from "gulp-rename";
 import autoprefixer from "autoprefixer";
@@ -239,12 +238,15 @@ export const scripts = () => {
                         {
                             test: /\.js$/,
                             exclude: /node_modules/,
-                            use: {
-                                loader: "babel-loader",
-                                options: {
-                                    presets: ["@babel/preset-env"]
-                                }
-                            }
+                            use: [
+                                {
+                                    loader: "babel-loader",
+                                    options: {
+                                        presets: ["@babel/preset-env"]
+                                    }
+                                },
+                                "eslint-loader"
+                            ]
                         }
                     ]
                 },
