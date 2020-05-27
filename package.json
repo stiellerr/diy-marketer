@@ -11,6 +11,10 @@
         "start": "gulp",
         "build": "npm run lint && gulp bundle --prod"
     },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/stiellerr/diy-marketer.git"
+    },
     "husky": {
         "hooks": {
             "pre-commit": "lint-staged"
