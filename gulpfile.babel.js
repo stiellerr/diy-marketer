@@ -5,7 +5,6 @@ import cleanCSS from "gulp-clean-css";
 import gulpif from "gulp-if";
 import sourcemaps from "gulp-sourcemaps";
 import imagemin from "gulp-imagemin";
-//import imagemin from 'imagemin'
 import del from "del";
 import webpack from "webpack-stream";
 import named from "vinyl-named";
@@ -14,13 +13,10 @@ import zip from "gulp-zip";
 import info from "./package.json";
 import rename from "gulp-rename";
 import autoprefixer from "autoprefixer";
-//const autoprefixer = require('autoprefixer');
 import MiniCSSExtractPlugin from "mini-css-extract-plugin";
 import OptimizeCSSAssetsPlugin from "optimize-css-assets-webpack-plugin";
-//const MiniCSSExtractPlugin = require("mini-css-extract-plugin");
 import TerserPlugin from "terser-webpack-plugin";
 const CleanPlugin = require("clean-webpack-plugin").CleanWebpackPlugin;
-
 import postcss from "gulp-postcss";
 
 const server = browserSync.create();
@@ -73,20 +69,15 @@ const paths = {
 };
 
 export const styles = () => {
-    //return gulp.src('src/assets/scss/bundle.scss')//
-    //fdfdf
-    return (
-        gulp
-            .src(paths.styles.src)
-            .pipe(gulpif(!PRODUCTION, sourcemaps.init()))
-            .pipe(sass().on("error", sass.logError))
-            .pipe(postcss([autoprefixer()]))
-            //.pipe(gulpif(PRODUCTION, cleanCSS({ compatibility:'ie8'})))
-            .pipe(gulpif(PRODUCTION, cleanCSS()))
-            .pipe(gulpif(!PRODUCTION, sourcemaps.write()))
-            .pipe(gulp.dest(paths.styles.dest))
-            .pipe(server.stream())
-    );
+    return gulp
+        .src(paths.styles.src)
+        .pipe(gulpif(!PRODUCTION, sourcemaps.init()))
+        .pipe(sass().on("error", sass.logError))
+        .pipe(postcss([autoprefixer()]))
+        .pipe(gulpif(PRODUCTION, cleanCSS()))
+        .pipe(gulpif(!PRODUCTION, sourcemaps.write()))
+        .pipe(gulp.dest(paths.styles.dest))
+        .pipe(server.stream());
 };
 
 export const serve = done => {
@@ -128,7 +119,7 @@ export const compress = () => {
     return gulp
         .src(paths.package.src)
         .pipe(
-            rename(function (path) {
+            rename(function(path) {
                 path.dirname = `${info.name}/` + path.dirname;
             })
         )
@@ -153,14 +144,15 @@ export const blocks = () => {
                             sourceMap: true
                         }),
                         new OptimizeCSSAssetsPlugin({
+                            /*
+                            for source mapping in prod mode
                             cssProcessorOptions: {
-                                /*
-                        map: {
-                            inline: false,
-                            annotation: true
-                        }
-                        */
+                                map: {
+                                    inline: false,
+                                    annotation: true
+                                }
                             }
+                            */
                         })
                     ]
                 },
@@ -202,7 +194,6 @@ export const blocks = () => {
                             test: /\.(sa|sc|c)ss$/,
                             use: [
                                 MiniCSSExtractPlugin.loader,
-                                //"style-loader",
                                 "css-loader",
                                 {
                                     loader: "postcss-loader",
@@ -215,12 +206,11 @@ export const blocks = () => {
                         }
                     ]
                 },
-
                 /*
-        externals: {
-            jquery: 'jQuery'
-        },
-        */
+                externals: {
+                    jquery: "jQuery"
+                },
+                */
                 mode: PRODUCTION ? "production" : "development"
             })
         )

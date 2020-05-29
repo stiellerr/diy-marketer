@@ -3,7 +3,7 @@
 define('DIYM_VER', 1.0);
 
 define('DIYM_URL', trailingslashit(get_template_directory_uri()));
-define('DIYM_JS_URL', trailingslashit(DIYM_URL . 'dist/assets/js'));
+define('DIYM_JS_URL', trailingslashit(DIYM_URL . 'dist/assets/js')  );
 define('DIYM_CSS_URL', trailingslashit(DIYM_URL . 'dist/assets/css'));
 
 function diym_assets()

@@ -19,6 +19,9 @@ module.exports = {
     },
     plugins: ["react"],
     rules: {
-        "no-console": "warn"
+        "no-console": "warn",
+        //"react/react-in-jsx-scope": "off",
+        //"react/display-name": "off",
+        "react/prop-types": "off"
     }
 };
