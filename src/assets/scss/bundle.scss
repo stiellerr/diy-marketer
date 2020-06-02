@@ -30,6 +30,12 @@
 
 --------------------------------------------------------------*/
 
+@media (min-width: 576px) {
+    .bg-md-none {
+        background-color: transparent !important;
+    }
+}
+
 /*--------------------------------------------------------------
 # Generic
 --------------------------------------------------------------*/
@@ -66,72 +72,31 @@
 
 /* Navigation
 --------------------------------------------- */
-.main-navigation {
-    display: block;
-    width: 100%;
+
+.nav-link {
+    border: 1px solid transparent;
 }
 
-.main-navigation ul {
-    display: none;
-    list-style: none;
-    margin: 0;
-    padding-left: 0;
-}
-
-.main-navigation ul ul {
-    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
-    float: left;
-    position: absolute;
-    top: 100%;
-    left: -999em;
-    z-index: 99999;
-}
-
-.main-navigation ul ul ul {
-    left: -999em;
-    top: 0;
-}
-
-.main-navigation ul ul li:hover > ul,
-.main-navigation ul ul li.focus > ul {
-    display: block;
-    left: auto;
-}
-
-.main-navigation ul ul a {
-    width: 200px;
-}
-
-.main-navigation ul li:hover > ul,
-.main-navigation ul li.focus > ul {
-    left: auto;
-}
-
-.main-navigation li {
-    position: relative;
-}
-
-.main-navigation a {
-    display: block;
-    text-decoration: none;
+.nav-link:hover {
+    border: 1px solid #007bff;
+    color: #007bff;
 }
 
 /* Small menu. */
-.menu-toggle,
-.main-navigation.toggled ul {
-    display: block;
+nav button:focus {
+    outline: thin none white;
 }
 
-@media screen and (min-width: 37.5em) {
-    .menu-toggle {
-        display: none;
-    }
-
-    .main-navigation ul {
-        display: flex;
-    }
+.navbar-toggler {
+    width: 100%;
+    text-align: left;
 }
 
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(255, 255, 255, 1.0)' stroke-width='3' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+//old-->
 .site-main .comment-navigation,
 .site-main .posts-navigation,
 .site-main .post-navigation {

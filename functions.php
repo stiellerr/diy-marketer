@@ -26,6 +26,13 @@ if (!function_exists('diym_setup')):
      */
     function diym_setup()
     {
+		// This theme uses wp_nav_menu() in one location.
+		register_nav_menus(
+			array(
+				'menu-1' => esc_html__( 'Primary', 'diy-marketer' ),
+			)
+		);
+
         /**
          * Add support for core custom logo.
          *
@@ -59,3 +66,60 @@ function diym_admin_assets()
 }
 
 add_action('admin_enqueue_scripts', 'diym_admin_assets');
+
+
+// Navigation
+function diym_nav_menu_css_class( $classes, $item, $args, $depth ) {
+
+	$classes[] = 'nav-item';
+
+	if ( in_array( 'menu-item-has-children', $classes ) ) {
+		$classes[] = 'dropdown';
+	}
+
+	return $classes;
+
+}
+
+add_filter( 'nav_menu_css_class', 'diym_nav_menu_css_class', 10, 4 ); 
+
+
+function diym_nav_menu_link_attributes($atts, $item, $args, $depth) {
+	
+	//if ( in_array( 'menu-item-has-children', $item->classes ) && 0 === $depth ) {
+	if ( in_array( 'menu-item-has-children', $item->classes ) ) {
+		//$classes[] = 'dropdown';
+
+		$atts['href']          = '#';
+		$atts['data-toggle']   = 'dropdown';
+		$atts['aria-haspopup'] = 'true';
+		$atts['aria-expanded'] = 'false';
+		$atts['class']         = 'nav-link dropdown-toggle';
+		//$atts['id']            = 'menu-item-dropdown-' . $item->ID;
+
+	} else {
+		if ( $depth > 0 ) {
+			$atts['class'] = 'dropdown-item';
+		} else {
+			$atts['class'] = 'nav-link';
+		}
+	}
+
+	if ( $item->current ) {
+		$atts['class'] .= ' active';
+	}
+
+    return $atts;
+}
+add_filter( 'nav_menu_link_attributes', 'diym_nav_menu_link_attributes', 10, 4 );
+
+
+function diym_nav_menu_submenu_css_class( $classes, $args, $depth ) {
+
+	$classes[] = 'dropdown-menu';
+
+	return $classes;
+}
+
+
+add_filter( 'nav_menu_submenu_css_class', 'diym_nav_menu_submenu_css_class', 10, 4 );

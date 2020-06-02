@@ -14,7 +14,7 @@
 <head>
 	<meta charset="<?php bloginfo('charset'); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
 
 	<?php wp_head(); ?>
@@ -24,10 +24,7 @@
 <?php wp_body_open(); ?>
 
 <div class="container shadow bg-white">
-	<a class="sr-only sr-only-focusable" href="#primary"><?php esc_html_e(
-     'Skip to content',
-     'diy-marketer'
- ); ?></a>
+	<a class="sr-only sr-only-focusable" href="#primary"><?php esc_html_e('Skip to content', 'diy-marketer'); ?></a>
 
 	<!-- HEADER
 	================================================== -->
@@ -43,42 +40,24 @@
 		================================================== -->
 		<div class="row border-bottom">
 			<div class="col-md-auto text-center py-3">
-
+				<?php the_custom_logo(); ?>
+			</div>
+			<div class="col-md align-self-center">
+				<nav class="navbar navbar-expand-sm px-0" role="navigation">
+					<button class="navbar-toggler bg-dark" type="button" data-toggle="collapse" data-target="#primary-menu" aria-controls="primary-menu" aria-expanded="false" aria-label="<?php _e( 'Toggle Navigation', 'diy-marketer' ) ?>">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<?php
+						wp_nav_menu(
+							array(
+								'theme_location'	=> 'menu-1',
+								//'depth'			=> 2,
+								'container_id'		=> 'primary-menu',
+								'container_class'	=> 'collapse navbar-collapse justify-content-start justify-content-md-end',
+								'menu_class'		=> 'navbar-nav nav-pills text-center bg-light bg-md-none',
+							)
+						);
+					?>
+				</nav>
 			</div>
 		</div>
-
-
-
-	
-		<div class="site-branding">
-			<?php
-   the_custom_logo();
-   if (is_front_page() && is_home()): ?>
-				<h1 class="site-title"><a href="<?php echo esc_url(home_url('/')); ?>" rel="home"><?php bloginfo(
-    'name'
-); ?></a></h1>
-				<?php else: ?>
-				<p class="site-title"><a href="<?php echo esc_url(home_url('/')); ?>" rel="home"><?php bloginfo(
-    'name'
-); ?></a></p>
-				<?php endif;
-   $diy_marketer_description = get_bloginfo('description', 'display');
-   if ($diy_marketer_description || is_customize_preview()): ?>
-				<p class="site-description"><?php echo $diy_marketer_description;
-       // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-       ?></p>
-			<?php endif;
-   ?>
-		</div><!-- .site-branding -->
-
-		<nav id="site-navigation" class="main-navigation">
-			<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><?php esc_html_e(
-       'Primary Menu',
-       'diy-marketer'
-   ); ?></button>
-			<?php wp_nav_menu([
-       'theme_location' => 'menu-1',
-       'menu_id' => 'primary-menu',
-   ]); ?>
-		</nav><!-- #site-navigation -->
-	</header><!-- #masthead -->

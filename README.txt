@@ -1,0 +1,13 @@
+Reece Stieller
+28/05/2020
+
+1) Create a folder in "themes" and name it: diy-marketer
+2) Open cmd, type "cd " and drag the diy-marketer folder into the cmd window, hit enter
+3) type "code ." to fire up visual studio code
+4) in vs code open a new terminal
+5) tyoe: "git init" to initialise git
+6) type: "git pull https://github.com/stiellerr/diy-marketer.git" to retieve the lastest version from the github repo
+7) type: "npm install" to install all of the project dependencies from the package.json file 
+8) copy the node_modules -> "gifsicle", "mozjpeg" & "optipng-bin" to the diy-marketer projects, node_modules folder
+
+NOTE: Prettier-php extension has been disabled. PHP files dont format well when embeded inside html so have made this a manual task ie "npx prettier file_name.php --write"
