@@ -4,8 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "checkFormat": "prettier --check **/*.{js,json,css,scss,html,php}",
-        "Format": "prettier --write **/*.{js,json,css,scss,html,php}",
+        "checkFormat": "prettier --check **/*.{js,json,css,scss,html}",
+        "Format": "prettier --write **/*.{js,json,css,scss,html}",
         "test": "prettier --check functions.php",
         "lint": "eslint src",
         "start": "gulp",
@@ -22,7 +22,7 @@
     },
     "lint-staged": {
         "src/**/*.js": "eslint",
-        "**/*.{js,json,css,scss,html,php}": [
+        "**/*.{js,json,css,scss,html}": [
             "prettier --write",
             "git add"
         ]
