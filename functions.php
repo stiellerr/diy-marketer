@@ -1,10 +1,46 @@
 <?php
+/**
+ * DIY Marketer functions and definitions
+ *
+ * @link https://developer.wordpress.org/themes/basics/theme-functions/
+ *
+ * @package DIY_Marketer
+ */
 
-define('DIYM_VER', 1.0);
+if (!defined('DIYM_VER')) {
+    // Replace the version number of the theme on each release.
+    define('DIYM_VER', '1.0.0');
+}
 
 define('DIYM_URL', trailingslashit(get_template_directory_uri()));
-define('DIYM_JS_URL', trailingslashit(DIYM_URL . 'dist/assets/js')  );
+define('DIYM_JS_URL', trailingslashit(DIYM_URL . 'dist/assets/js'));
 define('DIYM_CSS_URL', trailingslashit(DIYM_URL . 'dist/assets/css'));
+
+if (!function_exists('diym_setup')):
+    /**
+     * Sets up theme defaults and registers support for various WordPress features.
+     *
+     * Note that this function is hooked into the after_setup_theme hook, which
+     * runs before the init hook. The init hook is too late for some features, such
+     * as indicating support for post thumbnails.
+     */
+    function diym_setup()
+    {
+        /**
+         * Add support for core custom logo.
+         *
+         * @link https://codex.wordpress.org/Theme_Logo
+         */
+        add_theme_support('custom-logo', [
+            'height' => 80,
+            'width' => 80,
+            'flex-width' => true,
+            'flex-height' => false,
+            'header-text' => ['site-banner'],
+        ]);
+    }
+endif;
+add_action('after_setup_theme', 'diym_setup');
 
 function diym_assets()
 {
