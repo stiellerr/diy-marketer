@@ -9,23 +9,72 @@
  * @package DIY_Marketer
  */
 ?>
-
-	<footer id="colophon" class="site-footer">
-		<div class="site-info">
-			<a href="<?php echo esc_url(__('https://wordpress.org/', 'diy-marketer')); ?>">
-				<?php /* translators: %s: CMS name, i.e. WordPress. */
-    printf(esc_html__('Proudly powered by %s', 'diy-marketer'), 'WordPress'); ?>
-			</a>
-			<span class="sep"> | </span>
-				<?php /* translators: 1: Theme name, 2: Theme author. */
-    printf(
-        esc_html__('Theme: %1$s by %2$s.', 'diy-marketer'),
-        'diy-marketer',
-        '<a href="https://stieller.com">DIY Marketer</a>'
-    ); ?>
-		</div><!-- .site-info -->
-	</footer><!-- #colophon -->
-</div><!-- #page -->
+	<!-- FOOTER
+	================================================== -->
+	<footer>
+		<div class="row">
+			<div class="col-12 col-md-6 col-lg-3 pt-4">
+				<?php
+					if ( is_active_sidebar( 'footer-1' ) ) {
+						dynamic_sidebar( 'footer-1' );
+					}
+				?>
+			</div>
+			<div class="col-12 col-md-6 col-lg-3 pt-4">
+				<?php
+					if ( is_active_sidebar( 'footer-2' ) ) {
+						dynamic_sidebar( 'footer-2' );
+					}
+				?>
+			</div>
+			<div class="col-12 col-md-6 col-lg-3 pt-4">
+				<?php
+					if ( is_active_sidebar( 'footer-3' ) ) {
+						dynamic_sidebar( 'footer-3' );
+					}
+				?>
+			</div>
+			<div class="col-12 col-md-6 col-lg-3 pt-4">
+				<?php
+					if ( is_active_sidebar( 'footer-4' ) ) {
+						dynamic_sidebar( 'footer-4' );
+					}
+				?>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<?php
+					wp_nav_menu(
+						array(
+							'theme_location'=> 'menu-2',
+							'depth'			=> 1,
+							//'menu_class'	=> 'foot d-flex flex-wrap text-dark',
+						)
+					);
+				?>
+			</div>
+			<div class="col-lg-auto text-center text-sm-left">
+				<?php
+					printf( 
+						wp_kses(
+							__( 'Powered by <a href="%1$s">DIY Marketer</a> &copy; <span id="current-year">%2$d</span>', 'diy-marketer' ),
+							array(
+								'a' => array(
+									'href' => array(),
+								),
+								'span' => array(
+									'id' => array(),
+								)
+							)
+						),
+						esc_url( __( 'https://stieller.com/', 'diy-marketer' ) ),
+						esc_html__( '2020', 'diy-marketer' ) 
+					); 
+				?>
+			</div>		
+		</div>
+	</footer>
 
 <?php wp_footer(); ?>
 

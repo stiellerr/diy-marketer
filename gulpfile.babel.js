@@ -18,12 +18,18 @@ import OptimizeCSSAssetsPlugin from "optimize-css-assets-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
 const CleanPlugin = require("clean-webpack-plugin").CleanWebpackPlugin;
 import postcss from "gulp-postcss";
+import htmlmin from "gulp-htmlmin";
+//import { phpMinify } from "@cedx/gulp-php-minify";
 
 const server = browserSync.create();
 
 const PRODUCTION = yargs.argv.prod;
 
 const paths = {
+    php: {
+        src: ["header.php"],
+        dest: "dist/assets/php"
+    },
     styles: {
         src: ["src/assets/scss/bundle.scss", "src/assets/scss/admin.scss"],
         dest: "dist/assets/css"
@@ -80,6 +86,23 @@ export const styles = () => {
         .pipe(server.stream());
 };
 
+export const php = () => {
+    return (
+        gulp
+            .src(paths.php.src)
+
+            .pipe(
+                htmlmin({
+                    collapseWhitespace: true,
+                    removeComments: true
+                    //ignoreCustomFragments: [/<%[\s\S]*?%>/, /<\?[=|php]?[\s\S]*?\?>/]
+                })
+            )
+            //.pipe(phpMinify())
+            .pipe(gulp.dest(paths.php.dest))
+    );
+};
+
 export const serve = done => {
     server.init({
         proxy: "http://localhost/"
@@ -119,7 +142,7 @@ export const compress = () => {
     return gulp
         .src(paths.package.src)
         .pipe(
-            rename(function(path) {
+            rename(function (path) {
                 path.dirname = `${info.name}/` + path.dirname;
             })
         )
