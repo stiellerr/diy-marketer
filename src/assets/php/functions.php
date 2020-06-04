@@ -7,12 +7,25 @@
  * @package DIY_Marketer
  */
 
+ // useful function for witing to the log
+if ( ! function_exists('write_log')) {
+    function write_log ( $log )  {
+       if ( is_array( $log ) || is_object( $log ) ) {
+          error_log( print_r( $log, true ) );
+       } else {
+          error_log( $log );
+       }
+    }
+ }
+
 if (!defined('DIYM_VER')) {
     // Replace the version number of the theme on each release.
     define('DIYM_VER', '1.0.0');
 }
 
 define('DIYM_URL', trailingslashit(get_template_directory_uri()));
+define('DIYM_DIR', trailingslashit(get_template_directory()));
+
 define('DIYM_JS_URL', trailingslashit(DIYM_URL . 'dist/assets/js'));
 define('DIYM_CSS_URL', trailingslashit(DIYM_URL . 'dist/assets/css'));
 define('DIYM_IMG_URL', trailingslashit(DIYM_URL . 'dist/assets/images'));
@@ -81,6 +94,10 @@ function diym_admin_assets()
 
 add_action('admin_enqueue_scripts', 'diym_admin_assets');
 
+/**
+ * Customizer additions.
+ */
+require DIYM_DIR . 'inc/customizer.php';
 
 // Navigation
 function diym_nav_menu_css_class( $classes, $item, $args, $depth ) {
