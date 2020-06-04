@@ -39,8 +39,14 @@
 		<!-- NAVBAR
 		================================================== -->
 		<div class="row border-bottom">
-			<div class="col-md-auto text-center py-3">
-				<?php the_custom_logo(); ?>
+			<div class="col-md-auto text-center py-1 py-md-3">
+				<?php 
+					if ( has_custom_logo() ) {
+						the_custom_logo();
+					} else {
+						echo '<h1>'. get_bloginfo( 'name' ) .'</h1>';
+					}
+				?>
 			</div>
 			<div class="col-md align-self-center">
 				<nav class="navbar navbar-expand-sm px-0" role="navigation">
@@ -55,6 +61,7 @@
 								'container_id'		=> 'primary-menu',
 								'container_class'	=> 'collapse navbar-collapse justify-content-start justify-content-md-end',
 								'menu_class'		=> 'navbar-nav nav-pills text-center bg-light bg-md-none',
+								'fallback_cb'		=> false
 							)
 						);
 					?>
