@@ -9,3 +9,9 @@ Reece Stieller
 6) type: "git pull https://github.com/stiellerr/diy-marketer.git" to retieve the lastest version from the github repo
 7) type: "npm install" to install all of the project dependencies from the package.json file 
 8) copy the node_modules -> "gifsicle", "mozjpeg" & "optipng-bin" to the diy-marketer projects, node_modules folder
+
+TO UPDATE THE GIT REPO
+1) In the terminal type: "git add "name_of_the_file"", "git add -A" will add all of the modified files
+2) type: "git commit -m "your commit message""
+3) type: "git remote add origin https://github.com/stiellerr/diy-marketer.git" this step is only required the first time you to a push
+4) type: "git push -u origin master"
