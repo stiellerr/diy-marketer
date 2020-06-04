@@ -9,5 +9,3 @@ Reece Stieller
 6) type: "git pull https://github.com/stiellerr/diy-marketer.git" to retieve the lastest version from the github repo
 7) type: "npm install" to install all of the project dependencies from the package.json file 
 8) copy the node_modules -> "gifsicle", "mozjpeg" & "optipng-bin" to the diy-marketer projects, node_modules folder
-
-NOTE: Prettier-php extension has been disabled. PHP files dont format well when embeded inside html so have made this a manual task ie "npx prettier file_name.php --write"
