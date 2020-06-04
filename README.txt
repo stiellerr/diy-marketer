@@ -9,6 +9,7 @@ Reece Stieller
 6) type: "git pull https://github.com/stiellerr/diy-marketer.git" to retieve the lastest version from the github repo. Note: you will be asked to log in with your GitHub credentials
 7) type: "npm install" to install all of the project dependencies from the package.json file 
 8) copy the node_modules -> "gifsicle", "mozjpeg" & "optipng-bin" to the diy-marketer projects, node_modules folder
+9) restart vs code, required to get extensions ie 'prettier' working properly (on save)
 
 --TO UPDATE THE GIT REPO--
 1) In the terminal type: "git add "name_of_the_file"", "git add -A" will add all of the modified files
