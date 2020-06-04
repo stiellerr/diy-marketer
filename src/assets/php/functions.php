@@ -15,6 +15,7 @@ if (!defined('DIYM_VER')) {
 define('DIYM_URL', trailingslashit(get_template_directory_uri()));
 define('DIYM_JS_URL', trailingslashit(DIYM_URL . 'dist/assets/js'));
 define('DIYM_CSS_URL', trailingslashit(DIYM_URL . 'dist/assets/css'));
+define('DIYM_IMG_URL', trailingslashit(DIYM_URL . 'dist/assets/images'));
 
 if (!function_exists('diym_setup')):
     /**
@@ -32,6 +33,18 @@ if (!function_exists('diym_setup')):
 				'menu-1' => esc_html__( 'Primary', 'diy-marketer' ),
 				'menu-2' => esc_html__( 'Footer', 'diy-marketer' ),
 			),
+		);
+
+		// Set up the WordPress core custom background feature.
+		add_theme_support(
+			'custom-background',
+			//apply_filters(
+				//'underscores_custom_background_args',
+				array(
+					'default-color' => 'ffffff',
+					'default-image' => DIYM_IMG_URL . 'bg/pattern6.png',
+				)
+			//)
 		);
 
         /**
