@@ -6,7 +6,7 @@
     "scripts": {
         "checkFormat": "prettier --check **/*.{js,json,css,scss,html}",
         "Format": "prettier --write **/*.{js,json,css,scss,html}",
-        "test": "prettier --check functions.php",
+        "test": "prettier --check zfunctions.php",
         "lint": "eslint src",
         "start": "gulp",
         "build": "npm run lint && gulp bundle --prod"
@@ -34,7 +34,7 @@
         "@babel/preset-env": "^7.9.6",
         "@babel/preset-react": "^7.9.4",
         "@babel/register": "^7.9.0",
-        "@cedx/gulp-php-minify": "^11.0.0",
+        "@prettier/plugin-php": "^0.14.2",
         "@wordpress/browserslist-config": "^2.6.0",
         "autoprefixer": "^9.8.0",
         "babel-loader": "^8.1.0",
@@ -52,6 +52,7 @@
         "gulp-if": "^3.0.0",
         "gulp-imagemin": "^7.1.0",
         "gulp-postcss": "^8.0.0",
+        "gulp-prettier": "^3.0.0",
         "gulp-rename": "^2.0.0",
         "gulp-sass": "^4.1.0",
         "gulp-sourcemaps": "^2.6.5",
@@ -63,6 +64,8 @@
         "postcss-loader": "^3.0.0",
         "prettier": "^2.0.5",
         "sass-loader": "^8.0.2",
+        "through2": "^3.0.1",
+        "uglify-php": "^1.0.7",
         "vinyl-named": "^1.1.0",
         "webpack-stream": "^5.2.1",
         "yargs": "^15.3.1"
