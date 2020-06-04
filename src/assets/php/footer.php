@@ -9,7 +9,7 @@
  * @package DIY_Marketer
  */
 ?>
-	<!-- FOOTER
+	<!-- FOOTER HELLO WORLD
 	================================================== -->
 	<footer>
 		<div class="row">
