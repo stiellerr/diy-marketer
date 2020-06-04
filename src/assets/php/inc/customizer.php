@@ -2,7 +2,7 @@
 /**
  * DIY Marketer Theme Customizer
  *
- * @package DIY_Marketer
+ * @package DIY_Marketer HELLO WORLD2
  */
 
 /**
