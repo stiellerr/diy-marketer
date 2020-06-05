@@ -8,6 +8,12 @@
  *
  * @package DIY_Marketer
  */
+
+ /**
+ * Theme options.
+ */
+$diym_phone_number = get_theme_mod( 'diym_phone_number' );
+
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -33,6 +39,11 @@
 			<div class="col-md-auto text-center align-self-center"><?php bloginfo('description'); ?></div>
 			<div class="col-md text-center text-md-right">
 				Call Us
+				<?php
+					if ( $diym_phone_number ) {
+						echo '<a href="tel:' . $diym_phone_number . '" class="phone-number">' . $diym_phone_number . '</a>';
+					}
+				?>
 			</div>
 		</div>
 

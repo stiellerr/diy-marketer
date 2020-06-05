@@ -15,7 +15,7 @@ function diym_customize_register( $wp_customize ) {
     $wp_customize->add_setting('diym_phone_number', array(
         'default' => '',
         'sanitize_callback' => 'sanitize_text_field',
-        //'transport' => 'postMessage'
+        'transport' => 'postMessage'
 	));
 	
     $wp_customize->add_control('diym_phone_number', array(
