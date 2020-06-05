@@ -73,7 +73,7 @@ function underscores_customize_partial_blogdescription() {
  * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
  */
 function diym_customize_preview_js() {
-	wp_enqueue_script( 'diym-customizer', DIYM_JS_URL . 'customizer.js', ['customize-preview'], DIYM_VER, true );
+	wp_enqueue_script( 'diym-customizer', DIYM_JS_URL . 'customizer.js', ['customize-preview', 'jquery'], DIYM_VER, true );
 }
 add_action( 'customize_preview_init', 'diym_customize_preview_js' );
 
