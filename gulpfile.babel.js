@@ -68,6 +68,7 @@ const paths = {
             "!node_modules{,/**}",
             "!packaged{,/**}",
             "!src{,/**}",
+            "!install{,/**}",
             "!.babelrc",
             "!.gitignore",
             "!gulpfile.babel.js",
@@ -75,7 +76,8 @@ const paths = {
             "!package-lock.json",
             "!.eslintrc.js",
             "!.prettierignore",
-            "!.prettierrc"
+            "!.prettierrc",
+            "!.README.txt"
         ],
         dest: "packaged"
     }
