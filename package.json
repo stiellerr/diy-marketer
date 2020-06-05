@@ -76,7 +76,8 @@
         "jquery": "^3.5.1",
         "popper.js": "^1.16.1",
         "react": "^16.13.1",
-        "react-dom": "^16.13.1"
+        "react-dom": "^16.13.1",
+        "select2": "^4.0.13"
     },
     "browserslist": [
         "extends @wordpress/browserslist-config"

@@ -10,26 +10,13 @@ Reece Stieller
 7) type: "npm install" to install all of the project dependencies from the package.json file 
 8) copy the node_modules -> "gifsicle", "mozjpeg" & "optipng-bin" to the diy-marketer projects, node_modules folder
 9) restart vs code, required to get extensions ie 'prettier' working properly (on save)
+10) open wp-config.php in the wp root folder, scroll down until you find: "define( 'WP_DEBUG', true );" replace it for the code below, this will enable debugging.
+    define( 'WP_DEBUG', true );
+    define( 'WP_DEBUG_DISPLAY', false );
+    define( 'WP_DEBUG_LOG', true );
 
 --TO UPDATE THE GIT REPO--
 1) In the terminal type: "git add "name_of_the_file"", "git add -A" will add all of the modified files
 2) type: "git commit -m "your commit message""
 3) type: "git remote add origin https://github.com/stiellerr/diy-marketer.git" this step is only required the first time you to a push
 4) type: "git push -u origin master"  Note: you will be asked to log in with your GitHub credentials.
-
-
-/**
- * For developers: WordPress debugging mode.
- *
- * Change this to true to enable the display of notices during development.
- * It is strongly recommended that plugin and theme developers use WP_DEBUG
- * in their development environments.
- *
- * For information on other constants that can be used for debugging,
- * visit the documentation.
- *
- * @link https://wordpress.org/support/article/debugging-in-wordpress/
- */
-define( 'WP_DEBUG', true );
-define( 'WP_DEBUG_DISPLAY', false );
-define( 'WP_DEBUG_LOG', true );
