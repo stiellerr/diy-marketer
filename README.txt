@@ -12,7 +12,7 @@ Reece Stieller
 9) in vs code, navigate to extensions and install the: "recommened" extensions
 10) if working behind a proxy the above will need to be done manually. In extensions, click on the elipse, then click "install from vsix" the source files are located in the install -> extensions directory
 11) restart vs code, required to get extensions ie 'prettier' working properly (on save)
-12) open wp-config.php in the wp root folder, scroll down until you find: "define( 'WP_DEBUG', true );" replace it for the code below, this will enable debugging.
+12) open wp-config.php in the wp root folder, scroll down until you find: "define( 'WP_DEBUG', false );" replace it for the code below, this will enable debugging.
     define( 'WP_DEBUG', true );
     define( 'WP_DEBUG_DISPLAY', false );
     define( 'WP_DEBUG_LOG', true );
