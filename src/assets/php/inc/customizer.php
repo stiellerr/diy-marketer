@@ -11,6 +11,7 @@
  * @param WP_Customize_Manager $wp_customize Theme Customizer object.
  */
 function diym_customize_register( $wp_customize ) {
+
 	
     $wp_customize->add_setting('diym_phone_number', array(
         'default' => '',
@@ -24,6 +25,77 @@ function diym_customize_register( $wp_customize ) {
         'section' => 'title_tagline',
     ));
 	
+    $wp_customize->add_section('diym_test', array(
+        'title' => esc_html__( 'Test', 'diy-marketer' ),
+        'description' => esc_html__( 'Enter your social media information below.', 'diym' ),
+        //'priority' => 1
+	));
+	
+    $wp_customize->add_setting('diym_phone_number2', array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport' => 'postMessage'
+	));
+	
+    $wp_customize->add_control('diym_phone_number2', array(
+        'type' => 'text',
+        'label' => esc_html__( 'Phone Number', 'diy-marketer' ),
+        'section' => 'diym_test',
+	));
+
+    $wp_customize->add_setting('diym_color_control', array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport' => 'postMessage'
+	));
+	
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'diym_color_control', array(
+		'label' => __( 'Accent Color', 'theme_textdomain' ),
+		'section' => 'diym_test',
+	  ) ) );
+/*
+	$wp_customize->add_setting('diym_select2', array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport' => 'postMessage'
+	));
+	
+	$wp_customize->add_control( new Skyrocket_Dropdown_Select2_Custom_Control( $wp_customize, 'diym_select2', array(
+		'label' => __( 'Accent Color', 'theme_textdomain' ),
+		'section' => 'diym_test',
+	  ) ) );
+*/
+
+		// Test of Dropdown Select2 Control (single select)
+		$wp_customize->add_setting( 'sample_dropdown_select2_control_single',
+			array(
+				//'default' => $this->defaults['sample_dropdown_select2_control_single'],
+				'transport' => 'refresh',
+				//'sanitize_callback' => 'skyrocket_text_sanitization'
+			)
+		);
+		$wp_customize->add_control( new Skyrocket_Dropdown_Select2_Custom_Control( $wp_customize, 'sample_dropdown_select2_control_single',
+			array(
+				'label' => __( 'Dropdown Select2 Control', 'skyrocket' ),
+				'description' => esc_html__( 'Sample Dropdown Select2 custom control (Single Select)', 'skyrocket' ),
+				'section' => 'diym_test',
+				'input_attrs' => array(
+					'placeholder' => __( 'Please select a state...', 'skyrocket' ),
+					'multiselect' => false,
+				),
+				'choices' => array(
+					'nsw' => __( 'New South Wales', 'skyrocket' ),
+					'vic' => __( 'Victoria', 'skyrocket' ),
+					'qld' => __( 'Queensland', 'skyrocket' ),
+					'wa' => __( 'Western Australia', 'skyrocket' ),
+					'sa' => __( 'South Australia', 'skyrocket' ),
+					'tas' => __( 'Tasmania', 'skyrocket' ),
+					'act' => __( 'Australian Capital Territory', 'skyrocket' ),
+					'nt' => __( 'Northern Territory', 'skyrocket' ),
+				)
+			)
+		) );
+
 	/*
 	$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
 	$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
@@ -73,9 +145,14 @@ function underscores_customize_partial_blogdescription() {
  * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
  */
 function diym_customize_preview_js() {
-	wp_enqueue_script( 'diym-customizer', DIYM_JS_URL . 'customizer.js', ['customize-preview', 'jquery'], DIYM_VER, true );
+	wp_enqueue_script( 'diym-customizer-preview', DIYM_JS_URL . 'customizer-preview.js', ['customize-preview', 'jquery'], DIYM_VER, true );
 }
 add_action( 'customize_preview_init', 'diym_customize_preview_js' );
+
+/**
+ * Load all our Customizer Custom Controls
+ */
+require_once DIYM_DIR . 'inc/custom-controls.php';
 
 /**
  * End of file.

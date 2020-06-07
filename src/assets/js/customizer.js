@@ -1,25 +1,46 @@
-// global wp, jQuery
-/**
- * File customizer.js.
- *
- * Theme Customizer enhancements for a better user experience.
- *
- * Contains handlers to make Theme Customizer preview reload changes asynchronously.
- */
-
 import $ from "jquery";
 
-/*
-wp.customize('blogdescription', (value) => {
-    value.bind((to) =>{
-        $('.tag-line').html(to);
-        //console.log(to);
-    })
-});
-*/
+$(document).ready(function () {
+    $(".customize-control-dropdown-select2").each(function () {
+        $(".customize-control-select2").select2({
+            allowClear: true
+        });
+    });
 
-wp.customize("diym_phone_number", value => {
-    value.bind(to => {
-        $(".phone-number").text(to);
+    $(".customize-control-select2").on("change", function () {
+        var select2Val = $(this).val();
+        $(this)
+            .parent()
+            .find(".customize-control-dropdown-select2")
+            .val(select2Val)
+            .trigger("change");
+    });
+    //console.log("hello world");
+    /*
+    $(document).on('click', "[id$='someId']", function () {
+       console.log($(this).val());
+    })
+    */
+});
+
+//import "select2";
+
+/**
+ * Dropdown Select2 Custom Control
+ *
+ * @author Anthony Hortin <http://maddisondesigns.com>
+ * @license http://www.gnu.org/licenses/gpl-2.0.html
+ * @link https://github.com/maddisondesigns
+ */
+/*
+$(".customize-control-dropdown-select2").each(function () {
+    $(".customize-control-select2").select2({
+        allowClear: true
     });
 });
+
+$(".customize-control-select2").on("change", function () {
+    var select2Val = $(this).val();
+    $(this).parent().find(".customize-control-dropdown-select2").val(select2Val).trigger("change");
+});
+*/

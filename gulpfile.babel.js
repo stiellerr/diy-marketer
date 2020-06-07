@@ -38,7 +38,12 @@ const paths = {
         dest: ["."]
     },
     styles: {
-        src: ["src/assets/scss/bundle.scss", "src/assets/scss/admin.scss"],
+        src: [
+            "src/assets/scss/bundle.scss",
+            "src/assets/scss/admin.scss",
+            "src/assets/scss/customizer.css",
+            "src/assets/scss/select2.css"
+        ],
         dest: "dist/assets/css"
     },
     images: {
@@ -46,7 +51,12 @@ const paths = {
         dest: "dist/assets/images"
     },
     scripts: {
-        src: ["src/assets/js/bundle.js", "src/assets/js/admin.js", "src/assets/js/customizer.js"],
+        src: [
+            "src/assets/js/bundle.js",
+            "src/assets/js/admin.js",
+            "src/assets/js/customizer-preview.js",
+            "src/assets/js/customizer.js"
+        ],
         dest: "dist/assets/js"
     },
     blocks: {
