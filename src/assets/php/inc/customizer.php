@@ -43,6 +43,22 @@ function diym_customize_register( $wp_customize ) {
         'section' => 'diym_test',
 	));
 
+    $wp_customize->add_setting('diym_phone_number3', array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport' => 'postMessage'
+	));
+	
+    $wp_customize->add_control('diym_phone_number3', array(
+        'type' => 'select',
+        'label' => esc_html__( 'Phone Number', 'diy-marketer' ),
+		'section' => 'diym_test',
+		'choices'        => array(
+			'dark'   => __( 'Dark' ),
+			'light'  => __( 'Light' )
+		)
+	));
+
 
 
 		// Test of Google Font Select Control

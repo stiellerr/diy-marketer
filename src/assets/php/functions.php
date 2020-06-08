@@ -79,9 +79,12 @@ add_action('after_setup_theme', 'diym_setup');
 function diym_assets()
 {
 	wp_enqueue_style('diym-stylesheet', DIYM_CSS_URL . 'bundle.css', array(), DIYM_VER, 'all');
+
+	wp_enqueue_style( 'diym-google-fonts', 'https://fonts.googleapis.com/css?family=' . get_theme_mod( 'diym_google_font_select2' ) , false ); 
+	wp_add_inline_style('diym-google-fonts', 'body { font-family: "' . get_theme_mod( 'diym_google_font_select2' ). '"; }');
 	
 	//inline styles...
-	wp_add_inline_style('diym-stylesheet', 'body { background-color: #f03 !important; }');
+	//wp_add_inline_style('diym-stylesheet', 'body { background-color: #f03 !important; }');
 
     wp_enqueue_script('diym-scripts', DIYM_JS_URL . 'bundle.js', array('jquery'), DIYM_VER, true);
 }

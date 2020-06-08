@@ -8,6 +8,46 @@ $(document).ready(function () {
      * @license http://www.gnu.org/licenses/gpl-2.0.html
      * @link https://github.com/maddisondesigns
      */
+
+    $(".google-fonts-list").select2();
+
+    $(".google-fonts-list").on("change", function () {
+        //var select2Val = $(this).val();
+        $(this)
+            //.parent()
+            //.find(".customize-control-dropdown-select2")
+            //.val(select2Val)
+            .trigger("change");
+    });
+
+    /*
+    $(".google-fonts-list").each(function (i, obj) {
+        if (!$(obj).hasClass("select2-hidden-accessible")) {
+            $(obj).select2();
+        }
+        
+    });
+    */
+
+    /*
+    $(".customize-control-select2").on("change", function () {
+        var select2Val = $(this).val();
+        $(this)
+            .parent()
+            .find(".customize-control-dropdown-select2")
+            .val(select2Val)
+            .trigger("change");
+    });
+    */
+
+    /**
+     * Dropdown Select2 Custom Control
+     *
+     * @author Anthony Hortin <http://maddisondesigns.com>
+     * @license http://www.gnu.org/licenses/gpl-2.0.html
+     * @link https://github.com/maddisondesigns
+     */
+
     $(".customize-control-dropdown-select2").each(function () {
         $(".customize-control-select2").select2({
             allowClear: true
@@ -22,7 +62,6 @@ $(document).ready(function () {
             .val(select2Val)
             .trigger("change");
     });
-
     /**
      * Google Font Select Custom Control
      *
@@ -30,7 +69,8 @@ $(document).ready(function () {
      * @license http://www.gnu.org/licenses/gpl-2.0.html
      * @link https://github.com/maddisondesigns
      */
-    $(".google-fonts-list").each(function (i, obj) {
+    /*
+     $(".google-fonts-list").each(function (i, obj) {
         if (!$(obj).hasClass("select2-hidden-accessible")) {
             $(obj).select2();
         }
@@ -124,4 +164,5 @@ $(document).ready(function () {
             .val(JSON.stringify(selectedFont))
             .trigger("change");
     }
+    */
 });

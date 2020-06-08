@@ -13,7 +13,7 @@
  * Theme options.
  */
 $diym_phone_number = get_theme_mod( 'diym_phone_number' );
-$diym_zzz = get_theme_mod( 'sample_google_font_select' );
+$diym_zzz = get_theme_mod( 'diym_google_font_select2' );
 
 write_log( $diym_zzz );
 
