@@ -22,6 +22,7 @@ module.exports = {
         "no-console": "warn",
         //"react/react-in-jsx-scope": "off",
         //"react/display-name": "off",
-        "react/prop-types": "off"
+        "react/prop-types": "off",
+        "no-undef": "warn"
     }
 };

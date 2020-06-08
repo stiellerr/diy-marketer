@@ -43,7 +43,78 @@ function diym_customize_register( $wp_customize ) {
         'section' => 'diym_test',
 	));
 
+    $wp_customize->add_setting('diym_color_control', array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport' => 'postMessage'
+	));
+	
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'diym_color_control', array(
+		'label' => __( 'Accent Color', 'theme_textdomain' ),
+		'section' => 'diym_test',
+	  ) ) );
+/*
+	$wp_customize->add_setting('diym_select2', array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport' => 'postMessage'
+	));
+	
+	$wp_customize->add_control( new Skyrocket_Dropdown_Select2_Custom_Control( $wp_customize, 'diym_select2', array(
+		'label' => __( 'Accent Color', 'theme_textdomain' ),
+		'section' => 'diym_test',
+	  ) ) );
+*/
 
+		// Test of Dropdown Select2 Control (single select)
+		$wp_customize->add_setting( 'sample_dropdown_select2_control_single',
+			array(
+				//'default' => $this->defaults['sample_dropdown_select2_control_single'],
+				'transport' => 'refresh',
+				//'sanitize_callback' => 'skyrocket_text_sanitization'
+			)
+		);
+		$wp_customize->add_control( new Skyrocket_Dropdown_Select2_Custom_Control( $wp_customize, 'sample_dropdown_select2_control_single',
+			array(
+				'label' => __( 'Dropdown Select2 Control', 'skyrocket' ),
+				'description' => esc_html__( 'Sample Dropdown Select2 custom control (Single Select)', 'skyrocket' ),
+				'section' => 'diym_test',
+				'input_attrs' => array(
+					'placeholder' => __( 'Please select a state...', 'skyrocket' ),
+					'multiselect' => false,
+				),
+				'choices' => array(
+					'nsw' => __( 'New South Wales', 'skyrocket' ),
+					'vic' => __( 'Victoria', 'skyrocket' ),
+					'qld' => __( 'Queensland', 'skyrocket' ),
+					'wa' => __( 'Western Australia', 'skyrocket' ),
+					'sa' => __( 'South Australia', 'skyrocket' ),
+					'tas' => __( 'Tasmania', 'skyrocket' ),
+					'act' => __( 'Australian Capital Territory', 'skyrocket' ),
+					'nt' => __( 'Northern Territory', 'skyrocket' ),
+				)
+			)
+		) );
+
+		// Test of Google Font Select Control
+		$wp_customize->add_setting( 'sample_google_font_select',
+			array(
+				//'default' => $this->defaults['sample_google_font_select'],
+				'sanitize_callback' => 'skyrocket_google_font_sanitization',
+				'transport' => 'refresh',
+			)
+		);
+		$wp_customize->add_control( new Skyrocket_Google_Font_Select_Custom_Control( $wp_customize, 'sample_google_font_select',
+			array(
+				'label' => __( 'Google Font Control', 'skyrocket' ),
+				'description' => esc_html__( 'All Google Fonts sorted alphabetically', 'skyrocket' ),
+				'section' => 'diym_test',
+				'input_attrs' => array(
+					'font_count' => 'all',
+					'orderby' => 'alpha',
+				),
+			)
+		) );
 
 		// Test of Google Font Select Control
 		$wp_customize->add_setting( 'diym_google_font_select2',
