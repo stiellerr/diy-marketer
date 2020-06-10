@@ -90,7 +90,7 @@ const paths = {
             "!.eslintrc.js",
             "!.prettierignore",
             "!.prettierrc",
-            "!.README.txt"
+            "!README.txt"
         ],
         dest: "packaged"
     }
