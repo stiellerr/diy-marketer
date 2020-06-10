@@ -40,9 +40,9 @@ const paths = {
     styles: {
         src: [
             "src/assets/scss/bundle.scss",
-            "src/assets/scss/admin.scss",
-            "src/assets/scss/customizer.css",
-            "src/assets/scss/select2.css"
+            "src/assets/scss/admin.scss"
+            //"src/assets/scss/customizer.css",
+            //"src/assets/scss/select2.css"
         ],
         dest: "dist/assets/css"
     },
@@ -54,9 +54,9 @@ const paths = {
         src: [
             "src/assets/js/bundle.js",
             "src/assets/js/admin.js",
-            "src/assets/js/customizer-preview.js",
-            "src/assets/js/customizer.js",
-            "src/assets/js/select2.js"
+            "src/assets/js/customizer-preview.js"
+            //"src/assets/js/customizer.js",
+            //"src/assets/js/select2.js"
         ],
         dest: "dist/assets/js"
     },
@@ -81,6 +81,7 @@ const paths = {
             "!packaged{,/**}",
             "!src{,/**}",
             "!install{,/**}",
+            "!archive{,/**}",
             "!.babelrc",
             "!.gitignore",
             "!gulpfile.babel.js",

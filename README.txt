@@ -16,6 +16,13 @@ Reece Stieller
     define( 'WP_DEBUG', true );
     define( 'WP_DEBUG_DISPLAY', false );
     define( 'WP_DEBUG_LOG', true );
+13) if you are working behind a proxy ie at work, add the following settings to the bottom of the file. This will allow you to do tasks such as searching & downloading themes or plugins.
+    define('WP_PROXY_HOST', '202.175.128.101');
+    define('WP_PROXY_PORT', '80');
+    define('WP_PROXY_USERNAME', 'zeus\stiell11');
+    define('WP_PROXY_PASSWORD', 'Skippycorn42_');
+    define('WP_PROXY_BYPASS_HOSTS', 'localhost');
+    to allow wp "get" and "post" requests to function, add the following filter to the wp-config.php file. Note: you can also add it inside your theme or plugin. ie to your themes functions.php file
 
 --TO UPDATE THE GIT REPO--
 1) In the terminal type: "git add "name_of_the_file"", "git add -A" will add all of the modified files
