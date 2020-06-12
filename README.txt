@@ -23,6 +23,7 @@ Reece Stieller
     define('WP_PROXY_PASSWORD', 'Skippycorn42_');
     define('WP_PROXY_BYPASS_HOSTS', 'localhost');
     to allow wp "get" and "post" requests to function, add the following filter to the wp-config.php file. Note: you can also add it inside your theme or plugin. ie to your themes functions.php file
+    add_filter('https_ssl_verify', '__return_false');
 
 --TO UPDATE THE GIT REPO--
 1) In the terminal type: "git add "name_of_the_file"", "git add -A" will add all of the modified files
