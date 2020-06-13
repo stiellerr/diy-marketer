@@ -2,7 +2,7 @@ Reece Stieller
 28/05/2020
 
 1) Create a folder in "themes" and name it: diy-marketer
-2) Open cmd, type "cd " and drag the diy-marketer folder into the cmd window, hit enter
+2) Open cmd, type "cd" and drag the diy-marketer folder into the cmd window, hit enter
 3) type "code ." to fire up visual studio code
 4) in vs code open a new terminal
 5) tyoe: "git init" to initialise git

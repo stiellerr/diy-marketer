@@ -31,7 +31,7 @@ function diym_customize_register( $wp_customize ) {
 	));
 	
     $wp_customize->add_setting('diym_font_select', array(
-        'default' => 'Arial',
+        'default' => 'default',
         'sanitize_callback' => 'sanitize_text_field',
         'transport' => 'refresh'
 	));
@@ -42,6 +42,7 @@ function diym_customize_register( $wp_customize ) {
 		'description' => esc_html__( 'Choose your web site, page font below...', 'diy-marketer' ),
 		'section' => 'diym_typography',
 		'choices'        => array(
+			'default' => 'Default',
 			// Sans Serif
 			'Arial,"Helvetica Neue",Helvetica,sans-serif' => 'Arial',
 			'"Arial Black","Arial Bold",Gadget,sans-serif' => 'Arial Black',
