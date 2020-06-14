@@ -23,6 +23,17 @@ $diym_inline_css .= ".nav-pills .nav-link.active,.nav-pills .show > .nav-link{ba
 //
 $diym_inline_css .= "a{color:{$diym_primary_color};}";
 
+
+// zzz Reece.
+/*
+$diym_inline_selectors = array(
+  'body' => array(
+    'font-family' => ''
+  )
+)
+*/
+
+
 /*
 .nav-pills .nav-link.active,.nav-pills .show > .nav-link {
     color: #fff;

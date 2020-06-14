@@ -23,3 +23,9 @@ wp.customize("diym_phone_number", value => {
         $(".phone-number").text(to);
     });
 });
+
+wp.customize("diym_font_select", value => {
+    value.bind(to => {
+        $("#diym-stylesheet-inline-css").html(`body{font-family:${to};}`);
+    });
+});

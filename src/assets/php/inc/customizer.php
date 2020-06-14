@@ -33,7 +33,7 @@ function diym_customize_register( $wp_customize ) {
     $wp_customize->add_setting('diym_font_select', array(
         'default' => 'default',
         'sanitize_callback' => 'sanitize_text_field',
-        'transport' => 'refresh'
+        'transport' => 'postMessage'
 	));
 	
     $wp_customize->add_control('diym_font_select', array(
