@@ -72,6 +72,19 @@ function diym_customize_register( $wp_customize ) {
 			'"Comic Sans MS","Comic Sans",cursive,sans-serif' => 'Comic Sans MS',
 		)
 	));
+
+	// Colours
+    $wp_customize->add_setting('diym_primary_color', array(
+        'default' => '#007bff',
+        'sanitize_callback' => 'sanitize_hex_color',
+        'transport' => 'postMessage'
+	));
+	
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'diym_primary_color', array(
+		'label' => __( 'Primary Color', 'diy-marketer' ),
+		'section' => 'colors',
+	)));
+
 }
 
 add_action( 'customize_register', 'diym_customize_register' );

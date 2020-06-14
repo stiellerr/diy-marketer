@@ -52,7 +52,7 @@ write_log( $diym_zzz );
 
 		<!-- NAVBAR
 		================================================== -->
-		<div class="row border-bottom">
+		<div class="row border-bottom border-primary">
 			<div class="col-md-auto text-center py-1 py-md-3">
 				<?php 
 					if ( has_custom_logo() ) {

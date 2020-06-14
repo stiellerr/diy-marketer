@@ -79,12 +79,25 @@ add_action('after_setup_theme', 'diym_setup');
 function diym_assets() {
 	wp_enqueue_style('diym-stylesheet', DIYM_CSS_URL . 'bundle.css', array(), DIYM_VER, 'all');
 	
-	$diym_font_select = get_theme_mod( 'diym_font_select', 'default' );
+	require_once DIYM_DIR . 'inc/inline-css.php';
+
+	wp_add_inline_style('diym-stylesheet', $diym_inline_css);
+
+	//$diym_font_select = get_theme_mod( 'diym_font_select', 'default' );
 	
 	//font select
-	if ( $diym_font_select != 'default' ) {
-		wp_add_inline_style('diym-stylesheet', 'body{font-family:' . $diym_font_select . ';}');
-	}
+	//if ( $diym_font_select != 'default' ) {
+
+	
+/*
+		.nav-pills .nav-link.active,.nav-pills .show > .nav-link {
+		  color: #fff;
+		  background-color: #007bff;
+		}
+*/
+
+		
+	//}
 
 	//inline styles...
 	//wp_add_inline_style('diym-stylesheet', 'body { background-color: #f03 !important; }');
