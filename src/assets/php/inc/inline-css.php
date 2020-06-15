@@ -7,39 +7,35 @@
  * @package DIY_Marketer
  */
 
-// Get Theme Mods.
+$diym_inline_selectors = [];
+$diym_inline_styles = '';
+
+// get theme options
 $diym_font_select = get_theme_mod( 'diym_font_select', 'default' );
 $diym_primary_color = sanitize_hex_color( get_theme_mod( 'diym_primary_color', '#007bff' ) );
 
-// font
-$diym_inline_css .= ( $diym_font_select != 'default' ) ? "body{font-family:{$diym_font_select};}" : '';
+// build array
+if ( $diym_font_select != 'default' ) {
+  $diym_inline_selectors['body'] = ['font-family' => 'diym_font_select'];
+}
 
-// colors
-$diym_inline_css .= ".border-primary{border-color:{$diym_primary_color}!important;}";
+$diym_inline_selectors['.border-primary'] = ['border-color' => 'diym_primary_color' . ',!important'];
 
-// nav
-$diym_inline_css .= ".nav-pills .nav-link.active,.nav-pills .show > .nav-link{background-color:{$diym_primary_color};}";
+$diym_inline_selectors['.nav-pills .nav-link.active,.nav-pills .show > .nav-link'] = ['background-color' => 'diym_primary_color'];
 
-//
-$diym_inline_css .= "a{color:{$diym_primary_color};}";
+$diym_inline_selectors['a'] = ['color' => 'diym_primary_color'];
 
-
-// zzz Reece.
-/*
-$diym_inline_selectors = array(
-  'body' => array(
-    'font-family' => ''
-  )
-)
-*/
-
-
-/*
-.nav-pills .nav-link.active,.nav-pills .show > .nav-link {
-    color: #fff;
-    background-color: #007bff;
+// build inline css string
+foreach ($diym_inline_selectors as $selector => $props) {
+  $diym_inline_styles .= "{$selector}{";
+  foreach ($props as $prop => $prop_str){
+    $prop_arr = explode(",", $prop_str);
+    $val = $prop_arr[0];
+    $arg = ( isset($prop_arr[1] )) ? $prop_arr[1] : '';
+    $diym_inline_styles .= "{$prop}:{$$val}{$arg};";
   }
-*/
+  $diym_inline_styles .= "}";
+}
 
  /**
  * End of file.

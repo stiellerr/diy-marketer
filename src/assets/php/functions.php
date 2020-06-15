@@ -78,29 +78,12 @@ add_action('after_setup_theme', 'diym_setup');
 
 function diym_assets() {
 	wp_enqueue_style('diym-stylesheet', DIYM_CSS_URL . 'bundle.css', array(), DIYM_VER, 'all');
+
+	require DIYM_DIR . 'inc/inline-css.php';
+
+	write_log($diym_inline_styles);
 	
-	require_once DIYM_DIR . 'inc/inline-css.php';
-
-	wp_add_inline_style('diym-stylesheet', $diym_inline_css);
-
-	//$diym_font_select = get_theme_mod( 'diym_font_select', 'default' );
-	
-	//font select
-	//if ( $diym_font_select != 'default' ) {
-
-	
-/*
-		.nav-pills .nav-link.active,.nav-pills .show > .nav-link {
-		  color: #fff;
-		  background-color: #007bff;
-		}
-*/
-
-		
-	//}
-
-	//inline styles...
-	//wp_add_inline_style('diym-stylesheet', 'body { background-color: #f03 !important; }');
+	wp_add_inline_style('diym-stylesheet', $diym_inline_styles);
 
     wp_enqueue_script('diym-scripts', DIYM_JS_URL . 'bundle.js', array('jquery'), DIYM_VER, true);
 }
@@ -115,6 +98,8 @@ function diym_admin_assets()
 }
 
 add_action('admin_enqueue_scripts', 'diym_admin_assets');
+
+
 
 /**
  * Customizer additions.
@@ -173,7 +158,6 @@ function diym_nav_menu_submenu_css_class( $classes, $args, $depth ) {
 
 	return $classes;
 }
-
 
 add_filter( 'nav_menu_submenu_css_class', 'diym_nav_menu_submenu_css_class', 10, 4 );
 

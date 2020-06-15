@@ -2,7 +2,7 @@
 /**
  * DIY Marketer Theme Customizer
  *
- * @package DIY_Marketer HELLO WORLD2
+ * @package DIY_Marketer
  */
 
 /**
@@ -114,6 +114,13 @@ function underscores_customize_partial_blogdescription() {
  */
 function diym_customize_preview_js() {
 	wp_enqueue_script( 'diym-customizer-preview', DIYM_JS_URL . 'customizer-preview.js', ['customize-preview', 'jquery'], DIYM_VER, true );
+
+	//wp_localize_script('diym-customizer-preview', 'diy_marketer', array('inline-css' => $diym_inline_selectors));
+	//wp_localize_script('diym-customizer-preview', 'diy_marketer', array($diym_inline_selectors));
+
+	require DIYM_DIR . 'inc/inline-css.php';
+
+	wp_localize_script('diym-customizer-preview', 'diy_marketer', array($diym_inline_selectors));
 }
 add_action( 'customize_preview_init', 'diym_customize_preview_js' );
 
