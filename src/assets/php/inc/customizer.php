@@ -112,13 +112,14 @@ function underscores_customize_partial_blogdescription() {
 /**
  * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
  */
+
+
+
+
 function diym_customize_preview_js() {
 	wp_enqueue_script( 'diym-customizer-preview', DIYM_JS_URL . 'customizer-preview.js', ['customize-preview', 'jquery'], DIYM_VER, true );
 
-	//wp_localize_script('diym-customizer-preview', 'diy_marketer', array('inline-css' => $diym_inline_selectors));
-	//wp_localize_script('diym-customizer-preview', 'diy_marketer', array($diym_inline_selectors));
-
-	require DIYM_DIR . 'inc/inline-css.php';
+	require_once DIYM_DIR . 'inc/inline-css.php';
 
 	wp_localize_script('diym-customizer-preview', 'diy_marketer', array($diym_inline_selectors));
 }
