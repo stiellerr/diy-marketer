@@ -119,7 +119,7 @@ function underscores_customize_partial_blogdescription() {
 function diym_customize_preview_js() {
 	wp_enqueue_script( 'diym-customizer-preview', DIYM_JS_URL . 'customizer-preview.js', ['customize-preview', 'jquery'], DIYM_VER, true );
 
-	require_once DIYM_DIR . 'inc/inline-css.php';
+	require DIYM_DIR . 'inc/inline-css.php';
 
 	wp_localize_script('diym-customizer-preview', 'diy_marketer', array($diym_inline_selectors));
 }

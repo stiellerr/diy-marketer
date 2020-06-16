@@ -79,7 +79,7 @@ add_action('after_setup_theme', 'diym_setup');
 function diym_assets() {
 	wp_enqueue_style('diym-stylesheet', DIYM_CSS_URL . 'bundle.css', array(), DIYM_VER, 'all');
 
-	require_once DIYM_DIR . 'inc/inline-css.php';
+	require DIYM_DIR . 'inc/inline-css.php';
 	
 	wp_add_inline_style('diym-stylesheet', $diym_inline_styles);
 
