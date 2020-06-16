@@ -9,10 +9,10 @@
  * @package DIY_Marketer
  */
 ?>
-	<!-- FOOTER HELLO WORLD
+	<!-- FOOTER
 	================================================== -->
 	<footer>
-		<div class="row">
+		<div id="site-footer" class="row">
 			<div class="col-12 col-md-6 col-lg-3 pt-4">
 				<?php
 					if ( is_active_sidebar( 'footer-1' ) ) {
@@ -41,8 +41,7 @@
 					}
 				?>
 			</div>
-		</div>
-		<div class="row">
+
 			<div class="col">
 				<?php
 					wp_nav_menu(
@@ -73,8 +72,13 @@
 						esc_html__( '2020', 'diy-marketer' ) 
 					); 
 				?>
-			</div>		
+			</div>
 		</div>
+		<!--
+		<div class="row">
+		
+		</div>
+				-->
 	</footer>
 
 <?php wp_footer(); ?>

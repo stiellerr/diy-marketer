@@ -11,6 +11,10 @@
  * @param WP_Customize_Manager $wp_customize Theme Customizer object.
  */
 function diym_customize_register( $wp_customize ) {
+
+	$wp_customize->get_setting('blogdescription')->transport = 'postMessage';
+
+	$wp_customize->get_setting('blogname')->transport = 'postMessage';
 	
     $wp_customize->add_setting('diym_phone_number', array(
         'default' => '',
@@ -73,7 +77,27 @@ function diym_customize_register( $wp_customize ) {
 		)
 	));
 
-	// Colours
+	// Header & Footer Background Color.
+    $wp_customize->add_setting(
+		'diym_banner_footer_bg',
+		array(
+			'default' => '#007bff',
+			'sanitize_callback' => 'sanitize_hex_color',
+			'transport' => 'postMessage'
+		)
+	);
+
+	$wp_customize->add_control(
+		new WP_Customize_Color_Control(
+			$wp_customize,
+			'diym_banner_footer_bg',
+			array(
+				'label' => __( 'Banner & Footer Background Colour', 'diy-marketer' ),
+				'section' => 'colors',
+			)
+		)
+	);
+
     $wp_customize->add_setting('diym_primary_color', array(
         'default' => '#007bff',
         'sanitize_callback' => 'sanitize_hex_color',

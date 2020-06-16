@@ -25,6 +25,18 @@ const diym_build_css = () => {
     $("#diym-stylesheet-inline-css").html(inline_css);
 };
 
+wp.customize("blogname", value => {
+    value.bind(to => {
+        $(".site-name").text(to);
+    });
+});
+
+wp.customize("blogdescription", value => {
+    value.bind(to => {
+        $(".site-tagline").text(to);
+    });
+});
+
 wp.customize("diym_phone_number", value => {
     value.bind(to => {
         $(".phone-number").text(to);
@@ -38,6 +50,12 @@ wp.customize("diym_font_select", value => {
 });
 
 wp.customize("diym_primary_color", value => {
+    value.bind(() => {
+        diym_build_css();
+    });
+});
+
+wp.customize("diym_banner_footer_bg", value => {
     value.bind(() => {
         diym_build_css();
     });

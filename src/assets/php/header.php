@@ -35,27 +35,30 @@ $diym_phone_number = get_theme_mod( 'diym_phone_number' );
 	<!-- HEADER
 	================================================== -->
 	<header role="banner">
-		<div class="row site-banner border-bottom border-primary py-1">
-			<div class="col-md-auto text-center align-self-center"><?php bloginfo('description'); ?></div>
+		<div id="site-banner" class="row border-bottom border-thick border-primary py-1">
+			<div class="col-md-auto text-center align-self-center site-tagline"><?php bloginfo('description'); ?></div>
 			<div class="col-md text-center text-md-right">
 				Call Us
 				<?php
+					echo '<a href="tel:' . $diym_phone_number . '" class="phone-number">' . $diym_phone_number . '</a>'
+					/*
 					if ( $diym_phone_number ) {
 						echo '<a href="tel:' . $diym_phone_number . '" class="phone-number">' . $diym_phone_number . '</a>';
 					}
+					*/
 				?>
 			</div>
 		</div>
 
 		<!-- NAVBAR
 		================================================== -->
-		<div class="row border-bottom border-primary">
+		<div class="row border-bottom border-thick border-primary">
 			<div class="col-md-auto text-center py-1 py-md-3">
 				<?php 
 					if ( has_custom_logo() ) {
 						the_custom_logo();
 					} else {
-						echo '<h1>'. get_bloginfo( 'name' ) .'</h1>';
+						echo '<h1 class="site-name">'. get_bloginfo( 'name' ) .'</h1>';
 					}
 				?>
 			</div>
