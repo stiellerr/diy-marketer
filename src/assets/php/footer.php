@@ -12,7 +12,7 @@
 	<!-- FOOTER
 	================================================== -->
 	<footer>
-		<div id="site-footer" class="row">
+		<div id="site-footer" class="row border-primary border-thick border-top">
 			<div class="col-12 col-md-6 col-lg-3 pt-4">
 				<?php
 					if ( is_active_sidebar( 'footer-1' ) ) {

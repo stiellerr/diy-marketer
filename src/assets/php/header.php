@@ -35,7 +35,7 @@ $diym_phone_number = get_theme_mod( 'diym_phone_number' );
 	<!-- HEADER
 	================================================== -->
 	<header role="banner">
-		<div id="site-banner" class="row border-bottom border-thick border-primary py-1">
+		<div class="row site-banner border-bottom border-thick border-primary py-1">
 			<div class="col-md-auto text-center align-self-center site-tagline"><?php bloginfo('description'); ?></div>
 			<div class="col-md text-center text-md-right">
 				Call Us
@@ -52,20 +52,20 @@ $diym_phone_number = get_theme_mod( 'diym_phone_number' );
 
 		<!-- NAVBAR
 		================================================== -->
-		<div class="row border-bottom border-thick border-primary">
+		<div class="row border-bottom">
 			<div class="col-md-auto text-center py-1 py-md-3">
 				<?php 
 					if ( has_custom_logo() ) {
 						the_custom_logo();
 					} else {
-						echo '<h1 class="site-name">'. get_bloginfo( 'name' ) .'</h1>';
+						echo '<h1 class="site-name my-2">'. get_bloginfo( 'name' ) .'</h1>';
 					}
 				?>
 			</div>
 			<div class="col-md align-self-center">
 				<nav class="navbar navbar-expand-sm px-0" role="navigation">
 					<button class="navbar-toggler bg-dark" type="button" data-toggle="collapse" data-target="#primary-menu" aria-controls="primary-menu" aria-expanded="false" aria-label="<?php _e( 'Toggle Navigation', 'diy-marketer' ) ?>">
-						<span class="navbar-toggler-icon"></span>
+						<span class="navbar-toggler-icon" style="color:blue!important;"></span>
 					</button>
 					<?php
 						wp_nav_menu(

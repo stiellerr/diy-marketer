@@ -70,7 +70,7 @@ if (!function_exists('diym_setup')):
             'width' => 80,
             'flex-width' => true,
             'flex-height' => false,
-            'header-text' => ['site-banner'],
+            'header-text' => ['#site-banner'],
         ]);
     }
 endif;
