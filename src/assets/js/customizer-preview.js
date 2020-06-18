@@ -18,7 +18,7 @@ const diym_build_css = () => {
             let prop_str = inline_css_obj[selector][prop];
             let prop_arr = prop_str.split(",");
             let arg = prop_arr[1] ? prop_arr[1] : "";
-            inline_css += `${prop}: ${wp.customize(prop_arr[0]).get()}${arg}`;
+            inline_css += `${prop}: ${wp.customize(prop_arr[0]).get()}${arg};`;
         }
         inline_css += `}`;
     }
@@ -44,7 +44,12 @@ wp.customize("diym_phone_number", value => {
 });
 
 wp.customize("diym_font_select", value => {
-    value.bind(() => {
+    value.bind(to => {
+        if (to !== "default") {
+            if (!diy_marketer[0]["body"]) {
+                diy_marketer[0]["body"] = { "font-family": "diym_font_select" };
+            }
+        }
         diym_build_css();
     });
 });
@@ -56,6 +61,12 @@ wp.customize("diym_primary_color", value => {
 });
 
 wp.customize("diym_banner_footer_bg", value => {
+    value.bind(() => {
+        diym_build_css();
+    });
+});
+
+wp.customize("diym_banner_footer_text", value => {
     value.bind(() => {
         diym_build_css();
     });

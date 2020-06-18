@@ -10,10 +10,11 @@
 $diym_inline_selectors = [];
 $diym_inline_styles = '';
 
-// get theme options
-$diym_font_select = get_theme_mod( 'diym_font_select', 'default' );
-$diym_primary_color = sanitize_hex_color( get_theme_mod( 'diym_primary_color', '#007bff' ) );
-$diym_banner_footer_bg = sanitize_hex_color( get_theme_mod( 'diym_banner_footer_bg', '#007bff' ) );
+// Get Theme Options.
+$diym_font_select         = get_theme_mod( 'diym_font_select', 'default' );
+$diym_primary_color       = sanitize_hex_color( get_theme_mod( 'diym_primary_color', '#007bff' ) );
+$diym_banner_footer_bg    = sanitize_hex_color( get_theme_mod( 'diym_banner_footer_bg', '#343a40' ) );
+$diym_banner_footer_text  = sanitize_hex_color( get_theme_mod( 'diym_banner_footer_text', '#ffffff' ) );
 
 // build array
 if ( $diym_font_select != 'default' ) {
@@ -29,7 +30,7 @@ $diym_inline_selectors['.nav-pills .nav-link.active,.nav-pills .show > .nav-link
 $diym_inline_selectors['a,.nav-link:hover'] = ['color' => 'diym_primary_color'];
 
 //$diym_inline_selectors['.site-banner,#site-footer,.navbar-toggler'] = ['background-color' => 'diym_banner_footer_bg'];
-$diym_inline_selectors['.site-banner,#site-footer'] = ['background-color' => 'diym_banner_footer_bg'];
+$diym_inline_selectors['.site-banner,#site-footer'] = ['background-color' => 'diym_banner_footer_bg', 'color' => 'diym_banner_footer_text'];
 
 // build inline css string
 foreach ($diym_inline_selectors as $selector => $props) {

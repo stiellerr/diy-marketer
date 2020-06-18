@@ -77,11 +77,11 @@ function diym_customize_register( $wp_customize ) {
 		)
 	));
 
-	// Header & Footer Background Color.
+	// Banner & Footer Background Color.
     $wp_customize->add_setting(
 		'diym_banner_footer_bg',
 		array(
-			'default' => '#007bff',
+			'default' => '#343a40',
 			'sanitize_callback' => 'sanitize_hex_color',
 			'transport' => 'postMessage'
 		)
@@ -98,6 +98,28 @@ function diym_customize_register( $wp_customize ) {
 		)
 	);
 
+	// Header & Footer Text Color.
+    $wp_customize->add_setting(
+		'diym_banner_footer_text',
+		array(
+			'default' => '#fff',
+			'sanitize_callback' => 'sanitize_hex_color',
+			'transport' => 'postMessage'
+		)
+	);
+
+	$wp_customize->add_control(
+		new WP_Customize_Color_Control(
+			$wp_customize,
+			'diym_banner_footer_text',
+			array(
+				'label' => __( 'Banner & Footer Text Colour', 'diy-marketer' ),
+				'section' => 'colors',
+			)
+		)
+	);
+
+	// Theme Primary Color.
     $wp_customize->add_setting('diym_primary_color', array(
         'default' => '#007bff',
         'sanitize_callback' => 'sanitize_hex_color',
@@ -105,7 +127,7 @@ function diym_customize_register( $wp_customize ) {
 	));
 	
 	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'diym_primary_color', array(
-		'label' => __( 'Primary Color', 'diy-marketer' ),
+		'label' => __( 'Theme Primary Color', 'diy-marketer' ),
 		'section' => 'colors',
 	)));
 
