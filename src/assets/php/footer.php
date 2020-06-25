@@ -48,8 +48,9 @@
 						array(
 							'theme_location'=> 'menu-2',
 							'depth'			=> 1,
-							'fallback_cb'	=> false
-							//'menu_class'	=> 'foot d-flex flex-wrap text-dark',
+							'fallback_cb'	=> false,
+							'menu_class'	=> 'nav',
+							'menu_id'	=> 'footer-nav'
 						)
 					);
 				?>

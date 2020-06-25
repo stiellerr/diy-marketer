@@ -29,8 +29,12 @@ $diym_inline_selectors['.nav-pills .nav-link.active,.nav-pills .show > .nav-link
 
 $diym_inline_selectors['a,.nav-link:hover'] = ['color' => 'diym_primary_color'];
 
-//$diym_inline_selectors['.site-banner,#site-footer,.navbar-toggler'] = ['background-color' => 'diym_banner_footer_bg'];
+$diym_inline_selectors['.navbar-toggler'] = ['background-color' => 'diym_banner_footer_bg'];
 $diym_inline_selectors['.site-banner,#site-footer'] = ['background-color' => 'diym_banner_footer_bg', 'color' => 'diym_banner_footer_text'];
+
+$diym_inline_selectors['.site-banner a,#site-footer a'] = ['color' => 'diym_banner_footer_text'];
+
+$diym_inline_selectors['.site-banner a:hover,#site-footer a:hover'] = ['color' => 'diym_primary_color'];
 
 // build inline css string
 foreach ($diym_inline_selectors as $selector => $props) {

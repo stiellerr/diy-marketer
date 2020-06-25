@@ -36,9 +36,24 @@
     }
 }
 
+.site-banner a:hover,
+#site-footer a:hover {
+    text-decoration: none;
+}
+
 /*--------------------------------------------------------------
 # Generic
 --------------------------------------------------------------*/
+
+.px-0_5 {
+    margin-left: 0.1rem;
+    margin-right: 0.1rem;
+}
+
+.px-n0_5 {
+    margin-left: -0.1rem;
+    margin-right: -0.1rem;
+}
 
 /* Normalize
 --------------------------------------------- */
@@ -76,6 +91,18 @@
 
 /* Navigation
 --------------------------------------------- */
+
+#footer-nav .nav-link {
+    padding: 0;
+}
+
+#footer-nav .nav-item {
+    width: 50%;
+}
+
+#footer-nav .nav-link:hover {
+    border: none;
+}
 
 .nav-link {
     border: 1px solid transparent;

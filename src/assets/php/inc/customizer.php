@@ -77,6 +77,66 @@ function diym_customize_register( $wp_customize ) {
 		)
 	));
 
+    $wp_customize->selective_refresh->add_partial('diym_phone_number', array(
+        'settings' => array(
+            'diym_phone_number',
+            'diym_facebook',
+            'diym_instagram',
+            'diym_twitter',
+        ),
+        'selector' => '#socials',
+        'container_inclusive'=> true,
+        'render_callback' => function() {
+            get_template_part( 'template-parts/socials' );
+        }
+	));
+	
+	// social media //
+    $wp_customize->add_section('diym_social', array(
+        'title' => esc_html__( 'Social Media', 'diy-marketer' ),
+        'description' => esc_html__( 'Enter your social media details below.', 'diy-marketer' ),
+        //'priority' => 1
+	));
+	
+    $wp_customize->add_setting('diym_facebook', array(
+    	'default' => 'facebook.com/facebook',
+        'sanitize_callback' => 'esc_url_raw',
+        'transport' => 'postMessage'
+	));
+	
+    $wp_customize->add_control('diym_facebook', array(
+        'type' => 'url',
+		'label' => esc_html__( 'Facebook url', 'diy-marketer' ),
+		'description' => esc_html__( 'Enter you facebook url below...', 'diy-marketer' ),
+		'section' => 'diym_social',
+	));
+
+    $wp_customize->add_setting('diym_instagram', array(
+    	'default' => 'instagram.com/instagram',
+        'sanitize_callback' => 'esc_url_raw',
+        'transport' => 'postMessage'
+	));
+	
+    $wp_customize->add_control('diym_instagram', array(
+        'type' => 'url',
+		'label' => esc_html__( 'Instagram url', 'diy-marketer' ),
+		'description' => esc_html__( 'Enter you instagram url below...', 'diy-marketer' ),
+		'section' => 'diym_social',
+	));
+
+    $wp_customize->add_setting('diym_twitter', array(
+    	'default' => 'twitter.com/twitter',
+        'sanitize_callback' => 'esc_url_raw',
+        'transport' => 'postMessage'
+	));
+	
+    $wp_customize->add_control('diym_twitter', array(
+        'type' => 'url',
+		'label' => esc_html__( 'Twitter url', 'diy-marketer' ),
+		'description' => esc_html__( 'Enter you twitter url below...', 'diy-marketer' ),
+		'section' => 'diym_social',
+	));
+
 	// Banner & Footer Background Color.
     $wp_customize->add_setting(
 		'diym_banner_footer_bg',

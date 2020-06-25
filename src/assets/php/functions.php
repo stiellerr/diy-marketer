@@ -45,7 +45,7 @@ if (!function_exists('diym_setup')):
 			array(
 				'menu-1' => esc_html__( 'Primary', 'diy-marketer' ),
 				'menu-2' => esc_html__( 'Footer', 'diy-marketer' ),
-			),
+			)
 		);
 
 		// Set up the WordPress core custom background feature.
@@ -79,7 +79,7 @@ add_action('after_setup_theme', 'diym_setup');
 
 
 function diym_assets() {
-	wp_enqueue_style('diym-stylesheet', DIYM_CSS_URL . 'bundle.css', array(), DIYM_VER, 'all');
+	wp_enqueue_style('diym-stylesheet', DIYM_CSS_URL . 'bundle.css', array('dashicons'), DIYM_VER, 'all');
 
 	require DIYM_DIR . 'inc/inline-css.php';
 	

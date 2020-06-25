@@ -9,11 +9,6 @@
  * @package DIY_Marketer
  */
 
- /**
- * Theme options.
- */
-$diym_phone_number = get_theme_mod( 'diym_phone_number' );
-
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -38,14 +33,8 @@ $diym_phone_number = get_theme_mod( 'diym_phone_number' );
 		<div class="row site-banner border-bottom border-thick border-primary py-1">
 			<div class="col-md-auto text-center align-self-center site-tagline"><?php bloginfo('description'); ?></div>
 			<div class="col-md text-center text-md-right">
-				Call Us
 				<?php
-					echo '<a href="tel:' . $diym_phone_number . '" class="phone-number">' . $diym_phone_number . '</a>'
-					/*
-					if ( $diym_phone_number ) {
-						echo '<a href="tel:' . $diym_phone_number . '" class="phone-number">' . $diym_phone_number . '</a>';
-					}
-					*/
+					get_template_part( 'template-parts/socials' );
 				?>
 			</div>
 		</div>
@@ -64,7 +53,7 @@ $diym_phone_number = get_theme_mod( 'diym_phone_number' );
 			</div>
 			<div class="col-md align-self-center">
 				<nav class="navbar navbar-expand-sm px-0" role="navigation">
-					<button class="navbar-toggler bg-dark" type="button" data-toggle="collapse" data-target="#primary-menu" aria-controls="primary-menu" aria-expanded="false" aria-label="<?php _e( 'Toggle Navigation', 'diy-marketer' ) ?>">
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#primary-menu" aria-controls="primary-menu" aria-expanded="false" aria-label="<?php _e( 'Toggle Navigation', 'diy-marketer' ) ?>">
 						<span class="navbar-toggler-icon" style="color:blue!important;"></span>
 					</button>
 					<?php
