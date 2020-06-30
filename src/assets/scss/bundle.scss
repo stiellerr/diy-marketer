@@ -52,13 +52,13 @@
 }
 
 .px-0_5 {
-    margin-left: 0.1rem;
-    margin-right: 0.1rem;
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
 }
 
 .px-n0_5 {
-    margin-left: -0.1rem;
-    margin-right: -0.1rem;
+    padding-left: -0.1rem;
+    padding-right: -0.1rem;
 }
 
 /* Normalize
@@ -126,10 +126,12 @@ nav button:focus {
     outline: thin none white;
 }
 
+/*
 .navbar-toggler {
     width: 100%;
     text-align: left;
 }
+*/
 
 .navbar-toggler-icon {
     background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(255, 255, 255, 1.0)' stroke-width='3' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;

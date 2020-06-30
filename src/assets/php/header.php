@@ -31,13 +31,6 @@
 	================================================== -->
 	<header role="banner">
 		<div class="row site-banner border-bottom border-thick border-primary py-1">
-			<div class="col flex-row">
-				<div>hello world 1</div>
-				<div>hello world 2</div>
-			</div>
-			
-			
-			
 			<div class="col-md-auto text-center align-self-center site-tagline"><?php bloginfo('description'); ?></div>
 			<!--<div class="col-md text-center text-md-right">-->
 			<div class="col-md">
@@ -48,7 +41,7 @@
 		</div>
 
 		<!-- NAVBAR
-		================================================== -->
+		================================================== 
 		<div class="row border-bottom">
 			<div class="col-md-auto text-center py-1 py-md-3">
 				<?php 
@@ -60,9 +53,9 @@
 				?>
 			</div>
 			<div class="col-md align-self-center">
-				<nav class="navbar navbar-expand-sm px-0" role="navigation">
+				<nav class="navbar navbar-expand-sm px-0" role="navigation">				
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#primary-menu" aria-controls="primary-menu" aria-expanded="false" aria-label="<?php _e( 'Toggle Navigation', 'diy-marketer' ) ?>">
-						<span class="navbar-toggler-icon" style="color:blue!important;"></span>
+						<span class="navbar-toggler-icon"></span>
 					</button>
 					<?php
 						wp_nav_menu(
@@ -70,7 +63,7 @@
 								'theme_location'	=> 'menu-1',
 								//'depth'			=> 2,
 								'container_id'		=> 'primary-menu',
-								'container_class'	=> 'collapse navbar-collapse justify-content-start justify-content-md-end',
+								'container_class'	=> 'collapse navbar-collapse justify-content-start justify-content-md-end w-100',
 								'menu_class'		=> 'navbar-nav nav-pills text-center bg-light bg-md-none',
 								'fallback_cb'		=> false
 							)
@@ -79,4 +72,26 @@
 				</nav>
 			</div>
 		</div>
+		-->
+		<nav class="navbar navbar-expand-sm flex-column px-0" role="navigation">
+			<?php /*the_custom_logo();*/ ?>
+			<h1>Hello World</h1>
+			<!--<a class="navbar-brand bg-info" href="#">Navbar</a>		-->	
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#primary-menu" aria-controls="primary-menu" aria-expanded="false" aria-label="<?php _e( 'Toggle Navigation', 'diy-marketer' ) ?>">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<?php
+				wp_nav_menu(
+					array(
+						'theme_location'	=> 'menu-1',
+						//'depth'			=> 2,
+						'container_id'		=> 'primary-menu',
+						'container_class'	=> 'collapse navbar-collapse mr-auto',
+						'menu_class'		=> 'navbar-nav nav-pills text-center bg-md-none justify-content-start',
+						'fallback_cb'		=> false
+					)
+				);
+			?>
+		</nav>
+
 	</header>
