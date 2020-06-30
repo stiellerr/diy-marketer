@@ -8,9 +8,9 @@
  */
 
 $diym_phone_number  = get_theme_mod( 'diym_phone_number' );
-$diym_facebook      = get_theme_mod( 'diym_facebook' );
-$diym_instagram     = get_theme_mod( 'diym_instagram' );
-$diym_twitter       = get_theme_mod( 'diym_twitter' );
+$diym_facebook      = get_theme_mod( 'diym_facebook', 'facebook.com/facebook' );
+$diym_instagram     = get_theme_mod( 'diym_instagram', 'instagram.com/instagram' );
+$diym_twitter       = get_theme_mod( 'diym_twitter', 'twitter.com/twitter' );
 ?>
 
 <ul id="socials" class="nav justify-content-center justify-content-md-end">

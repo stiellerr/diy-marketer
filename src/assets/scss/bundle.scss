@@ -36,14 +36,20 @@
     }
 }
 
-.site-banner a:hover,
-#site-footer a:hover {
-    text-decoration: none;
+.site-banner,
+#site-footer {
+    a {
+        text-decoration: none;
+    }
 }
 
 /*--------------------------------------------------------------
 # Generic
 --------------------------------------------------------------*/
+
+.border-thick {
+    border-width: 2px !important;
+}
 
 .px-0_5 {
     margin-left: 0.1rem;
@@ -81,10 +87,6 @@
 # Layouts
 --------------------------------------------------------------*/
 
-.border-thick {
-    border-width: 2px !important;
-}
-
 /*--------------------------------------------------------------
 # Components
 --------------------------------------------------------------*/
@@ -92,24 +94,31 @@
 /* Navigation
 --------------------------------------------- */
 
-#footer-nav .nav-link {
-    padding: 0;
+#footer-nav {
+    .nav-item {
+        width: 50%;
+    }
+    .nav-link {
+        padding: 0;
+        &:hover {
+            border: none;
+        }
+    }
 }
 
-#footer-nav .nav-item {
-    width: 50%;
-}
-
-#footer-nav .nav-link:hover {
-    border: none;
+@media (min-width: 576px) {
+    #footer-nav {
+        .nav-item {
+            width: auto;
+        }
+        .nav-link {
+            padding: 0 20px;
+        }
+    }
 }
 
 .nav-link {
     border: 1px solid transparent;
-}
-
-.nav-link:hover {
-    border: 1px solid;
 }
 
 /* Small menu. */

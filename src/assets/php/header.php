@@ -31,8 +31,16 @@
 	================================================== -->
 	<header role="banner">
 		<div class="row site-banner border-bottom border-thick border-primary py-1">
+			<div class="col flex-row">
+				<div>hello world 1</div>
+				<div>hello world 2</div>
+			</div>
+			
+			
+			
 			<div class="col-md-auto text-center align-self-center site-tagline"><?php bloginfo('description'); ?></div>
-			<div class="col-md text-center text-md-right">
+			<!--<div class="col-md text-center text-md-right">-->
+			<div class="col-md">
 				<?php
 					get_template_part( 'template-parts/socials' );
 				?>
