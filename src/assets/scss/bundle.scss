@@ -34,6 +34,9 @@
     .bg-md-none {
         background-color: transparent !important;
     }
+    .w-md-auto {
+        width: auto !important;
+    }
 }
 
 .site-banner,
@@ -94,6 +97,16 @@
 /* Navigation
 --------------------------------------------- */
 
+.site-logo {
+    width: calc(100% - 32px);
+}
+
+.custom-logo {
+    max-width: 100%;
+    height: auto;
+    padding-bottom: 0.25rem;
+}
+
 #footer-nav {
     .nav-item {
         width: 50%;
@@ -133,8 +146,13 @@ nav button:focus {
 }
 */
 
+.custom-logo-link {
+    margin-right: auto;
+    margin-left: auto;
+}
+
 .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(255, 255, 255, 1.0)' stroke-width='3' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(0, 0, 0, 1.0)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
 }
 
 //old-->

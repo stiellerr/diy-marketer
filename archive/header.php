@@ -9,10 +9,7 @@
  * @package DIY_Marketer
  */
 
- $diym_phone_number  = get_theme_mod( 'diym_phone_number' );
-
 ?>
-
 <!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -34,12 +31,9 @@
 	================================================== -->
 	<header role="banner">
 		<div class="row site-banner border-bottom border-thick border-primary py-1">
-			<div class="col-md-auto text-center align-self-center">
-				<span class="site-tagline"><?php bloginfo('description'); ?></span>
-			</div>
-			<div class="col-md text-center text-md-right">
-				<span>Call Now</span>
-				<a class="font-weight-bold phone-number text-nowrap" href="tel:<?php echo $diym_phone_number; ?>"><?php echo $diym_phone_number; ?></a>
+			<div class="col-md-auto text-center align-self-center site-tagline"><?php bloginfo('description'); ?></div>
+			<!--<div class="col-md text-center text-md-right">-->
+			<div class="col-md">
 				<?php
 					get_template_part( 'template-parts/socials' );
 				?>
@@ -47,19 +41,48 @@
 		</div>
 
 		<!-- NAVBAR
-		================================================== -->
+		================================================== 
+		<div class="row border-bottom">
+			<div class="col-md-auto text-center py-1 py-md-3">
+				<?php 
+					if ( has_custom_logo() ) {
+						the_custom_logo();
+					} else {
+						echo '<h1 class="site-name my-2">'. get_bloginfo( 'name' ) .'</h1>';
+					}
+				?>
+			</div>
+			<div class="col-md align-self-center">
+				<nav class="navbar navbar-expand-sm px-0" role="navigation">				
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#primary-menu" aria-controls="primary-menu" aria-expanded="false" aria-label="<?php _e( 'Toggle Navigation', 'diy-marketer' ) ?>">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<?php
+						wp_nav_menu(
+							array(
+								'theme_location'	=> 'menu-1',
+								//'depth'			=> 2,
+								'container_id'		=> 'primary-menu',
+								'container_class'	=> 'collapse navbar-collapse justify-content-start justify-content-md-end w-100',
+								'menu_class'		=> 'navbar-nav nav-pills text-center bg-light bg-md-none',
+								'fallback_cb'		=> false
+							)
+						);
+					?>
+				</nav>
+			</div>
+		</div>
+		-->
 		<div class="row border-bottom">
 			<div class="col">
 				<nav class="navbar navbar-expand-sm flex-sm-column flex-md-row px-0" role="navigation">
-					<div class="site-logo w-md-auto text-center">
-						<?php 
-							if ( has_custom_logo() ) {
-								the_custom_logo();
-							} else {
-								echo '<h1 class="site-name d-inline-block my-2 my-md-3 mx-auto">'. get_bloginfo( 'name' ) .'</h1>';
-							}
-						?>
-					</div>	
+					<?php 
+						if ( has_custom_logo() ) {
+							the_custom_logo();
+						} else {
+							echo '<h1 class="site-name d-inline-block my-2 my-md-3 mx-auto">'. get_bloginfo( 'name' ) .'</h1>';
+						}
+					?>			
 					<button class="navbar-toggler px-0" type="button" data-toggle="collapse" data-target="#primary-menu" aria-controls="primary-menu" aria-expanded="false" aria-label="<?php _e( 'Toggle Navigation', 'diy-marketer' ) ?>">
 						<span class="navbar-toggler-icon"></span>
 					</button>
@@ -78,4 +101,5 @@
 				</nav>
 			</div>
 		</div>
+
 	</header>

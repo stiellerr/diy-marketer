@@ -77,9 +77,8 @@ function diym_customize_register( $wp_customize ) {
 		)
 	));
 
-    $wp_customize->selective_refresh->add_partial('diym_phone_number', array(
+    $wp_customize->selective_refresh->add_partial('diym_twitter', array(
         'settings' => array(
-            'diym_phone_number',
             'diym_facebook',
             'diym_instagram',
             'diym_twitter',
