@@ -70,6 +70,7 @@
 								//'depth'			=> 2,
 								'container_id'		=> 'primary-menu',
 								'container_class'	=> 'collapse navbar-collapse mr-auto justify-content-end',
+								'menu_id'			=> 'main-nav',
 								'menu_class'		=> 'navbar-nav nav-pills text-center bg-light bg-md-none',
 								'fallback_cb'		=> false
 							)

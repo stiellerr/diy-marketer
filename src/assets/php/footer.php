@@ -42,7 +42,7 @@
 				?>
 			</div>
 
-			<div class="col">
+			<div class="col py-1 align-self-center">
 				<?php
 					wp_nav_menu(
 						array(
@@ -55,7 +55,7 @@
 					);
 				?>
 			</div>
-			<div class="col-lg-auto text-center text-sm-left">
+			<div class="col-lg-auto py-1 text-center text-sm-left">
 				<?php
 					printf( 
 						wp_kses(

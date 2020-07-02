@@ -83,7 +83,7 @@ function diym_customize_register( $wp_customize ) {
             'diym_instagram',
             'diym_twitter',
         ),
-        'selector' => '#socials',
+        'selector' => '#site-socials',
         'container_inclusive'=> true,
         'render_callback' => function() {
             get_template_part( 'template-parts/socials' );

@@ -13,25 +13,25 @@ $diym_twitter       = get_theme_mod( 'diym_twitter', 'twitter.com/twitter' );
 
 ?>
 
-<ul id="socials" class="nav d-inline-flex text-nowrap">
+<ul id="site-socials" class="nav d-inline-flex text-nowrap">
     <?php if ( $diym_facebook ) { ?>
         <li class="nav-item">
-            <a class="px-n0_5" href="<?php echo $diym_facebook; ?>" target="_blank">
-                <span style="line-height: 24px;" class="dashicons dashicons-facebook-alt"></span>
+            <a href="<?php echo $diym_facebook; ?>" target="_blank" class="px-0">
+                <span class="dashicons dashicons-facebook-alt"></span>
             </a>
         </li>
     <?php } ?>
     <?php if ( $diym_instagram ) { ?>
         <li class="nav-item">
-            <a class="px-0_5" href="<?php echo $diym_instagram; ?>" target="_blank">
-                <span style="line-height: 24px;" class="dashicons dashicons-instagram"></span>
+            <a href="<?php echo $diym_instagram; ?>" target="_blank">
+                <span class="dashicons dashicons-instagram"></span>
             </a>
         </li>
     <?php } ?>
     <?php if ( $diym_twitter ) { ?>
         <li class="nav-item">
-            <a class="px-0_5" href="<?php echo $diym_twitter; ?>" target="_blank">
-                <span style="line-height: 24px;" class="dashicons dashicons-twitter"></span>
+            <a href="<?php echo $diym_twitter; ?>" target="_blank">
+                <span class="dashicons dashicons-twitter"></span>
             </a>
         </li>
     <?php } ?>
