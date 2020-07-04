@@ -34,9 +34,6 @@
     .bg-md-none {
         background-color: transparent !important;
     }
-    .w-md-auto {
-        width: auto !important;
-    }
 }
 
 .site-banner,
@@ -86,10 +83,6 @@
 
 /* Navigation
 --------------------------------------------- */
-
-.site-logo {
-    width: calc(100% - 32px);
-}
 
 .custom-logo {
     max-width: 100%;

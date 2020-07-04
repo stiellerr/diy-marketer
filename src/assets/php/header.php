@@ -51,18 +51,20 @@
 		<div class="row border-bottom">
 			<div class="col">
 				<nav class="navbar navbar-expand-sm flex-sm-column flex-md-row px-0" role="navigation">
-					<div class="site-logo w-md-auto text-center">
-						<?php 
-							if ( has_custom_logo() ) {
-								the_custom_logo();
-							} else {
-								echo '<h1 class="site-name d-inline-block my-2 my-md-3 mx-auto">'. get_bloginfo( 'name' ) .'</h1>';
-							}
-						?>
-					</div>	
-					<button class="navbar-toggler px-0" type="button" data-toggle="collapse" data-target="#primary-menu" aria-controls="primary-menu" aria-expanded="false" aria-label="<?php _e( 'Toggle Navigation', 'diy-marketer' ) ?>">
-						<span class="navbar-toggler-icon"></span>
-					</button>
+					<div class="d-flex flex-fill">
+						<div class="flex-grow-1 text-center text-md-left align-self-center">
+							<?php 
+								if ( has_custom_logo() ) {
+									the_custom_logo();
+								} else {
+									echo '<h1 class="site-name my-2 my-md-3">'. get_bloginfo( 'name' ) .'</h1>';
+								}
+							?>
+						</div>
+						<button class="navbar-toggler px-0" type="button" data-toggle="collapse" data-target="#primary-menu" aria-controls="primary-menu" aria-expanded="false" aria-label="<?php _e( 'Toggle Navigation', 'diy-marketer' ) ?>">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+					</div>
 					<?php
 						wp_nav_menu(
 							array(
@@ -71,7 +73,8 @@
 								'container_id'		=> 'primary-menu',
 								'container_class'	=> 'collapse navbar-collapse mr-auto justify-content-end',
 								'menu_id'			=> 'main-nav',
-								'menu_class'		=> 'navbar-nav nav-pills text-center bg-light bg-md-none',
+								//'menu_class'		=> 'navbar-nav nav-pills text-center bg-light bg-md-none',
+								'menu_class'		=> 'navbar-nav nav-pills text-center',
 								'fallback_cb'		=> false
 							)
 						);
@@ -79,4 +82,5 @@
 				</nav>
 			</div>
 		</div>
+
 	</header>
