@@ -45,7 +45,7 @@ if (!function_exists('diym_setup')):
 			array(
 				'menu-1' => esc_html__( 'Navbar', 'diy-marketer' ),
 				'menu-2' => esc_html__( 'Footer', 'diy-marketer' ),
-				'menu-3' => esc_html__( 'Widget', 'diy-marketer' ),
+				//'menu-3' => esc_html__( 'Widget', 'diy-marketer' ),
 			)
 		);
 
@@ -85,8 +85,8 @@ add_action('after_setup_theme', 'diym_setup');
 function diym_widgets_init() {
 	register_sidebar(
 		array(
-			'name'          => esc_html__( 'Sidebar', 'diy-marketer' ),
-			'id'            => 'sidebar-1',
+			'name'          => esc_html__( 'Footer 1', 'diy-marketer' ),
+			'id'            => 'footer-1',
 			'description'   => esc_html__( 'Add widgets here.', 'diy-maketer' ),
 			'before_widget' => '<section id="%1$s" class="widget %2$s">',
 			'after_widget'  => '</section>',
@@ -181,5 +181,41 @@ function diym_nav_menu_submenu_css_class( $classes, $args, $depth ) {
 }
 
 add_filter( 'nav_menu_submenu_css_class', 'diym_nav_menu_submenu_css_class', 10, 4 );
+
+
+function diym_widget_nav_menu_args( $nav_menu_args, $nav_menu, $args, $instance ) {
+
+	//$nav_menu_args['fallback_cb'] =  0;
+
+	//write_log($nav_menu_args);
+
+	return $nav_menu_args;
+}
+
+add_filter( 'widget_nav_menu_args', 'diym_widget_nav_menu_args', 10, 4 );
+
+// define the widget_title callback 
+function diym_widget_title( $title, $instance, $id_base ) {
+
+	write_log( $id_base );
+
+    // make filter magic happen here... 
+    return $title; 
+}; 
+         
+// add the filter 
+add_filter( 'widget_title', 'diym_widget_title', 10, 3 ); 
+
+function diym_wp_nav_menu_args( $args ) {
+
+	if ( $args['theme_location'] == '' ) {
+		$args['depth'] = 1;
+		$args['menu_class'] = 'nav flex-column';
+	}
+
+	return $args;
+}
+
+add_filter( 'wp_nav_menu_args', 'diym_wp_nav_menu_args' );
 
 ?>

@@ -69,7 +69,7 @@
 						wp_nav_menu(
 							array(
 								'theme_location'	=> 'menu-1',
-								//'depth'			=> 2,
+								'depth'			=> 2,
 								'container_id'		=> 'menu-navbar',
 								'container_class'	=> 'collapse navbar-collapse mr-auto justify-content-end',
 								//'menu_id'			=> 'main-nav',
