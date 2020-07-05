@@ -61,7 +61,7 @@
 								}
 							?>
 						</div>
-						<button class="navbar-toggler px-0" type="button" data-toggle="collapse" data-target="#primary-menu" aria-controls="primary-menu" aria-expanded="false" aria-label="<?php _e( 'Toggle Navigation', 'diy-marketer' ) ?>">
+						<button class="navbar-toggler px-0" type="button" data-toggle="collapse" data-target="#menu-navbar" aria-controls="menu-navbar" aria-expanded="false" aria-label="<?php _e( 'Toggle Navigation', 'diy-marketer' ) ?>">
 							<span class="navbar-toggler-icon"></span>
 						</button>
 					</div>
@@ -70,9 +70,9 @@
 							array(
 								'theme_location'	=> 'menu-1',
 								//'depth'			=> 2,
-								'container_id'		=> 'primary-menu',
+								'container_id'		=> 'menu-navbar',
 								'container_class'	=> 'collapse navbar-collapse mr-auto justify-content-end',
-								'menu_id'			=> 'main-nav',
+								//'menu_id'			=> 'main-nav',
 								//'menu_class'		=> 'navbar-nav nav-pills text-center bg-light bg-md-none',
 								'menu_class'		=> 'navbar-nav nav-pills text-center',
 								'fallback_cb'		=> false

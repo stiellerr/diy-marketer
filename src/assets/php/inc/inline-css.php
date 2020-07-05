@@ -23,7 +23,7 @@ if ( $diym_font_select != 'default' ) {
 
 $diym_inline_selectors['.border-primary'] = ['border-color' => 'diym_primary_color' . ',!important'];
 // same as above without: '!important'
-$diym_inline_selectors['#main-nav .nav-item .nav-link:hover'] = ['border-color' => 'diym_primary_color'];
+$diym_inline_selectors['.navbar-nav .nav-item .nav-link:hover'] = ['border-color' => 'diym_primary_color'];
 
 $diym_inline_selectors['.nav-pills .nav-link.active,.nav-pills .show > .nav-link'] = ['background-color' => 'diym_primary_color'];
 
@@ -33,7 +33,7 @@ $diym_inline_selectors['.site-banner,#site-footer'] = ['background-color' => 'di
 
 $diym_inline_selectors['.site-banner a,#site-footer a'] = ['color' => 'diym_banner_footer_text'];
 
-$diym_inline_selectors['#footer-nav .nav-item .nav-link:hover'] = ['border-right-color' => 'diym_banner_footer_text'];
+$diym_inline_selectors['#menu-footer .menu-item a:hover'] = ['border-right-color' => 'diym_banner_footer_text'];
 
 $diym_inline_selectors['.site-banner a:hover,#site-footer a:hover'] = ['color' => 'diym_primary_color'];
 

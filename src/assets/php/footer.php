@@ -15,8 +15,13 @@
 		<div id="site-footer" class="row border-primary border-thick border-top">
 			<div class="col-12 col-md-6 col-lg-3 pt-4">
 				<?php
+					/*
 					if ( is_active_sidebar( 'footer-1' ) ) {
 						dynamic_sidebar( 'footer-1' );
+					}
+					*/
+					if ( is_active_sidebar( 'sidebar-1' ) ) {
+						dynamic_sidebar( 'sidebar-1' );
 					}
 				?>
 			</div>
@@ -50,7 +55,7 @@
 							'depth'			=> 1,
 							'fallback_cb'	=> false,
 							'menu_class'	=> 'nav',
-							'menu_id'	=> 'footer-nav'
+							'menu_id'	=> 'menu-footer'
 						)
 					);
 				?>
