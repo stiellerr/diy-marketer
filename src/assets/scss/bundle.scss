@@ -90,18 +90,6 @@
     padding-bottom: 0.25rem;
 }
 
-/*
-.menu {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    padding-left: 0;
-    margin-bottom: 0;
-    list-style: none;
-}
-*/
-
 #site-socials {
     li {
         a {
@@ -193,10 +181,12 @@ nav button:focus {
     display: block;
 }
 
+/*
 .post,
 .page {
     margin: 0 0 6em;
 }
+*/
 
 .updated:not(.published) {
     display: none;

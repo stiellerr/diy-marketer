@@ -145,7 +145,7 @@ function diym_nav_menu_link_attributes($atts, $item, $args, $depth) {
 
 	if ( $args->theme_location == 'menu-1' ) {
 
-		if ( in_array( 'menu-item-has-children', $item->classes ) ) {
+		if ( in_array( 'menu-item-has-children', $item->classes ) && 0 === $depth && $args->depth > 1 ) {
 	
 			$atts['href']          = '#';
 			$atts['data-toggle']   = 'dropdown';
@@ -153,7 +153,7 @@ function diym_nav_menu_link_attributes($atts, $item, $args, $depth) {
 			$atts['aria-expanded'] = 'false';
 			$atts['class']         = 'nav-link dropdown-toggle';
 			//$atts['id']            = 'menu-item-dropdown-' . $item->ID;
-	
+
 		} else {
 			if ( $depth > 0 ) {
 				$atts['class'] = 'dropdown-item';
@@ -169,9 +169,8 @@ function diym_nav_menu_link_attributes($atts, $item, $args, $depth) {
 	}
     return $atts;
 }
+
 add_filter( 'nav_menu_link_attributes', 'diym_nav_menu_link_attributes', 10, 4 );
-
-
 
 function diym_nav_menu_submenu_css_class( $classes, $args, $depth ) {
 	if ( $args->theme_location == 'menu-1' ) {
@@ -181,7 +180,6 @@ function diym_nav_menu_submenu_css_class( $classes, $args, $depth ) {
 }
 
 add_filter( 'nav_menu_submenu_css_class', 'diym_nav_menu_submenu_css_class', 10, 4 );
-
 
 function diym_widget_nav_menu_args( $nav_menu_args, $nav_menu, $args, $instance ) {
 
@@ -196,9 +194,7 @@ add_filter( 'widget_nav_menu_args', 'diym_widget_nav_menu_args', 10, 4 );
 
 // define the widget_title callback 
 function diym_widget_title( $title, $instance, $id_base ) {
-
-	write_log( $id_base );
-
+	
     // make filter magic happen here... 
     return $title; 
 }; 
@@ -209,10 +205,11 @@ add_filter( 'widget_title', 'diym_widget_title', 10, 3 );
 function diym_wp_nav_menu_args( $args ) {
 
 	if ( $args['theme_location'] == '' ) {
-		$args['depth'] = 1;
+		
+		$args['depth'] 		= 1;
 		$args['menu_class'] = 'nav flex-column';
+		$args['menu_id'] 	= 'menu-widget';
 	}
-
 	return $args;
 }
 
