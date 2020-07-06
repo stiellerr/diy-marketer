@@ -75,11 +75,6 @@
 				?>
 			</div>
 		</div>
-		<!--
-		<div class="row">
-		
-		</div>
-				-->
 	</footer>
 
 <?php wp_footer(); ?>
