@@ -30,3 +30,6 @@ Reece Stieller
 2) type: "git commit -m "your commit message""
 3) type: "git remote add origin https://github.com/stiellerr/diy-marketer.git" this step is only required the first time you to a push
 4) type: "git push -u origin master"  Note: you will be asked to log in with your GitHub credentials.
+
+--TO UPDATE YOUR LOCAL VERSION--
+1) In the terminal type: "git pull"
