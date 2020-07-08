@@ -61,6 +61,9 @@ if (!function_exists('diym_setup')):
 			//)
 		);
 
+		// Add theme support for selective refresh for widgets.
+		add_theme_support( 'customize-selective-refresh-widgets' );
+
         /**
          * Add support for core custom logo.
          *
@@ -214,5 +217,25 @@ function diym_wp_nav_menu_args( $args ) {
 }
 
 add_filter( 'wp_nav_menu_args', 'diym_wp_nav_menu_args' );
+
+/**
+ * Contact Details Widget
+ */
+//require_once('inc/contact-details-widget.php');
+
+/**
+ * Business Hours Widget
+ */
+require_once('inc/business-hours-widget.php');
+
+/**
+ * Business Hours Widget
+ */
+//require_once('inc/business_hours.php');
+
+/**
+ * Business Hours Widget
+ */
+//require_once('inc/most-recent-widget.php');
 
 ?>
