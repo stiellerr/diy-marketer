@@ -59,96 +59,100 @@ class DIYM_Business_Hours_Widget extends WP_Widget {
         );
     }
 
+    public function widget($args, $instance) {
+
+        $title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__('Business Hours', 'diy-marketer');
+        
+        /** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
+        $title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
+
+        echo $args['before_widget'];
+
+        if ( $title ) {
+            echo $args['before_title'] . $title . $args['after_title'];
+        }
+
+        $monday_open = !empty( $instance['monday_open'] ) ? $instance['monday_open'] : '00:00';
+        $monday_close = !empty( $instance['monday_close'] ) ? $instance['monday_close'] : '00:00';
+
+        $tuesday_open = !empty( $instance['tuesday_open'] ) ? $instance['tuesday_open'] : '00:00';
+        $tuesday_close = !empty( $instance['tuesday_close'] ) ? $instance['tuesday_close'] : '00:00';
+
+        $wednesday_open = !empty( $instance['wednesday_open'] ) ? $instance['wednesday_open'] : '00:00';
+        $wednesday_close = !empty( $instance['wednesday_close'] ) ? $instance['wednesday_close'] : '00:00';
+
+        $thursday_open = !empty( $instance['thursday_open'] ) ? $instance['thursday_open'] : '00:00';
+        $thursday_close = !empty( $instance['thursday_close'] ) ? $instance['thursday_close'] : '00:00';
+
+        $friday_open = !empty( $instance['friday_open'] ) ? $instance['friday_open'] : '00:00';
+        $friday_close = !empty( $instance['friday_close'] ) ? $instance['friday_close'] : '00:00';
+
+        $saturday_open = !empty( $instance['saturday_open'] ) ? $instance['saturday_open'] : '00:00';
+        $saturday_close = !empty( $instance['saturday_close'] ) ? $instance['saturday_close'] : '00:00';
+
+        $sunday_open = !empty( $instance['sunday_open'] ) ? $instance['sunday_open'] : '00:00';
+        $sunday_close = !empty( $instance['sunday_close'] ) ? $instance['sunday_close'] : '00:00'; 
+
+        ?>
+        <table width="100%">
+            <tr>
+                <td>Monday</td>
+                <td><?php echo ( $monday_open == $monday_close ) ? 'Closed' : $monday_open . ' - ' . $monday_close; ?></td>    
+            </tr>
+            <tr>
+                <td>Tuesday</td>
+                <td><?php echo ( $tuesday_open == $tuesday_close ) ? 'Closed' : $tuesday_open . ' - ' . $tuesday_close; ?></td>    
+            </tr>
+            <tr>
+                <td>Wednesday</td>
+                <td><?php echo ( $wednesday_open == $wednesday_close ) ? 'Closed' : $wednesday_open . ' - ' . $wednesday_close; ?></td>    
+            </tr>
+            <tr>
+                <td>Thursday</td>
+                <td><?php echo ( $thursday_open == $thursday_close ) ? 'Closed' : $thursday_open . ' - ' . $thursday_close; ?></td>    
+            </tr>
+            <tr>
+                <td>Friday</td>
+                <td><?php echo ( $friday_open == $friday_close ) ? 'Closed' : $friday_open . ' - ' . $friday_close; ?></td>    
+            </tr>
+            <tr>
+                <td>Saturday</td>
+                <td><?php echo ( $saturday_open == $saturday_close ) ? 'Closed' : $saturday_open . ' - ' . $saturday_close; ?></td>
+            </tr>
+            <tr>
+                <td>Sunday</td>
+                <td><?php echo ( $sunday_open == $sunday_close ) ? 'Closed' : $sunday_open . ' - ' . $sunday_close; ?></td>    
+            </tr>
+        </table>
+        <?php
+
+        echo $args['after_widget'];
+    }
+
     public function form( $instance ) {
-        if(isset($instance['title'])) {
-            $title = $instance['title'];
-        } else {
-            $title = "Business Hours";
-        }
 
-        if(isset($instance['monday_open'])) {
-            $monday_open = $instance['monday_open'];
-        } else {
-            $monday_open = '00:00';
-        }
+        $title = isset( $instance['title'] ) ? $instance['title'] : esc_html__('Business Hours', 'diy-marketer');
 
-        if(isset($instance['monday_close'])) {
-            $monday_close = $instance['monday_close'];
-        } else {
-            $monday_close = '00:00';
-        }
+        $monday_open = isset( $instance['monday_open'] ) ? $instance['monday_open'] : '00:00';
+        $monday_close = isset( $instance['monday_close'] ) ? $instance['monday_close'] : '00:00';
 
-        if(isset($instance['tuesday_open'])) {
-            $tuesday_open = $instance['tuesday_open'];
-        } else {
-            $tuesday_open = '00:00';
-        }
+        $tuesday_open = isset( $instance['tuesday_open'] ) ? $instance['tuesday_open'] : '00:00';
+        $tuesday_close = isset( $instance['tuesday_close'] ) ? $instance['tuesday_close'] : '00:00';        
 
-        if(isset($instance['tuesday_close'])) {
-            $tuesday_close = $instance['tuesday_close'];
-        } else {
-            $tuesday_close = '00:00';
-        }
+        $wednesday_open = isset( $instance['wednesday_open'] ) ? $instance['wednesday_open'] : '00:00';
+        $wednesday_close = isset( $instance['wednesday_close'] ) ? $instance['wednesday_close'] : '00:00';
 
-        if(isset($instance['wednesday_open'])) {
-            $wednesday_open = $instance['wednesday_open'];
-        } else {
-            $wednesday_open = '00:00';
-        }
+        $thursday_open = isset( $instance['thursday_open'] ) ? $instance['thursday_open'] : '00:00';
+        $thursday_close = isset( $instance['thursday_close'] ) ? $instance['thursday_close'] : '00:00'; 
 
-        if(isset($instance['wednesday_close'])) {
-            $wednesday_close = $instance['wednesday_close'];
-        } else {
-            $wednesday_close = '00:00';
-        }
+        $friday_open = isset( $instance['friday_open'] ) ? $instance['friday_open'] : '00:00';
+        $friday_close = isset( $instance['friday_close'] ) ? $instance['friday_close'] : '00:00';        
 
-        if(isset($instance['thursday_open'])) {
-            $thursday_open = $instance['thursday_open'];
-        } else {
-            $thursday_open = '00:00';
-        }
+        $saturday_open = isset( $instance['saturday_open'] ) ? $instance['saturday_open'] : '00:00';
+        $saturday_close = isset( $instance['saturday_close'] ) ? $instance['saturday_close'] : '00:00';
 
-        if(isset($instance['thursday_close'])) {
-            $thursday_close = $instance['thursday_close'];
-        } else {
-            $thursday_close = '00:00';
-        }
-
-        if(isset($instance['friday_open'])) {
-            $friday_open = $instance['friday_open'];
-        } else {
-            $friday_open = '00:00';
-        }
-
-        if(isset($instance['friday_close'])) {
-            $friday_close = $instance['friday_close'];
-        } else {
-            $friday_close = '00:00';
-        }
-
-        if(isset($instance['saturday_open'])) {
-            $saturday_open = $instance['saturday_open'];
-        } else {
-            $saturday_open = '00:00';
-        }
-
-        if(isset($instance['saturday_close'])) {
-            $saturday_close = $instance['saturday_close'];
-        } else {
-            $saturday_close = '00:00';
-        }
-
-        if(isset($instance['sunday_open'])) {
-            $sunday_open = $instance['sunday_open'];
-        } else {
-            $sunday_open = '00:00';
-        }
-
-        if(isset($instance['sunday_close'])) {
-            $sunday_close = $instance['sunday_close'];
-        } else {
-            $sunday_close = '00:00';
-        }
+        $sunday_open = isset( $instance['sunday_open'] ) ? $instance['sunday_open'] : '00:00';
+        $sunday_close = isset( $instance['sunday_close'] ) ? $instance['sunday_close'] : '00:00'; 
 
         ?>
         <p>
@@ -229,98 +233,6 @@ class DIYM_Business_Hours_Widget extends WP_Widget {
         </p>
 
         <?php
-    }
-
-    public function widget($args, $instance) {
-        echo $args['before_widget'];
-
-            if(isset($instance['title']) && !empty($instance['title'])) {
-                $title = apply_filters('widget_title', $instance['title'], $instance, $this->id_base);
-                echo $args['before_title'] . esc_html($title) . $args['after_title'];
-            }
-
-            echo '<table class="w-100">';
-
-            if(isset($instance['monday_open']) && !empty($instance['monday_open']) && isset($instance['monday_close']) && !empty($instance['monday_close'])) {
-                $monday_open = $instance['monday_open'];
-                $monday_close = $instance['monday_close'];                
-                ?>
-                <tr>
-                    <td>Monday</td>
-                    <td><?php echo ( $monday_open == $monday_close ) ? 'Closed' : $monday_open . ' - ' . $monday_close; ?></td>    
-                </tr>
-                <?php
-            }
-
-            if(isset($instance['tuesday_open']) && !empty($instance['tuesday_open']) && isset($instance['tuesday_close']) && !empty($instance['tuesday_close'])) {
-                $tuesday_open = $instance['tuesday_open'];
-                $tuesday_close = $instance['tuesday_close'];                
-                ?>
-                <tr>
-                    <td>Tuesday</td>
-                    <td><?php echo ( $tuesday_open == $tuesday_close ) ? 'Closed' : $tuesday_open . ' - ' . $tuesday_close; ?></td>    
-                </tr>
-                <?php
-            }
-
-            if(isset($instance['wednesday_open']) && !empty($instance['wednesday_open']) && isset($instance['wednesday_close']) && !empty($instance['wednesday_close'])) {
-                $wednesday_open = $instance['wednesday_open'];
-                $wednesday_close = $instance['wednesday_close'];                
-                ?>
-                <tr>
-                    <td>Wednesday</td>
-                    <td><?php echo ( $wednesday_open == $wednesday_close ) ? 'Closed' : $wednesday_open . ' - ' . $wednesday_close; ?></td>    
-                </tr>
-                <?php
-            }
-
-            if(isset($instance['thursday_open']) && !empty($instance['thursday_open']) && isset($instance['thursday_close']) && !empty($instance['thursday_close'])) {
-                $thursday_open = $instance['thursday_open'];
-                $thursday_close = $instance['thursday_close'];                
-                ?>
-                <tr>
-                    <td>Thursday</td>
-                    <td><?php echo ( $thursday_open == $thursday_close ) ? 'Closed' : $thursday_open . ' - ' . $thursday_close; ?></td>    
-                </tr>
-                <?php
-            }
-
-            if(isset($instance['friday_open']) && !empty($instance['friday_open']) && isset($instance['friday_close']) && !empty($instance['friday_close'])) {
-                $friday_open = $instance['friday_open'];
-                $friday_close = $instance['friday_close'];                
-                ?>
-                <tr>
-                    <td>Friday</td>
-                    <td><?php echo ( $friday_open == $friday_close ) ? 'Closed' : $friday_open . ' - ' . $friday_close; ?></td>    
-                </tr>
-                <?php
-            }
-
-            if(isset($instance['saturday_open']) && !empty($instance['saturday_open']) && isset($instance['saturday_close']) && !empty($instance['saturday_close'])) {
-                $saturday_open = $instance['saturday_open'];
-                $saturday_close = $instance['saturday_close'];                
-                ?>
-                <tr>
-                    <td>Saturday</td>
-                    <td><?php echo ( $saturday_open == $saturday_close ) ? 'Closed' : $saturday_open . ' - ' . $saturday_close; ?></td>    
-                </tr>
-                <?php
-            }
-
-            if(isset($instance['sunday_open']) && !empty($instance['sunday_open']) && isset($instance['sunday_close']) && !empty($instance['sunday_close'])) {
-                $sunday_open = $instance['sunday_open'];
-                $sunday_close = $instance['sunday_close'];                
-                ?>
-                <tr>
-                    <td>Sunday</td>
-                    <td><?php echo ( $sunday_open == $sunday_close ) ? 'Closed' : $sunday_open . ' - ' . $sunday_close; ?></td>    
-                </tr>
-                <?php
-            }
-
-            echo '</table>';
-
-        echo $args['after_widget'];
     }
 
     public function update($new_instance, $old_instance) {
