@@ -94,7 +94,7 @@ class DIYM_Business_Hours_Widget extends WP_Widget {
         $sunday_close = !empty( $instance['sunday_close'] ) ? $instance['sunday_close'] : '00:00'; 
 
         ?>
-        <table width="100%">
+        <table style="width:100%">
             <tr>
                 <td>Monday</td>
                 <td><?php echo ( $monday_open == $monday_close ) ? 'Closed' : $monday_open . ' - ' . $monday_close; ?></td>    

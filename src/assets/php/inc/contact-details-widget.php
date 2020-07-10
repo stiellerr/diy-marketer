@@ -14,18 +14,21 @@ class DIYM_Contact_Details_Widget extends WP_Widget {
             'diym_contact_details_widget',
             esc_html__('Contact Details', 'diy-marketer'),
             array(
-                'description' => esc_html__('some description', 'diy-marketer'),
+                'description' => esc_html__("Displays the business' contact details", 'diy-marketer'),
                 //'customize_selective_refresh' => true
             )
         );
     }
 
     public function form( $instance ) {
-        if(isset($instance['title'])) {
-            $title = $instance['title'];
-        } else {
-            $title = "Contact Details";
-        }
+
+        $title = isset( $instance['title'] ) ? $instance['title'] : esc_html__('Contact Details', 'diy-marketer');
+
+        $business_name = isset( $instance['business_name'] ) ? $instance['business_name'] : get_bloginfo( 'name' );
+
+        $business_email = isset( $instance['business_email'] ) ? $instance['business_email'] : get_bloginfo( 'admin_email' );
+
+        $business_site = isset( $instance['business_site'] ) ? $instance['business_site'] : get_bloginfo( 'url' );
 
         /*
         if(isset($instance['post_count'])) {
@@ -52,11 +55,19 @@ class DIYM_Contact_Details_Widget extends WP_Widget {
             <label for="<?php echo $this->get_field_id('title') ?>"><?php esc_html_e('Title:', 'diy-marketer'); ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('title') ?>" name="<?php echo $this->get_field_name('title') ?>" type="text" value="<?php echo esc_attr($title); ?>" />
         </p>
-        <!--
         <p>
-            <label for="<?php echo $this->get_field_id('post_count') ?>"><?php esc_html_e('Number Of Posts:', '_themename'); ?></label>
-            <input class="widefat" id="<?php echo $this->get_field_id('post_count') ?>" name="<?php echo $this->get_field_name('post_count') ?>" type="number" min="1" value="<?php echo intval($post_count); ?>" />
+            <label for="<?php echo $this->get_field_id('business_name') ?>"><?php esc_html_e('Business Name:', 'diy-marketer'); ?></label>
+            <input class="widefat" id="<?php echo $this->get_field_id('business_name') ?>" name="<?php echo $this->get_field_name('business_name') ?>" type="text" value="<?php echo esc_attr($business_name); ?>" />
         </p>
+        <p>
+            <label for="<?php echo $this->get_field_id('business_email') ?>"><?php esc_html_e('Business Email:', 'diy-marketer'); ?></label>
+            <input class="widefat" id="<?php echo $this->get_field_id('business_email') ?>" name="<?php echo $this->get_field_name('business_email') ?>" type="text" value="<?php echo esc_attr($business_email); ?>" />
+        </p>
+        <p>
+            <label for="<?php echo $this->get_field_id('business_site') ?>"><?php esc_html_e('Business Site:', 'diy-marketer'); ?></label>
+            <input class="widefat" id="<?php echo $this->get_field_id('business_site') ?>" name="<?php echo $this->get_field_name('business_site') ?>" type="text" value="<?php echo esc_attr($business_site); ?>" />
+        </p>
+        <!--
         <p>
             <input <?php checked($include_date); ?> type="checkbox" id="<?php echo $this->get_field_id('include_date') ?>" name="<?php echo $this->get_field_name('include_date') ?>" />
             <label for="<?php echo $this->get_field_id('include_date') ?>"><?php esc_html_e('Include Date?', '_themename'); ?></label>
@@ -74,35 +85,64 @@ class DIYM_Contact_Details_Widget extends WP_Widget {
     }
 
     public function widget($args, $instance) {
+
+        $title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__('Contact Details', 'diy-marketer');
+        
+        /** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
+        $title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
+
         echo $args['before_widget'];
 
-            if(isset($instance['title']) && !empty($instance['title'])) {
-                $title = apply_filters('widget_title', $instance['title']);
-                echo $args['before_title'] . esc_html($title) . $args['after_title'];
-            }
+        if ( $title ) {
+            echo $args['before_title'] . $title . $args['after_title'];
+        }
 
-            /*
-            $most_recent_query = new WP_query(
-                array(
-                    'ignore_sticky_posts' => true,
-                    'post_type' => 'post',
-                    'posts_per_page' => isset($instance['post_count']) ? intval($instance['post_count']) : 3,
-                    'orderby' => isset($instance['sort_by']) ? _themename_sanitize_sort_by($instance['sort_by']) : 'date'
-                )
-            );
+        $diym_phone_number  = get_theme_mod( 'diym_phone_number' );
 
-            if($most_recent_query->have_posts()) {
-                echo '<div class="most_recent_widget">';
-                while($most_recent_query->have_posts()) {
-                    $most_recent_query->the_post();
-                    echo '<div>';
-                    echo '<h6><a href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a></h6>';
-                    echo isset($instance['include_date']) && $instance['include_date'] ? get_the_date() : '';
-                    echo '</div>';
-                }
-                echo '</div>';
-            }
-            */
+        ?>
+        <table>
+            <tr>
+                <td>
+                    <span class="dashicons dashicons-admin-users"></span>
+                </td>
+                <td class="site-name"><?php bloginfo( 'name' ); ?></td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="dashicons dashicons-location"></span>
+                </td>
+                <td>
+                    <div>4 Fuchsia Avenue</div>
+                    <div>Pukete</div>
+                    <div>Hamilton, 3200</div>  
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="dashicons dashicons-phone"></span>
+                </td>
+                <td>
+                    <a class="phone-number" href="tel:<?php echo $diym_phone_number; ?>" target="_blank"><?php echo $diym_phone_number; ?></a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="dashicons dashicons-email"></span>
+                </td>
+                <td>
+                    <a href="mailto:<?php bloginfo( 'admin_email' ); ?>" target="_blank"><?php bloginfo( 'admin_email' ); ?></a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="dashicons dashicons-admin-site-alt3"></span>
+                </td>
+                <td>
+                    <a href="<?php bloginfo( 'url' ); ?>"><?php bloginfo( 'url' ); ?></a>
+                </td>
+            </tr>
+        </table>
+        <?php
 
         echo $args['after_widget'];
     }

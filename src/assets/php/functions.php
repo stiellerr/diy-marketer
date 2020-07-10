@@ -221,7 +221,7 @@ add_filter( 'wp_nav_menu_args', 'diym_wp_nav_menu_args' );
 /**
  * Contact Details Widget
  */
-//require_once('inc/contact-details-widget.php');
+require_once('inc/contact-details-widget.php');
 
 /**
  * Business Hours Widget
