@@ -15,6 +15,84 @@ function diym_customize_register( $wp_customize ) {
 	$wp_customize->get_setting('blogdescription')->transport = 'postMessage';
 
 	$wp_customize->get_setting('blogname')->transport = 'postMessage';
+
+	// Contact Details.
+    $wp_customize->add_section('diym_contact_details', array(
+        'title' => esc_html__( 'Contact Details', 'diy-marketer' ),
+        'description' => esc_html__( "Enter your business' contact details below.", 'diy-marketer' ),
+        //'priority' => 1
+	));
+
+    $wp_customize->add_setting( 'diym_business_name' );
+
+    $wp_customize->add_control('diym_business_name', array(
+        'type' => 'text',
+		'label' => esc_html__( 'Business Name', 'diy-marketer' ),
+		'description' => sprintf(
+			wp_kses(
+				__( 'edit <a href="%s">here</a> under Site Title.', 'diy-marketer' ),
+				array(
+					'a' => array(
+						'href' => array(),
+					)
+				)
+			),
+			'javascript: wp.customize.section( \'title_tagline\' ).focus();'
+		),
+		'section' => 'diym_contact_details',
+		'input_attrs' => array(
+			'placeholder' => get_bloginfo( 'name' ),
+			'readonly' => true
+		 ),
+	));
+
+    $wp_customize->add_setting('diym_street_address', array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport' => 'postMessage'
+	));
+	
+    $wp_customize->add_control('diym_street_address', array(
+        'type' => 'text',
+        'label' => esc_html__( 'Street Address', 'diy-marketer' ),
+        'section' => 'diym_contact_details',
+	));
+
+    $wp_customize->add_setting('diym_suburb', array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport' => 'postMessage'
+	));
+	
+    $wp_customize->add_control('diym_suburb', array(
+        'type' => 'text',
+        'label' => esc_html__( 'Suburb', 'diy-marketer' ),
+        'section' => 'diym_contact_details',
+	));
+
+    $wp_customize->add_setting('diym_city', array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport' => 'postMessage'
+	));
+	
+    $wp_customize->add_control('diym_city', array(
+        'type' => 'text',
+        'label' => esc_html__( 'City', 'diy-marketer' ),
+        'section' => 'diym_contact_details',
+    ));
+	
+    $wp_customize->add_setting('diym_postal_code', array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport' => 'postMessage'
+	));
+	
+    $wp_customize->add_control('diym_postal_code', array(
+        'type' => 'text',
+        'label' => esc_html__( 'Postal Code', 'diy-marketer' ),
+        'section' => 'diym_contact_details',
+    ));
 	
     $wp_customize->add_setting('diym_phone_number', array(
         'default' => '',
@@ -25,8 +103,48 @@ function diym_customize_register( $wp_customize ) {
     $wp_customize->add_control('diym_phone_number', array(
         'type' => 'text',
         'label' => esc_html__( 'Phone Number', 'diy-marketer' ),
-        'section' => 'title_tagline',
-    ));
+        'section' => 'diym_contact_details',
+	));
+	
+    $wp_customize->add_setting( 'diym_email' );
+
+    $wp_customize->add_control('diym_email', array(
+        'type' => 'text',
+		'label' => esc_html__( 'Email', 'diy-marketer' ),
+		'description' => wp_kses(
+			__( 'edit <a href="options-general.php">here</a> under Administration Email Address.', 'diy-marketer' ),
+			array(
+				'a' => array(
+					'href' => array(),
+				)
+			)
+		),
+		'section' => 'diym_contact_details',
+		'input_attrs' => array(
+			'placeholder' => get_bloginfo( 'admin_email' ),
+			'readonly' => true
+		 ),
+	));
+
+    $wp_customize->add_setting( 'diym_website' );
+
+    $wp_customize->add_control('diym_website', array(
+        'type' => 'text',
+		'label' => esc_html__( 'Website URL', 'diy-marketer' ),
+		'description' => wp_kses(
+			__( 'edit <a href="options-general.php">here</a> under Site Address (URL).', 'diy-marketer' ),
+			array(
+				'a' => array(
+					'href' => array(),
+				)
+			)
+		),
+		'section' => 'diym_contact_details',
+		'input_attrs' => array(
+			'placeholder' => get_bloginfo( 'url' ),
+			'readonly' => true
+		 ),
+	));
 	
     $wp_customize->add_section('diym_typography', array(
         'title' => esc_html__( 'Typography', 'diy-marketer' ),

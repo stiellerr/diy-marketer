@@ -15,40 +15,16 @@ class DIYM_Contact_Details_Widget extends WP_Widget {
             esc_html__('Contact Details', 'diy-marketer'),
             array(
                 'description' => esc_html__("Displays the business' contact details", 'diy-marketer'),
-                //'customize_selective_refresh' => true
+                'customize_selective_refresh' => true
             )
         );
     }
 
     public function form( $instance ) {
 
+        global $wp_customize;
+
         $title = isset( $instance['title'] ) ? $instance['title'] : esc_html__('Contact Details', 'diy-marketer');
-
-        $business_name = isset( $instance['business_name'] ) ? $instance['business_name'] : get_bloginfo( 'name' );
-
-        $business_email = isset( $instance['business_email'] ) ? $instance['business_email'] : get_bloginfo( 'admin_email' );
-
-        $business_site = isset( $instance['business_site'] ) ? $instance['business_site'] : get_bloginfo( 'url' );
-
-        /*
-        if(isset($instance['post_count'])) {
-            $post_count = $instance['post_count'];
-        } else {
-            $post_count = 3;
-        }
-
-        if(isset($instance['include_date'])) {
-            $include_date = $instance['include_date'];
-        } else {
-            $include_date = false;
-        }
-
-        if(isset($instance['sort_by'])) {
-            $sort_by = $instance['sort_by'];
-        } else {
-            $sort_by = 'date';
-        }
-        */
 
         ?>
         <p>
@@ -56,31 +32,17 @@ class DIYM_Contact_Details_Widget extends WP_Widget {
             <input class="widefat" id="<?php echo $this->get_field_id('title') ?>" name="<?php echo $this->get_field_name('title') ?>" type="text" value="<?php echo esc_attr($title); ?>" />
         </p>
         <p>
-            <label for="<?php echo $this->get_field_id('business_name') ?>"><?php esc_html_e('Business Name:', 'diy-marketer'); ?></label>
-            <input class="widefat" id="<?php echo $this->get_field_id('business_name') ?>" name="<?php echo $this->get_field_name('business_name') ?>" type="text" value="<?php echo esc_attr($business_name); ?>" />
+			<?php
+                if ( $wp_customize instanceof WP_Customize_Manager ) {
+                    $url = 'javascript: wp.customize.section( "diym_contact_details" ).focus();' ;
+                } else {
+                    $url = admin_url( 'customize.php' );
+                }
+
+			/* translators: %s: URL to create a new menu. */
+            printf( __( 'Edit your contact details. <a href="%s">here</a>.' ), esc_attr( $url ) );
+			?>
         </p>
-        <p>
-            <label for="<?php echo $this->get_field_id('business_email') ?>"><?php esc_html_e('Business Email:', 'diy-marketer'); ?></label>
-            <input class="widefat" id="<?php echo $this->get_field_id('business_email') ?>" name="<?php echo $this->get_field_name('business_email') ?>" type="text" value="<?php echo esc_attr($business_email); ?>" />
-        </p>
-        <p>
-            <label for="<?php echo $this->get_field_id('business_site') ?>"><?php esc_html_e('Business Site:', 'diy-marketer'); ?></label>
-            <input class="widefat" id="<?php echo $this->get_field_id('business_site') ?>" name="<?php echo $this->get_field_name('business_site') ?>" type="text" value="<?php echo esc_attr($business_site); ?>" />
-        </p>
-        <!--
-        <p>
-            <input <?php checked($include_date); ?> type="checkbox" id="<?php echo $this->get_field_id('include_date') ?>" name="<?php echo $this->get_field_name('include_date') ?>" />
-            <label for="<?php echo $this->get_field_id('include_date') ?>"><?php esc_html_e('Include Date?', '_themename'); ?></label>
-        </p>
-        <p>
-            <label for="<?php echo $this->get_field_id('sort_by') ?>"><?php esc_html_e('Sort By:', '_themename'); ?></label>
-            <select class="widefat" id="<?php echo $this->get_field_id('sort_by') ?>" name="<?php echo $this->get_field_name('sort_by') ?>">
-                <option <?php selected($sort_by, 'date'); ?> value="date"><?php esc_html_e('Most Recent', "_themename") ?></option>
-                <option <?php selected($sort_by, 'rand'); ?> value="rand"><?php esc_html_e('Random', "_themename") ?></option>
-                <option <?php selected($sort_by, 'comment_count'); ?> value="comment_count"><?php esc_html_e('Number Of Comments', "_themename") ?></option>
-            </select>
-        </p>
-        -->
         <?php
     }
 
@@ -97,7 +59,12 @@ class DIYM_Contact_Details_Widget extends WP_Widget {
             echo $args['before_title'] . $title . $args['after_title'];
         }
 
+        // get theme mods.
         $diym_phone_number  = get_theme_mod( 'diym_phone_number' );
+        $diym_street_address= get_theme_mod( 'diym_street_address' );
+        $diym_suburb        = get_theme_mod( 'diym_suburb' );
+        $diym_city          = get_theme_mod( 'diym_city' );
+        $diym_postal_code   = get_theme_mod( 'diym_postal_code' );
 
         ?>
         <table>
@@ -107,14 +74,23 @@ class DIYM_Contact_Details_Widget extends WP_Widget {
                 </td>
                 <td class="site-name"><?php bloginfo( 'name' ); ?></td>
             </tr>
+            <?php
+                // build address string...
+                $temp  = $diym_street_address;
+                
+                $temp .= $temp && $diym_suburb ? '<br>' : '';
+                $temp .= $diym_suburb;
+
+                $temp .= $temp && ( $diym_city || $diym_postal_code ) ? '<br>' : '';
+                $temp .= $diym_city ? $diym_postal_code ? $diym_city . ', ' . $diym_postal_code : $diym_city : $diym_postal_code;
+
+            ?>
             <tr>
                 <td>
                     <span class="dashicons dashicons-location"></span>
                 </td>
                 <td>
-                    <div>4 Fuchsia Avenue</div>
-                    <div>Pukete</div>
-                    <div>Hamilton, 3200</div>  
+                    <span class="site-address"><?php echo $temp ?></span> 
                 </td>
             </tr>
             <tr>

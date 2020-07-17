@@ -71,3 +71,43 @@ wp.customize("diym_banner_footer_text", value => {
         diym_build_css();
     });
 });
+
+const diym_build_address = () => {
+    //
+    let temp = wp.customize("diym_street_address").get();
+    let suburb = wp.customize("diym_suburb").get();
+    let city = wp.customize("diym_city").get();
+    let postal_code = wp.customize("diym_postal_code").get();
+
+    temp += temp && suburb ? "<br>" : "";
+    temp += suburb;
+
+    temp += temp && (city || postal_code) ? "<br>" : "";
+    temp += city ? (postal_code ? city + ", " + postal_code : city) : postal_code;
+
+    $(".site-address").html(temp);
+};
+
+wp.customize("diym_street_address", value => {
+    value.bind(() => {
+        diym_build_address();
+    });
+});
+
+wp.customize("diym_suburb", value => {
+    value.bind(() => {
+        diym_build_address();
+    });
+});
+
+wp.customize("diym_city", value => {
+    value.bind(() => {
+        diym_build_address();
+    });
+});
+
+wp.customize("diym_postal_code", value => {
+    value.bind(() => {
+        diym_build_address();
+    });
+});
