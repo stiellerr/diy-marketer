@@ -59,66 +59,7 @@ class DIYM_Contact_Details_Widget extends WP_Widget {
             echo $args['before_title'] . $title . $args['after_title'];
         }
 
-        // get theme mods.
-        $diym_phone_number  = get_theme_mod( 'diym_phone_number' );
-        $diym_street_address= get_theme_mod( 'diym_street_address' );
-        $diym_suburb        = get_theme_mod( 'diym_suburb' );
-        $diym_city          = get_theme_mod( 'diym_city' );
-        $diym_postal_code   = get_theme_mod( 'diym_postal_code' );
-
-        ?>
-        <table>
-            <tr>
-                <td>
-                    <span class="dashicons dashicons-admin-users"></span>
-                </td>
-                <td class="site-name"><?php bloginfo( 'name' ); ?></td>
-            </tr>
-            <?php
-                // build address string...
-                $temp  = $diym_street_address;
-                
-                $temp .= $temp && $diym_suburb ? '<br>' : '';
-                $temp .= $diym_suburb;
-
-                $temp .= $temp && ( $diym_city || $diym_postal_code ) ? '<br>' : '';
-                $temp .= $diym_city ? $diym_postal_code ? $diym_city . ', ' . $diym_postal_code : $diym_city : $diym_postal_code;
-
-            ?>
-            <tr>
-                <td>
-                    <span class="dashicons dashicons-location"></span>
-                </td>
-                <td>
-                    <span class="site-address"><?php echo $temp ?></span> 
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span class="dashicons dashicons-phone"></span>
-                </td>
-                <td>
-                    <a class="phone-number" href="tel:<?php echo $diym_phone_number; ?>" target="_blank"><?php echo $diym_phone_number; ?></a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span class="dashicons dashicons-email"></span>
-                </td>
-                <td>
-                    <a href="mailto:<?php bloginfo( 'admin_email' ); ?>" target="_blank"><?php bloginfo( 'admin_email' ); ?></a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span class="dashicons dashicons-admin-site-alt3"></span>
-                </td>
-                <td>
-                    <a href="<?php bloginfo( 'url' ); ?>"><?php bloginfo( 'url' ); ?></a>
-                </td>
-            </tr>
-        </table>
-        <?php
+        get_template_part( 'template-parts/contact-details' );
 
         echo $args['after_widget'];
     }
@@ -126,11 +67,6 @@ class DIYM_Contact_Details_Widget extends WP_Widget {
     public function update($new_instance, $old_instance) {
         $instance = array();
         $instance['title'] =  sanitize_text_field($new_instance['title']);
-        /*
-        $instance['post_count'] = intval($new_instance['post_count']);
-        $instance['include_date'] = boolval($new_instance['include_date']);
-        $instance['sort_by'] = _themename_sanitize_sort_by($new_instance['sort_by']);
-        */
         return $instance;
     }
 }

@@ -207,6 +207,22 @@ function diym_customize_register( $wp_customize ) {
             get_template_part( 'template-parts/socials' );
         }
 	));
+
+    $wp_customize->selective_refresh->add_partial('diym_phone_number', array(
+        'settings' => array(
+			'blogname',
+            'diym_street_address',
+			'diym_suburb',
+			'diym_city',
+			'diym_postal_code',
+			'diym_phone_number'
+        ),
+        'selector' => '.contact-details',
+        'container_inclusive'=> true,
+        'render_callback' => function() {
+            get_template_part( 'template-parts/contact-details' );
+        }
+	));
 	
 	// social media //
     $wp_customize->add_section('diym_social', array(

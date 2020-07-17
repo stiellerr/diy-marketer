@@ -71,7 +71,7 @@ wp.customize("diym_banner_footer_text", value => {
         diym_build_css();
     });
 });
-
+/*
 const diym_build_address = () => {
     //
     let temp = wp.customize("diym_street_address").get();
@@ -111,3 +111,4 @@ wp.customize("diym_postal_code", value => {
         diym_build_address();
     });
 });
+*/
