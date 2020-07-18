@@ -229,6 +229,11 @@ require_once('inc/contact-details-widget.php');
 require_once('inc/business-hours-widget.php');
 
 /**
+ * Social Media Widget
+ */
+require_once('inc/social-media-widget.php');
+
+/**
  * Business Hours Widget
  */
 //require_once('inc/business_hours.php');
