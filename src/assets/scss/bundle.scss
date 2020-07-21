@@ -97,9 +97,6 @@
     li:not(.facebook):not(:last-child) {
         margin-right: 0.1rem;
     }
-    .facebook {
-        //margin: 0 -0.1rem;
-    }
     .dashicons {
         line-height: 24px;
     }
@@ -116,44 +113,12 @@
     .instagram a::after {
         content: "Follow Us On Instagram";
     }
-    li {
-        // margin: 0;
-    }
 }
-/*
-.widget_diym_social_media ul {
-    //#zzz-socials {
-    //display: inline-flex;
-    li:not(.facebook):not(:last-child) {
-        margin-right: 0.1rem;
-    }
-    .dashicons {
-        line-height: 24px;
-    }
-}
-*/
 
 .custom-logo {
     max-width: 100%;
     height: auto;
     padding-bottom: 0.25rem;
-}
-
-#site-socials {
-    li {
-        a {
-            padding: 0 0.1rem;
-            .dashicons {
-                line-height: 24px;
-            }
-        }
-        &:first-of-type a {
-            padding-left: 0;
-        }
-        &:last-of-type a {
-            padding-right: 0;
-        }
-    }
 }
 
 #menu-footer {

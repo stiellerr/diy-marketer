@@ -195,7 +195,7 @@ function diym_customize_register( $wp_customize ) {
 		)
 	));
 
-    $wp_customize->selective_refresh->add_partial('', array(
+    $wp_customize->selective_refresh->add_partial('diym_facebook', array(
         'settings' => array(
             'diym_facebook',
             'diym_instagram',

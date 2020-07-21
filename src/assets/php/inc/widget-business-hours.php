@@ -62,7 +62,7 @@ class DIYM_Business_Hours_Widget extends WP_Widget {
     public function widget($args, $instance) {
 
         $title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__('Business Hours', 'diy-marketer');
-        
+
         /** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
         $title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 
