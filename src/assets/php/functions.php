@@ -221,17 +221,17 @@ add_filter( 'wp_nav_menu_args', 'diym_wp_nav_menu_args' );
 /**
  * Contact Details Widget
  */
-require_once('inc/contact-details-widget.php');
+require_once('inc/widget-contact-details.php');
 
 /**
  * Business Hours Widget
  */
-require_once('inc/business-hours-widget.php');
+require_once('inc/widget-business-hours.php');
 
 /**
  * Social Media Widget
  */
-require_once('inc/social-media-widget.php');
+require_once('inc/widget-social-media.php');
 
 /**
  * Business Hours Widget

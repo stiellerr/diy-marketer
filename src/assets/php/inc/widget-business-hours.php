@@ -50,7 +50,7 @@ class DIYM_Business_Hours_Widget extends WP_Widget {
 
     public function __construct() {
         parent::__construct(
-            'diym_business_hours_widget',
+            'diym_business_hours',
             esc_html__('Business Hours', 'diy-marketer'),
             array(
                 'description' => esc_html__("Displays your business' hours", 'diy-marketer'),

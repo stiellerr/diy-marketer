@@ -11,11 +11,11 @@ class DIYM_Social_Media_Widget extends WP_Widget {
 
     public function __construct() {
         parent::__construct(
-            'diym_social_media_widget',
+            'diym_social_media',
             esc_html__('Social Media', 'diy-marketer'),
             array(
                 'description' => esc_html__("Displays your business' social media links", 'diy-marketer'),
-                //'customize_selective_refresh' => true
+                'customize_selective_refresh' => true
             )
         );
     }
@@ -33,39 +33,7 @@ class DIYM_Social_Media_Widget extends WP_Widget {
             echo $args['before_title'] . $title . $args['after_title'];
         }
 
-        // get theme mods.
-        $diym_facebook  = get_theme_mod( 'diym_facebook' );
-        $diym_instagram = get_theme_mod( 'diym_instagram' );
-        $diym_twitter   = get_theme_mod( 'diym_twitter' );
-
-        ?>
-        <table>
-            <?php if ( $diym_facebook ) { ?>
-                <tr>
-                    <td>
-                        <a href="<? echo $diym_facebook; ?>"><span class="dashicons dashicons-facebook-alt"></span></a>
-                    </td>
-                    <td>Like us on facebook.</td>
-                </tr>
-            <?php } ?>
-            <?php if ( $diym_instagram ) { ?>
-                <tr>
-                    <td>
-                        <a href="<? echo $diym_instagram; ?>"><span class="dashicons dashicons-instagram"></span></a>
-                    </td>
-                    <td>Follow us on instagram.</td>
-                </tr>
-            <?php } ?>
-            <?php if ( $diym_twitter ) { ?>
-                <tr>
-                    <td>
-                        <a href="<? echo $diym_twitter; ?>"><span class="dashicons dashicons-twitter"></span></a>
-                    </td>
-                    <td>Follow us on twitter.</td>
-                </tr>
-            <?php } ?>
-        </table>
-        <?php
+        get_template_part( 'template-parts/socials' );
 
         echo $args['after_widget'];
     }

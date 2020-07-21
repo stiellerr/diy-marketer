@@ -40,9 +40,7 @@
 			<div class="col-md text-center text-md-right">
 				<span>Call Now</span>
 				<a class="font-weight-bold phone-number text-nowrap" href="tel:<?php echo $diym_phone_number; ?>"><?php echo $diym_phone_number; ?></a>
-				<?php
-					get_template_part( 'template-parts/socials' );
-				?>
+				<?php get_template_part( 'template-parts/socials' ); ?>
 			</div>
 		</div>
 

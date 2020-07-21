@@ -84,9 +84,54 @@
 /* Navigation
 --------------------------------------------- */
 
-.widget_diym_contact_details_widget table tr td:last-of-type {
+.widget_diym_contact_details table tr td:last-of-type {
     padding-left: 0.3rem;
 }
+
+.dashicons {
+    transition: initial;
+}
+
+.site-socials {
+    display: inline-flex;
+    li:not(.facebook):not(:last-child) {
+        margin-right: 0.1rem;
+    }
+    .facebook {
+        //margin: 0 -0.1rem;
+    }
+    .dashicons {
+        line-height: 24px;
+    }
+}
+
+.widget_diym_social_media ul {
+    display: block;
+    .facebook a::after {
+        content: "Like Us On Facebook";
+    }
+    .twitter a::after {
+        content: "Follow Us On Twitter";
+    }
+    .instagram a::after {
+        content: "Follow Us On Instagram";
+    }
+    li {
+        // margin: 0;
+    }
+}
+/*
+.widget_diym_social_media ul {
+    //#zzz-socials {
+    //display: inline-flex;
+    li:not(.facebook):not(:last-child) {
+        margin-right: 0.1rem;
+    }
+    .dashicons {
+        line-height: 24px;
+    }
+}
+*/
 
 .custom-logo {
     max-width: 100%;

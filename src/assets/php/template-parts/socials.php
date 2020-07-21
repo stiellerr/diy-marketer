@@ -13,23 +13,23 @@ $diym_twitter       = get_theme_mod( 'diym_twitter', 'twitter.com/twitter' );
 
 ?>
 
-<ul id="site-socials" class="nav d-inline-flex text-nowrap">
+<ul class="site-socials list-unstyled mb-0">
     <?php if ( $diym_facebook ) { ?>
-        <li>
-            <a href="<?php echo $diym_facebook; ?>" target="_blank" class="px-0">
+        <li class="facebook">
+            <a href="<?php echo $diym_facebook; ?>" target="_blank">
                 <span class="dashicons dashicons-facebook-alt"></span>
             </a>
         </li>
     <?php } ?>
     <?php if ( $diym_instagram ) { ?>
-        <li>
+        <li class="instagram">
             <a href="<?php echo $diym_instagram; ?>" target="_blank">
                 <span class="dashicons dashicons-instagram"></span>
             </a>
         </li>
     <?php } ?>
-    <?php if ( $diym_twitter ) { ?>
-        <li>
+    <?php if ( $diym_twitter ) { ?>               
+        <li class="twitter">
             <a href="<?php echo $diym_twitter; ?>" target="_blank">
                 <span class="dashicons dashicons-twitter"></span>
             </a>

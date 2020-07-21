@@ -11,7 +11,7 @@ class DIYM_Contact_Details_Widget extends WP_Widget {
 
     public function __construct() {
         parent::__construct(
-            'diym_contact_details_widget',
+            'diym_contact_details',
             esc_html__('Contact Details', 'diy-marketer'),
             array(
                 'description' => esc_html__("Displays the business' contact details", 'diy-marketer'),

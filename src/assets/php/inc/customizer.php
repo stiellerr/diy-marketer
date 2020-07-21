@@ -195,13 +195,13 @@ function diym_customize_register( $wp_customize ) {
 		)
 	));
 
-    $wp_customize->selective_refresh->add_partial('diym_twitter', array(
+    $wp_customize->selective_refresh->add_partial('', array(
         'settings' => array(
             'diym_facebook',
             'diym_instagram',
             'diym_twitter',
         ),
-        'selector' => '#site-socials',
+        'selector' => '.site-socials',
         'container_inclusive'=> true,
         'render_callback' => function() {
             get_template_part( 'template-parts/socials' );
