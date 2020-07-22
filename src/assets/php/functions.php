@@ -239,9 +239,9 @@ require_once('inc/widget-social-media.php');
 require_once('inc/widget-facebook.php');
 
 /**
- * Business Hours Widget
+ * Google Map Widget
  */
-//require_once('inc/business_hours.php');
+require_once('inc/widget-google-map.php');
 
 /**
  * Business Hours Widget
