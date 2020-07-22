@@ -248,19 +248,16 @@ require_once('inc/widget-facebook.php');
  */
 //require_once('inc/most-recent-widget.php');
 
+
 function diym_wp_body_open() {
  	?>
 		<script async defer src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>
-		<div>hello world</div>
 	<?php
 }
 
 if ( is_active_widget( false, false, 'diym_facebook', true ) || is_customize_preview() ) {
 	add_action( 'wp_body_open', 'diym_wp_body_open' );
-} else {
-	error_log('inactive');
 }
-
 
 
 

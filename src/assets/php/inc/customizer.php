@@ -195,11 +195,11 @@ function diym_customize_register( $wp_customize ) {
 		)
 	));
 
-    $wp_customize->selective_refresh->add_partial('diym_facebook', array(
+    $wp_customize->selective_refresh->add_partial('diym_instagram', array(
         'settings' => array(
-            'diym_facebook',
             'diym_instagram',
-            'diym_twitter',
+			'diym_twitter',
+            //'diym_facebook'
         ),
         'selector' => '.site-socials',
         'container_inclusive'=> true,
@@ -230,11 +230,12 @@ function diym_customize_register( $wp_customize ) {
         'description' => esc_html__( 'Enter your social media details below.', 'diy-marketer' ),
         //'priority' => 1
 	));
-	
+
     $wp_customize->add_setting('diym_facebook', array(
     	'default' => 'facebook.com/facebook',
         'sanitize_callback' => 'esc_url_raw',
-        'transport' => 'postMessage'
+		//'transport' => 'postMessage'
+		//'transport' => is_active_widget( false, false, 'diym_facebook', true ) ? 'refresh' : 'postMessage'
 	));
 	
     $wp_customize->add_control('diym_facebook', array(
