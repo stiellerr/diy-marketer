@@ -145,6 +145,33 @@ function diym_customize_register( $wp_customize ) {
 			'readonly' => true
 		 ),
 	));
+
+	function diym_sanitize_google_map( $input ) {
+		$allowed = array(
+			'iframe' => array(
+				'src'				=> array(),
+				'frameborder'		=> array(),
+				'style'				=> array(),
+				'allowfullscreen'	=> array(),
+				'aria-hidden'		=> array(),
+				'tabindex'			=> array()
+			)
+		);
+		return wp_kses( $input, $allowed );
+	}
+
+    $wp_customize->add_setting('diym_google_map', array(
+        'default' => '',
+        'sanitize_callback' => 'diym_sanitize_google_map',
+        //'transport' => 'postMessage'
+	));
+	
+    $wp_customize->add_control('diym_google_map', array(
+        'type' => 'text',
+		'label' => esc_html__( 'Google Map', 'diy-marketer' ),
+		'description' => esc_html__( 'HTML embed code.', 'diy-marketer' ),
+        'section' => 'diym_contact_details',
+	));
 	
     $wp_customize->add_section('diym_typography', array(
         'title' => esc_html__( 'Typography', 'diy-marketer' ),
