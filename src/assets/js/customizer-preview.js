@@ -49,9 +49,10 @@ wp.customize("diym_google_map", value => {
         $(".widget_diym_google_map")
             .contents()
             .filter(function () {
-                return this.nodeType == 3;
+                return this.nodeType == 3; //Node.TEXT_NODE
             })
             .remove();
+        $(".widget_diym_google_map > iframe").remove();
         $(".widget_diym_google_map").append(strip_tags(to, "<iframe>"));
     });
 });
