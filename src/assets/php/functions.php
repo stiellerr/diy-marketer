@@ -244,9 +244,14 @@ require_once('inc/widget-facebook.php');
 require_once('inc/widget-google-map.php');
 
 /**
- * Business Hours Widget
+ * Business About Us Widget
  */
-//require_once('inc/most-recent-widget.php');
+require_once('inc/widget-about-us.php');
+
+/**
+ * Business Contact Form Widget
+ */
+require_once('inc/widget-contact-form.php');
 
 
 ?>
