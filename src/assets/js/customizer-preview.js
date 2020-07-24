@@ -8,6 +8,7 @@
  */
 
 import $ from "jquery";
+import strip_tags from "locutus/php/strings/strip_tags";
 
 const diym_build_css = () => {
     let inline_css = "";
@@ -40,6 +41,18 @@ wp.customize("blogdescription", value => {
 wp.customize("diym_phone_number", value => {
     value.bind(to => {
         $(".phone-number").text(to);
+    });
+});
+
+wp.customize("diym_google_map", value => {
+    value.bind(to => {
+        $(".widget_diym_google_map")
+            .contents()
+            .filter(function () {
+                return this.nodeType == 3;
+            })
+            .remove();
+        $(".widget_diym_google_map").append(strip_tags(to, "<iframe>"));
     });
 });
 

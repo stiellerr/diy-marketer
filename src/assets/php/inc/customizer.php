@@ -163,7 +163,7 @@ function diym_customize_register( $wp_customize ) {
     $wp_customize->add_setting('diym_google_map', array(
         'default' => '',
         'sanitize_callback' => 'diym_sanitize_google_map',
-        //'transport' => 'postMessage'
+        'transport' => 'postMessage'
 	));
 	
     $wp_customize->add_control('diym_google_map', array(
@@ -172,6 +172,22 @@ function diym_customize_register( $wp_customize ) {
 		'description' => esc_html__( 'HTML embed code.', 'diy-marketer' ),
         'section' => 'diym_contact_details',
 	));
+/*
+    $wp_customize->selective_refresh->add_partial('diym_google_map', array(
+        'settings' => array(
+            'diym_google_map',
+			//'diym_twitter',
+            //'diym_facebook'
+        ),
+        'selector' => '.widget_diym_google_map > iframe',
+        'container_inclusive'=> true,
+        'render_callback' => function() {
+			$diym_google_map = get_theme_mod( 'diym_google_map', '' );
+			echo diym_sanitize_google_map( $diym_google_map );
+		},
+		'fallback_refresh' => false
+	));
+*/
 	
     $wp_customize->add_section('diym_typography', array(
         'title' => esc_html__( 'Typography', 'diy-marketer' ),

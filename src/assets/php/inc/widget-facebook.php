@@ -7,6 +7,12 @@
  * @package DIY_Marketer
  */
 
+function diym_wp_body_open() {
+    ?>
+       <script async defer src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>
+   <?php
+}
+
 class DIYM_Facebook_Widget extends WP_Widget {
 
     public function __construct() {
@@ -18,6 +24,10 @@ class DIYM_Facebook_Widget extends WP_Widget {
                 //'customize_selective_refresh' => true
             )
         );
+
+        if ( is_active_widget( false, false, $this->id_base ) || is_customize_preview() ) {
+            add_action( 'wp_body_open', 'diym_wp_body_open' );
+        }
     }
 
     public function widget($args, $instance) {
