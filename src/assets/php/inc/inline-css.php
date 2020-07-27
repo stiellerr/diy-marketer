@@ -23,9 +23,9 @@ if ( $diym_font_select != 'default' ) {
 
 $diym_inline_selectors['.border-primary'] = ['border-color' => 'diym_primary_color' . ',!important'];
 // same as above without: '!important'
-$diym_inline_selectors['.navbar-nav .nav-item .nav-link:hover'] = ['border-color' => 'diym_primary_color'];
+$diym_inline_selectors['.navbar-nav .nav-item .nav-link:hover,.btn-primary'] = ['border-color' => 'diym_primary_color'];
 
-$diym_inline_selectors['.nav-pills .nav-link.active,.nav-pills .show > .nav-link,.dropdown-item.active,.dropdown-item:active'] = ['background-color' => 'diym_primary_color'];
+$diym_inline_selectors['.nav-pills .nav-link.active,.nav-pills .show > .nav-link,.dropdown-item.active,.dropdown-item:active,.btn-primary'] = ['background-color' => 'diym_primary_color'];
 
 $diym_inline_selectors['a,.nav-link:hover,#menu-widget .current-menu-item a,#menu-footer .current-menu-item a'] = ['color' => 'diym_primary_color'];
 
