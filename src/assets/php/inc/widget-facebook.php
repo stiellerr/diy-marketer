@@ -7,10 +7,10 @@
  * @package DIY_Marketer
  */
 
-function diym_wp_body_open() {/*
+function diym_wp_body_open() {
     ?>
        <script async defer src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>
-   <?php*/
+   <?php
 }
 
 class DIYM_Facebook_Widget extends WP_Widget {
