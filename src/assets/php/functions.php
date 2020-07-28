@@ -60,6 +60,9 @@ if (!function_exists('diym_setup')):
 				)
 			//)
 		);
+		
+		// Set up excerpt support for pages.
+		add_post_type_support( 'page', 'excerpt' );
 
 		// Add theme support for selective refresh for widgets.
 		add_theme_support( 'customize-selective-refresh-widgets' );
@@ -244,9 +247,9 @@ require_once('inc/widget-facebook.php');
 require_once('inc/widget-google-map.php');
 
 /**
- * Business About Us Widget
+ * Business Page Excerpt Widget
  */
-require_once('inc/widget-about-us.php');
+require_once('inc/widget-page-excerpt.php');
 
 /**
  * Business Contact Form Widget
