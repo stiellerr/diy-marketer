@@ -27,7 +27,7 @@ class DIYM_Page_Excerpt_Widget extends WP_Widget {
         /** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
         $title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 
-        $excerpt = !empty( $instance['page_id'] ) ? get_the_excerpt( intval($instance['page_id']) ) : esc_html__('Welcome to DIY Marketer. This is an excerpt widget. Select a page to retrieve its excerpt. If no excerpt is found, we will attempt to create one for you, automatically!', 'diy-marketer');
+        $excerpt = !empty( $instance['page_id'] ) ? get_the_excerpt( intval($instance['page_id']) ) : esc_html__('Welcome to DIY Marketer. This the excerpt widget. Select a page to retrieve its excerpt. If no excerpt is found, we will attempt to create one for you, automatically!', 'diy-marketer');
 
         echo $args['before_widget'];
 
