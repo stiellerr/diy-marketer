@@ -18,6 +18,27 @@ if ( ! function_exists('write_log')) {
     }
  }
 
+ /**
+ * Strip heading tags and their content from the excerpt
+ */
+function diym_wp_strip_header_tags_only( $excerpt ) {
+	
+	error_log($excerpt);
+
+	//$regex = '#(<h([1-6])[^>]*>)\s?(.*)?\s?(<\/h\2>)#';
+	$regex = '#(<h([1-6])[^>]*>)\s?(.*)?\s?(<\/h\2>)#';
+    $excerpt = preg_replace($regex,'', $excerpt);
+     
+	return $excerpt;
+	//return 'hello world';
+}
+
+add_filter( 'get_the_excerpt', 'diym_wp_strip_header_tags_only', 0);
+
+
+
+
+
 if (!defined('DIYM_VER')) {
     // Replace the version number of the theme on each release.
     define('DIYM_VER', '1.0.0');
@@ -220,6 +241,52 @@ function diym_wp_nav_menu_args( $args ) {
 }
 
 add_filter( 'wp_nav_menu_args', 'diym_wp_nav_menu_args' );
+
+
+function bac_wp_strip_header_tags_keep_other_formatting( $text ) {
+ 
+	$raw_excerpt = $text;
+	if ( '' == $text ) {
+		//Retrieve the post content.
+		$text = get_the_content(''); 
+		//remove shortcode tags from the given content.
+		$text = strip_shortcodes( $text );
+		$text = apply_filters('the_content', $text);
+		$text = str_replace(']]>', ']]&gt;', $text);
+		 
+		//Regular expression that removes the h1-h6 tags with their content.
+		$regex = '#(<h([1-6])[^>]*>)\s?(.*)?\s?(<\/h\2>)#';
+		$text = preg_replace($regex,'', $text);
+		 
+		/***Add the allowed HTML tags separated by a comma. 
+		h1-h6 header tags are NOT allowed. DO NOT add h1,h2,h3,h4,h5,h6 tags here.***/
+		$allowed_tags = '<p>,<em>,<strong>';  //I added p, em, and strong tags.
+		$text = strip_tags($text, $allowed_tags);
+	 
+		/***Change the excerpt word count.***/
+		$excerpt_word_count = 55; //This is WP default.
+		$excerpt_length = apply_filters('excerpt_length', $excerpt_word_count);
+		 
+		/*** Change the excerpt ending.***/
+		$excerpt_end = '[...]'; //This is the WP default.
+		$excerpt_more = apply_filters('excerpt_more', ' ' . $excerpt_end);
+		 
+		$words = preg_split("/[\n\r\t ]+/", $text, $excerpt_length + 1, PREG_SPLIT_NO_EMPTY);
+			if ( count($words) > $excerpt_length ) {
+				array_pop($words);
+				$text = implode(' ', $words);
+				$text = $text . $excerpt_more;
+			} else {
+				$text = implode(' ', $words);
+			}
+		}
+		return apply_filters('wp_trim_excerpt', $text, $raw_excerpt);
+	}
+
+remove_filter('get_the_excerpt', 'wp_trim_excerpt');
+
+add_filter( 'get_the_excerpt', 'bac_wp_strip_header_tags_keep_other_formatting', 5);
+
 
 /**
  * Contact Details Widget

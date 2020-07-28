@@ -7,7 +7,13 @@
  * @package DIY_Marketer
  */
 
+
+
+
+
 class DIYM_Page_Excerpt_Widget extends WP_Widget {
+
+
 
     public function __construct() {
         parent::__construct(
@@ -18,6 +24,8 @@ class DIYM_Page_Excerpt_Widget extends WP_Widget {
                 'customize_selective_refresh' => true
             )
         );
+
+
     }
 
     public function widget($args, $instance) {
@@ -27,11 +35,23 @@ class DIYM_Page_Excerpt_Widget extends WP_Widget {
         /** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
         $title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 
+        $excerpt = !empty( $instance['page_id'] ) ? get_the_excerpt( intval($instance['page_id']) ) : esc_html__('Welcome to DIY Marketer. This is your first post. Edit or delete it, then start writing!', 'diy-marketer');
+
         echo $args['before_widget'];
 
         if ( $title ) {
             echo $args['before_title'] . $title . $args['after_title'];
         }
+
+        if ( $excerpt ) {
+            echo '<p class="text-justify">' . $excerpt . '</p>';
+        }
+
+        //write_log($instance);
+
+        //echo get_the_excerpt( $instance['page_id'] );
+        //echo get_the_excerpt( 0 );
+
 
         echo $args['after_widget'];
     }
@@ -47,6 +67,8 @@ class DIYM_Page_Excerpt_Widget extends WP_Widget {
 		);
 
         $pages = get_pages();
+
+        //write_log($pages);
         
         ?>
 
