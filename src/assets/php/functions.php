@@ -8,36 +8,15 @@
  */
 
  // useful function for witing to the log
-if ( ! function_exists('write_log')) {
-    function write_log ( $log )  {
+if ( ! function_exists( 'write_log ') ) {
+	function write_log ( $log )  {
        if ( is_array( $log ) || is_object( $log ) ) {
           error_log( print_r( $log, true ) );
        } else {
           error_log( $log );
        }
     }
- }
-
- /**
- * Strip heading tags and their content from the excerpt
- */
-function diym_wp_strip_header_tags_only( $excerpt ) {
-	
-	error_log($excerpt);
-
-	//$regex = '#(<h([1-6])[^>]*>)\s?(.*)?\s?(<\/h\2>)#';
-	$regex = '#(<h([1-6])[^>]*>)\s?(.*)?\s?(<\/h\2>)#';
-    $excerpt = preg_replace($regex,'', $excerpt);
-     
-	return $excerpt;
-	//return 'hello world';
 }
-
-add_filter( 'get_the_excerpt', 'diym_wp_strip_header_tags_only', 0);
-
-
-
-
 
 if (!defined('DIYM_VER')) {
     // Replace the version number of the theme on each release.
@@ -242,50 +221,84 @@ function diym_wp_nav_menu_args( $args ) {
 
 add_filter( 'wp_nav_menu_args', 'diym_wp_nav_menu_args' );
 
-
-function bac_wp_strip_header_tags_keep_other_formatting( $text ) {
- 
+function zzz_wp_trim_excerpt( $text = '', $post = null ) {
 	$raw_excerpt = $text;
 	if ( '' == $text ) {
-		//Retrieve the post content.
-		$text = get_the_content(''); 
-		//remove shortcode tags from the given content.
+		$post = get_post( $post );
+		$text = get_the_content( '', false, $post );
+
 		$text = strip_shortcodes( $text );
-		$text = apply_filters('the_content', $text);
-		$text = str_replace(']]>', ']]&gt;', $text);
-		 
-		//Regular expression that removes the h1-h6 tags with their content.
-		$regex = '#(<h([1-6])[^>]*>)\s?(.*)?\s?(<\/h\2>)#';
-		$text = preg_replace($regex,'', $text);
-		 
-		/***Add the allowed HTML tags separated by a comma. 
-		h1-h6 header tags are NOT allowed. DO NOT add h1,h2,h3,h4,h5,h6 tags here.***/
-		$allowed_tags = '<p>,<em>,<strong>';  //I added p, em, and strong tags.
-		$text = strip_tags($text, $allowed_tags);
-	 
-		/***Change the excerpt word count.***/
-		$excerpt_word_count = 55; //This is WP default.
-		$excerpt_length = apply_filters('excerpt_length', $excerpt_word_count);
-		 
-		/*** Change the excerpt ending.***/
-		$excerpt_end = '[...]'; //This is the WP default.
-		$excerpt_more = apply_filters('excerpt_more', ' ' . $excerpt_end);
-		 
-		$words = preg_split("/[\n\r\t ]+/", $text, $excerpt_length + 1, PREG_SPLIT_NO_EMPTY);
-			if ( count($words) > $excerpt_length ) {
-				array_pop($words);
-				$text = implode(' ', $words);
-				$text = $text . $excerpt_more;
-			} else {
-				$text = implode(' ', $words);
-			}
-		}
-		return apply_filters('wp_trim_excerpt', $text, $raw_excerpt);
+		$text = excerpt_remove_blocks( $text );
+
+		/** This filter is documented in wp-includes/post-template.php */
+		$text = apply_filters( 'the_content', $text );
+		$text = str_replace( ']]>', ']]&gt;', $text );
+
+		/* translators: Maximum number of words used in a post excerpt. */
+		$excerpt_length = intval( _x( '55', 'excerpt_length' ) );
+
+		/**
+		 * Filters the maximum number of words in a post excerpt.
+		 *
+		 * @since 2.7.0
+		 *
+		 * @param int $number The maximum number of words. Default 55.
+		 */
+		$excerpt_length = (int) apply_filters( 'excerpt_length', $excerpt_length );
+
+		/**
+		 * Filters the string in the "more" link displayed after a trimmed excerpt.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param string $more_string The string shown within the more link.
+		 */
+		$excerpt_more = apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
+		$text         = wp_trim_words( $text, $excerpt_length, $excerpt_more );
 	}
 
-remove_filter('get_the_excerpt', 'wp_trim_excerpt');
+	/**
+	 * Filters the trimmed excerpt string.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param string $text        The trimmed text.
+	 * @param string $raw_excerpt The text prior to trimming.
+	 */
+	return apply_filters( 'wp_trim_excerpt', $text, $raw_excerpt );
+}
 
-add_filter( 'get_the_excerpt', 'bac_wp_strip_header_tags_keep_other_formatting', 5);
+function diym_excerpt_allowed_blocks( $allowed_blocks ) {
+	
+	/*
+	// These the the defaults.
+    $allowed_inner_blocks = array(
+        // Classic blocks have their blockName set to null.
+        null,
+        'core/freeform',
+        'core/heading',
+        'core/html',
+        'core/list',
+        'core/media-text',
+        'core/paragraph',
+        'core/preformatted',
+        'core/pullquote',
+        'core/quote',
+        'core/table',
+        'core/verse',
+    );
+ 
+	$allowed_blocks = array_merge( $allowed_inner_blocks, array( 'core/columns' ) );
+	*/
+	$allowed_blocks = array(
+        'core/paragraph',
+        'core/quote',
+	);
+	
+	return $allowed_blocks;
+}
+
+add_filter( 'excerpt_allowed_blocks', 'diym_excerpt_allowed_blocks' );
 
 
 /**
