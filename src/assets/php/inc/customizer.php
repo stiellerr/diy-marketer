@@ -368,6 +368,19 @@ function diym_customize_register( $wp_customize ) {
 		'section' => 'colors',
 	)));
 
+	// Theme Primary Color.
+    $wp_customize->add_setting('diym_primary_color_hue', array(
+        'default' => 211,
+        'sanitize_callback' => 'absint',
+        'transport' => 'postMessage'
+	));
+	
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'diym_primary_color_hue', array(
+		'label' => __( 'Theme Primary Color Hue', 'diy-marketer' ),
+		'section' => 'colors',
+		'mode' => 'hue'
+	)));
+
 }
 
 add_action( 'customize_register', 'diym_customize_register' );
