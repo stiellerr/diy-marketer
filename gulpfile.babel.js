@@ -54,7 +54,8 @@ const paths = {
         src: [
             "src/assets/js/bundle.js",
             "src/assets/js/admin.js",
-            "src/assets/js/customizer-preview.js"
+            "src/assets/js/customizer-preview.js",
+            "src/assets/js/customize-controls.js"
             //"src/assets/js/customizer.js",
             //"src/assets/js/select2.js"
         ],

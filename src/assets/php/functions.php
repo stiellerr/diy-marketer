@@ -18,9 +18,10 @@ if ( ! function_exists( 'write_log ') ) {
     }
 }
 
-if (!defined('DIYM_VER')) {
-    // Replace the version number of the theme on each release.
-    define('DIYM_VER', '1.0.0');
+if ( ! defined( 'DIYM_VER' ) ) {
+	// Replace the version number of the theme on each release.
+	$theme_version = wp_get_theme()->get( 'Version' );
+	define( 'DIYM_VER', $theme_version );
 }
 
 define('DIYM_URL', trailingslashit(get_template_directory_uri()));
@@ -368,6 +369,12 @@ require_once('inc/widget-page-excerpt.php');
  * Business Contact Form Widget
  */
 require_once('inc/widget-contact-form.php');
+
+
+/**
+ * zzz functions_2
+ */
+require('functions_2.php');
 
 
 ?>

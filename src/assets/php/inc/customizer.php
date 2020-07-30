@@ -381,6 +381,90 @@ function diym_customize_register( $wp_customize ) {
 		'mode' => 'hue'
 	)));
 
+	// Header & Footer Background Color.
+	$wp_customize->add_setting(
+		'header_footer_background_color',
+		array(
+			'default'           => '#ffffff',
+			'sanitize_callback' => 'sanitize_hex_color',
+			'transport'         => 'postMessage',
+		)
+	);
+
+	$wp_customize->add_control(
+		new WP_Customize_Color_Control(
+			$wp_customize,
+			'header_footer_background_color',
+			array(
+				'label'   => __( 'Header &amp; Footer Background Color', 'diy-marketer' ),
+				'section' => 'colors',
+			)
+		)
+	);
+
+	/**
+	 * Implementation for the accent color.
+	 * This is different to all other color options because of the accessibility enhancements.
+	 * The control is a hue-only colorpicker, and there is a separate setting that holds values
+	 * for other colors calculated based on the selected hue and various background-colors on the page.
+	 *
+	 * @since Twenty Twenty 1.0
+	 */
+
+	// Add the setting for the hue colorpicker.
+	$wp_customize->add_setting(
+		'accent_hue',
+		array(
+			'default'           => 344,
+			'type'              => 'theme_mod',
+			'sanitize_callback' => 'absint',
+			'transport'         => 'postMessage',
+		)
+	);
+
+	// Add setting to hold colors derived from the accent hue.
+	/*
+	$wp_customize->add_setting(
+		'accent_accessible_colors',
+		array(
+			'default'           => array(
+				'content'       => array(
+					'text'      => '#000000',
+					'accent'    => '#cd2653',
+					'secondary' => '#6d6d6d',
+					'borders'   => '#dcd7ca',
+				),
+				'header-footer' => array(
+					'text'      => '#000000',
+					'accent'    => '#cd2653',
+					'secondary' => '#6d6d6d',
+					'borders'   => '#dcd7ca',
+				),
+			),
+			'type'              => 'theme_mod',
+			'transport'         => 'postMessage',
+			'sanitize_callback' => array( __CLASS__, 'sanitize_accent_accessible_colors' ),
+		)
+	);
+	*/
+
+	// Add the hue-only colorpicker for the accent color.
+	$wp_customize->add_control(
+		new WP_Customize_Color_Control(
+			$wp_customize,
+			'accent_hue',
+			array(
+				'section'         => 'colors',
+				'settings'        => 'accent_hue',
+				'description'     => __( 'Apply a custom color for links, buttons, featured images.', 'diy-marketer' ),
+				'mode'            => 'hue'
+				//'active_callback' => function() use ( $wp_customize ) {
+					//return ( 'custom' === $wp_customize->get_setting( 'accent_hue_active' )->value() );
+				//},
+			)
+		)
+	);
+
 }
 
 add_action( 'customize_register', 'diym_customize_register' );
