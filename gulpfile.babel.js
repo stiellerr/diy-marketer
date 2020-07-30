@@ -55,7 +55,8 @@ const paths = {
             "src/assets/js/bundle.js",
             "src/assets/js/admin.js",
             "src/assets/js/customizer-preview.js",
-            "src/assets/js/customize-controls.js"
+            "src/assets/js/customize-controls.js",
+            "src/assets/js/color-calculations.js"
             //"src/assets/js/customizer.js",
             //"src/assets/js/select2.js"
         ],
@@ -316,6 +317,7 @@ export const scripts = () => {
                 },
                 output: {
                     filename: "[name].js"
+                    //library: pathData.chunk.name == 'bundle' ? '[name]' : ''
                 },
                 externals: {
                     jquery: "jQuery"

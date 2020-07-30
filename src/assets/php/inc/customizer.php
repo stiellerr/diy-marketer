@@ -423,7 +423,6 @@ function diym_customize_register( $wp_customize ) {
 	);
 
 	// Add setting to hold colors derived from the accent hue.
-	/*
 	$wp_customize->add_setting(
 		'accent_accessible_colors',
 		array(
@@ -443,10 +442,9 @@ function diym_customize_register( $wp_customize ) {
 			),
 			'type'              => 'theme_mod',
 			'transport'         => 'postMessage',
-			'sanitize_callback' => array( __CLASS__, 'sanitize_accent_accessible_colors' ),
+			//'sanitize_callback' => array( __CLASS__, 'sanitize_accent_accessible_colors' ),
 		)
 	);
-	*/
 
 	// Add the hue-only colorpicker for the accent color.
 	$wp_customize->add_control(
