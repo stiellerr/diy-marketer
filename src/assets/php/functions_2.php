@@ -7,9 +7,33 @@
  * @package DIY_Marketer
  */
 
- // useful function for witing to the log
+/**
+ * REQUIRED FILES
+ * Include required files.
+ */
 
-write_log('sss');
+ // Custom CSS.
+require get_template_directory() . '/inc/custom-css.php';
+
+/**
+ * Register and Enqueue Styles.
+ */
+function diym_register_styles() {
+
+	//$theme_version = wp_get_theme()->get( 'Version' );
+
+	//wp_enqueue_style( 'twentytwenty-style', get_stylesheet_uri(), array(), DIYM_VER );
+	//wp_style_add_data( 'twentytwenty-style', 'rtl', 'replace' );
+
+	// Add output of Customizer settings as inline style.
+	//wp_add_inline_style( 'twentytwenty-style', twentytwenty_get_customizer_css( 'front-end' ) );
+
+	// Add print CSS.
+	//wp_enqueue_style( 'twentytwenty-print-style', get_template_directory_uri() . '/print.css', null, $theme_version, 'print' );
+
+}
+
+add_action( 'wp_enqueue_scripts', 'diym_register_styles' );
 
 
 /**
@@ -78,6 +102,45 @@ function diym_assets() {
 */
 
 /**
+ * Get accessible color for an area.
+ *
+ * @since Twenty Twenty 1.0
+ *
+ * @param string $area The area we want to get the colors for.
+ * @param string $context Can be 'text' or 'accent'.
+ * @return string Returns a HEX color.
+ */
+function diym_get_color_for_area( $area = 'content', $context = 'text' ) {
+
+	// Get the value from the theme-mod.
+	$settings = get_theme_mod(
+		'accent_accessible_colors',
+		array(
+			'content'       => array(
+				'text'      => '#000000',
+				'accent'    => '#cd2653',
+				'secondary' => '#6d6d6d',
+				'borders'   => '#dcd7ca',
+			),
+			'header-footer' => array(
+				'text'      => '#000000',
+				'accent'    => '#cd2653',
+				'secondary' => '#6d6d6d',
+				'borders'   => '#dcd7ca',
+			),
+		)
+	);
+
+	// If we have a value return it.
+	if ( isset( $settings[ $area ] ) && isset( $settings[ $area ][ $context ] ) ) {
+		return $settings[ $area ][ $context ];
+	}
+
+	// Return false if the option doesn't exist.
+	return false;
+}
+
+/**
  * Returns an array of variables for the customizer preview.
  *
  * @since Twenty Twenty 1.0
@@ -137,7 +200,8 @@ function diym_get_elements_array() {
 		),
 		'header-footer' => array(
 			'accent'     => array(
-				'color'            => array( 'body:not(.overlay-header) .primary-menu > li > a', 'body:not(.overlay-header) .primary-menu > li > .icon', '.modal-menu a', '.footer-menu a, .footer-widgets a', '#site-footer .wp-block-button.is-style-outline', '.wp-block-pullquote:before', '.singular:not(.overlay-header) .entry-header a', '.archive-header a', '.header-footer-group .color-accent', '.header-footer-group .color-accent-hover:hover' ),
+				//'color'            => array( 'body:not(.overlay-header) .primary-menu > li > a', 'body:not(.overlay-header) .primary-menu > li > .icon', '.modal-menu a', '.footer-menu a, .footer-widgets a', '#site-footer .wp-block-button.is-style-outline', '.wp-block-pullquote:before', '.singular:not(.overlay-header) .entry-header a', '.archive-header a', '.header-footer-group .color-accent', '.header-footer-group .color-accent-hover:hover' ),
+				'color'			   => array( '.site-banner a' , '#site-footer a'),
 				'background-color' => array( '.social-icons a', '#site-footer button:not(.toggle)', '#site-footer .button', '#site-footer .faux-button', '#site-footer .wp-block-button__link', '#site-footer .wp-block-file__button', '#site-footer input[type="button"]', '#site-footer input[type="reset"]', '#site-footer input[type="submit"]' ),
 			),
 			'background' => array(

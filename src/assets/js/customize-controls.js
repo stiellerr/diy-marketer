@@ -33,7 +33,8 @@ wp.customize.bind("ready", () => {
         wp.customize(diymBgColors[context].setting, value => {
             value.bind(to => {
                 // Update the value for our accessible colors for this area.
-                diymSetAccessibleColorsValue(context, to, wp.customize("accent_hue").get(), to);
+                //diymSetAccessibleColorsValue(context, to, wp.customize("accent_hue").get(), to);
+                diymSetAccessibleColorsValue(context, to, wp.customize.get().accent_hue, to);
             });
         });
     }
