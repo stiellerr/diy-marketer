@@ -29,7 +29,7 @@ $diym_inline_selectors['.nav-pills .nav-link.active,.nav-pills .show > .nav-link
 
 $diym_inline_selectors['a,.nav-link:hover,#menu-widget .current-menu-item a,#menu-footer .current-menu-item a'] = ['color' => 'diym_primary_color'];
 
-$diym_inline_selectors['.site-banner,#site-footer'] = ['background-color' => 'diym_banner_footer_bg', 'color' => 'diym_banner_footer_text'];
+//$diym_inline_selectors['.site-banner,#site-footer'] = ['background-color' => 'diym_banner_footer_bg', 'color' => 'diym_banner_footer_text'];
 
 $diym_inline_selectors['.site-banner a,#site-footer a'] = ['color' => 'diym_banner_footer_text'];
 

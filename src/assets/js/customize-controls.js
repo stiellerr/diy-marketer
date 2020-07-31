@@ -1,5 +1,5 @@
-/* global diymBgColors, diymColor */
-/* eslint no-unused-vars: off */
+/* global diymBgColors, _ */
+/* eslint no-console: off */
 /**
  * Customizer enhancements for a better user experience.
  *
@@ -7,6 +7,8 @@
  *
  * @since Twenty Twenty 1.0
  */
+
+import { diymColor } from "./components/color-calculations";
 
 wp.customize.bind("ready", () => {
     // Wait until the customizer has finished loading.
@@ -30,24 +32,15 @@ wp.customize.bind("ready", () => {
     for (let context of Object.keys(diymBgColors)) {
         wp.customize(diymBgColors[context].setting, value => {
             value.bind(to => {
-                console.log(to);
                 // Update the value for our accessible colors for this area.
-                /*
-				diymSetAccessibleColorsValue(
-					context,
-					to,
-					wp.customize("accent_hue").get(),
-					to
-				);
-				*/
+                diymSetAccessibleColorsValue(context, to, wp.customize("accent_hue").get(), to);
             });
         });
     }
 });
 
 /**
- * Updates the value of the "accent_accessible_colors" setting.
- *
+ * Updates the value of the "accent_accessible_colors" setting.S
  * @since Twenty Twenty 1.0
  *
  * @param {string} context The area for which we want to get colors. Can be for example "content", "header" etc.
@@ -65,5 +58,32 @@ const diymSetAccessibleColorsValue = (context, backgroundColor, accentHue) => {
 
     // Get accessible colors for the defined background-color and hue.
     colors = diymColor(backgroundColor, accentHue);
-    console.log(colors);
+
+    // Sanity check.
+    if (colors.getAccentColor() && "function" === typeof colors.getAccentColor().toCSS) {
+        // Update the value for this context.
+        value[context] = {
+            text: colors.getTextColor(),
+            accent: colors.getAccentColor().toCSS(),
+            background: backgroundColor
+        };
+        // Get borders color.
+        value[context].borders = colors.bgColorObj
+            .clone()
+            .getReadableContrastingColor(colors.bgColorObj, 1.36)
+            .toCSS();
+
+        // Get secondary color.
+        value[context].secondary = colors.bgColorObj
+            .clone()
+            .getReadableContrastingColor(colors.bgColorObj)
+            .s(colors.bgColorObj.s() / 2)
+            .toCSS();
+
+        // Change the value.
+        wp.customize("accent_accessible_colors").set(value);
+
+        // Small hack to save the option.
+        wp.customize("accent_accessible_colors")._dirty = true;
+    }
 };

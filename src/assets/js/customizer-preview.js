@@ -1,4 +1,4 @@
-// global wp, jQuery
+/* global diy_marketer */
 /**
  * File customizer-preview.js.
  *
@@ -85,6 +85,7 @@ wp.customize("diym_banner_footer_text", value => {
         diym_build_css();
     });
 });
+
 /*
 const diym_build_address = () => {
     //
