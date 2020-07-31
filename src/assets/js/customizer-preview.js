@@ -57,6 +57,7 @@ wp.customize("diym_google_map", value => {
     });
 });
 
+/*
 wp.customize("diym_font_select", value => {
     value.bind(to => {
         if (to !== "default") {
@@ -67,6 +68,7 @@ wp.customize("diym_font_select", value => {
         diym_build_css();
     });
 });
+*/
 
 wp.customize("diym_primary_color", value => {
     value.bind(() => {

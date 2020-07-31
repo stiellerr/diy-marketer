@@ -12,7 +12,7 @@ import $ from "jquery";
 
 // Add listener for the "header_footer_background_color" control.
 wp.customize("header_footer_background_color", value => {
-    value.bind(function (to) {
+    value.bind(to => {
         // Add background color to header and footer wrappers.
         $(".site-banner, #site-footer").css("background-color", to);
 
@@ -26,5 +26,13 @@ wp.customize("header_footer_background_color", value => {
             $("body").removeClass("reduced-spacing");
         }
         */
+    });
+});
+
+wp.customize("diym_font_select", value => {
+    value.bind(to => {
+        if ("default" !== to) {
+            $("body").css("font-family", to);
+        }
     });
 });
