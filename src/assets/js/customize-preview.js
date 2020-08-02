@@ -9,6 +9,7 @@
  */
 
 import $ from "jquery";
+import { array_search } from "locutus/php/array";
 
 // Add listener for the "header_footer_background_color" control.
 wp.customize("header_footer_background_color", value => {
@@ -29,7 +30,7 @@ wp.customize("header_footer_background_color", value => {
     });
 });
 
-wp.customize("diym_font_select", value => {
+wp.customize("font_family", value => {
     value.bind(to => {
         if ("default" !== to) {
             $("body").css("font-family", to);
@@ -83,28 +84,42 @@ function diymGenerateColorA11yPreviewStyles(context) {
     // If the stylesheet doesn't exist, create it and append it to <head>.
     if (!stylesheet.length) {
         //$("#diym-style-inline-css").after('<style id="' + stylesheedID + '"></style>');
-        $("#diym-stylesheet-inline-css").after('<style id="' + stylesheedID + '"></style>');
+        $("#diym-style-inline-css").after('<style id="' + stylesheedID + '"></style>');
         stylesheet = $("#" + stylesheedID);
     }
     if (!_.isUndefined(a11yColors[context])) {
         // Check if we have elements defined.
         if (diymPreviewEls[context]) {
-            _.each(diymPreviewEls[context], (items, setting) => {
-                _.each(items, (elements, property) => {
-                    if (!_.isUndefined(a11yColors[context][setting])) {
+            _.each(diymPreviewEls[context], (definitions, setting) => {
+                _.each(definitions, $index => {
+                    _.each($index, (options, property) => {
+                        let selectors = !_.isUndefined(options["selector"])
+                            ? options["selector"]
+                            : false;
+                        if (
+                            !_.isArray(selectors) ||
+                            _.isEmpty(selectors) ||
+                            _.isUndefined(a11yColors[context][setting])
+                        ) {
+                            return;
+                        }
+                        // set prefix and suffix
+                        let suffix = !_.isUndefined(options["suffix"]) ? options["suffix"] : "",
+                            prefix = !_.isUndefined(options["prefix"]) ? options["prefix"] : "";
                         styles +=
-                            elements.join(",") +
+                            selectors.join(",") +
                             "{" +
                             property +
                             ":" +
+                            prefix +
                             a11yColors[context][setting] +
+                            suffix +
                             ";}";
-                    }
+                    });
                 });
             });
         }
     }
     // Add styles.
-    console.log(styles);
     stylesheet.html(styles);
 }

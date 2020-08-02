@@ -68,7 +68,8 @@ class _diymColor {
                 };
 
                 // Check a minimum of 4.5:1 contrast with the background and 3:1 with surrounding text.
-                if (4.5 > item.contrastBackground || 3 > item.contrastText) {
+                //if (4.5 > item.contrastBackground || 3 > item.contrastText) {
+                if (1 > item.contrastBackground || 3 > item.contrastText) {
                     return;
                 }
 

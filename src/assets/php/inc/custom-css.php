@@ -68,13 +68,21 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 		$header_footer_background         = sanitize_hex_color( diym_get_color_for_area( 'header-footer', 'background' ) );
 		$header_footer_background_default = '#ffffff';
 
+		// Font family.
+		$font         = get_theme_mod( 'font_family' );
+		$font_default = 'default';
+
 		// Cover.
+		/*
 		$cover         = sanitize_hex_color( get_theme_mod( 'cover_template_overlay_text_color' ) );
 		$cover_default = '#ffffff';
+		*/
 
 		// Background.
+		/*
 		$background         = sanitize_hex_color_no_hash( get_theme_mod( 'background_color' ) );
 		$background_default = 'f5efe0';
+		*/
 
 		ob_start();
 
@@ -92,14 +100,17 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 		if ( 'front-end' === $type ) {
 
 			// Auto-calculated colors.
+			/*
 			$elements_definitions = diym_get_elements_array();
 			foreach ( $elements_definitions as $context => $props ) {
 				foreach ( $props as $key => $definitions ) {
 					foreach ( $definitions as $property => $elements ) {
+						write_log*/
 						/*
 						 * If we don't have an elements array or it is empty
 						 * then skip this iteration early;
 						 */
+						/*
 						if ( ! is_array( $elements ) || empty( $elements ) ) {
 							continue;
 						}
@@ -107,13 +118,42 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 						if ( $val ) {
 							diym_generate_css( implode( ',', $elements ), $property, $val );
 						}
+						*/
+						/*
 					}
 				}
 			}
+			*/
 
+			// Auto-calculated colors.
+			$elements_definitions = diym_get_elements_array();
+			foreach ( $elements_definitions as $context => $settings ) {
+				foreach ( $settings as $setting => $definitions ) {
+					foreach( $definitions as $index ) {
+						foreach ( $index as $property => $options ) {
+							$selectors = isset( $options[ 'selector' ] ) ? $options[ 'selector' ] : false;
+							if ( ! is_array( $selectors ) || empty( $selectors ) ) {
+								continue;
+							}
+							$val = diym_get_color_for_area( $context, $setting );
+							if ( $val ) {
+								$prefix   = isset( $options[ 'prefix' ] ) ? $options[ 'prefix' ] : '';
+								$suffix   = isset( $options[ 'suffix' ] ) ? $options[ 'suffix' ] : '';
+								diym_generate_css( implode( ',', $selectors ), $property, $val, $prefix, $suffix );
+							}
+						}
+					}
+				}
+			}
+			/*
 			if ( $cover && $cover !== $cover_default ) {
 				diym_generate_css( '.overlay-header .header-inner', 'color', $cover );
 				diym_generate_css( '.cover-header .entry-header *', 'color', $cover );
+			}
+			*/
+
+			if ( $font && $font !== $font_default ) {
+				diym_generate_css( 'body', 'font-family', $font );
 			}
 
 			// Block Editor Styles.

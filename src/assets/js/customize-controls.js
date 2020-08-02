@@ -1,5 +1,5 @@
 /* global diymBgColors, _ */
-/* eslint no-console: off */
+/* eslint no-console: off, no-unused-vars: off */
 /**
  * Customizer enhancements for a better user experience.
  *
@@ -12,6 +12,32 @@ import { diymColor } from "./components/color-calculations";
 
 wp.customize.bind("ready", () => {
     // Wait until the customizer has finished loading.
+
+    wp.customize("test_color", value => {
+        // Add a listener for accent-color changes.
+        value.bind(to => {
+            //console.log(to);
+
+            // create a new color and set it to white...
+            let color_black = new Color("#000000"),
+                color_white = new Color("#ffffff");
+
+            // workout the contrast ratio between black and white
+            let x = color_black.getDistanceLuminosityFrom(color_white);
+            //console.log(x);
+
+            // workout the contrast ratio between black and white
+            let y = new Color("#0000ff");
+            console.log("Before: " + y.toCSS());
+            console.log(y.getDistanceLuminosityFrom(color_black));
+
+            y.getReadableContrastingColor(color_black, 4.5);
+            console.log("After: " + y.toCSS());
+
+            console.log("new ratio:" + y.getDistanceLuminosityFrom(color_black));
+        });
+    });
+
     wp.customize("accent_hue", value => {
         // Add a listener for accent-color changes.
         value.bind(to => {

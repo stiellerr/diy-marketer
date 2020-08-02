@@ -188,7 +188,7 @@ function diym_customize_register( $wp_customize ) {
 		'fallback_refresh' => false
 	));
 */
-	
+	/*
     $wp_customize->add_section('diym_typography', array(
         'title' => esc_html__( 'Typography', 'diy-marketer' ),
         'description' => esc_html__( 'Select you typograpghy settings from the fields below.', 'diy-marketer' ),
@@ -237,6 +237,7 @@ function diym_customize_register( $wp_customize ) {
 			'"Comic Sans MS","Comic Sans",cursive,sans-serif' => 'Comic Sans MS',
 		)
 	));
+	*/
 
     $wp_customize->selective_refresh->add_partial('diym_instagram', array(
         'settings' => array(
@@ -369,6 +370,7 @@ function diym_customize_register( $wp_customize ) {
 	)));
 
 	// Theme Primary Color.
+	/*
     $wp_customize->add_setting('diym_primary_color_hue', array(
         'default' => 211,
         'sanitize_callback' => 'absint',
@@ -401,7 +403,7 @@ function diym_customize_register( $wp_customize ) {
 			)
 		)
 	);
-
+	*/
 	/**
 	 * Implementation for the accent color.
 	 * This is different to all other color options because of the accessibility enhancements.
@@ -412,6 +414,7 @@ function diym_customize_register( $wp_customize ) {
 	 */
 
 	// Add the setting for the hue colorpicker.
+	/*
 	$wp_customize->add_setting(
 		'accent_hue',
 		array(
@@ -462,6 +465,7 @@ function diym_customize_register( $wp_customize ) {
 			)
 		)
 	);
+	*/
 
 }
 

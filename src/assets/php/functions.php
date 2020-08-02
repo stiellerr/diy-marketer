@@ -109,14 +109,15 @@ add_action( 'widgets_init', 'diym_widgets_init' );
 
 
 function diym_assets() {
-	wp_enqueue_style('diym-stylesheet', DIYM_CSS_URL . 'bundle.css', array('dashicons'), DIYM_VER, 'all');
+	//wp_enqueue_style('diym-stylesheet', DIYM_CSS_URL . 'bundle.css', array('dashicons'), DIYM_VER, 'all');
 
-	require DIYM_DIR . 'inc/inline-css.php';
+	//require DIYM_DIR . 'inc/inline-css.php';
 	
-	wp_add_inline_style('diym-stylesheet', $diym_inline_styles);
+	//wp_add_inline_style('diym-stylesheet', $diym_inline_styles);
 
     wp_enqueue_script('diym-scripts', DIYM_JS_URL . 'bundle.js', array('jquery'), DIYM_VER, true);
 }
+
 
 add_action('wp_enqueue_scripts', 'diym_assets');
 
