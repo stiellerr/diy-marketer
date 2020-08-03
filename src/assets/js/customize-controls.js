@@ -1,4 +1,4 @@
-/* global diymBgColors, _ */
+/* global diymBgColors, _, Color */
 /* eslint no-console: off, no-unused-vars: off */
 /**
  * Customizer enhancements for a better user experience.
@@ -9,32 +9,88 @@
  */
 
 import { diymColor } from "./components/color-calculations";
+import $ from "jquery";
 
 wp.customize.bind("ready", () => {
     // Wait until the customizer has finished loading.
+    // background, accent
+    let zzzTest = new DIYM_Color("#000000", "#000000");
 
-    wp.customize("test_color", value => {
+    console.log("bg" + zzzTest.background.toCSS());
+    console.log("tx" + zzzTest.getTextColor());
+    console.log("ac" + zzzTest.getAccentColor());
+
+    //let x = new Color("#ffffff");
+    //let y = new Color("#000000");
+
+    //let COLOR_BLACK = new Color("#000000"),
+    //COLOR_WHITE = new Color("#ffffff");
+
+    //COLOR_BLACK.getReadableContrastingColor(COLOR_WHITE, 4.5);
+
+    // console.log(COLOR_BLACK.toCSS());
+    //fallback = new Color("hsl(" + this.accentHue + ",75%,50%)");
+    //console.log(x.getReadableContrastingColor(y, 4.5).toCSS());
+
+    wp.customize("accent_color", value => {
         // Add a listener for accent-color changes.
         value.bind(to => {
+            /*
+
+            let customColors = wp.customize.get().custom_colors,
+                bannerFooterBackgroundColor = new Color(
+                    wp.customize.get().banner_footer_background_color
+                ),
+                accentColor = new Color(to);
+
+            customColors = _.isObject(customColors) && !_.isArray(customColors) ? customColors : {};
+
+            console.log(bannerFooterBackgroundColor.toCSS());
+            console.log(accentColor.toCSS());
+
+            accentColor.getReadableContrastingColor(bannerFooterBackgroundColor, 4.5);
+
+            //customColors["banner-footer"]["accent"] = accentColor.toCSS();
+            console.log(accentColor.toCSS());
+
+            customColors["banner-footer"].accent = accentColor.toCSS();
+*/
+            //console.log(wp.customize("custom_colors").get());
+            //customColors["banner-footer"].accent = "#00FFFF";
+            //console.log(customColors);
+            //wp.customize("custom_colors").set(customColors);
+            //console.log(wp.customize("custom_colors").get());
+            //wp.customize("custom_colors")._dirty = true;
+            //console.log(customColors);
             //console.log(to);
-
             // create a new color and set it to white...
-            let color_black = new Color("#000000"),
-                color_white = new Color("#ffffff");
+            /*
+            const COLOR_BLACK = new Color("#000000"),
+                COLOR_WHITE = new Color("#ffffff");
 
+            let accentColor = new Color(to);
+
+            accentColor.getReadableContrastingColor(COLOR_WHITE, 4.5);
+
+            let customColors = wp.customize.get().custom_colors;
+
+            console.log(customColors);
+
+            $(".customize-action").css("color", accentColor.toCSS());
+            */
+            //console.log(accentColor.toCSS());
             // workout the contrast ratio between black and white
-            let x = color_black.getDistanceLuminosityFrom(color_white);
+            //let x = accentColor.getDistanceLuminosityFrom(color_white);
+            // workout the contrast ratio between black and white
+            //let x = color_black.getDistanceLuminosityFrom(color_white);
             //console.log(x);
-
             // workout the contrast ratio between black and white
-            let y = new Color("#0000ff");
-            console.log("Before: " + y.toCSS());
-            console.log(y.getDistanceLuminosityFrom(color_black));
-
-            y.getReadableContrastingColor(color_black, 4.5);
-            console.log("After: " + y.toCSS());
-
-            console.log("new ratio:" + y.getDistanceLuminosityFrom(color_black));
+            //let y = new Color("#0000ff");
+            //console.log("Before: " + y.toCSS());
+            //console.log(y.getDistanceLuminosityFrom(color_black));
+            //y.getReadableContrastingColor(color_black, 4.5);
+            //console.log("After: " + y.toCSS());
+            //console.log("new ratio:" + y.getDistanceLuminosityFrom(color_black));
         });
     });
 
@@ -65,6 +121,35 @@ wp.customize.bind("ready", () => {
         });
     }
 });
+
+class DIYM_Color {
+    constructor(background, accent) {
+        //
+        this.background = new Color(background);
+        this.accent = new Color(accent);
+        this.text = this.background.getMaxContrastColor();
+    }
+    getTextColor() {
+        return this.text.toCSS();
+    }
+    getAccentColor() {
+        //let x = new Color("#000000");
+
+        //console.log(x);
+        //fallback = new Color("hsl(" + this.accentHue + ",75%,50%)");
+        return this.accent.clone().getReadableContrastingColor(this.background, 4.5).toCSS();
+    }
+}
+/*
+diym_custom_colors = (context, background, accent) => {
+    let custom_colors;
+
+    custom_colors = wp.customize("custom_colors").get();
+    custom_colors = _.isObject(custom_colors) && !_.isArray(custom_colors) ? custom_colors : {};
+
+    let color_values = new DIYM_Color(background, accent);
+};
+*/
 
 /**
  * Updates the value of the "accent_accessible_colors" setting.S
@@ -106,6 +191,8 @@ const diymSetAccessibleColorsValue = (context, backgroundColor, accentHue) => {
             .getReadableContrastingColor(colors.bgColorObj)
             .s(colors.bgColorObj.s() / 2)
             .toCSS();
+
+        console.log(value);
 
         // Change the value.
         wp.customize("accent_accessible_colors").set(value);

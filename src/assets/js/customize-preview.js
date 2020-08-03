@@ -11,6 +11,26 @@
 import $ from "jquery";
 import { array_search } from "locutus/php/array";
 
+wp.customize("accent_color", value => {
+    value.bind(to => {
+        setTimeout(() => {
+            let customColors = window.parent.wp.customize.get().custom_colors;
+            //let customColors = wp.customize.get().custom_colors;
+            //gulp console.log(customColors['banner-footer'].accent);
+            $(".site-banner").css("color", customColors["banner-footer"].accent);
+        }, 50);
+        //$(".site-banner").css("color", to);
+    });
+});
+
+// Add listener for the "header_footer_background_color" control.
+wp.customize("banner_footer_background_color", value => {
+    value.bind(to => {
+        // Add background color to header and footer wrappers.
+        $(".site-banner").css("background-color", to);
+    });
+});
+
 // Add listener for the "header_footer_background_color" control.
 wp.customize("header_footer_background_color", value => {
     value.bind(to => {

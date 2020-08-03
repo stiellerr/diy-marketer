@@ -236,14 +236,14 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 			$wp_customize->add_section(
 				'test',
 				array(
-					'title'      => esc_html__( 'Test', 'diy-marketer' ),
+					'title'      => esc_html__( 'Test Panel.', 'diy-marketer' ),
 					'priority'   => 10,
 					'capability' => 'edit_theme_options',
 				)
 			);
-			// Test Color.
+			// Banner & Footer Background Color.
 			$wp_customize->add_setting(
-				'test_color',
+				'banner_footer_background_color',
 				array(
 					'default'           => '#ffffff',
 					'sanitize_callback' => 'sanitize_hex_color',
@@ -254,9 +254,53 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 			$wp_customize->add_control(
 				new WP_Customize_Color_Control(
 					$wp_customize,
-					'test_color',
+					'banner_footer_background_color',
 					array(
-						'label'   => __( 'Test Color', 'diy-marketer' ),
+						'label'   => __( 'Banner &amp; Footer Background Color', 'diy-marketer' ),
+						'section' => 'test',
+					)
+				)
+			);
+
+			// Test Color.
+			$wp_customize->add_setting(
+				'accent_color',
+				array(
+					'default'           => '#ffffff',
+					'sanitize_callback' => 'sanitize_hex_color',
+					'transport'         => 'postMessage',
+				)
+			);
+			// Add setting to hold colors derived from the accent hue.
+			$wp_customize->add_setting(
+				'custom_colors',
+				array(
+					'default'           => array(
+						'content'       => array(
+							//'text'      => '#000000',
+							'accent'    => '#cd2653',
+							//'secondary' => '#6d6d6d',
+							//'borders'   => '#dcd7ca',
+						),
+						'banner-footer' => array(
+							'text'      => '#000000',
+							'accent'    => '#cd2653',
+							//'secondary' => '#6d6d6d',
+							//'borders'   => '#dcd7ca',
+						),
+					),
+					'type'              => 'theme_mod',
+					'transport'         => 'postMessage',
+					'sanitize_callback' => array( __CLASS__, 'sanitize_accent_accessible_colors' ),
+				)
+			);
+
+			$wp_customize->add_control(
+				new WP_Customize_Color_Control(
+					$wp_customize,
+					'accent_color',
+					array(
+						'label'   => __( 'Accent Color', 'diy-marketer' ),
 						'section' => 'test',
 					)
 				)
