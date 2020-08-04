@@ -16,25 +16,10 @@ wp.customize("accent_color", value => {
         // Generate the styles.
         // Add a small delay to be sure the accessible colors were generated.
         setTimeout(() => {
-            let a11yColors = window.parent.wp.customize.get().custom_colors;
-
-            console.log(a11yColors);
-
-            /*
             for (let context of Object.keys(diymBgColors)) {
-                diymGenerateColorA11yPreviewStyles(context);
+                diymGenerateColorPreviewStyles(context);
             }
-            */
         }, 50);
-        /*
-        setTimeout(() => {
-            let customColors = window.parent.wp.customize.get().custom_colors;
-            //let customColors = wp.customize.get().custom_colors;
-            //gulp console.log(customColors['banner-footer'].accent);
-            $(".site-banner").css("color", customColors["banner-footer"].accent);
-        }, 50);
-        */
-        //$(".site-banner").css("color", to);
     });
 });
 
@@ -88,15 +73,75 @@ wp.customize("accent_hue", value => {
 
 // Add listeners for background-color settings.
 for (let context of Object.keys(diymBgColors)) {
+    //console.log(diymBgColors[context].setting);
     wp.customize(diymBgColors[context].setting, value => {
         value.bind(() => {
             // Generate the styles.
             // Add a small delay to be sure the accessible colors were generated.
             setTimeout(() => {
-                diymGenerateColorA11yPreviewStyles(context);
+                //diymGenerateColorA11yPreviewStyles(context);
+                //diymGenerateColorPreviewStyles(context);
+                console.log(context);
             }, 50);
         });
     });
+}
+
+/**
+ * Add styles to elements in the preview pane.
+ *
+ * @since Twenty Twenty 1.0
+ *
+ * @param {string} context The area for which we want to generate styles. Can be for example "content", "header" etc.
+ *
+ * @return {void}
+ */
+function diymGenerateColorPreviewStyles(context) {
+    // Get the accessible colors option.
+    let a11yColors = window.parent.wp.customize.get().custom_colors,
+        stylesheedID = "diym-customizer-styles-" + context,
+        stylesheet = $("#" + stylesheedID),
+        styles = "";
+
+    // If the stylesheet doesn't exist, create it and append it to <head>.
+    if (!stylesheet.length) {
+        $("#diym-style-inline-css").after('<style id="' + stylesheedID + '"></style>');
+        stylesheet = $("#" + stylesheedID);
+    }
+
+    if (!_.isUndefined(a11yColors[context])) {
+        // Check if we have elements defined.
+        if (diymPreviewEls[context]) {
+            _.each(diymPreviewEls[context], (definitions, setting) => {
+                _.each(definitions, index => {
+                    _.each(index, (options, property) => {
+                        let selectors = !_.isUndefined(options.selector) ? options.selector : false;
+                        if (
+                            !_.isArray(selectors) ||
+                            _.isEmpty(selectors) ||
+                            _.isUndefined(a11yColors[context][setting])
+                        ) {
+                            return;
+                        }
+                        // set prefix and suffix
+                        let suffix = !_.isUndefined(options.suffix) ? options.suffix : "",
+                            prefix = !_.isUndefined(options.prefix) ? options.prefix : "";
+                        styles +=
+                            selectors.join(",") +
+                            "{" +
+                            property +
+                            ":" +
+                            prefix +
+                            a11yColors[context][setting] +
+                            suffix +
+                            ";}";
+                    });
+                });
+            });
+        }
+    }
+    // Add styles.
+    stylesheet.html(styles);
 }
 
 /**

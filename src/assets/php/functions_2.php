@@ -279,6 +279,36 @@ function diym_get_elements_array() {
 				),
 			),
 		),
+		'banner-footer' => array(
+			'accent' => array(
+				array(
+					'color' => array(
+						'selector' => array( '.site-banner a' , '#site-footer a'),
+					),
+				),
+			),
+			'background' => array(
+				array(
+                    'background-color' => array(
+						'selector' => array( '.site-banner' ),
+                    ),
+				),
+				array(
+                    'background-color' => array(
+                    	'selector' => array( '#site-footer' ),
+                        //'suffix'=> '!important',
+                    ),
+				),
+			),
+			'text' => array(
+				array(
+					'color' => array(
+						'selector' => array( '.site-banner', '#site-footer' ),
+					),
+				),
+			),
+		),
+		/*
 		'header-footer' => array(
 			'accent' => array(
 				array(
@@ -308,6 +338,7 @@ function diym_get_elements_array() {
 				),
 			),
 		),
+		*/
 	);
 
 	return $elements;
