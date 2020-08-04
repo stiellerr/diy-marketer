@@ -58,6 +58,7 @@ function diym_customize_controls_enqueue_scripts() {
 	//wp_enqueue_script( 'diym-customize-controls', DIYM_JS_URL . 'customize-controls.js', array( 'diym-color-calculations', 'customize-controls', 'underscore', 'jquery' ), DIYM_VER, false );
 	wp_enqueue_script( 'diym-customize-controls', DIYM_JS_URL . 'customize-controls.js', array( 'customize-controls', 'wp-color-picker', 'underscore', 'jquery' ), DIYM_VER, false );
 	wp_localize_script( 'diym-customize-controls', 'diymBgColors', diym_get_customizer_color_vars() );
+	wp_localize_script( 'diym-customize-controls', 'diymBackgroudColors', diym_get_customizer_color_vars() );
 
 }
 
@@ -154,10 +155,14 @@ function diym_get_color_for_area( $area = 'content', $context = 'text' ) {
 function diym_get_customizer_color_vars() {
 	$colors = array(
 		'content'       => array(
-			'setting' => 'background_color',
+			//'setting' => 'background_color',
+			// hard code background color to white...
+			'color' => '#ffffff'
 		),
-		'header-footer' => array(
-			'setting' => 'header_footer_background_color',
+		//'header-footer' => array(
+		'banner-footer' => array(
+			//'setting' => 'header_footer_background_color',
+			'setting' => 'banner_footer_background_color',
 		),
 	);
 	return $colors;

@@ -13,12 +13,27 @@ import { array_search } from "locutus/php/array";
 
 wp.customize("accent_color", value => {
     value.bind(to => {
+        // Generate the styles.
+        // Add a small delay to be sure the accessible colors were generated.
+        setTimeout(() => {
+            let a11yColors = window.parent.wp.customize.get().custom_colors;
+
+            console.log(a11yColors);
+
+            /*
+            for (let context of Object.keys(diymBgColors)) {
+                diymGenerateColorA11yPreviewStyles(context);
+            }
+            */
+        }, 50);
+        /*
         setTimeout(() => {
             let customColors = window.parent.wp.customize.get().custom_colors;
             //let customColors = wp.customize.get().custom_colors;
             //gulp console.log(customColors['banner-footer'].accent);
             $(".site-banner").css("color", customColors["banner-footer"].accent);
         }, 50);
+        */
         //$(".site-banner").css("color", to);
     });
 });

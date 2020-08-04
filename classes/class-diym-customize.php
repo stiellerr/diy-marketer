@@ -277,7 +277,7 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 				array(
 					'default'           => array(
 						'content'       => array(
-							//'text'      => '#000000',
+							'text'      => '#000000',
 							'accent'    => '#cd2653',
 							//'secondary' => '#6d6d6d',
 							//'borders'   => '#dcd7ca',
@@ -291,7 +291,7 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					),
 					'type'              => 'theme_mod',
 					'transport'         => 'postMessage',
-					'sanitize_callback' => array( __CLASS__, 'sanitize_accent_accessible_colors' ),
+					//'sanitize_callback' => array( __CLASS__, 'sanitize_accent_accessible_colors' ),
 				)
 			);
 

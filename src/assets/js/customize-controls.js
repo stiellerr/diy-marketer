@@ -9,16 +9,18 @@
  */
 
 import { diymColor } from "./components/color-calculations";
-import $ from "jquery";
+import DIYM_Color from "./components/color-calculations2";
+//import $ from "jquery";
 
 wp.customize.bind("ready", () => {
     // Wait until the customizer has finished loading.
     // background, accent
-    let zzzTest = new DIYM_Color("#000000", "#000000");
+    //let zzzTest = new DIYM_Color("#000000", "#000000");
 
-    console.log("bg" + zzzTest.background.toCSS());
-    console.log("tx" + zzzTest.getTextColor());
-    console.log("ac" + zzzTest.getAccentColor());
+    //console.log("bg" + zzzTest.background.toCSS());
+    //console.log("tx" + zzzTest.getTextColor());
+    //console.log("ac" + zzzTest.getAccentColor(4.5));
+    //console.log("ac" + zzzTest.accent.toCSS());
 
     //let x = new Color("#ffffff");
     //let y = new Color("#000000");
@@ -35,6 +37,17 @@ wp.customize.bind("ready", () => {
     wp.customize("accent_color", value => {
         // Add a listener for accent-color changes.
         value.bind(to => {
+            for (let context of Object.keys(diymBgColors)) {
+                let backgroundColor;
+                if (diymBgColors[context].color) {
+                    backgroundColor = diymBgColors[context].color;
+                } else {
+                    backgroundColor = wp.customize(diymBgColors[context].setting).get();
+                }
+                //console.log(backgroundColorValue);
+                diymCustomColors(context, backgroundColor, to);
+            }
+
             /*
 
             let customColors = wp.customize.get().custom_colors,
@@ -122,34 +135,30 @@ wp.customize.bind("ready", () => {
     }
 });
 
-class DIYM_Color {
-    constructor(background, accent) {
-        //
-        this.background = new Color(background);
-        this.accent = new Color(accent);
-        this.text = this.background.getMaxContrastColor();
-    }
-    getTextColor() {
-        return this.text.toCSS();
-    }
-    getAccentColor() {
-        //let x = new Color("#000000");
+const diymCustomColors = (context, background, accent) => {
+    let settings, colors;
 
-        //console.log(x);
-        //fallback = new Color("hsl(" + this.accentHue + ",75%,50%)");
-        return this.accent.clone().getReadableContrastingColor(this.background, 4.5).toCSS();
+    settings = wp.customize.get().custom_colors;
+    settings = _.isObject(settings) && !_.isArray(settings) ? settings : {};
+
+    colors = new DIYM_Color(background, accent);
+
+    // Sanity check.
+    if (_.isFunction(colors.getAccentColor) && colors.getAccentColor()) {
+        // Update the value for this context.
+        settings[context] = {
+            text: colors.getTextColor(),
+            accent: colors.getAccentColor(),
+            background: colors.getBackgroundColor()
+        };
     }
-}
-/*
-diym_custom_colors = (context, background, accent) => {
-    let custom_colors;
 
-    custom_colors = wp.customize("custom_colors").get();
-    custom_colors = _.isObject(custom_colors) && !_.isArray(custom_colors) ? custom_colors : {};
+    // Change the value.
+    wp.customize("custom_colors").set(settings);
 
-    let color_values = new DIYM_Color(background, accent);
+    // Small hack to save the option.
+    wp.customize("custom_colors")._dirty = true;
 };
-*/
 
 /**
  * Updates the value of the "accent_accessible_colors" setting.S
