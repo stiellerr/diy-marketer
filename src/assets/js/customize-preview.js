@@ -79,9 +79,11 @@ for (let context of Object.keys(diymBgColors)) {
             // Generate the styles.
             // Add a small delay to be sure the accessible colors were generated.
             setTimeout(() => {
+                //let a11yColors = window.parent.wp.customize.get().custom_colors;
+                //console.log(a11yColors);
                 //diymGenerateColorA11yPreviewStyles(context);
-                //diymGenerateColorPreviewStyles(context);
-                console.log(context);
+                diymGenerateColorPreviewStyles(context);
+                //console.log(context);
             }, 50);
         });
     });

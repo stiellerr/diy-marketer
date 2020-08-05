@@ -119,6 +119,46 @@ function diym_get_color_for_area( $area = 'content', $context = 'text' ) {
 
 	// Get the value from the theme-mod.
 	$settings = get_theme_mod(
+		'custom_colors',
+		array(
+			'content'       => array(
+				'text'      => '#000000',
+				'accent'    => '#cd2653',
+				//'secondary' => '#6d6d6d',
+				//'borders'   => '#dcd7ca',
+			),
+			'header-footer' => array(
+				'text'      => '#000000',
+				'accent'    => '#cd2653',
+				//'secondary' => '#6d6d6d',
+				//'borders'   => '#dcd7ca',
+			),
+		)
+	);
+
+	// If we have a value return it.
+	if ( isset( $settings[ $area ] ) && isset( $settings[ $area ][ $context ] ) ) {
+		return $settings[ $area ][ $context ];
+	}
+
+	// Return false if the option doesn't exist.
+	return false;
+}
+
+
+/**
+ * Get accessible color for an area.
+ *
+ * @since Twenty Twenty 1.0
+ *
+ * @param string $area The area we want to get the colors for.
+ * @param string $context Can be 'text' or 'accent'.
+ * @return string Returns a HEX color.
+ */
+function diym_get_color_for_area2( $area = 'content', $context = 'text' ) {
+
+	// Get the value from the theme-mod.
+	$settings = get_theme_mod(
 		'accent_accessible_colors',
 		array(
 			'content'       => array(
@@ -268,13 +308,17 @@ function diym_get_elements_array() {
 				),
 				array(
 					'border-color' => array(
-						//'selector' => array( 'navbar-nav .nav-item .nav-link:hover', '.btn-primary' ),
-						//'suffix'	=> '!important',
+						'selector' => array( '.navbar-nav .nav-item .nav-link:hover', '.btn-primary' ),
 					),
 				),
 				array(
 					'background-color' => array(
-						'selector' => array( '.nav-pills .nav-link.active', '.nav-pills .show > .nav-link', '.dropdown-item.active', '.dropdown-item:active', 'btn-primary' ),
+						'selector' => array( '.nav-pills .nav-link.active', '.nav-pills .show > .nav-link', '.dropdown-item.active', '.dropdown-item:active', '.btn-primary' ),
+					),
+				),
+				array(
+					'color' => array(
+						'selector' => array( 'a', '.nav-link:hover', '#menu-widget .current-menu-item a', '#menu-footer .current-menu-item a' ),
 					),
 				),
 			),
@@ -290,13 +334,7 @@ function diym_get_elements_array() {
 			'background' => array(
 				array(
                     'background-color' => array(
-						'selector' => array( '.site-banner' ),
-                    ),
-				),
-				array(
-                    'background-color' => array(
-                    	'selector' => array( '#site-footer' ),
-                        //'suffix'=> '!important',
+						'selector' => array( '.site-banner', '#site-footer' ),
                     ),
 				),
 			),
@@ -308,37 +346,6 @@ function diym_get_elements_array() {
 				),
 			),
 		),
-		/*
-		'header-footer' => array(
-			'accent' => array(
-				array(
-					'color' => array(
-						'selector' => array( '.site-banner a' , '#site-footer a'),
-					),
-				),
-			),
-			'background' => array(
-				array(
-                    'background-color' => array(
-						'selector' => array( '.site-banner' ),
-                    ),
-				),
-				array(
-                    'background-color' => array(
-                    	'selector' => array( '#site-footer' ),
-                        //'suffix'=> '!important',
-                    ),
-				),
-			),
-			'text' => array(
-				array(
-					'color' => array(
-						'selector' => array( '.site-banner', '#site-footer' ),
-					),
-				),
-			),
-		),
-		*/
 	);
 
 	return $elements;

@@ -131,39 +131,6 @@ function diym_admin_assets()
 add_action('admin_enqueue_scripts', 'diym_admin_assets');
 
 /**
- * Display custom color CSS.
- */
-function diym_colors_css_wrap() {
-	/*
-	if ( 'custom' !== get_theme_mod( 'colorscheme' ) && ! is_customize_preview() ) {
-		return;
-	}
-
-	require_once get_parent_theme_file_path( '/inc/color-patterns.php' );
-	$hue = absint( get_theme_mod( 'colorscheme_hue', 250 ) );
-	
-
-	
-	*/
-
-	$hue = 166;
-
-	$customize_preview_data_hue = '';
-	if ( is_customize_preview() ) {
-		$customize_preview_data_hue = 'data-hue="' . $hue . '"';
-	}
-	?>
-	
-	<style type="text/css" id="custom-theme-colors" <?php echo $customize_preview_data_hue; ?>>
-		<?php echo 'background-color:{blue;}';   /*twentyseventeen_custom_colors_css();*/ ?>
-	</style>
-	<?php
-}
-add_action( 'wp_head', 'diym_colors_css_wrap' );
-
-
-
-/**
  * Customizer additions.
  */
 require DIYM_DIR . 'inc/customizer.php';
