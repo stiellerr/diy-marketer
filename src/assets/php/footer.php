@@ -46,7 +46,7 @@
 				<?php
 					wp_nav_menu(
 						array(
-							'theme_location'=> 'menu-2',
+							'theme_location'=> 'footer',
 							'depth'			=> 1,
 							'fallback_cb'	=> false,
 							'menu_class'	=> 'nav',

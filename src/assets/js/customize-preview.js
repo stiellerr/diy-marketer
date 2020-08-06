@@ -11,6 +11,15 @@
 import $ from "jquery";
 import { array_search } from "locutus/php/array";
 
+// Generate styles on load. Handles page-changes on the preview pane.
+$(document).ready(() => {
+    console.log("zzz");
+    diymGenerateColorPreviewStyles("content");
+    diymGenerateColorPreviewStyles("banner-footer");
+});
+
+console.log(window.parent.wp.customize.get().custom_colors);
+
 wp.customize("accent_color", value => {
     value.bind(to => {
         // Generate the styles.
@@ -24,12 +33,14 @@ wp.customize("accent_color", value => {
 });
 
 // Add listener for the "header_footer_background_color" control.
+/*
 wp.customize("banner_footer_background_color", value => {
     value.bind(to => {
         // Add background color to header and footer wrappers.
         $(".site-banner").css("background-color", to);
     });
 });
+*/
 
 // Add listener for the "header_footer_background_color" control.
 wp.customize("header_footer_background_color", value => {
@@ -72,6 +83,7 @@ wp.customize("accent_hue", value => {
 });
 
 // Add listeners for background-color settings.
+/*
 for (let context of Object.keys(diymBgColors)) {
     //console.log(diymBgColors[context].setting);
     wp.customize(diymBgColors[context].setting, value => {
@@ -88,6 +100,17 @@ for (let context of Object.keys(diymBgColors)) {
         });
     });
 }
+*/
+
+wp.customize("banner_footer_background_color", value => {
+    value.bind(() => {
+        // Generate the styles.
+        // Add a small delay to be sure the accessible colors were generated.
+        setTimeout(() => {
+            diymGenerateColorPreviewStyles("banner-footer");
+        }, 50);
+    });
+});
 
 /**
  * Add styles to elements in the preview pane.
@@ -143,6 +166,7 @@ function diymGenerateColorPreviewStyles(context) {
         }
     }
     // Add styles.
+    //console.log(styles);
     stylesheet.html(styles);
 }
 

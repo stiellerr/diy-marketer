@@ -12,86 +12,15 @@
  * Include required files.
  */
 
-// Handle Customizer settings.
-require get_template_directory() . '/classes/class-diym-customize.php';
+
 
 // Custom CSS.
-require get_template_directory() . '/inc/custom-css.php';
-
-/**
- * Register and Enqueue Styles.
- */
-function diym_register_styles() {
-
-	//$theme_version = wp_get_theme()->get( 'Version' );
-
-	//wp_enqueue_style( 'twentytwenty-style', get_stylesheet_uri(), array(), DIYM_VER );
-	//wp_style_add_data( 'twentytwenty-style', 'rtl', 'replace' );
-	wp_enqueue_style( 'diym-style', DIYM_CSS_URL . 'bundle.css', array( 'dashicons' ), DIYM_VER, 'all' );
-
-	// Add output of Customizer settings as inline style.
-	wp_add_inline_style( 'diym-style', diym_get_customizer_css( 'front-end' ) );
-
-	// Add print CSS.
-	//wp_enqueue_style( 'twentytwenty-print-style', get_template_directory_uri() . '/print.css', null, $theme_version, 'print' );
-
-}
-
-add_action( 'wp_enqueue_scripts', 'diym_register_styles' );
+//require get_template_directory() . '/inc/custom-css.php';
 
 
-/**
- * Enqueues scripts for customizer controls & settings.
- *
- * @since Twenty Twenty 1.0
- *
- * @return void
- */
-function diym_customize_controls_enqueue_scripts() {
-	// Add main customizer js file.
-	//wp_enqueue_script( 'diym-customize', DIYM_JS_URL . 'customize.js', array( 'jquery' ), DIYM_VER, false );
 
-	// Add script for color calculations.
-	//wp_enqueue_script( 'diym-color-calculations', DIYM_JS_URL . 'color-calculations.js', array( 'wp-color-picker' ), DIYM_VER, false );
 
-	// Add script for controls.
-	//wp_enqueue_script( 'diym-customize-controls', DIYM_JS_URL . 'customize-controls.js', array( 'diym-color-calculations', 'customize-controls', 'underscore', 'jquery' ), DIYM_VER, false );
-	wp_enqueue_script( 'diym-customize-controls', DIYM_JS_URL . 'customize-controls.js', array( 'customize-controls', 'wp-color-picker', 'underscore', 'jquery' ), DIYM_VER, false );
-	wp_localize_script( 'diym-customize-controls', 'diymBgColors', diym_get_customizer_color_vars() );
-	wp_localize_script( 'diym-customize-controls', 'diymBackgroudColors', diym_get_customizer_color_vars() );
 
-}
-
-add_action( 'customize_controls_enqueue_scripts', 'diym_customize_controls_enqueue_scripts' );
-
-/**
- * Enqueue scripts for the customizer preview.
- *
- * @since Twenty Twenty 1.0
- *
- * @return void
- */
-function diym_customize_preview_init() {
-	//$theme_version = wp_get_theme()->get( 'Version' );//get_theme_file_uri(
-
-	//wp_enqueue_script( 'twentytwenty-customize-preview', get_theme_file_uri( '/assets/js/customize-preview.js' ), array( 'customize-preview', 'customize-selective-refresh', 'jquery' ), $theme_version, true );
-	wp_enqueue_script( 'diym-customize-preview', DIYM_JS_URL . 'customize-preview.js', array( 'customize-preview', 'customize-selective-refresh', 'jquery' ), DIYM_VER, true );
-	wp_localize_script( 'diym-customize-preview', 'diymBgColors', diym_get_customizer_color_vars() );
-	wp_localize_script( 'diym-customize-preview', 'diymPreviewEls', diym_get_elements_array() );
-
-	/*
-	wp_add_inline_script(
-		'twentytwenty-customize-preview',
-		sprintf(
-			'wp.customize.selectiveRefresh.partialConstructor[ %1$s ].prototype.attrs = %2$s;',
-			wp_json_encode( 'cover_opacity' ),
-			wp_json_encode( twentytwenty_customize_opacity_range() )
-		)
-	);
-	*/
-}
-
-add_action( 'customize_preview_init', 'diym_customize_preview_init' );
 
 
 /*
@@ -106,44 +35,7 @@ function diym_assets() {
 }
 */
 
-/**
- * Get accessible color for an area.
- *
- * @since Twenty Twenty 1.0
- *
- * @param string $area The area we want to get the colors for.
- * @param string $context Can be 'text' or 'accent'.
- * @return string Returns a HEX color.
- */
-function diym_get_color_for_area( $area = 'content', $context = 'text' ) {
 
-	// Get the value from the theme-mod.
-	$settings = get_theme_mod(
-		'custom_colors',
-		array(
-			'content'       => array(
-				'text'      => '#000000',
-				'accent'    => '#cd2653',
-				//'secondary' => '#6d6d6d',
-				//'borders'   => '#dcd7ca',
-			),
-			'header-footer' => array(
-				'text'      => '#000000',
-				'accent'    => '#cd2653',
-				//'secondary' => '#6d6d6d',
-				//'borders'   => '#dcd7ca',
-			),
-		)
-	);
-
-	// If we have a value return it.
-	if ( isset( $settings[ $area ] ) && isset( $settings[ $area ][ $context ] ) ) {
-		return $settings[ $area ][ $context ];
-	}
-
-	// Return false if the option doesn't exist.
-	return false;
-}
 
 
 /**
@@ -185,28 +77,7 @@ function diym_get_color_for_area2( $area = 'content', $context = 'text' ) {
 	return false;
 }
 
-/**
- * Returns an array of variables for the customizer preview.
- *
- * @since Twenty Twenty 1.0
- *
- * @return array
- */
-function diym_get_customizer_color_vars() {
-	$colors = array(
-		'content'       => array(
-			//'setting' => 'background_color',
-			// hard code background color to white...
-			'color' => '#ffffff'
-		),
-		//'header-footer' => array(
-		'banner-footer' => array(
-			//'setting' => 'header_footer_background_color',
-			'setting' => 'banner_footer_background_color',
-		),
-	);
-	return $colors;
-}
+
 
 /**
  * Get an array of elements.
@@ -286,70 +157,7 @@ function diym_get_elements_array2() {
 	);
 }
 
-/**
- * Get an array of elements.
- *
- * @since Twenty Twenty 1.0
- *
- * @return array
- */
-function diym_get_elements_array() {
 
-	// The array is formatted like this:
-	// [key-in-saved-setting][sub-key-in-setting][index][css-property][selector] = [elements].
-	$elements = array(
-		'content' => array(
-			'accent' => array(
-				array(
-					'border-color' => array(
-						'selector' => array( '.border-primary' ),
-						'suffix'	=> '!important',
-					),
-				),
-				array(
-					'border-color' => array(
-						'selector' => array( '.navbar-nav .nav-item .nav-link:hover', '.btn-primary' ),
-					),
-				),
-				array(
-					'background-color' => array(
-						'selector' => array( '.nav-pills .nav-link.active', '.nav-pills .show > .nav-link', '.dropdown-item.active', '.dropdown-item:active', '.btn-primary' ),
-					),
-				),
-				array(
-					'color' => array(
-						'selector' => array( 'a', '.nav-link:hover', '#menu-widget .current-menu-item a', '#menu-footer .current-menu-item a' ),
-					),
-				),
-			),
-		),
-		'banner-footer' => array(
-			'accent' => array(
-				array(
-					'color' => array(
-						'selector' => array( '.site-banner a' , '#site-footer a'),
-					),
-				),
-			),
-			'background' => array(
-				array(
-                    'background-color' => array(
-						'selector' => array( '.site-banner', '#site-footer' ),
-                    ),
-				),
-			),
-			'text' => array(
-				array(
-					'color' => array(
-						'selector' => array( '.site-banner', '#site-footer' ),
-					),
-				),
-			),
-		),
-	);
-
-	return $elements;
-}
 
 
 ?>

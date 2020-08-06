@@ -124,6 +124,7 @@ wp.customize.bind("ready", () => {
     });
 
     // Add a listener for background-color changes.
+    /*
     for (let context of Object.keys(diymBgColors)) {
         wp.customize(diymBgColors[context].setting, value => {
             value.bind(to => {
@@ -134,6 +135,14 @@ wp.customize.bind("ready", () => {
             });
         });
     }
+    */
+    // Add a listener for background-color changes.
+    wp.customize("banner_footer_background_color", value => {
+        value.bind(to => {
+            // Update the value for our accessible colors for this area.
+            diymCustomColors("banner-footer", to, wp.customize.get().accent_color);
+        });
+    });
 });
 
 const diymCustomColors = (context, background, accent) => {

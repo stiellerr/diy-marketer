@@ -125,6 +125,9 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 			}
 			*/
 
+			error_log( 'custom_colors' );
+			error_log( print_r( get_theme_mod( 'custom_colors' ), true ) );
+
 			// Auto-calculated colors.
 			$elements_definitions = diym_get_elements_array();
 			foreach ( $elements_definitions as $context => $settings ) {

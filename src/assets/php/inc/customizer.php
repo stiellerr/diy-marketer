@@ -254,7 +254,7 @@ function diym_customize_register( $wp_customize ) {
 
     $wp_customize->selective_refresh->add_partial('diym_phone_number', array(
         'settings' => array(
-			'blogname',
+			//'blogname',
             'diym_street_address',
 			'diym_suburb',
 			'diym_city',
