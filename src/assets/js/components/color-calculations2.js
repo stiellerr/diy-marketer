@@ -49,4 +49,8 @@ export default class DIYM_Color {
             .toCSS();
             */
     }
+    getAccentRgb() {
+        //
+        return this.accent.r() + ", " + this.accent.g() + ", " + this.accent.b();
+    }
 }

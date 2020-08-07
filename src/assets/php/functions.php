@@ -400,6 +400,15 @@ function diym_get_elements_array() {
 					),
 				),
 			),
+			'accentRgb' => array(
+				array(
+					'box-shadow' => array(
+						'selector' => array( '.form-control:focus' ),
+						'prefix' => '0 0 0 0.2rem rgba(',
+						'suffix' => ', 0.25)',
+					),
+				),
+			),
 			'accentDark' => array(
 				array(
 					'background-color' => array(

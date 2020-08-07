@@ -125,6 +125,8 @@ function diymGenerateColorPreviewStyles(context) {
         stylesheet = $("#" + stylesheedID),
         styles = "";
 
+    //var x = new window.parent.Color("#ffffff");
+
     console.log(a11yColors);
 
     // If the stylesheet doesn't exist, create it and append it to <head>.

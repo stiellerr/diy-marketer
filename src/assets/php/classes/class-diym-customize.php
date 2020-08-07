@@ -287,6 +287,11 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 							'accent'    => '#cd2653',
 							//'secondary' => '#6d6d6d',
 							//'borders'   => '#dcd7ca',
+							/*
+							'test'	=> array(
+
+							)
+							*/
 						),
 					),
 					'type'              => 'theme_mod',
