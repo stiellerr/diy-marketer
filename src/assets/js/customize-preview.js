@@ -13,12 +13,9 @@ import { array_search } from "locutus/php/array";
 
 // Generate styles on load. Handles page-changes on the preview pane.
 $(document).ready(() => {
-    console.log("zzz");
     diymGenerateColorPreviewStyles("content");
     diymGenerateColorPreviewStyles("banner-footer");
 });
-
-console.log(window.parent.wp.customize.get().custom_colors);
 
 wp.customize("accent_color", value => {
     value.bind(to => {
@@ -127,6 +124,8 @@ function diymGenerateColorPreviewStyles(context) {
         stylesheedID = "diym-customizer-styles-" + context,
         stylesheet = $("#" + stylesheedID),
         styles = "";
+
+    console.log(a11yColors);
 
     // If the stylesheet doesn't exist, create it and append it to <head>.
     if (!stylesheet.length) {

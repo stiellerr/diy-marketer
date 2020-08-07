@@ -393,6 +393,20 @@ function diym_get_elements_array() {
 					),
 				),
 			),
+			'accentLight' => array(
+				array(
+					'border-color' => array(
+						'selector' => array( '.form-control:focus' ),
+					),
+				),
+			),
+			'accentDark' => array(
+				array(
+					'background-color' => array(
+						'selector' => array( '.btn-primary:hover' ),
+					),
+				),
+			),
 			'background' => array(
 				array(
                     'background-color' => array(
