@@ -39,6 +39,8 @@ if ( ! function_exists( 'diym_generate_css' ) ) {
 
 		}
 
+		error_log($return);
+
 		return $return;
 
 	}
@@ -125,8 +127,7 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 			}
 			*/
 
-			error_log( 'custom_colors' );
-			error_log( print_r( get_theme_mod( 'custom_colors' ), true ) );
+
 
 			// Auto-calculated colors.
 			$elements_definitions = diym_get_elements_array();
@@ -138,7 +139,16 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 							if ( ! is_array( $selectors ) || empty( $selectors ) ) {
 								continue;
 							}
-							$val = diym_get_color_for_area( $context, $setting );
+							$i = isset( $options[ 'index' ] ) ? $options[ 'index' ] : 0;
+							$val = diym_get_color_for_area( $context, $setting, $i );
+							
+							// if rgb flag is set, covert hex to rgb
+							$rgb = isset( $options[ 'rgb' ] ) ? $options[ 'rgb' ] : false;
+							if ( $rgb ) {
+								list($r, $g, $b) = sscanf($val, "#%02x%02x%02x");
+								$val = $r . ', ' . $g . ', ' . $b; 
+							}
+
 							if ( $val ) {
 								$prefix   = isset( $options[ 'prefix' ] ) ? $options[ 'prefix' ] : '';
 								$suffix   = isset( $options[ 'suffix' ] ) ? $options[ 'suffix' ] : '';

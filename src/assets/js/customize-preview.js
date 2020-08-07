@@ -151,14 +151,25 @@ function diymGenerateColorPreviewStyles(context) {
                         }
                         // set prefix and suffix
                         let suffix = !_.isUndefined(options.suffix) ? options.suffix : "",
-                            prefix = !_.isUndefined(options.prefix) ? options.prefix : "";
+                            prefix = !_.isUndefined(options.prefix) ? options.prefix : "",
+                            i = !_.isUndefined(options.index) ? options.index : 0,
+                            rgb = !_.isUndefined(options.index) ? options.index : false,
+                            val = !_.isArray(a11yColors[context][setting])
+                                ? a11yColors[context][setting]
+                                : a11yColors[context][setting][i];
+
+                        if (rgb) {
+                            let hex = new window.parent.Color(val);
+                            val = hex.r() + ", " + hex.g() + ", " + hex.b();
+                        }
+
                         styles +=
                             selectors.join(",") +
                             "{" +
                             property +
                             ":" +
                             prefix +
-                            a11yColors[context][setting] +
+                            val +
                             suffix +
                             ";}";
                     });

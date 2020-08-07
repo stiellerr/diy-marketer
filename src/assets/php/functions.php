@@ -318,7 +318,7 @@ function diym_get_customizer_color_vars() {
  * @param string $context Can be 'text' or 'accent'.
  * @return string Returns a HEX color.
  */
-function diym_get_color_for_area( $area = 'content', $context = 'text' ) {
+function diym_get_color_for_area( $area = 'content', $context = 'text', $index = 0 ) {
 
 	// Get the value from the theme-mod.
 	$settings = get_theme_mod(
@@ -327,10 +327,15 @@ function diym_get_color_for_area( $area = 'content', $context = 'text' ) {
 			'content'       => array(
 				'text'      => '#000000',
 				'accent'    => '#cd2653',
+				'test'    => array(
+					7.0 => '#1',
+					7.5 => '#2',
+					8.0 => '#3',
+				),
 				//'secondary' => '#6d6d6d',
 				//'borders'   => '#dcd7ca',
 			),
-			'header-footer' => array(
+			'banner-footer' => array(
 				'text'      => '#000000',
 				'accent'    => '#cd2653',
 				//'secondary' => '#6d6d6d',
@@ -339,9 +344,23 @@ function diym_get_color_for_area( $area = 'content', $context = 'text' ) {
 		)
 	);
 
+	//
+	//error_log( $area );
+	//error_log( $context );
+
 	// If we have a value return it.
 	if ( isset( $settings[ $area ] ) && isset( $settings[ $area ][ $context ] ) ) {
-		return $settings[ $area ][ $context ];
+
+		error_log( $area );
+		error_log( $context );
+		// Check if subkey exists
+		if ( is_array( $settings[ $area ][ $context ] ) ) {
+			//error_log('true');
+			return $settings[ $area ][ $context ][ $index ];
+		} else {
+			//error_log('false');
+			return $settings[ $area ][ $context ];
+		}
 	}
 
 	// Return false if the option doesn't exist.
@@ -362,6 +381,7 @@ function diym_get_elements_array() {
 	$elements = array(
 		'content' => array(
 			'accent' => array(
+				/*
 				array(
 					'border-color' => array(
 						'selector' => array( '.border-primary' ),
@@ -383,9 +403,61 @@ function diym_get_elements_array() {
 						'selector' => array( 'a', '.nav-link:hover', '#menu-widget .current-menu-item a', '#menu-footer .current-menu-item a' ),
 					),
 				),
+				*/
 			),
 		),
 		'banner-footer' => array(
+			'accent' => array(
+				array(
+					'background-color' => array(
+						'selector' => array( '#site-footer .btn-primary')
+					)
+				),
+				array(
+					'border-color' => array(
+						'selector' => array( '#site-footer .btn-primary')
+					)
+				)
+			),
+			'accent' => array(
+				array(
+					'border-color' => array(
+						'selector' => array( '#site-footer .btn-primary:hover'),
+						'rgb' => true,
+						'prefix' => 'rgba(',
+						'suffix' => ', 0.5)',
+					)
+				)
+			),
+			'accent_43' => array(
+				array(
+					'background-color' => array(
+						'selector' => array( '#site-footer .btn-primary:hover')
+					)
+				)
+			),
+			'accentRgb' => array(
+				array(
+					'box-shadow' => array(
+						'selector' => array( '#site-footer .btn:focus', '#site-footer .btn.focus', '#site-footer .form-control:focus' ),
+						'prefix' => '0 0 0 0.2rem rgba(',
+						'suffix' => ', 0.25)',
+					)
+				)
+			),
+			'background' => array(
+				array(
+                    'background-color' => array(
+						'selector' => array( '#site-footer' )
+                    )
+				),
+				array(
+                    'color' => array(
+						'selector' => array( '#site-footer .btn-primary' )
+                    )
+				)
+			),
+			/*
 			'accent' => array(
 				array(
 					'color' => array(
@@ -400,10 +472,11 @@ function diym_get_elements_array() {
 					),
 				),
 			),
+			//
 			'accentRgb' => array(
 				array(
 					'box-shadow' => array(
-						'selector' => array( '.form-control:focus' ),
+						'selector' => array( '.form-control:focus', '.btn:focus', '.btn.focus' ),
 						'prefix' => '0 0 0 0.2rem rgba(',
 						'suffix' => ', 0.25)',
 					),
@@ -430,6 +503,7 @@ function diym_get_elements_array() {
 					),
 				),
 			),
+			*/
 		),
 	);
 
@@ -471,4 +545,11 @@ require get_template_directory() . '/inc/widget-page-excerpt.php';
  */
 require get_template_directory() . '/inc/widget-contact-form.php';
 
-?>
+//error_log( 'color for area' );
+//error_log( diym_get_color_for_area( 'content', 'test' ) );
+
+
+//error_log( 'custom_colors' );
+//			error_log( print_r( get_theme_mod( 'custom_colors' ), true ) );
+
+			?>
