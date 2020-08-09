@@ -4,3 +4,4 @@ packaged
 /inc
 /template-parts
 /*.php
+/classes

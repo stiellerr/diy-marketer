@@ -40,7 +40,8 @@ const paths = {
     styles: {
         src: [
             "src/assets/scss/bundle.scss",
-            "src/assets/scss/admin.scss"
+            "src/assets/scss/admin.scss",
+            "src/assets/scss/custom-controls.scss"
             //"src/assets/scss/customizer.css",
             //"src/assets/scss/select2.css"
         ],

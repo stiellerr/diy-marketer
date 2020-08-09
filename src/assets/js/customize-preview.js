@@ -62,7 +62,19 @@ wp.customize("font_family", value => {
     value.bind(to => {
         if ("default" !== to) {
             $("body").css("font-family", to);
+            //$(":root").css("font-family", to);
         }
+    });
+});
+
+wp.customize("zzz_test2", value => {
+    value.bind(to => {
+        $("body").css(
+            "background-image",
+            "url('/wp-content/themes/diy-marketer/dist/assets/images/bg/" + to + ".png')"
+        );
+        ///dist/assets/images/bg/pattern1.png
+        //console.log(to);
     });
 });
 
@@ -120,6 +132,7 @@ wp.customize("banner_footer_background_color", value => {
  */
 function diymGenerateColorPreviewStyles(context) {
     // Get the accessible colors option.
+
     let a11yColors = window.parent.wp.customize.get().custom_colors,
         stylesheedID = "diym-customizer-styles-" + context,
         stylesheet = $("#" + stylesheedID),
@@ -127,14 +140,20 @@ function diymGenerateColorPreviewStyles(context) {
 
     //var x = new window.parent.Color("#ffffff");
 
-    console.log(a11yColors);
+    //console.log(context);
 
     // If the stylesheet doesn't exist, create it and append it to <head>.
     if (!stylesheet.length) {
+        console.log("true");
         $("#diym-style-inline-css").after('<style id="' + stylesheedID + '"></style>');
         stylesheet = $("#" + stylesheedID);
+    } else {
+        console.log("false");
     }
 
+    console.log(stylesheet);
+
+    /*
     if (!_.isUndefined(a11yColors[context])) {
         // Check if we have elements defined.
         if (diymPreviewEls[context]) {
@@ -150,13 +169,17 @@ function diymGenerateColorPreviewStyles(context) {
                             return;
                         }
                         // set prefix and suffix
+
+                        //console.log(property);
+
                         let suffix = !_.isUndefined(options.suffix) ? options.suffix : "",
                             prefix = !_.isUndefined(options.prefix) ? options.prefix : "",
-                            i = !_.isUndefined(options.index) ? options.index : 0,
-                            rgb = !_.isUndefined(options.index) ? options.index : false,
-                            val = !_.isArray(a11yColors[context][setting])
+                            shade = !_.isUndefined(options.shade) ? options.shade : 0,
+                            rgb = !_.isUndefined(options.rgb) ? options.rgb : false,
+                            val = !_.isObject(a11yColors[context][setting])
                                 ? a11yColors[context][setting]
-                                : a11yColors[context][setting][i];
+                                : a11yColors[context][setting][shade];
+                        //console.log("val = " + val);
 
                         if (rgb) {
                             let hex = new window.parent.Color(val);
@@ -172,14 +195,18 @@ function diymGenerateColorPreviewStyles(context) {
                             val +
                             suffix +
                             ";}";
+
+                        //console.log(styles);
                     });
                 });
             });
         }
     }
+    */
     // Add styles.
-    //console.log(styles);
-    stylesheet.html(styles);
+    //console.log(styles);body{background-color:blue;}
+    //stylesheet.html(styles);
+    stylesheet.html("body{background-color:blue;}");
 }
 
 /**

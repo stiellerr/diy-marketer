@@ -342,12 +342,81 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					$wp_customize,
 					'accent_color',
 					array(
-						'label'   => __( 'Accent Color', 'diy-marketer' ),
+						'label'   => __( 'Accent Color.', 'diy-marketer' ),
+						'description'   => __( 'This is the description.', 'diy-marketer' ),
 						'section' => 'test',
 					)
 				)
 			);
+			// Test Color.
+			$wp_customize->add_setting(
+				'zzz_test2',
+				array(
+					'default'           => 'pattern3',
+					//'sanitize_callback' => 'sanitize_hex_color',
+					'transport'         => 'postMessage',
+				)
+			);
 
+
+
+			$wp_customize->add_control(
+				new DIYM_Image_Radio_Control(
+					$wp_customize,
+					'zzz_test2',
+					array(
+						'label'   => __( 'Background Pattern.', 'diy-marketer' ),
+						//'description'   => __( 'This is the description.', 'diy-marketer' ),
+						'section' => 'test',
+						'choices' => array(
+							'pattern1' => array(
+								'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern1.png',
+								'name' => __( 'Pattern 1', 'diy-marketer' )
+							),
+							'pattern2' => array(
+								'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern2.png',
+								'name' => __( 'Pattern 2', 'diy-marketer' )
+							),
+							'pattern3' => array(
+								'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern3.png',
+								'name' => __( 'Pattern 3', 'diy-marketer' )
+							),
+							'pattern4' => array(
+								'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern4.png',
+								'name' => __( 'Pattern 4', 'diy-marketer' )
+							),
+							'pattern5' => array(
+								'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern5.png',
+								'name' => __( 'Pattern 5', 'diy-marketer' )
+							),
+							'pattern6' => array(
+								'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern6.png',
+								'name' => __( 'Pattern 6', 'diy-marketer' )
+							),
+							'pattern7' => array(
+								'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern7.png',
+								'name' => __( 'Pattern 7', 'diy-marketer' )
+							),
+							'pattern8' => array(
+								'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern8.png',
+								'name' => __( 'Pattern 8', 'diy-marketer' )
+							),
+							'pattern9' => array(
+								'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern9.png',
+								'name' => __( 'Pattern 9', 'diy-marketer' )
+							),
+							'pattern10' => array(
+								'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern10.png',
+								'name' => __( 'Pattern 10', 'diy-marketer' )
+							),
+							'pattern11' => array(
+								'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern11.png',
+								'name' => __( 'Pattern 11', 'diy-marketer' )
+							)
+						)
+					)
+				)
+			);
 			/**
 			 * Theme Options
 			 */

@@ -52,6 +52,7 @@ if ( ! function_exists( 'diym_setup' ) ) {
 
 add_action('after_setup_theme', 'diym_setup');
 
+error_log(get_template_directory_uri());
 
 
 if ( ! defined( 'DIYM_VER' ) ) {
@@ -73,6 +74,9 @@ define( 'DIYM_JS_URL', trailingslashit( DIYM_URL . 'dist/assets/js' ) );
 
 // Handle Customizer settings.
 require get_template_directory() . '/classes/class-diym-customize.php';
+
+// Require Image Radio Control class.
+require get_template_directory() . '/classes/class-diym-image-radio-control.php';
 
 // Custom CSS.
 require get_template_directory() . '/inc/custom-css.php';
@@ -318,7 +322,7 @@ function diym_get_customizer_color_vars() {
  * @param string $context Can be 'text' or 'accent'.
  * @return string Returns a HEX color.
  */
-function diym_get_color_for_area( $area = 'content', $context = 'text', $index = 0 ) {
+function diym_get_color_for_area( $area = 'content', $context = 'text', $shade = 0 ) {
 
 	// Get the value from the theme-mod.
 	$settings = get_theme_mod(
@@ -356,7 +360,7 @@ function diym_get_color_for_area( $area = 'content', $context = 'text', $index =
 		// Check if subkey exists
 		if ( is_array( $settings[ $area ][ $context ] ) ) {
 			//error_log('true');
-			return $settings[ $area ][ $context ][ $index ];
+			return $settings[ $area ][ $context ][ $shade ];
 		} else {
 			//error_log('false');
 			return $settings[ $area ][ $context ];
@@ -408,16 +412,32 @@ function diym_get_elements_array() {
 		),
 		'banner-footer' => array(
 			'accent' => array(
+				/*
 				array(
 					'background-color' => array(
 						'selector' => array( '#site-footer .btn-primary')
 					)
 				),
+				
 				array(
 					'border-color' => array(
 						'selector' => array( '#site-footer .btn-primary')
 					)
 				)
+				*/
+				array(
+					'border-color' => array(
+						'selector' => array( '#site-footer .btn-primary:hover'),
+						'shade' => 40
+					)
+				),
+				array(
+					'background-color' => array(
+						'selector' => array( '#site-footer .btn-primary:hover'),
+						'shade' => 43
+					)
+				)
+				/*
 			),
 			'accent' => array(
 				array(
@@ -448,15 +468,16 @@ function diym_get_elements_array() {
 			'background' => array(
 				array(
                     'background-color' => array(
-						'selector' => array( '#site-footer' )
+						'selector' => array( '#site-footer', '.site-banner' )
                     )
 				),
 				array(
                     'color' => array(
 						'selector' => array( '#site-footer .btn-primary' )
                     )
-				)
+				)*/
 			),
+			
 			/*
 			'accent' => array(
 				array(

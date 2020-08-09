@@ -139,8 +139,8 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 							if ( ! is_array( $selectors ) || empty( $selectors ) ) {
 								continue;
 							}
-							$i = isset( $options[ 'index' ] ) ? $options[ 'index' ] : 0;
-							$val = diym_get_color_for_area( $context, $setting, $i );
+							$shade = isset( $options[ 'shade' ] ) ? $options[ 'shade' ] : 0;
+							$val = diym_get_color_for_area( $context, $setting, $shade );
 							
 							// if rgb flag is set, covert hex to rgb
 							$rgb = isset( $options[ 'rgb' ] ) ? $options[ 'rgb' ] : false;
@@ -149,6 +149,7 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 								$val = $r . ', ' . $g . ', ' . $b; 
 							}
 
+							error_log($val);
 							if ( $val ) {
 								$prefix   = isset( $options[ 'prefix' ] ) ? $options[ 'prefix' ] : '';
 								$suffix   = isset( $options[ 'suffix' ] ) ? $options[ 'suffix' ] : '';
