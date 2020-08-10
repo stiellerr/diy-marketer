@@ -44,7 +44,9 @@ if ( ! function_exists( 'diym_setup' ) ) {
             'flex-width' => true,
             'flex-height' => false,
             'header-text' => array( '#site-banner' ),
-        ]);
+		]);
+		
+		$mailer = new DIYM_Send_Mail();
     }
 }
 
@@ -73,6 +75,9 @@ require get_template_directory() . '/classes/class-diym-customize.php';
 
 // Require Image Radio Control class.
 require get_template_directory() . '/classes/class-diym-image-radio-control.php';
+
+// Require Send Mail class.
+require get_template_directory() . '/classes/class-diym-send-mail.php';
 
 // Custom CSS.
 require get_template_directory() . '/inc/custom-css.php';
