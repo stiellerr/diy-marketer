@@ -5,13 +5,22 @@ $(document).ready(() => {
     //diymGenerateColorPreviewStyles("content");
     //diymGenerateColorPreviewStyles("banner-footer");
     $(".contact-form").submit(evt => {
-        // prevent fpage refresh
+        // prevent page refresh
         evt.preventDefault();
 
-        var form_data = $(evt.currentTarget).serializeArray();
+        //var form_data = $(evt.currentTarget).serializeArray();
+        let self = $(evt.currentTarget);
 
-        console.log(this);
-        console.log(form_data);
-        alert("mail document ready...");
+        // validate...
+        if (!self[0].checkValidity()) {
+            //self.classList.add("was-validated");
+            self.addClass("was-validated");
+        }
+        //var form_data = $(evt).serializeArray();
+
+        console.log(self.serializeArray());
+        //console.log($(this));
+        //console.log(this_form);
+        //alert("mail document ready...");
     });
 });

@@ -32,6 +32,7 @@ if ( ! class_exists( 'DIYM_Send_Mail' ) ) {
 		 */
 		public function enqueue() {            
             wp_enqueue_script( 'diym-mail', get_template_directory_uri() . '/dist/assets/js/mail.js', array( 'jquery' ), wp_get_theme()->get( 'Version' ), true );
+            wp_localize_script('diym-mail', 'diymMailVars', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
         }
 
         /**
