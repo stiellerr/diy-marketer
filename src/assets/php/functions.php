@@ -7,8 +7,6 @@
  * @package DIY_Marketer
  */
 
-error_log( 'hello world!' );
-
 if ( ! function_exists( 'diym_setup' ) ) {
     /**
      * Sets up theme defaults and registers support for various WordPress features.
@@ -51,8 +49,6 @@ if ( ! function_exists( 'diym_setup' ) ) {
 }
 
 add_action('after_setup_theme', 'diym_setup');
-
-error_log(get_template_directory_uri());
 
 
 if ( ! defined( 'DIYM_VER' ) ) {
@@ -124,7 +120,6 @@ function diym_register_scripts() {
 	//wp_enqueue_script( 'twentytwenty-js', get_template_directory_uri() . '/assets/js/index.js', array(), $theme_version, false );
     
     //$wp_scripts()->add_data( 'diym-js', 'async', true );
-    //error_log( 'hello!' );
 
 }
 
@@ -348,23 +343,40 @@ function diym_get_color_for_area( $area = 'content', $context = 'text', $shade =
 		)
 	);
 
-	//
-	//error_log( $area );
-	//error_log( $context );
-
 	// If we have a value return it.
 	if ( isset( $settings[ $area ] ) && isset( $settings[ $area ][ $context ] ) ) {
 
-		error_log( $area );
-		error_log( $context );
-		// Check if subkey exists
 		if ( is_array( $settings[ $area ][ $context ] ) ) {
-			//error_log('true');
+			if ( ! isset( $settings[ $area ][ $context ][ $shade ] ) ) {
+				return false;
+			}
+			return $settings[ $area ][ $context ][ $shade ];
+		} elseif ( $shade ) {
+			return false;
+		}
+		
+		return $settings[ $area ][ $context ];
+		
+		
+		// Check if subkey exists
+		/*
+		if ( is_array( $settings[ $area ][ $context ] ) ) {
+
 			return $settings[ $area ][ $context ][ $shade ];
 		} else {
-			//error_log('false');
+
 			return $settings[ $area ][ $context ];
 		}
+		
+		if (_.isObject(a11yColors[context][setting])) {
+			if (_.isUndefined(a11yColors[context][setting][shade])) {
+				return;
+			}
+			val = a11yColors[context][setting][shade];
+		} else if (shade) {
+			return;
+		}
+		*/
 	}
 
 	// Return false if the option doesn't exist.
@@ -392,16 +404,26 @@ function diym_get_elements_array() {
 						'suffix'	=> '!important',
 					),
 				),
+				*/
 				array(
 					'border-color' => array(
-						'selector' => array( '.navbar-nav .nav-item .nav-link:hover', '.btn-primary' ),
+						'selector' => array( '.navbar-nav .nav-item .nav-link:hover', '.border-primary' ),
+						'suffix' => '!important'
+					),
+				),	
+				array(
+					'background-color' => array(
+						//'selector' => array( '.nav-pills .nav-link.active', '.nav-pills .show > .nav-link', '.dropdown-item.active', '.dropdown-item:active', '.btn-primary' ),
+						'selector' => array( '.nav-pills .nav-link.active', '.nav-pills .show > .nav-link' ),
 					),
 				),
 				array(
-					'background-color' => array(
-						'selector' => array( '.nav-pills .nav-link.active', '.nav-pills .show > .nav-link', '.dropdown-item.active', '.dropdown-item:active', '.btn-primary' ),
-					),
+					'color' => array(
+						'selector' => array( '.nav-link', '.nav-link:hover' )
+						//'selector' => array( 'a', '.nav-link:hover', '#menu-widget .current-menu-item a', '#menu-footer .current-menu-item a' ),
+					)
 				),
+				/*
 				array(
 					'color' => array(
 						'selector' => array( 'a', '.nav-link:hover', '#menu-widget .current-menu-item a', '#menu-footer .current-menu-item a' ),
@@ -412,19 +434,16 @@ function diym_get_elements_array() {
 		),
 		'banner-footer' => array(
 			'accent' => array(
-				/*
 				array(
 					'background-color' => array(
 						'selector' => array( '#site-footer .btn-primary')
 					)
 				),
-				
 				array(
 					'border-color' => array(
 						'selector' => array( '#site-footer .btn-primary')
 					)
-				)
-				*/
+				),
 				array(
 					'border-color' => array(
 						'selector' => array( '#site-footer .btn-primary:hover'),
@@ -436,9 +455,40 @@ function diym_get_elements_array() {
 						'selector' => array( '#site-footer .btn-primary:hover'),
 						'shade' => 43
 					)
-				)
-				/*
+				),
+				array(
+					'box-shadow' => array(
+						'selector' => array( '#site-footer .btn:focus','#site-footer .btn.focus' ),
+						'rgb' => true,
+						'prefix' => '0 0 0 0.2rem rgba(',
+						'suffix' => ', 0.25)'
+					)
+				),
+				array(
+					'box-shadow' => array(
+						'selector' => array( '#site-footer .btn-primary:focus','#site-footer .btn-primary.focus' ),
+						'rgb' => true,
+						'shade' => 57,
+						'prefix' => '0 0 0 0.2rem rgba(',
+						'suffix' => ', 0.5)'
+					)
+				),
+				array(
+					'border-color' => array(
+						'selector' => array( '#site-footer .form-control:focus' ),
+						'shade' => 75,
+					)
+				),
+				array(
+					'box-shadow' => array(
+						'selector' => array( '#site-footer .form-control:focus' ),
+						'rgb' => true,
+						'prefix' => '0 0 0 0.2rem rgba(',
+						'suffix' => ', 0.25)'
+					)
+				),
 			),
+			/*
 			'accent' => array(
 				array(
 					'border-color' => array(
@@ -465,12 +515,14 @@ function diym_get_elements_array() {
 					)
 				)
 			),
+			*/
 			'background' => array(
 				array(
                     'background-color' => array(
 						'selector' => array( '#site-footer', '.site-banner' )
                     )
 				),
+				/*
 				array(
                     'color' => array(
 						'selector' => array( '#site-footer .btn-primary' )
@@ -566,11 +618,4 @@ require get_template_directory() . '/inc/widget-page-excerpt.php';
  */
 require get_template_directory() . '/inc/widget-contact-form.php';
 
-//error_log( 'color for area' );
-//error_log( diym_get_color_for_area( 'content', 'test' ) );
-
-
-//error_log( 'custom_colors' );
-//			error_log( print_r( get_theme_mod( 'custom_colors' ), true ) );
-
-			?>
+?>

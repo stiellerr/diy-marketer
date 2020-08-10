@@ -158,11 +158,22 @@ const diymCustomColors = (context, background, accent) => {
         // Update the value for this context.
         settings[context] = {
             text: colors.getTextColor(),
+            //
             accent: {
                 0: colors.getAccentColor(),
                 40: colors.getAccentDarken(10),
-                43: colors.getAccentDarken(7.5)
+                43: colors.getAccentDarken(7.5),
+                57: colors.getAccentLighten(7.5),
+                75: colors.getAccentLighten(25)
             },
+            /*
+            accent: {
+                //accent
+                50: colors.getAccentColor()
+                //40: colors.getAccentDarken(10),
+                //43: colors.getAccentDarken(7.5)
+            },
+            */
             background: colors.getBackgroundColor()
 
             /*

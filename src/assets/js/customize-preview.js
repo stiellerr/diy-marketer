@@ -10,6 +10,7 @@
 
 import $ from "jquery";
 import { array_search } from "locutus/php/array";
+import { is_object } from "locutus/php/var";
 
 // Generate styles on load. Handles page-changes on the preview pane.
 $(document).ready(() => {
@@ -132,35 +133,24 @@ wp.customize("banner_footer_background_color", value => {
  */
 function diymGenerateColorPreviewStyles(context) {
     // Get the accessible colors option.
-
     let a11yColors = window.parent.wp.customize.get().custom_colors,
         stylesheedID = "diym-customizer-styles-" + context,
         stylesheet = $("#" + stylesheedID),
         styles = "";
 
-    //var x = new window.parent.Color("#ffffff");
-
-    //console.log(context);
-
     // If the stylesheet doesn't exist, create it and append it to <head>.
     if (!stylesheet.length) {
-        console.log("true");
         $("#diym-style-inline-css").after('<style id="' + stylesheedID + '"></style>');
         stylesheet = $("#" + stylesheedID);
-    } else {
-        console.log("false");
     }
 
-    console.log(stylesheet);
-
-    /*
     if (!_.isUndefined(a11yColors[context])) {
         // Check if we have elements defined.
         if (diymPreviewEls[context]) {
             _.each(diymPreviewEls[context], (definitions, setting) => {
                 _.each(definitions, index => {
                     _.each(index, (options, property) => {
-                        let selectors = !_.isUndefined(options.selector) ? options.selector : false;
+                        let selectors = _.isUndefined(options.selector) ? false : options.selector;
                         if (
                             !_.isArray(selectors) ||
                             _.isEmpty(selectors) ||
@@ -168,18 +158,22 @@ function diymGenerateColorPreviewStyles(context) {
                         ) {
                             return;
                         }
-                        // set prefix and suffix
 
-                        //console.log(property);
+                        let val = a11yColors[context][setting],
+                            shade = _.isUndefined(options.shade) ? 0 : options.shade;
 
-                        let suffix = !_.isUndefined(options.suffix) ? options.suffix : "",
-                            prefix = !_.isUndefined(options.prefix) ? options.prefix : "",
-                            shade = !_.isUndefined(options.shade) ? options.shade : 0,
-                            rgb = !_.isUndefined(options.rgb) ? options.rgb : false,
-                            val = !_.isObject(a11yColors[context][setting])
-                                ? a11yColors[context][setting]
-                                : a11yColors[context][setting][shade];
-                        //console.log("val = " + val);
+                        if (_.isObject(a11yColors[context][setting])) {
+                            if (_.isUndefined(a11yColors[context][setting][shade])) {
+                                return;
+                            }
+                            val = a11yColors[context][setting][shade];
+                        } else if (shade) {
+                            return;
+                        }
+
+                        let suffix = _.isUndefined(options.suffix) ? "" : options.suffix,
+                            prefix = _.isUndefined(options.prefix) ? "" : options.prefix,
+                            rgb = _.isUndefined(options.rgb) ? false : options.rgb;
 
                         if (rgb) {
                             let hex = new window.parent.Color(val);
@@ -195,18 +189,14 @@ function diymGenerateColorPreviewStyles(context) {
                             val +
                             suffix +
                             ";}";
-
-                        //console.log(styles);
                     });
                 });
             });
         }
     }
-    */
     // Add styles.
-    //console.log(styles);body{background-color:blue;}
-    //stylesheet.html(styles);
-    stylesheet.html("body{background-color:blue;}");
+    console.log(styles);
+    stylesheet.html(styles);
 }
 
 /**

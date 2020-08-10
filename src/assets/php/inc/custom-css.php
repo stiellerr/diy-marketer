@@ -39,8 +39,6 @@ if ( ! function_exists( 'diym_generate_css' ) ) {
 
 		}
 
-		error_log($return);
-
 		return $return;
 
 	}
@@ -140,6 +138,7 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 								continue;
 							}
 							$shade = isset( $options[ 'shade' ] ) ? $options[ 'shade' ] : 0;
+							
 							$val = diym_get_color_for_area( $context, $setting, $shade );
 							
 							// if rgb flag is set, covert hex to rgb
@@ -148,8 +147,7 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 								list($r, $g, $b) = sscanf($val, "#%02x%02x%02x");
 								$val = $r . ', ' . $g . ', ' . $b; 
 							}
-
-							error_log($val);
+							
 							if ( $val ) {
 								$prefix   = isset( $options[ 'prefix' ] ) ? $options[ 'prefix' ] : '';
 								$suffix   = isset( $options[ 'suffix' ] ) ? $options[ 'suffix' ] : '';
