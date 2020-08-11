@@ -164,7 +164,7 @@ export const reload = done => {
 };
 
 export const clean = () => {
-    return del(["dist", "inc", "*.php"]);
+    return del(["dist", "inc", "classes", "*.php"]);
 };
 
 export const images = () => {
