@@ -251,71 +251,31 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					'transport'         => 'postMessage',
 				)
 			);
-			// Add setting to hold colors derived from the accent hue.
+			// Add setting to hold colors derived from the accent color.
 			$wp_customize->add_setting(
 				'custom_colors',
 				array(
 					'default'           => array(
 						'content'       => array(
 							'text'      => '#000000',
-							'accent'    => '#cd2653',
+							'accent'    => '#cd2653'
 							//'secondary' => '#6d6d6d',
 							//'borders'   => '#dcd7ca',
 						),
 						'banner-footer' => array(
 							'text'      => '#000000',
-							'accent'    => '#cd2653',
-							'accent2'    => array(
-								'75'	=> '#6d6d6d',
-								'80'	=> '#ffffff'
-							),
+							'accent'    => '#cd2653'
 							//'secondary' => '#6d6d6d',
 							//'borders'   => '#dcd7ca',
-							/*
-							'test'	=> array(
-
-							)
-							*/
 						),
 					),
 					'type'              => 'theme_mod',
 					'transport'         => 'postMessage',
-					//'sanitize_callback' => array( __CLASS__, 'sanitize_accent_accessible_colors' ),
+					'sanitize_callback' => array( __CLASS__, 'sanitize_accent_accessible_colors' ),
 				)
 			);
 
-			// Add setting to hold colors derived from the accent hue.
-			$wp_customize->add_setting(
-				'zzz_custom_colors',
-				array(
-					'default'           => array(
-						'content'       => array(
-							'text'      => '#000000',
-							'accent2'    => array(
-								'75'	=> '#6d6d6d',
-								'80'	=> '#ffffff'
-							),
-							'accent'    => '#cd2653',
-							//'secondary' => '#6d6d6d',
-							//'borders'   => '#dcd7ca',
-						),
-						'banner-footer' => array(
-							'text'      => '#000000',
-							'accent'    => '#cd2653',
-							//'secondary' => '#6d6d6d',
-							//'borders'   => '#dcd7ca',
-							/*
-							'test'	=> array(
 
-							)
-							*/
-						),
-					),
-					'type'              => 'theme_mod',
-					'transport'         => 'postMessage',
-					//'sanitize_callback' => array( __CLASS__, 'sanitize_accent_accessible_colors' ),
-				)
-			);
 
 			$wp_customize->add_control(
 				new WP_Customize_Color_Control(
@@ -332,8 +292,8 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 			$wp_customize->add_setting(
 				'zzz_test2',
 				array(
-					'default'           => 'pattern3',
-					//'sanitize_callback' => 'sanitize_hex_color',
+					'default'           => 'pattern12',
+					'sanitize_callback' => array( __CLASS__, 'sanitize_select' ),
 					'transport'         => 'postMessage',
 				)
 			);
@@ -346,52 +306,7 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 						'label'   => __( 'Background Pattern.', 'diy-marketer' ),
 						//'description'   => __( 'This is the description.', 'diy-marketer' ),
 						'section' => 'test',
-						'choices' => array(
-							'pattern1' => array(
-								'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern1.png',
-								'name' => __( 'Pattern 1', 'diy-marketer' )
-							),
-							'pattern2' => array(
-								'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern2.png',
-								'name' => __( 'Pattern 2', 'diy-marketer' )
-							),
-							'pattern3' => array(
-								'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern3.png',
-								'name' => __( 'Pattern 3', 'diy-marketer' )
-							),
-							'pattern4' => array(
-								'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern4.png',
-								'name' => __( 'Pattern 4', 'diy-marketer' )
-							),
-							'pattern5' => array(
-								'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern5.png',
-								'name' => __( 'Pattern 5', 'diy-marketer' )
-							),
-							'pattern6' => array(
-								'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern6.png',
-								'name' => __( 'Pattern 6', 'diy-marketer' )
-							),
-							'pattern7' => array(
-								'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern7.png',
-								'name' => __( 'Pattern 7', 'diy-marketer' )
-							),
-							'pattern8' => array(
-								'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern8.png',
-								'name' => __( 'Pattern 8', 'diy-marketer' )
-							),
-							'pattern9' => array(
-								'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern9.png',
-								'name' => __( 'Pattern 9', 'diy-marketer' )
-							),
-							'pattern10' => array(
-								'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern10.png',
-								'name' => __( 'Pattern 10', 'diy-marketer' )
-							),
-							'pattern11' => array(
-								'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern11.png',
-								'name' => __( 'Pattern 11', 'diy-marketer' )
-							)
-						)
+						'choices' => diym_customize_background_pattern()
 					)
 				)
 			);
@@ -623,6 +538,7 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 		 * @param array $value The value we want to sanitize.
 		 * @return array       Returns sanitized value. Each item in the array gets sanitized separately.
 		 */
+		/*
 		public static function sanitize_accent_accessible_colors( $value ) {
 
 			// Make sure the value is an array. Do not typecast, use empty array as fallback.
@@ -631,6 +547,28 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 			// Loop values.
 			foreach ( $value as $area => $values ) {
 				foreach ( $values as $context => $color_val ) {
+					$value[ $area ][ $context ] = sanitize_hex_color( $color_val );
+				}
+			}
+
+			return $value;
+		}
+		*/
+		public static function sanitize_accent_accessible_colors( $value ) {
+
+			// Make sure the value is an array. Do not typecast, use empty array as fallback.
+			$value = is_array( $value ) ? $value : array();
+
+			// Loop values.
+			foreach ( $value as $area => $values ) {
+				foreach ( $values as $context => $color_val ) {
+					// if color val is array, iterate through its elements
+					if ( is_array( $color_val ) ) {
+						foreach ( $color_val as $i => $shade  ) {
+							$value[ $area ][ $context ][ $i ] = sanitize_hex_color( $shade );
+							continue 2;
+						}
+					} 
 					$value[ $area ][ $context ] = sanitize_hex_color( $color_val );
 				}
 			}
@@ -789,5 +727,74 @@ function diym_customize_font_family() {
 
 		// Script
 		'"Comic Sans MS","Comic Sans",cursive,sans-serif' => esc_html__( 'Comic Sans MS', 'diy-marketer' ),
+	);
+}
+
+/**
+ * Input attributes for cover overlay opacity option.
+ *
+ * @return array Array containing attribute names and their values.
+ */
+function diym_customize_background_pattern() {
+	/**
+	 * Filter the input attributes for opacity
+	 *
+	 * @param array $attrs {
+	 *     The attributes
+	 *
+	 *     @type int $min Minimum value
+	 *     @type int $max Maximum value
+	 *     @type int $step Interval between numbers
+	 * }
+	 */
+	return array(
+		'pattern1' => array(
+			'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern1.png',
+			'name' => __( 'Pattern 1', 'diy-marketer' )
+		),
+		'pattern2' => array(
+			'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern2.png',
+			'name' => __( 'Pattern 2', 'diy-marketer' )
+		),
+		'pattern3' => array(
+			'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern3.png',
+			'name' => __( 'Pattern 3', 'diy-marketer' )
+		),
+		'pattern4' => array(
+			'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern4.png',
+			'name' => __( 'Pattern 4', 'diy-marketer' )
+		),
+		'pattern5' => array(
+			'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern5.png',
+			'name' => __( 'Pattern 5', 'diy-marketer' )
+		),
+		'pattern6' => array(
+			'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern6.png',
+			'name' => __( 'Pattern 6', 'diy-marketer' )
+		),
+		'pattern7' => array(
+			'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern7.png',
+			'name' => __( 'Pattern 7', 'diy-marketer' )
+		),
+		'pattern8' => array(
+			'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern8.png',
+			'name' => __( 'Pattern 8', 'diy-marketer' )
+		),
+		'pattern9' => array(
+			'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern9.png',
+			'name' => __( 'Pattern 9', 'diy-marketer' )
+		),
+		'pattern10' => array(
+			'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern10.png',
+			'name' => __( 'Pattern 10', 'diy-marketer' )
+		),
+		'pattern11' => array(
+			'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern11.png',
+			'name' => __( 'Pattern 11', 'diy-marketer' )
+		),
+		'pattern12' => array(
+			'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern12.png',
+			'name' => __( 'Pattern 12', 'diy-marketer' )
+		)
 	);
 }

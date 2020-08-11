@@ -78,6 +78,7 @@ const paths = {
             "!node_modules{,/**}",
             "!packaged{,/**}",
             "!src{,/**}",
+            "!bugs{,/**}",
             "!install{,/**}",
             "!archive{,/**}",
             "!.babelrc",
@@ -164,7 +165,7 @@ export const reload = done => {
 };
 
 export const clean = () => {
-    return del(["dist", "inc", "classes", "*.php"]);
+    return del(["dist", "inc", "classes", "template-parts", "*.php"]);
 };
 
 export const images = () => {

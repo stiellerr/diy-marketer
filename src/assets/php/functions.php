@@ -321,6 +321,9 @@ function diym_get_color_for_area( $area = 'content', $context = 'text', $shade =
 	return false;
 }
 
+//
+write_log( get_theme_mod('custom_colors') );
+
 /**
  * Get an array of elements.
  *

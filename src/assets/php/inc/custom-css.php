@@ -107,6 +107,7 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 						foreach ( $index as $property => $options ) {
 							$selectors = isset( $options[ 'selector' ] ) ? $options[ 'selector' ] : false;
 							if ( ! is_array( $selectors ) || empty( $selectors ) ) {
+								// need to test this... it may be jumping the wrong loog ? in php you tell the continue which loop to jump by adding a number ie 'continue 2;' to jump the loop 2 deep.
 								continue;
 							}
 							$shade = isset( $options[ 'shade' ] ) ? $options[ 'shade' ] : 0;

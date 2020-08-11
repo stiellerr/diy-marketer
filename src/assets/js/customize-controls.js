@@ -74,6 +74,8 @@ const diymCustomColors = (context, background, accent) => {
         };
     }
 
+    console.log(settings);
+
     // Change the value.
     wp.customize("custom_colors").set(settings);
 
