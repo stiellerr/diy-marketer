@@ -58,15 +58,13 @@ const diymCustomColors = (context, background, accent) => {
 
     colors = new DIYM_Color(background, accent);
 
-    console.log(settings);
-
     // Sanity check.
-    if (_.isFunction(colors.getAccentColor) && colors.getAccentColor()) {
+    if (_.isFunction(colors.getAccentColor) && colors.getAccentColor) {
         // Update the values for this context.
         settings[context] = {
             text: colors.getTextColor(),
             accent: {
-                0: colors.getAccentColor(),
+                0: colors.getAccentColor(4.5),
                 40: colors.getAccentDarken(10),
                 43: colors.getAccentDarken(7.5),
                 57: colors.getAccentLighten(7.5),
@@ -75,8 +73,6 @@ const diymCustomColors = (context, background, accent) => {
             background: colors.getBackgroundColor()
         };
     }
-
-    console.log(settings);
 
     // Change the value.
     wp.customize("custom_colors").set(settings);

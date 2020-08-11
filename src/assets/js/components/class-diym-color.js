@@ -24,6 +24,7 @@ export default class DIYM_Color {
         return this.text.toCSS();
     }
     getAccentColor(minContrast) {
+        console.log(minContrast);
         return this.accent.getReadableContrastingColor(this.background, minContrast).toCSS();
     }
     getAccentLighten(amount) {
