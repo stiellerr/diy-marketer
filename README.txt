@@ -7,6 +7,8 @@ Reece Stieller
 4) in vs code open a new terminal
 5) tyoe: "git init" to initialise git
 6) type: "git pull https://github.com/stiellerr/diy-marketer.git" to retieve the lastest version from the github repo. Note: you will be asked to log in with your GitHub credentials
+	Note: if you get a popup that says: The extension 'GitHub' wants to sign in using GitHub. click -> Cancel
+		a login box will now appear at the top, middle of the vscode editor. Log in here with you GitHub credentials.
 7) type: "npm install" to install all of the project dependencies from the package.json file 
 8) if working behind a proxy - copy the node_modules -> "gifsicle", "mozjpeg" & "optipng-bin" from the install -> node_modules folder to the project, node_modules folder. These do not install properly behind a proxy
 9) in vs code, navigate to extensions and install the: "recommened" extensions
