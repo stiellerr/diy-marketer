@@ -22,16 +22,16 @@ if ( ! class_exists( 'DIYM_Send_Mail' ) ) {
 
             add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
 
-            //$this->enqueue();
-            add_action('wp_ajax_send_form', 'send_form'); // This is for authenticated users
-            add_action('wp_ajax_nopriv_send_form', 'send_form'); // This is for unauthenticated users.
+            add_action('wp_ajax_send_form', array( $this, 'send_form' ) ); // This is for authenticated users
+            add_action('wp_ajax_nopriv_send_form', array( $this, 'send_form') ); // This is for unauthenticated users.
         }
 
         /**
 		 * Enqueue our scripts and styles
 		 */
-		public function enqueue() {            
-            wp_enqueue_script( 'diym-mail', get_template_directory_uri() . '/dist/assets/js/mail.js', array( 'jquery' ), wp_get_theme()->get( 'Version' ), true );
+		public function enqueue() {         
+               
+            wp_enqueue_script( 'diym-mail', get_template_directory_uri() . '/dist/assets/js/mail.js', array( 'jquery' ), DIYM_VER, true );
             wp_localize_script('diym-mail', 'diymMailVars', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
         }
 
@@ -39,12 +39,8 @@ if ( ! class_exists( 'DIYM_Send_Mail' ) ) {
 		 * Enqueue our scripts and styles
 		 */
 		public function send_form() {
-            //error_log('class enqueue v2');
-			//wp_enqueue_style( 'diym-custom-controls', get_template_directory_uri() . '/dist/assets/css/custom-controls.css', array(), wp_get_theme()->get( 'Version' ), 'all' );
+            //error_log( 'send_form' );
         }
-        //add_action('wp_ajax_send_form', 'send_form'); // This is for authenticated users
-        //add_action('wp_ajax_nopriv_send_form', 'send_form'); // This is for unauthenticated users.
-
     }
 }
 

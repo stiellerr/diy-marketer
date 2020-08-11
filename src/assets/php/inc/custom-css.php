@@ -100,34 +100,6 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 		if ( 'front-end' === $type ) {
 
 			// Auto-calculated colors.
-			/*
-			$elements_definitions = diym_get_elements_array();
-			foreach ( $elements_definitions as $context => $props ) {
-				foreach ( $props as $key => $definitions ) {
-					foreach ( $definitions as $property => $elements ) {
-						write_log*/
-						/*
-						 * If we don't have an elements array or it is empty
-						 * then skip this iteration early;
-						 */
-						/*
-						if ( ! is_array( $elements ) || empty( $elements ) ) {
-							continue;
-						}
-						$val = diym_get_color_for_area( $context, $key );
-						if ( $val ) {
-							diym_generate_css( implode( ',', $elements ), $property, $val );
-						}
-						*/
-						/*
-					}
-				}
-			}
-			*/
-
-
-
-			// Auto-calculated colors.
 			$elements_definitions = diym_get_elements_array();
 			foreach ( $elements_definitions as $context => $settings ) {
 				foreach ( $settings as $setting => $definitions ) {

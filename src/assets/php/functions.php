@@ -7,6 +7,22 @@
  * @package DIY_Marketer
  */
 
+// useful function for witing to the log
+if ( ! function_exists( 'write_log ') ) {
+	function write_log ( $log )  {
+		if ( is_array( $log ) || is_object( $log ) ) {
+			error_log( print_r( $log, true ) );
+		} else {
+			error_log( $log );	
+		}
+	}
+}
+
+if ( ! defined( 'DIYM_VER' ) ) {
+	// Replace the version number of the theme on each release.
+	define( 'DIYM_VER', wp_get_theme()->get( 'Version' ) );
+}
+
 if ( ! function_exists( 'diym_setup' ) ) {
     /**
      * Sets up theme defaults and registers support for various WordPress features.
@@ -52,19 +68,6 @@ if ( ! function_exists( 'diym_setup' ) ) {
 
 add_action('after_setup_theme', 'diym_setup');
 
-
-if ( ! defined( 'DIYM_VER' ) ) {
-	// Replace the version number of the theme on each release.
-	$theme_version = wp_get_theme()->get( 'Version' );
-	define( 'DIYM_VER', $theme_version );
-}
-
-define( 'DIYM_URL', trailingslashit( get_template_directory_uri() ) );
-define( 'DIYM_DIR', trailingslashit( get_template_directory() ) );
-
-define( 'DIYM_CSS_URL', trailingslashit( DIYM_URL . 'dist/assets/css' ) );
-define( 'DIYM_JS_URL', trailingslashit( DIYM_URL . 'dist/assets/js' ) );
-
 /**
  * REQUIRED FILES
  * Include required files.
@@ -85,25 +88,17 @@ require get_template_directory() . '/inc/custom-css.php';
 /**
  * Customizer additions.
  */
-require get_template_directory() . '/inc/customizer.php';
+//require get_template_directory() . '/inc/customizer.php';
 
 /**
  * Register and Enqueue Styles.
  */
 function diym_register_styles() {
 
-	//$theme_version = wp_get_theme()->get( 'Version' );
-
-	//wp_enqueue_style( 'twentytwenty-style', get_stylesheet_uri(), array(), DIYM_VER );
-	//wp_style_add_data( 'twentytwenty-style', 'rtl', 'replace' );
-	wp_enqueue_style( 'diym-style', DIYM_CSS_URL . 'bundle.css', array( 'dashicons' ), DIYM_VER, 'all' );
+	wp_enqueue_style( 'diym-style', get_template_directory_uri() . '/dist/assets/css/bundle.css', array( 'dashicons' ), DIYM_VER, 'all' );
 
 	// Add output of Customizer settings as inline style.
 	wp_add_inline_style( 'diym-style', diym_get_customizer_css( 'front-end' ) );
-
-	// Add print CSS.
-	//wp_enqueue_style( 'twentytwenty-print-style', get_template_directory_uri() . '/print.css', null, $theme_version, 'print' );
-
 }
 
 add_action( 'wp_enqueue_scripts', 'diym_register_styles' );
@@ -112,33 +107,21 @@ add_action( 'wp_enqueue_scripts', 'diym_register_styles' );
  * Register and Enqueue Scripts.
  */
 function diym_register_scripts() {
-
-	$theme_version = wp_get_theme()->get( 'Version' );
-
-	//if ( ( ! is_admin() ) && is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
-		//wp_enqueue_script( 'comment-reply' );
-    //}
     
-    wp_enqueue_script( 'diym-js', get_template_directory_uri() . '/dist/assets/js/bundle.js', array( 'jquery' ), $theme_version, true );
+    wp_enqueue_script( 'diym-js', get_template_directory_uri() . '/dist/assets/js/bundle.js', array( 'jquery' ), DIYM_VER, true );
     wp_script_add_data( 'diym-js', 'async', true );
-
-	//wp_enqueue_script( 'twentytwenty-js', get_template_directory_uri() . '/assets/js/index.js', array(), $theme_version, false );
-    
-    //$wp_scripts()->add_data( 'diym-js', 'async', true );
-
 }
 
 add_action( 'wp_enqueue_scripts', 'diym_register_scripts' );
 
 function diym_admin_assets() {
-    //
-    wp_enqueue_style( 'diym-admin-style', DIYM_CSS_URL . 'admin.css', array(), DIYM_VER, 'all' );
 
-    wp_enqueue_script( 'diym-admin-js', DIYM_JS_URL . 'admin.js', array(), DIYM_VER, true );
+    wp_enqueue_style( 'diym-admin-style', get_template_directory_uri() . '/dist/assets/css/admin.css', array(), DIYM_VER, 'all' );
+
+    wp_enqueue_script( 'diym-admin-js', get_template_directory_uri() . '/dist/assets/js/admin.js', array(), DIYM_VER, true );
 }
 
 add_action('admin_enqueue_scripts', 'diym_admin_assets');
-
 
 /**
  * Register navigation menus uses wp_nav_menu in two places.
@@ -194,16 +177,13 @@ add_filter( 'nav_menu_css_class', 'diym_nav_menu_css_class', 10, 4 );
 function diym_nav_menu_link_attributes($atts, $item, $args, $depth) {
 
 	if ( $args->theme_location == 'primary' ) {
-
 		if ( in_array( 'menu-item-has-children', $item->classes ) && 0 === $depth && $args->depth > 1 ) {
-	
 			$atts['href']          = '#';
 			$atts['data-toggle']   = 'dropdown';
 			$atts['aria-haspopup'] = 'true';
 			$atts['aria-expanded'] = 'false';
 			$atts['class']         = 'nav-link dropdown-toggle';
 			//$atts['id']            = 'menu-item-dropdown-' . $item->ID;
-
 		} else {
 			if ( $depth > 0 ) {
 				$atts['class'] = 'dropdown-item';
@@ -211,11 +191,9 @@ function diym_nav_menu_link_attributes($atts, $item, $args, $depth) {
 				$atts['class'] = 'nav-link';
 			}
 		}
-	
 		if ( $item->current ) {
 			$atts['class'] .= ' active';
 		}
-
 	}
     return $atts;
 }
@@ -231,8 +209,6 @@ function diym_nav_menu_submenu_css_class( $classes, $args, $depth ) {
 
 add_filter( 'nav_menu_submenu_css_class', 'diym_nav_menu_submenu_css_class', 10, 3 );
 
-
-
 /**
  * Enqueues scripts for customizer controls & settings.
  *
@@ -241,17 +217,10 @@ add_filter( 'nav_menu_submenu_css_class', 'diym_nav_menu_submenu_css_class', 10,
  * @return void
  */
 function diym_customize_controls_enqueue_scripts() {
-	// Add main customizer js file.
-	//wp_enqueue_script( 'diym-customize', DIYM_JS_URL . 'customize.js', array( 'jquery' ), DIYM_VER, false );
-
-	// Add script for color calculations.
-	//wp_enqueue_script( 'diym-color-calculations', DIYM_JS_URL . 'color-calculations.js', array( 'wp-color-picker' ), DIYM_VER, false );
 
 	// Add script for controls.
-	//wp_enqueue_script( 'diym-customize-controls', DIYM_JS_URL . 'customize-controls.js', array( 'diym-color-calculations', 'customize-controls', 'underscore', 'jquery' ), DIYM_VER, false );
-	wp_enqueue_script( 'diym-customize-controls', DIYM_JS_URL . 'customize-controls.js', array( 'customize-controls', 'wp-color-picker', 'underscore', 'jquery' ), DIYM_VER, false );
+	wp_enqueue_script( 'diym-customize-controls', get_template_directory_uri() . '/dist/assets/js/customize-controls.js', array( 'customize-controls', 'wp-color-picker', 'underscore' ), DIYM_VER, false );
 	wp_localize_script( 'diym-customize-controls', 'diymBgColors', diym_get_customizer_color_vars() );
-	//wp_localize_script( 'diym-customize-controls', 'diymBackgroudColors', diym_get_customizer_color_vars() );
 
 }
 
@@ -265,29 +234,26 @@ add_action( 'customize_controls_enqueue_scripts', 'diym_customize_controls_enque
  * @return void
  */
 function diym_customize_preview_init() {
-	//$theme_version = wp_get_theme()->get( 'Version' );//get_theme_file_uri(
 
-	//wp_enqueue_script( 'twentytwenty-customize-preview', get_theme_file_uri( '/assets/js/customize-preview.js' ), array( 'customize-preview', 'customize-selective-refresh', 'jquery' ), $theme_version, true );
-	wp_enqueue_script( 'diym-customize-preview', DIYM_JS_URL . 'customize-preview.js', array( 'customize-preview', 'customize-selective-refresh', 'jquery' ), DIYM_VER, true );
+	wp_enqueue_script( 'diym-customize-preview', get_template_directory_uri() . '/dist/assets/js/customize-preview.js', array( 'customize-preview', 'underscore', 'jquery' ), DIYM_VER, true );
 	wp_localize_script( 'diym-customize-preview', 'diymBgColors', diym_get_customizer_color_vars() );
 	wp_localize_script( 'diym-customize-preview', 'diymPreviewEls', diym_get_elements_array() );
 
-	/*
-	wp_add_inline_script(
-		'twentytwenty-customize-preview',
-		sprintf(
-			'wp.customize.selectiveRefresh.partialConstructor[ %1$s ].prototype.attrs = %2$s;',
-			wp_json_encode( 'cover_opacity' ),
-			wp_json_encode( twentytwenty_customize_opacity_range() )
-		)
-	);
-	*/
 }
 
 add_action( 'customize_preview_init', 'diym_customize_preview_init' );
 
+function diym_excerpt_allowed_blocks( $allowed_blocks ) {
+	
+	$allowed_blocks = array(
+        'core/paragraph',
+        //'core/quote',
+	);
+	
+	return $allowed_blocks;
+}
 
-
+add_filter( 'excerpt_allowed_blocks', 'diym_excerpt_allowed_blocks' );
 
 /**
  * Returns an array of variables for the customizer preview.
@@ -299,19 +265,16 @@ add_action( 'customize_preview_init', 'diym_customize_preview_init' );
 function diym_get_customizer_color_vars() {
 	$colors = array(
 		'content'       => array(
-			'setting' => 'background_color',
+			//'setting' => 'background_color',
 			// hard code background color to white...
 			'color' => '#ffffff'
 		),
-		//'header-footer' => array(
 		'banner-footer' => array(
-			//'setting' => 'header_footer_background_color',
 			'setting' => 'banner_footer_background_color',
 		),
 	);
 	return $colors;
 }
-
 
 /**
  * Get accessible color for an area.
@@ -330,20 +293,11 @@ function diym_get_color_for_area( $area = 'content', $context = 'text', $shade =
 		array(
 			'content'       => array(
 				'text'      => '#000000',
-				'accent'    => '#cd2653',
-				'test'    => array(
-					7.0 => '#1',
-					7.5 => '#2',
-					8.0 => '#3',
-				),
-				//'secondary' => '#6d6d6d',
-				//'borders'   => '#dcd7ca',
+				//'accent'    => '#cd2653',
 			),
 			'banner-footer' => array(
 				'text'      => '#000000',
 				'accent'    => '#cd2653',
-				//'secondary' => '#6d6d6d',
-				//'borders'   => '#dcd7ca',
 			),
 		)
 	);
@@ -361,27 +315,6 @@ function diym_get_color_for_area( $area = 'content', $context = 'text', $shade =
 		}
 		
 		return $settings[ $area ][ $context ];
-		
-		
-		// Check if subkey exists
-		/*
-		if ( is_array( $settings[ $area ][ $context ] ) ) {
-
-			return $settings[ $area ][ $context ][ $shade ];
-		} else {
-
-			return $settings[ $area ][ $context ];
-		}
-		
-		if (_.isObject(a11yColors[context][setting])) {
-			if (_.isUndefined(a11yColors[context][setting][shade])) {
-				return;
-			}
-			val = a11yColors[context][setting][shade];
-		} else if (shade) {
-			return;
-		}
-		*/
 	}
 
 	// Return false if the option doesn't exist.
@@ -493,34 +426,6 @@ function diym_get_elements_array() {
 					)
 				),
 			),
-			/*
-			'accent' => array(
-				array(
-					'border-color' => array(
-						'selector' => array( '#site-footer .btn-primary:hover'),
-						'rgb' => true,
-						'prefix' => 'rgba(',
-						'suffix' => ', 0.5)',
-					)
-				)
-			),
-			'accent_43' => array(
-				array(
-					'background-color' => array(
-						'selector' => array( '#site-footer .btn-primary:hover')
-					)
-				)
-			),
-			'accentRgb' => array(
-				array(
-					'box-shadow' => array(
-						'selector' => array( '#site-footer .btn:focus', '#site-footer .btn.focus', '#site-footer .form-control:focus' ),
-						'prefix' => '0 0 0 0.2rem rgba(',
-						'suffix' => ', 0.25)',
-					)
-				)
-			),
-			*/
 			'background' => array(
 				array(
                     'background-color' => array(
@@ -534,54 +439,6 @@ function diym_get_elements_array() {
                     )
 				)*/
 			),
-			
-			/*
-			'accent' => array(
-				array(
-					'color' => array(
-						'selector' => array( '.site-banner a' , '#site-footer a'),
-					),
-				),
-			),
-			'accentLight' => array(
-				array(
-					'border-color' => array(
-						'selector' => array( '.form-control:focus' ),
-					),
-				),
-			),
-			//
-			'accentRgb' => array(
-				array(
-					'box-shadow' => array(
-						'selector' => array( '.form-control:focus', '.btn:focus', '.btn.focus' ),
-						'prefix' => '0 0 0 0.2rem rgba(',
-						'suffix' => ', 0.25)',
-					),
-				),
-			),
-			'accentDark' => array(
-				array(
-					'background-color' => array(
-						'selector' => array( '.btn-primary:hover' ),
-					),
-				),
-			),
-			'background' => array(
-				array(
-                    'background-color' => array(
-						'selector' => array( '.site-banner', '#site-footer' ),
-                    ),
-				),
-			),
-			'text' => array(
-				array(
-					'color' => array(
-						'selector' => array( '.site-banner', '#site-footer' ),
-					),
-				),
-			),
-			*/
 		),
 	);
 

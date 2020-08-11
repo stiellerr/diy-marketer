@@ -42,8 +42,6 @@ const paths = {
             "src/assets/scss/bundle.scss",
             "src/assets/scss/admin.scss",
             "src/assets/scss/custom-controls.scss"
-            //"src/assets/scss/customizer.css",
-            //"src/assets/scss/select2.css"
         ],
         dest: "dist/assets/css"
     },
@@ -56,12 +54,8 @@ const paths = {
             "src/assets/js/bundle.js",
             "src/assets/js/admin.js",
             "src/assets/js/mail.js",
-            "src/assets/js/customizer-preview.js",
             "src/assets/js/customize-preview.js", //new
-            "src/assets/js/customize-controls.js",
-            "src/assets/js/color-calculations.js"
-            //"src/assets/js/customizer.js",
-            //"src/assets/js/select2.js"
+            "src/assets/js/customize-controls.js"
         ],
         dest: "dist/assets/js"
     },
@@ -74,7 +68,6 @@ const paths = {
             "src/assets/**/*",
             "!src/assets/{images,js,scss}",
             "!src/assets/{images,js,scss}/**/*"
-            //"src/assets/**/select2.full.min.js"
         ],
         dest: "dist/assets"
     },

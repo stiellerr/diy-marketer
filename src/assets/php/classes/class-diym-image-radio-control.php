@@ -45,12 +45,10 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 				<?php } ?>
 
 				<?php foreach ( $this->choices as $key => $value ) { ?>
-					<!--<label class="radio-button-label">-->
 					<label>
 						<input type="radio" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $key ); ?>" <?php $this->link(); ?> <?php checked( esc_attr( $key ), $this->value() ); ?>/>
 						<img src="<?php echo esc_attr( $value['image'] ); ?>" alt="<?php echo esc_attr( $value['name'] ); ?>" title="<?php echo esc_attr( $value['name'] ); ?>" />
-				</label>
-						<!--</label>-->
+					</label>
 				<?php	} ?>
 
 				<?php
@@ -58,26 +56,5 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 		}
 	}
 }
-	/**
-	 * Radio Button and Select sanitization
-	 *
-	 * @param  string		Radio Button value
-	 * @return integer	Sanitized value
-	 */
-	/*
-	if ( ! function_exists( 'skyrocket_radio_sanitization' ) ) {
-		function skyrocket_radio_sanitization( $input, $setting ) {
-			//get the list of possible radio box or select options
-		 $choices = $setting->manager->get_control( $setting->id )->choices;
-
-			if ( array_key_exists( $input, $choices ) ) {
-				return $input;
-			} else {
-				return $setting->default;
-			}
-		}
-	}
-	*/
-    
 
 ?>

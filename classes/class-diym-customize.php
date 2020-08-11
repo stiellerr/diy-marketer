@@ -85,26 +85,6 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 				)
 			);
 			*/
-			// Banner & Footer Background Color.
-			$wp_customize->add_setting(
-				'header_footer_background_color',
-				array(
-					'default'           => '#ffffff',
-					'sanitize_callback' => 'sanitize_hex_color',
-					'transport'         => 'postMessage',
-				)
-			);
-
-			$wp_customize->add_control(
-				new WP_Customize_Color_Control(
-					$wp_customize,
-					'header_footer_background_color',
-					array(
-						'label'   => __( 'Banner &amp; Footer Background Color', 'diy-marketer' ),
-						'section' => 'colors',
-					)
-				)
-			);
 
 			// Enable picking an accent color.
 			/*
@@ -357,8 +337,6 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					'transport'         => 'postMessage',
 				)
 			);
-
-
 
 			$wp_customize->add_control(
 				new DIYM_Image_Radio_Control(
