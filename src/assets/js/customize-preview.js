@@ -15,6 +15,20 @@ $(document).ready(() => {
     diymGenerateColorPreviewStyles("banner-footer");
 });
 
+//
+wp.customize("blogname", value => {
+    value.bind(to => {
+        $(".site-name").text(to);
+    });
+});
+
+//
+wp.customize("blogdescription", value => {
+    value.bind(to => {
+        $(".site-tagline").text(to);
+    });
+});
+
 // Add listener for the accent color.
 wp.customize("accent_color", value => {
     value.bind(() => {
@@ -38,7 +52,7 @@ wp.customize("font_family", value => {
     });
 });
 
-wp.customize("zzz_test2", value => {
+wp.customize("background_pattern", value => {
     value.bind(to => {
         $("body").css(
             "background-image",

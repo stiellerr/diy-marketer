@@ -23,10 +23,10 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 			/**
 			 * Site Title & Description.
 			 * */
-			/*
 			$wp_customize->get_setting( 'blogname' )->transport        = 'postMessage';
 			$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
 
+			/*
 			$wp_customize->selective_refresh->add_partial(
 				'blogname',
 				array(
@@ -86,95 +86,6 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 			);
 			*/
 
-			// Enable picking an accent color.
-			/*
-			$wp_customize->add_setting(
-				'accent_hue_active',
-				array(
-					'capability'        => 'edit_theme_options',
-					'sanitize_callback' => array( __CLASS__, 'sanitize_select' ),
-					'transport'         => 'postMessage',
-					'default'           => 'default',
-				)
-			);
-
-			$wp_customize->add_control(
-				'accent_hue_active',
-				array(
-					'type'    => 'radio',
-					'section' => 'colors',
-					'label'   => __( 'Primary Color', 'twentytwenty' ),
-					'choices' => array(
-						'default' => __( 'Default', 'twentytwenty' ),
-						'custom'  => __( 'Custom', 'twentytwenty' ),
-					),
-				)
-			);
-			*/
-
-			/**
-			 * Implementation for the accent color.
-			 * This is different to all other color options because of the accessibility enhancements.
-			 * The control is a hue-only colorpicker, and there is a separate setting that holds values
-			 * for other colors calculated based on the selected hue and various background-colors on the page.
-			 *
-			 * @since Twenty Twenty 1.0
-			 */
-
-			// Add the setting for the hue colorpicker.
-			$wp_customize->add_setting(
-				'accent_hue',
-				array(
-					'default'           => 344,
-					'type'              => 'theme_mod',
-					'sanitize_callback' => 'absint',
-					'transport'         => 'postMessage',
-				)
-			);
-
-			// Add setting to hold colors derived from the accent hue.
-			$wp_customize->add_setting(
-				'accent_accessible_colors',
-				array(
-					'default'           => array(
-						'content'       => array(
-							'text'      => '#000000',
-							'accent'    => '#cd2653',
-							'secondary' => '#6d6d6d',
-							'borders'   => '#dcd7ca',
-						),
-						'header-footer' => array(
-							'text'      => '#000000',
-							'accent'    => '#cd2653',
-							'secondary' => '#6d6d6d',
-							'borders'   => '#dcd7ca',
-						),
-					),
-					'type'              => 'theme_mod',
-					'transport'         => 'postMessage',
-					'sanitize_callback' => array( __CLASS__, 'sanitize_accent_accessible_colors' ),
-				)
-			);
-
-			// Add the hue-only colorpicker for the accent color.
-			$wp_customize->add_control(
-				new WP_Customize_Color_Control(
-					$wp_customize,
-					'accent_hue',
-					array(
-						'section'         => 'colors',
-						'settings'        => 'accent_hue',
-						'description'     => __( 'Apply a custom color for links, buttons, featured images.', 'twentytwenty' ),
-						'mode'            => 'hue',
-						/*
-						'active_callback' => function() use ( $wp_customize ) {
-							return ( 'custom' === $wp_customize->get_setting( 'accent_hue_active' )->value() );
-						},
-						*/
-					)
-				)
-			);
-
 			// Update background color with postMessage, so inline CSS output is updated as well.
 			//$wp_customize->get_setting( 'background_color' )->transport = 'postMessage';
 
@@ -210,17 +121,6 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 				)
 			);
 
-			/**
-			 * Testing...
-			 */
-			$wp_customize->add_section(
-				'test',
-				array(
-					'title'      => esc_html__( 'Test Panel.', 'diy-marketer' ),
-					'priority'   => 10,
-					'capability' => 'edit_theme_options',
-				)
-			);
 			// Banner & Footer Background Color.
 			$wp_customize->add_setting(
 				'banner_footer_background_color',
@@ -237,12 +137,21 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					'banner_footer_background_color',
 					array(
 						'label'   => __( 'Banner &amp; Footer Background Color', 'diy-marketer' ),
-						'section' => 'test',
+						'section' => 'colors',
 					)
 				)
 			);
 
-			// Test Color.
+			/**
+			 * Implementation for the accent color.
+			 * This is different to all other color options because of the accessibility enhancements.
+			 * The control is a hue-only colorpicker, and there is a separate setting that holds values
+			 * for other colors calculated based on the selected hue and various background-colors on the page.
+			 *
+			 * @since Twenty Twenty 1.0
+			 */
+
+			// Add the setting for the hue colorpicker.
 			$wp_customize->add_setting(
 				'accent_color',
 				array(
@@ -251,6 +160,7 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					'transport'         => 'postMessage',
 				)
 			);
+			
 			// Add setting to hold colors derived from the accent color.
 			$wp_customize->add_setting(
 				'custom_colors',
@@ -259,14 +169,10 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 						'content'       => array(
 							'text'      => '#000000',
 							'accent'    => '#cd2653'
-							//'secondary' => '#6d6d6d',
-							//'borders'   => '#dcd7ca',
 						),
 						'banner-footer' => array(
 							'text'      => '#000000',
 							'accent'    => '#cd2653'
-							//'secondary' => '#6d6d6d',
-							//'borders'   => '#dcd7ca',
 						),
 					),
 					'type'              => 'theme_mod',
@@ -275,22 +181,20 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 				)
 			);
 
-
-
 			$wp_customize->add_control(
 				new WP_Customize_Color_Control(
 					$wp_customize,
 					'accent_color',
 					array(
 						'label'   => __( 'Accent Color.', 'diy-marketer' ),
-						'description'   => __( 'This is the description.', 'diy-marketer' ),
-						'section' => 'test',
+						'description'     => __( 'Apply a custom color for links, buttons, featured images.', 'diy-marketer' ),
+						'section' => 'colors',
 					)
 				)
 			);
-			// Test Color.
+
 			$wp_customize->add_setting(
-				'zzz_test2',
+				'background_pattern',
 				array(
 					'default'           => 'pattern12',
 					'sanitize_callback' => array( __CLASS__, 'sanitize_select' ),
@@ -301,11 +205,10 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 			$wp_customize->add_control(
 				new DIYM_Image_Radio_Control(
 					$wp_customize,
-					'zzz_test2',
+					'background_pattern',
 					array(
 						'label'   => __( 'Background Pattern.', 'diy-marketer' ),
-						//'description'   => __( 'This is the description.', 'diy-marketer' ),
-						'section' => 'test',
+						'section' => 'colors',
 						'choices' => diym_customize_background_pattern()
 					)
 				)
