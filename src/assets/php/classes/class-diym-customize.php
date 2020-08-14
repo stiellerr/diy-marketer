@@ -26,6 +26,20 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 			$wp_customize->get_setting( 'blogname' )->transport        = 'postMessage';
 			$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
 
+			$wp_customize->selective_refresh->add_partial(
+				'diym_instagram',
+				array(
+					'settings' => array(
+						'diym_instagram',
+						'diym_twitter',
+					),
+					'selector' => '.site-socials',
+					'container_inclusive'=> true,
+					'render_callback' => function() {
+						get_template_part( 'template-parts/socials' );
+					}
+			));
+
 			/*
 			$wp_customize->selective_refresh->add_partial(
 				'blogname',
@@ -63,7 +77,8 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 			/**
 			 * Site Identity
 			 */
-			/* 2X Header Logo ---------------- */
+
+			
 			/*
 			$wp_customize->add_setting(
 				'retina_logo',
@@ -213,20 +228,187 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					)
 				)
 			);
+
 			/**
-			 * Theme Options
+			 * Contact Details
 			 */
-			/*
 			$wp_customize->add_section(
-				'options',
+				'contact_details',
 				array(
-					'title'      => __( 'Theme Options', 'twentytwenty' ),
-					'priority'   => 40,
-					'capability' => 'edit_theme_options',
+					'title'      => esc_html__( 'Contact Details', 'diy-marketer' ),
+					//'description' => esc_html__( "Enter your business' contact details below.", 'diy-marketer' ),
+					//'priority'   => 40,
+					'capability' => 'edit_theme_options'
+				)
+			);
+			/* Phone Number ----------------------------------------------- */
+			$wp_customize->add_setting(
+				'diym_phoneNumber',
+				array(
+					//'default' => '',
+					'capability'        => 'edit_theme_options',
+					'sanitize_callback' => 'sanitize_text_field',
+					'transport' => 'postMessage'
+				)
+			);
+
+			$wp_customize->add_control(
+				'diym_phoneNumber',
+				array(
+					'type' => 'text',
+					'section' => 'contact_details',
+					//'priority'    => 10,
+					'label' => esc_html__( 'Phone Number', 'diy-marketer' )
+				)
+			);
+
+			/* Business Name ----------------------------------------------- */
+			$wp_customize->add_setting(
+				'diym_businessName'
+			);
+
+			$wp_customize->add_control(
+				'diym_businessName',
+				array(
+					'type' => 'text',
+					'label' => esc_html__( 'Business Name', 'diy-marketer' ),
+					'description' => sprintf(
+						wp_kses(
+							__( 'edit <a href="%s">here</a> under Site Title.', 'diy-marketer' ),
+							array(
+								'a' => array(
+									'href' => array(),
+								)
+							)
+						),
+						'javascript: wp.customize.section( \'title_tagline\' ).focus();'
+					),
+					'section' => 'contact_details',
+					'input_attrs' => array(
+						'placeholder' => get_bloginfo( 'name' ),
+						'readonly' => true
+					 ),
+				)
+			);
+
+			/**
+			 * Social Media
+			 */
+			$wp_customize->add_section(
+				'social_media',
+				array(
+					'title'      => esc_html__( 'Social Media', 'diy-marketer' ),
+					'description' => esc_html__( 'Enter your social media details below.', 'diy-marketer' ),
+					//'priority'   => 40,
+					'capability' => 'edit_theme_options'
+				)
+			);
+			
+			/* Facebook ----------------------------------------------- */
+			$wp_customize->add_setting(
+				'diym_facebook',
+				array(
+					'default' => 'facebook.com/facebook',
+					'capability'        => 'edit_theme_options',
+					'sanitize_callback' => 'esc_url_raw',
+					//'transport' => 'postMessage'
+					//'transport' => is_active_widget( false, false, 'diym_facebook', true ) ? 'refresh' : 'postMessage'
+				)
+			);
+
+			$wp_customize->add_control(
+				'diym_facebook',
+				array(
+					'type'     => 'url',
+					'section'  => 'social_media',
+					//'priority' => 10,
+					'label'    => esc_html__( 'Facebook url', 'diy-marketer' ),
+					//'description' => esc_html__( 'Enter you facebook url below...', 'diy-marketer' )
+				)
+			);
+
+			/* Instagram ----------------------------------------------- */
+			$wp_customize->add_setting(
+				'diym_instagram',
+				array(
+					'default' => 'instagram.com/instagram',
+					'capability'        => 'edit_theme_options',
+					'sanitize_callback' => 'esc_url_raw',
+					'transport' => 'postMessage'
+					//'transport' => is_active_widget( false, false, 'diym_facebook', true ) ? 'refresh' : 'postMessage'
+				)
+			);
+
+			$wp_customize->add_control(
+				'diym_instagram',
+				array(
+					'type'     => 'url',
+					'section'  => 'social_media',
+					//'priority' => 10,
+					'label'    => esc_html__( 'Instagram url', 'diy-marketer' ),
+					//'description' => esc_html__( 'Enter you facebook url below...', 'diy-marketer' )
+				)
+			);
+
+			/* Twitter ----------------------------------------------- */
+			$wp_customize->add_setting(
+				'diym_twitter',
+				array(
+					'default' => 'twitter.com/twitter',
+					'capability'        => 'edit_theme_options',
+					'sanitize_callback' => 'esc_url_raw',
+					'transport' => 'postMessage'
+					//'transport' => is_active_widget( false, false, 'diym_facebook', true ) ? 'refresh' : 'postMessage'
+				)
+			);
+
+			$wp_customize->add_control(
+				'diym_twitter',
+				array(
+					'type'     => 'url',
+					'section'  => 'social_media',
+					//'priority' => 10,
+					'label'    => esc_html__( 'Twitter url', 'diy-marketer' ),
+					//'description' => esc_html__( 'Enter you facebook url below...', 'diy-marketer' )
+				)
+			);
+
+			/*
+			$wp_customize->add_control(
+				'diym_phoneNumber',
+				array(
+					'type' => 'text',
+					'section' => 'contact_details',
+					//'priority'    => 10,
+					'label' => esc_html__( 'Phone Number', 'diy-marketer' )
 				)
 			);
 			*/
-			/* Enable Header Search ----------------------------------------------- */
+			/*
+			$wp_customize->add_setting( 'diym_business_name' );
+
+			$wp_customize->add_control('diym_business_name', array(
+				'type' => 'text',
+				'label' => esc_html__( 'Business Name', 'diy-marketer' ),
+				'description' => sprintf(
+					wp_kses(
+						__( 'edit <a href="%s">here</a> under Site Title.', 'diy-marketer' ),
+						array(
+							'a' => array(
+								'href' => array(),
+							)
+						)
+					),
+					'javascript: wp.customize.section( \'title_tagline\' ).focus();'
+				),
+				'section' => 'diym_contact_details',
+				'input_attrs' => array(
+					'placeholder' => get_bloginfo( 'name' ),
+					'readonly' => true
+				 ),
+			));
+			*/
+
 			/*
 			$wp_customize->add_setting(
 				'enable_header_search',

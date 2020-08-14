@@ -52,7 +52,7 @@ class DIYM_Social_Media_Widget extends WP_Widget {
         <p>
 			<?php
                 if ( $wp_customize instanceof WP_Customize_Manager ) {
-                    $url = 'javascript: wp.customize.section( "diym_social" ).focus();' ;
+                    $url = 'javascript: wp.customize.section( "social_media" ).focus();' ;
                 } else {
                     $url = admin_url( 'customize.php' );
                 }

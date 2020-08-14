@@ -2,3 +2,4 @@ BUGS, to sort...
 
 1) wp customizer, delete theme mod record from sql db. reload customizer then change bg color. accent color shades only get populated for banner-footer & not content. See bug_1.png
 2) custom-css.php, see comment on row 110. continue function needs to be checked to make sure if is exiting the correct loop.
+3) find out what phpcs is

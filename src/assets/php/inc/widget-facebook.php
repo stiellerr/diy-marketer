@@ -75,7 +75,7 @@ class DIYM_Facebook_Widget extends WP_Widget {
                 */
 
                 if ( is_customize_preview() ) {
-                    $url = 'javascript: wp.customize.section( "diym_social" ).focus();' ;
+                    $url = 'javascript: wp.customize.section( "social_media" ).focus();' ;
                 } else {
                     $url = admin_url( 'customize.php' );
                 }

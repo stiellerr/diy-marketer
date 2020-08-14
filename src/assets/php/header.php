@@ -8,9 +8,6 @@
  *
  * @package DIY_Marketer
  */
-
- $diym_phone_number  = get_theme_mod( 'diym_phone_number' );
-
 ?>
 
 <!doctype html>
@@ -35,11 +32,25 @@
 	<header role="banner">
 		<div class="row site-banner border-bottom border-thick border-primary py-1">
 			<div class="col-md-auto text-center align-self-center">
-				<span class="site-tagline"><?php bloginfo('description'); ?></span>
+				<?php
+					// unsure what the display argument does exactly, further investigation required.
+					$diym_description = get_bloginfo( 'description', 'display' );
+					if ( $diym_description || is_customize_preview() ) :
+						?>
+						<span class="blog-description"><?php echo $diym_description; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+					<?php endif; ?>
 			</div>
 			<div class="col-md text-center text-md-right">
+				<?php
+					$diym_phoneNumber  = get_theme_mod( 'diym_phoneNumber' );
+					if ( $diym_phoneNumber || is_customize_preview() ) :
+						// echo phone number...
+						echo $diym_phoneNumber ? 'Call Now.' : ''; ?>
+						<a class="font-weight-bold phone-number text-nowrap" href="tel:<?php echo $diym_phoneNumber; ?>"><?php echo $diym_phoneNumber; ?></a>
+					<?php endif; ?>
+				<!--
 				<span>Call Now</span>
-				<a class="font-weight-bold phone-number text-nowrap" href="tel:<?php echo $diym_phone_number; ?>"><?php echo $diym_phone_number; ?></a>
+				<a class="font-weight-bold phone-number text-nowrap" href="tel:<?php echo $diym_phone_number; ?>"><?php echo $diym_phone_number; ?></a>-->
 				<?php get_template_part( 'template-parts/socials' ); ?>
 			</div>
 		</div>

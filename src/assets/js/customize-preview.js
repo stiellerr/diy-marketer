@@ -25,7 +25,20 @@ wp.customize("blogname", value => {
 //
 wp.customize("blogdescription", value => {
     value.bind(to => {
-        $(".site-tagline").text(to);
+        $(".blog-description").text(to);
+    });
+});
+
+wp.customize("diym_phoneNumber", value => {
+    value.bind(to => {
+        // clear prefix
+        $(".phone-number")[0].previousSibling.nodeValue = "";
+        if (to.length) {
+            // add prefix
+            $(".phone-number").before("Call Now.&nbsp;");
+        }
+        // append phone number
+        $(".phone-number").text(to);
     });
 });
 
