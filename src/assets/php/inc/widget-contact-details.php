@@ -34,7 +34,7 @@ class DIYM_Contact_Details_Widget extends WP_Widget {
         <p>
 			<?php
                 if ( $wp_customize instanceof WP_Customize_Manager ) {
-                    $url = 'javascript: wp.customize.section( "diym_contact_details" ).focus();' ;
+                    $url = 'javascript: wp.customize.section( "contact_details" ).focus();' ;
                 } else {
                     $url = admin_url( 'customize.php' );
                 }

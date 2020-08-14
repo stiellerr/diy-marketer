@@ -10,13 +10,13 @@
 $diym_name          = get_bloginfo( 'name' );
         
 // get theme mods.
-$diym_street_address= get_theme_mod( 'diym_street_address' );
+$diym_street_address= get_theme_mod( 'diym_streetAddress' );
 $diym_suburb        = get_theme_mod( 'diym_suburb' );
 $diym_city          = get_theme_mod( 'diym_city' );
 $diym_postal_code   = get_theme_mod( 'diym_postal_code' );
 
 //
-$diym_phone_number  = get_theme_mod( 'diym_phone_number' );
+$diym_phone_number  = get_theme_mod( 'diym_phoneNumber' );
 $diym_email         = get_bloginfo( 'admin_email' );
 $diym_url           = get_bloginfo( 'url' );
 

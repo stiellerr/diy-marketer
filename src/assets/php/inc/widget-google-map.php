@@ -62,7 +62,7 @@ class DIYM_Google_Map_Widget extends WP_Widget {
                 
                 */
                 if ( is_customize_preview() ) {
-                    $url = 'javascript: wp.customize.section( "diym_contact_details" ).focus();' ;
+                    $url = 'javascript: wp.customize.section( "contact_details" ).focus();' ;
                 } else {
                     $url = admin_url( 'customize.php' );
                 }

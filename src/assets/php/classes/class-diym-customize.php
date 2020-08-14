@@ -40,6 +40,22 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					}
 			));
 
+			$wp_customize->selective_refresh->add_partial('diym_phoneNumber', array(
+				'settings' => array(
+					//'blogname',
+					'diym_streetAddress',
+					'diym_suburb',
+					'diym_city',
+					//'diym_postalCode',
+					'diym_phoneNumber'
+				),
+				'selector' => '.contact-details',
+				'container_inclusive'=> true,
+				'render_callback' => function() {
+					get_template_part( 'template-parts/contact-details' );
+				}
+			));
+
 			/*
 			$wp_customize->selective_refresh->add_partial(
 				'blogname',
@@ -115,7 +131,8 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					'capability' => 'edit_theme_options',
 				)
 			);
-			/* Enable Header Search ----------------------------------------------- */
+
+			/* Font Family. ----------------------------------------------- */
 			$wp_customize->add_setting(
 				'font_family',
 				array(
@@ -241,26 +258,6 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					'capability' => 'edit_theme_options'
 				)
 			);
-			/* Phone Number ----------------------------------------------- */
-			$wp_customize->add_setting(
-				'diym_phoneNumber',
-				array(
-					//'default' => '',
-					'capability'        => 'edit_theme_options',
-					'sanitize_callback' => 'sanitize_text_field',
-					'transport' => 'postMessage'
-				)
-			);
-
-			$wp_customize->add_control(
-				'diym_phoneNumber',
-				array(
-					'type' => 'text',
-					'section' => 'contact_details',
-					//'priority'    => 10,
-					'label' => esc_html__( 'Phone Number', 'diy-marketer' )
-				)
-			);
 
 			/* Business Name ----------------------------------------------- */
 			$wp_customize->add_setting(
@@ -290,6 +287,100 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					 ),
 				)
 			);
+
+			/* Street Address ----------------------------------------------- */
+			$wp_customize->add_setting(
+				'diym_streetAddress',
+				array(
+					//'default' => '',
+					'capability'        => 'edit_theme_options',
+					'sanitize_callback' => 'sanitize_text_field',
+					'transport' => 'postMessage'
+				)
+			);
+
+			$wp_customize->add_control(
+				'diym_streetAddress',
+				array(
+					'type' => 'text',
+					'section' => 'contact_details',
+					//'priority'    => 10,
+					'label' => esc_html__( 'Street Address', 'diy-marketer' )
+				)
+			);
+
+			/* Suburb ----------------------------------------------- */
+			$wp_customize->add_setting(
+				'diym_suburb',
+				array(
+					//'default' => '',
+					'capability'        => 'edit_theme_options',
+					'sanitize_callback' => 'sanitize_text_field',
+					'transport' => 'postMessage'
+				)
+			);
+
+			$wp_customize->add_control(
+				'diym_suburb',
+				array(
+					'type' => 'text',
+					'section' => 'contact_details',
+					//'priority'    => 10,
+					'label' => esc_html__( 'Suburb', 'diy-marketer' )
+				)
+			);
+
+			/* City ----------------------------------------------- */
+			$wp_customize->add_setting(
+				'diym_city',
+				array(
+					//'default' => '',
+					'capability'        => 'edit_theme_options',
+					'sanitize_callback' => 'sanitize_text_field',
+					'transport' => 'postMessage'
+				)
+			);
+
+			$wp_customize->add_control(
+				'diym_city',
+				array(
+					'type' => 'text',
+					'section' => 'contact_details',
+					//'priority'    => 10,
+					'label' => esc_html__( 'City', 'diy-marketer' )
+				)
+			);
+
+
+
+
+
+
+
+			/* Phone Number ----------------------------------------------- */
+			$wp_customize->add_setting(
+				'diym_phoneNumber',
+				array(
+					//'default' => '',
+					'capability'        => 'edit_theme_options',
+					'sanitize_callback' => 'sanitize_text_field',
+					'transport' => 'postMessage'
+				)
+			);
+
+			$wp_customize->add_control(
+				'diym_phoneNumber',
+				array(
+					'type' => 'text',
+					'section' => 'contact_details',
+					//'priority'    => 10,
+					'label' => esc_html__( 'Phone Number', 'diy-marketer' )
+				)
+			);
+
+
+
+
 
 			/**
 			 * Social Media
