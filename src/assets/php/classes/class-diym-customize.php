@@ -42,11 +42,11 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 
 			$wp_customize->selective_refresh->add_partial('diym_phoneNumber', array(
 				'settings' => array(
-					//'blogname',
+					'blogname',
 					'diym_streetAddress',
 					'diym_suburb',
 					'diym_city',
-					//'diym_postalCode',
+					'diym_postalCode',
 					'diym_phoneNumber'
 				),
 				'selector' => '.contact-details',
@@ -153,7 +153,7 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 				)
 			);
 
-			// Banner & Footer Background Color.
+			/* Banner & Footer Background Color. -------------------------------- */
 			$wp_customize->add_setting(
 				'banner_footer_background_color',
 				array(
@@ -225,6 +225,7 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 				)
 			);
 
+			/* Background Pattern ----------------------------------------------- */
 			$wp_customize->add_setting(
 				'background_pattern',
 				array(
@@ -351,11 +352,26 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 				)
 			);
 
+			/* Postal Code ----------------------------------------------- */
+			$wp_customize->add_setting(
+				'diym_postalCode',
+				array(
+					//'default' => '',
+					'capability'        => 'edit_theme_options',
+					'sanitize_callback' => 'sanitize_text_field',
+					'transport' => 'postMessage'
+				)
+			);
 
-
-
-
-
+			$wp_customize->add_control(
+				'diym_postalCode',
+				array(
+					'type' => 'text',
+					'section' => 'contact_details',
+					//'priority'    => 10,
+					'label' => esc_html__( 'Postal Code', 'diy-marketer' )
+				)
+			);
 
 			/* Phone Number ----------------------------------------------- */
 			$wp_customize->add_setting(
@@ -378,9 +394,69 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 				)
 			);
 
+			/* Email ----------------------------------------------- */
+			$wp_customize->add_setting( 'diym_email' );
 
+			$wp_customize->add_control( 'diym_email',
+				array(
+					'type' => 'text',
+					'label' => esc_html__( 'Email', 'diy-marketer' ),
+					'description' => wp_kses(
+						__( 'edit <a href="options-general.php">here</a> under Administration Email Address.', 'diy-marketer' ),
+						array(
+							'a' => array(
+								'href' => array(),
+							)
+						)
+					),
+					'section' => 'contact_details',
+					'input_attrs' => array(
+						'placeholder' => get_bloginfo( 'admin_email' ),
+						'readonly' => true
+					),
+				)
+			);
 
+			/* Website ----------------------------------------------- */
+			$wp_customize->add_setting( 'diym_website' );
+		
+			$wp_customize->add_control( 'diym_website',
+				array(
+					'type' => 'text',
+					'label' => esc_html__( 'Website URL', 'diy-marketer' ),
+					'description' => wp_kses(
+						__( 'edit <a href="options-general.php">here</a> under Site Address (URL).', 'diy-marketer' ),
+						array(
+							'a' => array(
+								'href' => array(),
+							)
+						)
+					),
+					'section' => 'contact_details',
+					'input_attrs' => array(
+						'placeholder' => get_bloginfo( 'url' ),
+						'readonly' => true
+					),
+				)
+			);
 
+			/* Google Map ----------------------------------------------- */
+			$wp_customize->add_setting( 'diym_googleMap',
+				array(
+					//'default' => '',
+					'sanitize_callback' => array( __CLASS__, 'sanitize_google_map' ),
+					'transport' => 'postMessage'
+				)
+			);
+			
+			$wp_customize->add_control( 'diym_googleMap',
+				array(
+					'type' => 'text',
+					'label' => esc_html__( 'Google Map', 'diy-marketer' ),
+					'description' => esc_html__( 'HTML embed code.', 'diy-marketer' ),
+					'section' => 'contact_details',
+				)
+			);
 
 			/**
 			 * Social Media
@@ -463,42 +539,6 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					//'description' => esc_html__( 'Enter you facebook url below...', 'diy-marketer' )
 				)
 			);
-
-			/*
-			$wp_customize->add_control(
-				'diym_phoneNumber',
-				array(
-					'type' => 'text',
-					'section' => 'contact_details',
-					//'priority'    => 10,
-					'label' => esc_html__( 'Phone Number', 'diy-marketer' )
-				)
-			);
-			*/
-			/*
-			$wp_customize->add_setting( 'diym_business_name' );
-
-			$wp_customize->add_control('diym_business_name', array(
-				'type' => 'text',
-				'label' => esc_html__( 'Business Name', 'diy-marketer' ),
-				'description' => sprintf(
-					wp_kses(
-						__( 'edit <a href="%s">here</a> under Site Title.', 'diy-marketer' ),
-						array(
-							'a' => array(
-								'href' => array(),
-							)
-						)
-					),
-					'javascript: wp.customize.section( \'title_tagline\' ).focus();'
-				),
-				'section' => 'diym_contact_details',
-				'input_attrs' => array(
-					'placeholder' => get_bloginfo( 'name' ),
-					'readonly' => true
-				 ),
-			));
-			*/
 
 			/*
 			$wp_customize->add_setting(
@@ -705,31 +745,6 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 			*/
 		}
 
-		/**
-		 * Sanitization callback for the "accent_accessible_colors" setting.
-		 *
-		 * @static
-		 * @access public
-		 * @since Twenty Twenty 1.0
-		 * @param array $value The value we want to sanitize.
-		 * @return array       Returns sanitized value. Each item in the array gets sanitized separately.
-		 */
-		/*
-		public static function sanitize_accent_accessible_colors( $value ) {
-
-			// Make sure the value is an array. Do not typecast, use empty array as fallback.
-			$value = is_array( $value ) ? $value : array();
-
-			// Loop values.
-			foreach ( $value as $area => $values ) {
-				foreach ( $values as $context => $color_val ) {
-					$value[ $area ][ $context ] = sanitize_hex_color( $color_val );
-				}
-			}
-
-			return $value;
-		}
-		*/
 		public static function sanitize_accent_accessible_colors( $value ) {
 
 			// Make sure the value is an array. Do not typecast, use empty array as fallback.
@@ -788,6 +803,27 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 		 */
 		public static function sanitize_checkbox( $checked ) {
 			return ( ( isset( $checked ) && true === $checked ) ? true : false );
+		}
+
+		/**
+		 * Sanitize google map.
+		 *
+		 * @param bool $checked Whether or not a box is checked.
+		 *
+		 * @return bool
+		 */
+		public static function sanitize_google_map( $input ) {
+			$allowed = array(
+				'iframe' => array(
+					'src'				=> array(),
+					'frameborder'		=> array(),
+					'style'				=> array(),
+					'allowfullscreen'	=> array(),
+					'aria-hidden'		=> array(),
+					'tabindex'			=> array()
+				)
+			);
+			return wp_kses( $input, $allowed );
 		}
 
 	}

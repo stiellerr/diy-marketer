@@ -8,6 +8,7 @@
  */
 
 import $ from "jquery";
+import strip_tags from "locutus/php/strings/strip_tags";
 
 // Generate styles on load. Handles page-changes on the preview pane.
 $(document).ready(() => {
@@ -39,6 +40,20 @@ wp.customize("diym_phoneNumber", value => {
         }
         // append phone number
         $(".phone-number").text(to);
+    });
+});
+
+wp.customize("diym_googleMap", value => {
+    value.bind(to => {
+        //
+        $(".widget_diym_google_map")
+            .contents()
+            .filter(function () {
+                return this.nodeType == 3; //Node.TEXT_NODE
+            })
+            .remove();
+        $(".widget_diym_google_map > iframe").remove();
+        $(".widget_diym_google_map").append(strip_tags(to, "<iframe>"));
     });
 });
 

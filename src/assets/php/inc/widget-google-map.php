@@ -22,7 +22,7 @@ class DIYM_Google_Map_Widget extends WP_Widget {
 
     public function widget($args, $instance) {
 
-        $diym_google_map = get_theme_mod( 'diym_google_map', '' );
+        $diym_google_map = get_theme_mod( 'diym_googleMap', '' );
 
         $title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__('Google Map', 'diy-marketer');
 

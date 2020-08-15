@@ -13,7 +13,7 @@ $diym_name          = get_bloginfo( 'name' );
 $diym_street_address= get_theme_mod( 'diym_streetAddress' );
 $diym_suburb        = get_theme_mod( 'diym_suburb' );
 $diym_city          = get_theme_mod( 'diym_city' );
-$diym_postal_code   = get_theme_mod( 'diym_postal_code' );
+$diym_postal_code   = get_theme_mod( 'diym_postalCode' );
 
 //
 $diym_phone_number  = get_theme_mod( 'diym_phoneNumber' );
