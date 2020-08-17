@@ -271,9 +271,6 @@ function diym_get_color_for_area( $area = 'content', $context = 'text', $shade =
 	return false;
 }
 
-//
-write_log( get_theme_mod('custom_colors') );
-
 /**
  * Get an array of elements.
  *
@@ -325,6 +322,17 @@ function diym_get_elements_array() {
 		),
 		'banner-footer' => array(
 			'accent' => array(
+				array(
+					'color' => array(
+						'selector' => array( '.site-banner a', '#site-footer a' )
+					)
+				),
+				array(
+					'color' => array(
+						'selector' => array( '.site-banner a:hover', '#site-footer a:hover' ),
+						'shade' => 'link_hover'
+					)
+				),
 				array(
 					'background-color' => array(
 						'selector' => array( '#site-footer .btn-primary')
@@ -384,15 +392,16 @@ function diym_get_elements_array() {
                     'background-color' => array(
 						'selector' => array( '#site-footer', '.site-banner' )
                     )
-				),
-				/*
+				)
+			),
+			'text' => array(
 				array(
                     'color' => array(
-						'selector' => array( '#site-footer .btn-primary' )
+						'selector' => array( '.site-banner', '#site-footer' )
                     )
-				)*/
-			),
-		),
+				)
+			)
+		)
 	);
 
 	return $elements;

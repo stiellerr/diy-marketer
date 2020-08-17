@@ -32,14 +32,20 @@ if ( ! class_exists( 'DIYM_Send_Mail' ) ) {
 		public function enqueue() {         
                
             wp_enqueue_script( 'diym-mail', get_template_directory_uri() . '/dist/assets/js/mail.js', array( 'jquery' ), DIYM_VER, true );
-            wp_localize_script('diym-mail', 'diymMailVars', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+            wp_localize_script( 'diym-mail', 'diymMailVars', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
         }
 
         /**
 		 * Enqueue our scripts and styles
 		 */
 		public function send_form() {
-            //error_log( 'send_form' );
+
+            write_log( $_POST );
+
+            //wp_send_json_error( __)
+            wp_send_json_error( __( 'error', 'jjjj' )  );
+
+            //wp_send_json_success( __( 'Thanks for reporting! zzz', 'reportabug' ) );
         }
     }
 }

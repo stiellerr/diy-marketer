@@ -38,23 +38,28 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					'render_callback' => function() {
 						get_template_part( 'template-parts/socials' );
 					}
-			));
+				)
+			);
 
-			$wp_customize->selective_refresh->add_partial('diym_phoneNumber', array(
-				'settings' => array(
-					'blogname',
-					'diym_streetAddress',
-					'diym_suburb',
-					'diym_city',
-					'diym_postalCode',
-					'diym_phoneNumber'
-				),
-				'selector' => '.contact-details',
-				'container_inclusive'=> true,
-				'render_callback' => function() {
-					get_template_part( 'template-parts/contact-details' );
-				}
-			));
+			$wp_customize->selective_refresh->add_partial(
+				'diym_phoneNumber',
+				array(
+					'settings' => array(
+						'blogname',
+						'diym_streetAddress',
+						'diym_suburb',
+						'diym_city',
+						'diym_postalCode',
+						'diym_phoneNumber'
+					),
+					'selector' => '.contact-details',
+					'container_inclusive'=> true,
+					'render_callback' => function() {
+						get_template_part( 'template-parts/contact-details' );
+					},
+					'fallback_refresh' => false
+				)
+			);
 
 			/*
 			$wp_customize->selective_refresh->add_partial(

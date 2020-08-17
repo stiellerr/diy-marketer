@@ -59,6 +59,8 @@ const diymCustomColors = (context, background, accent) => {
     colors = new DIYM_Color(background, accent);
 
     // Sanity check.
+    //35: colors.getAccentDarken(15),
+    //99: colors.getLinkHover(15)
     if (_.isFunction(colors.getAccentColor) && colors.getAccentColor) {
         // Update the values for this context.
         settings[context] = {
@@ -68,13 +70,15 @@ const diymCustomColors = (context, background, accent) => {
                 40: colors.getAccentDarken(10),
                 43: colors.getAccentDarken(7.5),
                 57: colors.getAccentLighten(7.5),
-                75: colors.getAccentLighten(25)
+                75: colors.getAccentLighten(25),
+                link_hover: colors.getLinkHover(15)
             },
             background: colors.getBackgroundColor()
         };
     }
 
-    console.log(settings);
+    //
+    //console.log(colors.getAccentLighten(15));
 
     // Change the value.
     wp.customize("custom_colors").set(settings);

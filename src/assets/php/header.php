@@ -48,9 +48,6 @@
 						echo $diym_phoneNumber ? 'Call Now.' : ''; ?>
 						<a class="font-weight-bold phone-number text-nowrap" href="tel:<?php echo $diym_phoneNumber; ?>"><?php echo $diym_phoneNumber; ?></a>
 					<?php endif; ?>
-				<!--
-				<span>Call Now</span>
-				<a class="font-weight-bold phone-number text-nowrap" href="tel:<?php echo $diym_phone_number; ?>"><?php echo $diym_phone_number; ?></a>-->
 				<?php get_template_part( 'template-parts/socials' ); ?>
 			</div>
 		</div>

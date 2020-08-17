@@ -43,6 +43,7 @@ class DIYM_Contact_Form_Widget extends WP_Widget {
 
         <form class="contact-form" novalidate>
             <?php /* echo $title ? $args['before_title'] . $title . $args['after_title'] : ''; */ ?>
+            <!--<input type="hidden" name="action" value="send_form" />-->
             <?php if ( $message ) { ?>            
                 <div class="form-group"><!-- message -->
                     <textarea class="form-control form-control-sm" name="message" id="message" placeholder="How can we help?" required></textarea>

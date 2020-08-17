@@ -32,4 +32,11 @@ export default class DIYM_Color {
     getAccentDarken(amount) {
         return this.accent.clone().darken(amount).toCSS();
     }
+    //
+    getLinkHover(amount) {
+        let lum = this.accent.toLuminosity();
+        let hex = lum >= 0.5 ? this.getAccentDarken(amount) : this.getAccentLighten(amount);
+
+        return hex;
+    }
 }
