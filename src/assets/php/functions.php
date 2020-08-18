@@ -442,4 +442,16 @@ require get_template_directory() . '/inc/widget-page-excerpt.php';
  */
 require get_template_directory() . '/inc/widget-contact-form.php';
 
+// use this one...
+write_log( $_SERVER['HTTP_HOST'] );
+write_log( $_SERVER['SERVER_NAME'] );
+
+write_log( get_bloginfo( 'url' ) );
+
+write_log( get_option( 'siteurl' ) );
+
+write_log( get_option( 'home' ) );
+
+write_log( get_site_url() );
+
 ?>

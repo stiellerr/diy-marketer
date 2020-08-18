@@ -78,7 +78,8 @@ if ( ! class_exists( 'DIYM_Send_Mail' ) ) {
             }
 
             // if we get to this point, something is wrong...
-            wp_send_json_error( null, 500 );
+            //wp_send_json_error( null, 500 );
+            wp_send_json_error( 'Reece', 500 );
         }
     }
 }
