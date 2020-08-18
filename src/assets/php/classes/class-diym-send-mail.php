@@ -45,6 +45,8 @@ if ( ! class_exists( 'DIYM_Send_Mail' ) ) {
 		 */
 		public function send_form() {
 
+            wp_send_json_success( __( 'Email successfully sent.', 'diy-marketer' ) );
+
             // check form submit has been done from a valid source.
             check_ajax_referer( 'secure_nonce_name', 'security' );
 

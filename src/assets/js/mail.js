@@ -13,6 +13,13 @@ $(document).ready(() => {
         //var form_data = $(evt.currentTarget).serializeArray();
         let self = $(evt.currentTarget);
 
+        console.log(self);
+        console.log(self[0]);
+
+        // drop focus on click
+        self.find("button").blur();
+
+        //console.log(evt());
         // validate...
         //if (!self[0].checkValidity()) {
         //self.classList.add("was-validated");
@@ -78,29 +85,38 @@ $(document).ready(() => {
                 //error: handleFormError,
 
                 success: response => {
-                    console.log("success");
-                    console.log(response);
-
-                    //if (response.success) {
                     //console.log("success");
                     //console.log(response);
-                    // is_sending = false
-                    ///$('#contact-form')[0].reset();
-                    // alert(this_form.innerHTML);
-                    // alert(this_form.html());
-                    //  alert('hi');
-                    //$("#name").val("");
-                    //$("#phone").val("");
-                    //$("#email").val("");
-                    //$("#message").val("");
-                    //this_form.reset();
-                    //$( "#contact-form" ).prepend( "<div class='alert alert-success mt-1'>Thank you! Your message has been sent.</div>" );
-                    //alert(this_form.html());
-                    // Here, you could trigger a success message
-                    //} else {
-                    //console.log("failure");
-                    // handleFormError(); // If we don't get the expected response, it's an error...
-                    //}
+
+                    if (response.success) {
+                        // reset the form...
+                        self[0].reset();
+
+                        // remove invalid class
+                        self.removeClass("was-validated");
+                        self.prepend(
+                            "<div class='alert alert-success'>Thank you! Your message has been sent.</div>"
+                        );
+                        //console.log("success");
+                        console.log(response);
+                        //self.trigger("blur");
+                        // is_sending = false
+
+                        // alert(this_form.innerHTML);
+                        // alert(this_form.html());
+                        //  alert('hi');
+                        //$("#name").val("");
+                        //$("#phone").val("");
+                        //$("#email").val("");
+                        //$("#message").val("");
+                        //this_form.reset();
+                        //$( "#contact-form" ).prepend( "<div class='alert alert-success mt-1'>Thank you! Your message has been sent.</div>" );
+                        //alert(this_form.html());
+                        // Here, you could trigger a success message
+                        //} else {
+                        //console.log("failure");
+                        // handleFormError(); // If we don't get the expected response, it's an error...
+                    }
                 }
             });
         } else {
