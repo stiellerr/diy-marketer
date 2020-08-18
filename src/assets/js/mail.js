@@ -37,7 +37,16 @@ $(document).ready(() => {
             let form_data = self.serializeArray();
             //let form_data = self.serialize();
 
-            form_data.push({ name: "action", value: "send_form" });
+            form_data.push(
+                {
+                    name: "action",
+                    value: "send_form"
+                },
+                {
+                    name: "security",
+                    value: diymMailVars.ajax_nonce
+                }
+            );
 
             console.log(form_data);
 
@@ -59,35 +68,39 @@ $(document).ready(() => {
                     // You could do an animation here...
                 },
 
-                error: function () {
+                error: response => {
                     //let is_sending = true;
                     // You could do an animation here...
                     console.log("error");
+                    console.log(response);
                     //console.log(res);
                 },
                 //error: handleFormError,
 
-                success: function (response) {
-                    //console.log(response);
+                success: response => {
+                    console.log("success");
+                    console.log(response);
 
-                    if (response.status === "success") {
-                        console.log(response);
-                        // is_sending = false
-                        ///$('#contact-form')[0].reset();
-                        // alert(this_form.innerHTML);
-                        // alert(this_form.html());
-                        //  alert('hi');
-                        //$("#name").val("");
-                        //$("#phone").val("");
-                        //$("#email").val("");
-                        //$("#message").val("");
-                        //this_form.reset();
-                        //$( "#contact-form" ).prepend( "<div class='alert alert-success mt-1'>Thank you! Your message has been sent.</div>" );
-                        //alert(this_form.html());
-                        // Here, you could trigger a success message
-                    } else {
-                        // handleFormError(); // If we don't get the expected response, it's an error...
-                    }
+                    //if (response.success) {
+                    //console.log("success");
+                    //console.log(response);
+                    // is_sending = false
+                    ///$('#contact-form')[0].reset();
+                    // alert(this_form.innerHTML);
+                    // alert(this_form.html());
+                    //  alert('hi');
+                    //$("#name").val("");
+                    //$("#phone").val("");
+                    //$("#email").val("");
+                    //$("#message").val("");
+                    //this_form.reset();
+                    //$( "#contact-form" ).prepend( "<div class='alert alert-success mt-1'>Thank you! Your message has been sent.</div>" );
+                    //alert(this_form.html());
+                    // Here, you could trigger a success message
+                    //} else {
+                    //console.log("failure");
+                    // handleFormError(); // If we don't get the expected response, it's an error...
+                    //}
                 }
             });
         } else {
