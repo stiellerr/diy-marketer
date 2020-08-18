@@ -443,6 +443,14 @@ require get_template_directory() . '/inc/widget-page-excerpt.php';
 require get_template_directory() . '/inc/widget-contact-form.php';
 
 // use this one...
+$urlparts = parse_url( home_url(), PHP_URL_HOST ); //['host'];
+
+write_log( $urlparts );
+
+//$domain = $urlparts['host'];
+//write_log( $domain );
+
+
 write_log( $_SERVER['HTTP_HOST'] );
 write_log( $_SERVER['SERVER_NAME'] );
 

@@ -49,9 +49,9 @@ if ( ! class_exists( 'DIYM_Send_Mail' ) ) {
             check_ajax_referer( 'secure_nonce_name', 'security' );
 
             $allowed = array( 'name', 'email', 'phone', 'message' );
-            //$body = '';
+            $body = '';
 
-            // retrieve form variables
+            // retrieve form post vars
             foreach ( $_POST as $key => $value ) {
                 if ( in_array( $key, $allowed ) ) {
                     if ( $value ) {
@@ -67,9 +67,15 @@ if ( ! class_exists( 'DIYM_Send_Mail' ) ) {
             }
             
             $subject = __( 'New Website Enquiry.', 'diy-amrketer' );
-            //write_log( $body );
-            $headers[] = 'From: DIY Marketer <no-reply@stieller.com>';
             
+            // get domain name...
+            $domain = parse_url( home_url(), PHP_URL_HOST );
+            $name = get_bloginfo( 'name' );
+
+            if ( $name && $domain ) {
+                $headers[] = 'From: ' . $name . ' <no-reply@' . $domain . '>';
+            }
+                        
             // send the email.
             $result = wp_mail( $to, $subject, $body, $headers );
 
@@ -78,25 +84,9 @@ if ( ! class_exists( 'DIYM_Send_Mail' ) ) {
             }
 
             // if we get to this point, something is wrong...
-            //wp_send_json_error( null, 500 );
-            wp_send_json_error( 'Reece', 500 );
+            wp_send_json_error( null, 500 );
         }
     }
 }
 
-// Function to change email address
- /*
-function wpb_sender_email( $original_email_address ) {
-    return 'tim.smith@example.com';
-}
- 
-// Function to change sender name
-function wpb_sender_name( $original_email_from ) {
-    return 'Tim Smith';
-}
- 
-// Hooking up our functions to WordPress filters 
-add_filter( 'wp_mail_from', 'wpb_sender_email' );
-add_filter( 'wp_mail_from_name', 'wpb_sender_name' );
-*/
 ?>
