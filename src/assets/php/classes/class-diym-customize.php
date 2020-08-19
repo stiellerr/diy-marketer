@@ -740,14 +740,55 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 				)
 			);
 
-			$wp_customize->selective_refresh->add_partial(
-				'cover_template_overlay_opacity',
+			/* Footer Widgets --------- */
+
+
+			$wp_customize->add_section(
+				'test_section',
 				array(
-					'selector' => '.cover-color-overlay',
-					'type'     => 'cover_opacity',
+					'title'	=> __( 'Test Panel', 'diy-marketer' ),
+					//'description'	=> __( 'zzz', 'diy-marketer' ),
+					//'priority'	=> 160,
+					'panel' => 'widgets'
 				)
 			);
-			*/
+
+			$wp_customize->add_setting(
+				'footer_widgets',
+				array(
+					'default'           => 4,
+					'sanitize_callback' => 'absint',
+					'transport'         => 'postMessage',
+				)
+			);
+
+			$wp_customize->add_control(
+				'footer_widgets',
+				array(
+					'label'       => __( 'Footer Widgets', 'diy-marketer' ),
+					'description' => __( 'The number of widgets to include in the footer of your website.', 'diy-marketer' ),
+					'section'     => 'test_section',
+					'type'        => 'range',
+					//'priority' => 999, // Within the section.
+					//'input_attrs' => twentytwenty_customize_opacity_range(),
+					'input_attrs' => array(
+						'min' => 0,
+						'max' => 4,
+						'step' => 1
+					)
+				)
+			);
+/*
+			$wp_customize->add_panel(
+				'test_panel',
+				array(
+					'title'	=> __( 'Test Panel', 'diy-marketer' ),
+					'description'	=> __( 'zzz', 'diy-marketer' ),
+					'priority'	=> 160
+				)
+			);
+*/
+
 		}
 
 		public static function sanitize_accent_accessible_colors( $value ) {

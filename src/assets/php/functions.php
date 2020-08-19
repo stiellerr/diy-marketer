@@ -156,6 +156,19 @@ function diym_widgets_init() {
 			'after_title'   => '</h5>',
 		)
 	);
+
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'Footer 2', 'diy-marketer' ),
+			'id'            => 'footer-2',
+			'description'   => esc_html__( 'Add widgets here.', 'diy-maketer' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h5 class="widget-title">',
+			'after_title'   => '</h5>',
+		)
+	);
+
 }
 add_action( 'widgets_init', 'diym_widgets_init' );
 
@@ -441,25 +454,5 @@ require get_template_directory() . '/inc/widget-page-excerpt.php';
  * Business Contact Form Widget
  */
 require get_template_directory() . '/inc/widget-contact-form.php';
-
-// use this one...
-$urlparts = parse_url( home_url(), PHP_URL_HOST ); //['host'];
-
-write_log( $urlparts );
-
-//$domain = $urlparts['host'];
-//write_log( $domain );
-
-
-write_log( $_SERVER['HTTP_HOST'] );
-write_log( $_SERVER['SERVER_NAME'] );
-
-write_log( get_bloginfo( 'url' ) );
-
-write_log( get_option( 'siteurl' ) );
-
-write_log( get_option( 'home' ) );
-
-write_log( get_site_url() );
 
 ?>
