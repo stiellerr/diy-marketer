@@ -45,8 +45,6 @@ if ( ! class_exists( 'DIYM_Send_Mail' ) ) {
 		 */
 		public function send_form() {
 
-            wp_send_json_success( __( 'Email successfully sent.', 'diy-marketer' ) );
-
             // check form submit has been done from a valid source.
             check_ajax_referer( 'secure_nonce_name', 'security' );
 
@@ -65,10 +63,11 @@ if ( ! class_exists( 'DIYM_Send_Mail' ) ) {
             $to = get_bloginfo( 'admin_email' );
 
             if ( ! $body || ! is_email( $to ) ) {
+                error_log('zzz');
                 wp_send_json_error( null, 400 );
             }
             
-            $subject = __( 'New Website Enquiry.', 'diy-amrketer' );
+            $subject = __( 'New Website Enquiry.', 'diy-marketer' );
             
             // get domain name...
             $domain = parse_url( home_url(), PHP_URL_HOST );
@@ -82,7 +81,7 @@ if ( ! class_exists( 'DIYM_Send_Mail' ) ) {
             $result = wp_mail( $to, $subject, $body, $headers );
 
             if ( $result ) {
-                wp_send_json_success( __( 'Email successfully sent.', 'diy-marketer' ) );
+                wp_send_json_success( __( 'Thanks, we will be in touch shortly!', 'diy-marketer' ) );
             }
 
             // if we get to this point, something is wrong...
