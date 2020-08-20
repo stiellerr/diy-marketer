@@ -11,6 +11,57 @@ import DIYM_Color from "./components/class-diym-color";
 
 // Wait until the customizer has finished loading.
 wp.customize.bind("ready", () => {
+    //
+    //let z = wp.customize.panel("nav_menus");
+
+    //wp.customize.control("blogname").panel("nav_menus");
+
+    //console.log(z);
+    //console.log(wp.customize.section.add());
+    // Create theme options panel.
+    /*
+		api.panel.add(
+			new api.Panel('hannover_theme_options', {
+				title: 'Theme Options',
+			})
+        );
+        */
+    // Add section.
+    wp.customize.section.add(
+        new wp.customize.Section("footer_options", {
+            title: "Footer Options.",
+            panel: "widgets",
+            //customizeAction: "Customizing ▸ Theme Options",
+            customizeAction: "Customizing",
+            priority: -1
+        })
+    );
+
+    // Add checkbox control.
+    wp.customize.control.add(
+        new wp.customize.Control("footer_widgets_control", {
+            setting: "footer_widgets",
+            type: "range",
+            section: "colors",
+            //panel: "hannover_example_section",
+            label: "Check this box to do something.",
+            description: "this is a description.",
+            input_attrs: {
+                min: 0,
+                max: 4,
+                step: 1
+            }
+        })
+    );
+
+    wp.customize("footer_widgets", value => {
+        // Add a listener for accent-color changes.
+        value.bind(() => {
+            wp.customize.section("sidebar-widgets-footer-1").deactivate(); //.toggle();
+            //console.log(ggg);
+        });
+    });
+
     wp.customize("accent_color", value => {
         // Add a listener for accent-color changes.
         value.bind(to => {

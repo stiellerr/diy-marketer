@@ -20,6 +20,8 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 		 */
 		public static function register( $wp_customize ) {
 
+			test_function();
+
 			/**
 			 * Site Title & Description.
 			 * */
@@ -742,19 +744,30 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 
 			/* Footer Widgets --------- */
 
-
+/*
 			$wp_customize->add_section(
 				'test_section',
 				array(
 					'title'	=> __( 'Test Panel', 'diy-marketer' ),
 					//'description'	=> __( 'zzz', 'diy-marketer' ),
 					//'priority'	=> 160,
-					'panel' => 'widgets'
+					'panel' => 'widgets',
+					'customizeAction' => "Customizing ▸ Theme Options"
 				)
-			);
+			);*/
 
 			$wp_customize->add_setting(
 				'footer_widgets',
+				array(
+					'default'           => 1,
+					'sanitize_callback' => 'absint',
+					'type'              => 'theme_mod',
+					'transport'         => 'postMessage',
+				)
+			);
+/*
+			$wp_customize->add_setting(
+				'hannover_example_setting',
 				array(
 					'default'           => 4,
 					'sanitize_callback' => 'absint',
@@ -763,12 +776,13 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 			);
 
 			$wp_customize->add_control(
-				'footer_widgets',
+				'footer_widgets_control',
 				array(
 					'label'       => __( 'Footer Widgets', 'diy-marketer' ),
 					'description' => __( 'The number of widgets to include in the footer of your website.', 'diy-marketer' ),
 					'section'     => 'test_section',
 					'type'        => 'range',
+					'settings'        => ['footer_widgets'],
 					//'priority' => 999, // Within the section.
 					//'input_attrs' => twentytwenty_customize_opacity_range(),
 					'input_attrs' => array(
@@ -777,7 +791,7 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 						'step' => 1
 					)
 				)
-			);
+			);*/
 /*
 			$wp_customize->add_panel(
 				'test_panel',
@@ -1055,4 +1069,39 @@ function diym_customize_background_pattern() {
 			'name' => __( 'Pattern 12', 'diy-marketer' )
 		)
 	);
+}
+
+// test function...
+function test_function() {
+
+	error_log( 'test_function: hello world!' );
+
+	global $wp_customize;
+
+	foreach ( $wp_customize->sections() as $section ) {
+
+		//write_log( $section );
+		
+		if ( ! ( $section instanceof \WP_Customize_Sidebar_Section ) ) {
+			continue;
+		}
+
+		write_log( $section );
+		
+		$background_color_setting = $wp_customize->add_setting( sprintf( 'sidebar_meta[%s][background_color]', $section->sidebar_id ), array(
+			'type' => 'theme_mod',
+			'capability' => 'edit_theme_options', // i.e. manage_widgets.
+			'sanitize_callback' => 'sanitize_hex_color',
+			'transport' => 'postMessage',
+			'default' => '',
+		) );
+
+		// Handle previewing of late-created settings.
+		if ( did_action( 'customize_preview_init' ) ) {
+			$background_color_setting->preview();
+		}
+	}
+
+	//write_log( $wp_customize );
+	
 }

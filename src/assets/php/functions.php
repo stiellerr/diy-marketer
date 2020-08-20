@@ -139,12 +139,53 @@ function diym_menus() {
 
 add_action( 'init', 'diym_menus' );
 
+/*
+$zzz = get_theme_mod('footer_widgets', 4);
+
+error_log($zzz);
+
+for ($i =2; $i <= $zzz; $i++) {
+    register_sidebar( array(
+        'id' => 'footer-' . $i,
+		//'name' => sprintf(esc_html__( 'Footer Widgets Column %s', '_themename' ), $i +1),
+		'name'          => sprintf(esc_html__( 'Footer %s', 'diy-marketer' ), $i),
+		//'description' => esc_html__( 'Footer widgets', '_themename' ),
+		'description'   => esc_html__( 'Add widgets here.', 'diy-maketer' ),
+		'before_widget' => '<section id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</section>',
+		'before_title'  => '<h5 class="widget-title">',
+		'after_title'   => '</h5>',
+    ) );
+}
+*/
+
 /**
  * Register widget area.
  *
  * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
  */
+
 function diym_widgets_init() {
+
+	$zzz = get_theme_mod('footer_widgets', 4);
+
+	//error_log($zzz);
+	
+	for ($i =1; $i <= $zzz; $i++) {
+		register_sidebar( array(
+			'id' => 'footer-' . $i,
+			//'name' => sprintf(esc_html__( 'Footer Widgets Column %s', '_themename' ), $i +1),
+			'name'          => sprintf(esc_html__( 'Footer %s', 'diy-marketer' ), $i),
+			//'description' => esc_html__( 'Footer widgets', '_themename' ),
+			'description'   => esc_html__( 'Add widgets here.', 'diy-maketer' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h5 class="widget-title">',
+			'after_title'   => '</h5>',
+		) );
+	}
+	
+	/*
 	register_sidebar(
 		array(
 			'name'          => esc_html__( 'Footer 1', 'diy-marketer' ),
@@ -168,7 +209,7 @@ function diym_widgets_init() {
 			'after_title'   => '</h5>',
 		)
 	);
-
+	*/
 }
 add_action( 'widgets_init', 'diym_widgets_init' );
 
