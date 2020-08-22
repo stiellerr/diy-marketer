@@ -13,35 +13,7 @@
 	================================================== -->
 	<footer>
 		<div id="site-footer" class="row border-primary border-thick border-top">
-			<div class="col-12 col-md-6 col-lg-3 pt-4">
-				<?php
-					if ( is_active_sidebar( 'footer-1' ) ) {
-						dynamic_sidebar( 'footer-1' );
-					}
-				?>
-			</div>
-			<div class="col-12 col-md-6 col-lg-3 pt-4">
-				<?php
-					if ( is_active_sidebar( 'footer-2' ) ) {
-						dynamic_sidebar( 'footer-2' );
-					}
-				?>
-			</div>
-			<div class="col-12 col-md-6 col-lg-3 pt-4">
-				<?php
-					if ( is_active_sidebar( 'footer-3' ) ) {
-						dynamic_sidebar( 'footer-3' );
-					}
-				?>
-			</div>
-			<div class="col-12 col-md-6 col-lg-3 pt-4">
-				<?php
-					if ( is_active_sidebar( 'footer-4' ) ) {
-						dynamic_sidebar( 'footer-4' );
-					}
-				?>
-			</div>
-
+			<?php get_template_part( 'template-parts/footer-sidebars' ); ?>
 			<div class="col py-1 align-self-center">
 				<?php
 					wp_nav_menu(
@@ -76,9 +48,7 @@
 			</div>
 		</div>
 	</footer>
-
-<?php wp_footer(); ?>
-
 </div>
+<?php wp_footer(); ?>
 </body>
 </html>

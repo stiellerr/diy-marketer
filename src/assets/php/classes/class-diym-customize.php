@@ -20,7 +20,7 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 		 */
 		public static function register( $wp_customize ) {
 
-			test_function();
+			//test_function();
 
 			/**
 			 * Site Title & Description.
@@ -755,7 +755,48 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					'customizeAction' => "Customizing ▸ Theme Options"
 				)
 			);*/
+			/*
+			$wp_customize->selective_refresh->add_partial(
+				'footer_widgets',
+				array(
+					'settings' => array(
+						'footer_widgets',
+					),
+					//'selector' => '.contact-details',
+					//'container_inclusive'=> true,
+					'render_callback' => function() {
+						
+						//diym_widgets_init();
+						get_template_part( 'template-parts/footer-sidebars' );
+					},
+					'fallback_refresh' => false
+				)
+			);
+			*/
 
+			//$wp_customize->get_setting( 'sidebars_widgets[footer-1]' )->transport        = 'postMessage';
+			//$wp_customize->get_setting( 'sidebars_widgets[footer-2]' )->transport        = 'postMessage';
+			//$wp_customize->get_setting( 'sidebars_widgets[footer-3]' )->transport        = 'postMessage';
+			//$wp_customize->get_setting( 'sidebars_widgets[footer-4]' )->transport        = 'postMessage';
+/*
+			$wp_customize->selective_refresh->add_partial(
+				//'sidebars_widgets[footer-1]',
+				array(
+					'settings' => array(
+						//'sidebars_widgets[footer-1]',
+						'sidebars_widgets[footer-2]',
+						'sidebars_widgets[footer-3]',
+						'sidebars_widgets[footer-4]',
+					),
+					'selector' => '#site-footer',
+					'container_inclusive'=> false,
+					'render_callback' => function() {
+						//get_template_part( 'template-parts/footer-sidbars' );
+					},
+					'fallback_refresh' => false
+				)
+			); */
+/*
 			$wp_customize->add_setting(
 				'footer_widgets',
 				array(
@@ -764,7 +805,7 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					'type'              => 'theme_mod',
 					'transport'         => 'postMessage',
 				)
-			);
+			); */
 /*
 			$wp_customize->add_setting(
 				'hannover_example_setting',
@@ -1071,9 +1112,8 @@ function diym_customize_background_pattern() {
 	);
 }
 
-// test function...
-function test_function() {
 
+/*
 	error_log( 'test_function: hello world!' );
 
 	global $wp_customize;
@@ -1105,3 +1145,4 @@ function test_function() {
 	//write_log( $wp_customize );
 	
 }
+*/

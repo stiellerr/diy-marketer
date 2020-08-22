@@ -27,6 +27,7 @@ wp.customize.bind("ready", () => {
         );
         */
     // Add section.
+    /*
     wp.customize.section.add(
         new wp.customize.Section("footer_options", {
             title: "Footer Options.",
@@ -53,14 +54,55 @@ wp.customize.bind("ready", () => {
             }
         })
     );
-
-    wp.customize("footer_widgets", value => {
+    // Add checkbox control.
+    wp.customize.control.add(
+        new wp.customize.Control("diym_ggg_control", {
+            setting: "diym_ggg[test]",
+            type: "text",
+            section: "social_media",
+            //panel: "hannover_example_section",
+            label: "Check this box to do something.",
+            description: "this is a description."
+        })
+    );
+    wp.customize("sidebars_widgets[footer-1]", value => {
         // Add a listener for accent-color changes.
-        value.bind(() => {
-            wp.customize.section("sidebar-widgets-footer-1").deactivate(); //.toggle();
-            //console.log(ggg);
+        value.bind(to => {
+            console.log(to);
         });
     });
+    */
+
+    /*
+    wp.customize("footer_widgets", value => {
+        // Add a listener for accent-color changes.
+        value.bind(to => {
+            console.log(wp.customize.section("sidebar-widgets-footer-" + to));
+            wp.customize.section("sidebar-widgets-footer-" + to).active.set(true);
+            //
+            //_,isUndefined() {
+
+            //}
+
+            //for (let i = 1; i < 5; i++) {
+            //if(_,isUndefined(wp.customize.section("sidebar-widgets-footer-" + i))) {
+            //break;
+            //}
+
+            /*
+                
+                if (i <= to) {
+                    wp.customize.section("sidebar-widgets-footer-" + i).active.set(true);
+                } else {
+                    wp.customize.section("sidebar-widgets-footer-" + i).active.set(false);
+                }
+                */
+    //}
+
+    //wp.customize.section("sidebar-widgets-footer-1").deactivate(); //.toggle();
+    //console.log(ggg);
+    //});
+    //});
 
     wp.customize("accent_color", value => {
         // Add a listener for accent-color changes.
