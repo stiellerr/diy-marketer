@@ -430,7 +430,12 @@ function diym_get_elements_array() {
 				array(
                     'background-color' => array(
 						'selector' => array( '#site-footer', '.site-banner' )
-                    )
+					)
+				),
+				array(
+					'color' => array(
+						'selector' => array( '#site-footer .btn-primary')
+					)
 				)
 			),
 			'text' => array(
