@@ -49,6 +49,9 @@ if ( ! function_exists( 'diym_setup' ) ) {
 		// Add theme support for selective refresh for widgets.
 		add_theme_support( 'customize-selective-refresh-widgets' );
 
+		// Add theme support for post thumbnails.
+		//add_theme_support( 'post-thumbnails' ); 
+
         /**
          * Add support for core custom logo.
          *
@@ -96,7 +99,8 @@ require get_template_directory() . '/inc/custom-css.php';
  */
 function diym_register_styles() {
 
-	wp_enqueue_style( 'diym-style', get_template_directory_uri() . '/dist/assets/css/bundle.css', array( 'dashicons' ), DIYM_VER, 'all' );
+	//wp_enqueue_style( 'diym-style', get_template_directory_uri() . '/dist/assets/css/bundle.css', array( 'dashicons' ), DIYM_VER, 'all' );
+	wp_enqueue_style( 'diym-style', get_template_directory_uri() . '/dist/assets/css/bundle.css', array( 'dashicons' ), filemtime( get_template_directory() . '/dist/assets/css/bundle.css' ), 'all' );
 
 	// Add output of Customizer settings as inline style.
 	wp_add_inline_style( 'diym-style', diym_get_customizer_css( 'front-end' ) );
@@ -146,6 +150,18 @@ add_action( 'init', 'diym_menus' );
  * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
  */
 function diym_widgets_init() {
+
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'Sidebar 1', 'diy-marketer' ),
+			'id'            => 'sidebar-1',
+			'description'   => esc_html__( 'Add widgets here.', 'diy-maketer' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h5 class="widget-title">',
+			'after_title'   => '</h5>',
+		)
+	);
 
 	register_sidebar(
 		array(
@@ -324,6 +340,45 @@ function diym_get_elements_array() {
 	$elements = array(
 		'content' => array(
 			'accent' => array(
+				array(
+					'background-color' => array(
+						'selector' => array( 'aside .btn-primary')
+					)
+				),
+				array(
+					'border-color' => array(
+						'selector' => array( 'aside .btn-primary')
+					)
+				),
+				array(
+					'border-color' => array(
+						'selector' => array( 'aside .btn-primary:hover'),
+						'shade' => 40
+					)
+				),
+				array(
+					'background-color' => array(
+						'selector' => array( 'aside .btn-primary:hover'),
+						'shade' => 43
+					)
+				),
+				array(
+					'box-shadow' => array(
+						'selector' => array( 'aside .btn:focus','aside .btn.focus' ),
+						'rgb' => true,
+						'prefix' => '0 0 0 0.2rem rgba(',
+						'suffix' => ', 0.25)'
+					)
+				),
+				array(
+					'box-shadow' => array(
+						'selector' => array( 'aside .btn-primary:focus','aside .btn-primary.focus' ),
+						'rgb' => true,
+						'shade' => 57,
+						'prefix' => '0 0 0 0.2rem rgba(',
+						'suffix' => ', 0.5)'
+					)
+				),
 				/*
 				array(
 					'border-color' => array(
@@ -485,5 +540,7 @@ require get_template_directory() . '/inc/widget-page-excerpt.php';
  * Business Contact Form Widget
  */
 require get_template_directory() . '/inc/widget-contact-form.php';
+
+
 
 ?>
