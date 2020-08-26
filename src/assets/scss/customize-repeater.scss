@@ -1,0 +1,79 @@
+/* ==========================================================================
+   Image Radio Buttons
+   DIYM Repeater Control
+   ========================================================================== */
+
+.customize-control-diym_repeater {
+    .diym-repeater-new-field {
+        float: right;
+        &::before {
+            content: "\f132";
+            display: inline-block;
+            position: relative;
+            left: -2px;
+            top: -1px;
+            font: 400 20px/1 dashicons;
+            vertical-align: middle;
+            -webkit-transition: all 0.2s;
+            transition: all 0.2s;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    }
+
+    .diym-repeater-title {
+        margin: 0;
+        padding: 15px;
+        font-size: 1em;
+        line-height: 1;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        display: block;
+        font-weight: 600;
+        color: #23282d;
+        border: 1px solid #e5e5e5;
+        cursor: move;
+    }
+
+    .diym-repeater-title:after {
+        content: "\f140";
+        font-family: dashicons;
+        font-size: 20px;
+        height: 13px;
+        bottom: 3px;
+        position: relative;
+        float: right;
+    }
+
+    .diym-repeater-container {
+        border: 1px solid #e5e5e5;
+        border-top: none;
+        margin-bottom: 12px;
+        width: 100%;
+        float: left;
+        background: #fff;
+        -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+
+        .diym-repeater-box {
+            display: none;
+            border: 1px solid #e5e5e5;
+            border-top: none;
+            padding: 10px;
+
+            .diym-add-image {
+                width: 100%;
+                position: relative;
+                text-align: center;
+                cursor: default;
+                border: 1px dashed #b4b9be;
+                box-sizing: border-box;
+                padding: 9px 0;
+                line-height: 1.6;
+                margin-bottom: 10px;
+            }
+        }
+    }
+}

@@ -71,6 +71,9 @@ if ( ! function_exists( 'diym_setup' ) ) {
 
 add_action('after_setup_theme', 'diym_setup');
 
+
+require get_template_directory() . '/customizer-repeater/functions.php';
+
 /**
  * REQUIRED FILES
  * Include required files.
@@ -82,6 +85,9 @@ require get_template_directory() . '/classes/class-diym-customize.php';
 
 // Require Image Radio Control class.
 require get_template_directory() . '/classes/class-diym-image-radio-control.php';
+
+// Require Image Radio Control class.
+require get_template_directory() . '/classes/class-diym-repeater-control.php';
 
 // Require Send Mail class.
 require get_template_directory() . '/classes/class-diym-send-mail.php';
@@ -540,6 +546,8 @@ require get_template_directory() . '/inc/widget-page-excerpt.php';
  * Business Contact Form Widget
  */
 require get_template_directory() . '/inc/widget-contact-form.php';
+
+
 
 
 

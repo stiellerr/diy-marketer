@@ -41,7 +41,8 @@ const paths = {
         src: [
             "src/assets/scss/bundle.scss",
             "src/assets/scss/admin.scss",
-            "src/assets/scss/custom-controls.scss"
+            "src/assets/scss/custom-controls.scss",
+            "src/assets/scss/customize-repeater.scss"
         ],
         dest: "dist/assets/css"
     },
@@ -55,7 +56,8 @@ const paths = {
             "src/assets/js/admin.js",
             "src/assets/js/mail.js",
             "src/assets/js/customize-preview.js", //new
-            "src/assets/js/customize-controls.js"
+            "src/assets/js/customize-controls.js",
+            "src/assets/js/customize-repeater.js"
         ],
         dest: "dist/assets/js"
     },
