@@ -806,7 +806,7 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					'transport'         => 'postMessage',
 				)
 			); */
-
+/*
 			$wp_customize->add_setting( 'customizer_repeater_example', array(
 				'sanitize_callback' => 'customizer_repeater_sanitize'
 			 ));
@@ -823,7 +823,7 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 		   //'customizer_repeater_shortcode_control' => true,
 		   //'customizer_repeater_repeater_control' => true
 		) ) );
-
+*/
 
 		$wp_customize->add_setting( 'customizer_repeater_example2', array(
 			'sanitize_callback' => 'customizer_repeater_sanitize'

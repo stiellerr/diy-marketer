@@ -50,7 +50,17 @@ if ( ! function_exists( 'diym_setup' ) ) {
 		add_theme_support( 'customize-selective-refresh-widgets' );
 
 		// Add theme support for post thumbnails.
-		//add_theme_support( 'post-thumbnails' ); 
+		//add_theme_support( 'post-thumbnails' );
+		
+		// unsure if ill need this ?? its for gutenberg
+		//add_theme_support( 'align-wide' ); 
+		//add_theme_support( 'responsive-embeds' );
+
+		//add_theme_support( 'editor-styles' ); 
+
+		//wp_register_style( 'diym-block-editor-styles', get_theme_file_uri( '/dist/assets/css/editor.css' ), array( ), filemtime( get_template_directory() . '/dist/assets/css/editor.css' ), 'all' );
+
+		//add_editor_style( 'diym-block-editor-styles' );
 
         /**
          * Add support for core custom logo.
@@ -72,7 +82,9 @@ if ( ! function_exists( 'diym_setup' ) ) {
 add_action('after_setup_theme', 'diym_setup');
 
 
-require get_template_directory() . '/customizer-repeater/functions.php';
+//require get_template_directory() . '/customizer-repeater/functions.php';
+
+require get_template_directory() . '/inc/blocks.php';
 
 /**
  * REQUIRED FILES
@@ -219,6 +231,135 @@ function diym_widgets_init() {
 
 }
 add_action( 'widgets_init', 'diym_widgets_init' );
+
+/*
+add_action( 'wp_enqueue_scripts', 'remove_block_css', 100 );
+
+function remove_block_css() {
+    wp_dequeue_style( 'wp-editor-font' ); // Wordpress core
+}
+*/
+
+
+/**
+ * Enqueue supplemental block editor assets.
+ */
+function diym_block_editor_assets() {
+
+	// Enqueue the editor styles.
+	//wp_enqueue_style( 'twentytwenty-block-editor-styles', get_theme_file_uri( '/assets/css/editor-style-block.css' ), array(), wp_get_theme()->get( 'Version' ), 'all' );
+	wp_enqueue_style( 'diym-block-editor-styles', get_theme_file_uri( '/dist/assets/css/editor.css' ), array( ), filemtime( get_template_directory() . '/dist/assets/css/editor.css' ), 'all' );
+	//wp_style_add_data( 'twentytwenty-block-editor-styles', 'rtl', 'replace' );
+
+	// Add inline style from the Customizer.
+	wp_add_inline_style( 'diym-block-editor-styles', diym_get_customizer_css( 'block-editor' ) );
+
+	// Add inline style for non-latin fonts.
+	//wp_add_inline_style( 'twentytwenty-block-editor-styles', TwentyTwenty_Non_Latin_Languages::get_non_latin_css( 'block-editor' ) );
+
+	// Enqueue the editor script.
+	//wp_enqueue_script( 'twentytwenty-block-editor-script', get_theme_file_uri( '/assets/js/editor-script-block.js' ), array( 'wp-blocks', 'wp-dom' ), wp_get_theme()->get( 'Version' ), true );
+}
+
+add_action( 'enqueue_block_editor_assets', 'diym_block_editor_assets', 1, 1 );
+
+/**
+ * Block Editor Settings.
+ * Add custom colors and font sizes to the block editor.
+ */
+function diym_block_editor_settings() {
+
+	// Block Editor Palette.
+	$editor_color_palette = array(
+		array(
+			'name'  => __( 'Accent Color', 'diy-marketer' ),
+			'slug'  => 'accent',
+			'color' => diym_get_color_for_area( 'content', 'accent' ),
+		),
+		array(
+			'name'  => __( 'Primary', 'diy-marketer' ),
+			'slug'  => 'primary',
+			'color' => diym_get_color_for_area( 'content', 'text' ),
+		)
+		/*
+		array(
+			'name'  => __( 'Secondary', 'twentytwenty' ),
+			'slug'  => 'secondary',
+			'color' => twentytwenty_get_color_for_area( 'content', 'secondary' ),
+		),
+		array(
+			'name'  => __( 'Subtle Background', 'twentytwenty' ),
+			'slug'  => 'subtle-background',
+			'color' => twentytwenty_get_color_for_area( 'content', 'borders' ),
+		),
+		*/
+	);
+
+	write_log( $editor_color_palette );
+
+	// Add the background option.
+	/*
+	$background_color = get_theme_mod( 'background_color' );
+	if ( ! $background_color ) {
+		$background_color_arr = get_theme_support( 'custom-background' );
+		$background_color     = $background_color_arr[0]['default-color'];
+	}
+	$editor_color_palette[] = array(
+		'name'  => __( 'Background Color', 'twentytwenty' ),
+		'slug'  => 'background',
+		'color' => '#' . $background_color,
+	);
+	*/
+
+	// If we have accent colors, add them to the block editor palette.
+	if ( $editor_color_palette ) {
+		add_theme_support( 'editor-color-palette', $editor_color_palette );
+	}
+
+	// Block Editor Font Sizes.
+	/*
+	add_theme_support(
+		'editor-font-sizes',
+		array(
+			array(
+				'name'      => _x( 'Small', 'Name of the small font size in the block editor', 'twentytwenty' ),
+				'shortName' => _x( 'S', 'Short name of the small font size in the block editor.', 'twentytwenty' ),
+				'size'      => 18,
+				'slug'      => 'small',
+			),
+			array(
+				'name'      => _x( 'Regular', 'Name of the regular font size in the block editor', 'twentytwenty' ),
+				'shortName' => _x( 'M', 'Short name of the regular font size in the block editor.', 'twentytwenty' ),
+				'size'      => 21,
+				'slug'      => 'normal',
+			),
+			array(
+				'name'      => _x( 'Large', 'Name of the large font size in the block editor', 'twentytwenty' ),
+				'shortName' => _x( 'L', 'Short name of the large font size in the block editor.', 'twentytwenty' ),
+				'size'      => 26.25,
+				'slug'      => 'large',
+			),
+			array(
+				'name'      => _x( 'Larger', 'Name of the larger font size in the block editor', 'twentytwenty' ),
+				'shortName' => _x( 'XL', 'Short name of the larger font size in the block editor.', 'twentytwenty' ),
+				'size'      => 32,
+				'slug'      => 'larger',
+			),
+		)
+	);
+
+	add_theme_support( 'editor-styles' );
+
+	// If we have a dark background color then add support for dark editor style.
+	// We can determine if the background color is dark by checking if the text-color is white.
+	if ( '#ffffff' === strtolower( twentytwenty_get_color_for_area( 'content', 'text' ) ) ) {
+		add_theme_support( 'dark-editor-style' );
+	}
+	*/
+}
+
+add_action( 'after_setup_theme', 'diym_block_editor_settings' );
+
 
 /**
  * Enqueues scripts for customizer controls & settings.

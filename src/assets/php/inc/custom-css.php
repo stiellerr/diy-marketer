@@ -144,8 +144,14 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 			// Block Editor Styles.
 		} elseif ( 'block-editor' === $type ) {
 
+			if ( $font && $font !== $font_default ) {
+				diym_generate_css( '.editor-styles-wrapper', 'font-family', $font, '', '!important' );
+				//diym_generate_css( '.editor-styles-wrapper', 'font-family', $font );
+			}
+
 			// Colors.
 			// Accent color.
+			/*
 			if ( $accent && $accent !== $accent_default ) {
 				diym_generate_css( '.has-accent-color, .editor-styles-wrapper .editor-block-list__layout a, .editor-styles-wrapper .has-drop-cap:not(:focus)::first-letter, .editor-styles-wrapper .wp-block-button.is-style-outline .wp-block-button__link, .editor-styles-wrapper .wp-block-pullquote::before, .editor-styles-wrapper .wp-block-file .wp-block-file__textlink', 'color', $accent );
 				diym_generate_css( '.editor-styles-wrapper .wp-block-quote', 'border-color', $accent, '' );
@@ -178,6 +184,7 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 			if ( $header_footer_background && $header_footer_background !== $header_footer_background_default ) {
 				diym_generate_css( '.editor-styles-wrapper .wp-block-pullquote::before', 'background-color', $header_footer_background );
 			}
+			*/
 		} elseif ( 'classic-editor' === $type ) {
 
 			// Colors.

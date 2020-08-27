@@ -20,8 +20,10 @@ module.exports = {
     plugins: ["react"],
     rules: {
         "no-console": "warn",
-        //"react/react-in-jsx-scope": "off",
-        //"react/display-name": "off",
+        //
+        "react/react-in-jsx-scope": "off",
+        //
+        "react/display-name": "off",
         "react/prop-types": "off",
         "no-undef": "warn"
     }

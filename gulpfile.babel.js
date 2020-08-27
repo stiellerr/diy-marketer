@@ -41,6 +41,7 @@ const paths = {
         src: [
             "src/assets/scss/bundle.scss",
             "src/assets/scss/admin.scss",
+            "src/assets/scss/editor.scss",
             "src/assets/scss/custom-controls.scss",
             "src/assets/scss/customize-repeater.scss"
         ],
@@ -62,7 +63,7 @@ const paths = {
         dest: "dist/assets/js"
     },
     blocks: {
-        src: ["src/assets/blocks/index.js"],
+        src: ["src/assets/blocks/editor.js", "src/assets/blocks/script.js"],
         dest: "dist/assets/blocks"
     },
     other: {
@@ -251,10 +252,10 @@ export const blocks = () => {
                                             [
                                                 "@babel/preset-react",
                                                 {
-                                                    //pragma: "wp.element.createElement",
-                                                    pragma: "React.createElement",
-                                                    //pragmaFrag: "wp.element.Fragment",
-                                                    pragmaFrag: "React.Fragment",
+                                                    pragma: "wp.element.createElement",
+                                                    //pragma: "React.createElement",
+                                                    pragmaFrag: "wp.element.Fragment",
+                                                    //pragmaFrag: "React.Fragment",
                                                     development: !PRODUCTION
                                                 }
                                             ]
@@ -280,11 +281,11 @@ export const blocks = () => {
                         }
                     ]
                 },
-                /*
                 externals: {
-                    jquery: "jQuery"
+                    jquery: "jQuery",
+                    "@wordpress/blocks": ["wp", "blocks"],
+                    "@wordpress/i18n": ["wp", "i18n"]
                 },
-                */
                 mode: PRODUCTION ? "production" : "development"
             })
         )
