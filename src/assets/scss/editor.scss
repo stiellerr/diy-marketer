@@ -15,10 +15,8 @@
 .editor-styles-wrapper {
     //font-family: Verdana, Geneva, Tahoma, sans-serif;
     background: palegreen;
+
+    .has-text-align-justify {
+        text-align: justify;
+    }
 }
-/*
-body {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    background: palegreen;
-}
-*/

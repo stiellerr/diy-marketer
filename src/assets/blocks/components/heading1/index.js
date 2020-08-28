@@ -7,6 +7,12 @@ registerBlockType("diy-marketer/heading1", {
         "Introduce the page with a main headline to help visitors (and search engines) understand what your page is about.",
         "diy-marketer"
     ),
+    supports: {
+        align: true,
+        html: false,
+        reusable: false,
+        multiple: false
+    },
     category: "media",
     icon: {
         foreground: "#007bff",

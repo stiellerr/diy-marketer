@@ -20,11 +20,12 @@ module.exports = {
     plugins: ["react"],
     rules: {
         "no-console": "warn",
+        "no-unused-vars": "warn",
+        "no-undef": "warn",
         //
         "react/react-in-jsx-scope": "off",
         //
         "react/display-name": "off",
-        "react/prop-types": "off",
-        "no-undef": "warn"
+        "react/prop-types": "off"
     }
 };

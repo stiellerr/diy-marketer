@@ -284,7 +284,10 @@ export const blocks = () => {
                 externals: {
                     jquery: "jQuery",
                     "@wordpress/blocks": ["wp", "blocks"],
-                    "@wordpress/i18n": ["wp", "i18n"]
+                    "@wordpress/i18n": ["wp", "i18n"],
+                    "@wordpress/block-editor": ["wp", "blockEditor"],
+                    //"@wordpress/editor": ["wp", "editor"],
+                    "@wordpress/components": ["wp", "components"]
                 },
                 mode: PRODUCTION ? "production" : "development"
             })
