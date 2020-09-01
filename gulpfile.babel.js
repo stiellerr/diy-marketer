@@ -63,7 +63,11 @@ const paths = {
         dest: "dist/assets/js"
     },
     blocks: {
-        src: ["src/assets/blocks/editor.js", "src/assets/blocks/script.js"],
+        src: [
+            "src/assets/blocks/editor.js"
+            //"src/assets/blocks/assets.js",
+            //"src/assets/blocks/script.js"
+        ],
         dest: "dist/assets/blocks"
     },
     other: {
@@ -287,7 +291,9 @@ export const blocks = () => {
                     "@wordpress/i18n": ["wp", "i18n"],
                     "@wordpress/block-editor": ["wp", "blockEditor"],
                     //"@wordpress/editor": ["wp", "editor"],
-                    "@wordpress/components": ["wp", "components"]
+                    "@wordpress/components": ["wp", "components"],
+                    "@wordpress/data": ["wp", "data"],
+                    "@wordpress/rich-text": ["wp", "richText"]
                 },
                 mode: PRODUCTION ? "production" : "development"
             })

@@ -13,5 +13,12 @@ ReactDom.render(
 );
 */
 
-import heading1 from "./components/heading1";
-import paragraph from "./components/paragraph";
+//import paragraph from "./inc/paragraph";
+
+import "./editor.scss";
+
+// block underline control.
+import underline from "./inc/underline";
+
+// register blocks.
+import heading1 from "./inc/heading1";

@@ -1,22 +1,11 @@
-/* ------------------------------------------- */
-
-/*	Twenty Twenty Editor Styles — Block Editor
-/* ------------------------------------------- */
-/*
-.editor-styles-wrapper {
-    background: orange;
-    //color: #000;
-    //letter-spacing: -0.015em;
-    -moz-font-smoothing: antialiased;
-    -webkit-font-smoothing: antialiased;
+body {
+    background-color: lightblue;
 }
-*/
 
-.editor-styles-wrapper {
-    //font-family: Verdana, Geneva, Tahoma, sans-serif;
-    background: palegreen;
+h1 {
+    font-weight: normal;
+}
 
-    .has-text-align-justify {
-        text-align: justify;
-    }
+.has-text-align-justify {
+    text-align: justify;
 }

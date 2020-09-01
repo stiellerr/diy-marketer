@@ -56,11 +56,9 @@ if ( ! function_exists( 'diym_setup' ) ) {
 		//add_theme_support( 'align-wide' ); 
 		//add_theme_support( 'responsive-embeds' );
 
-		//add_theme_support( 'editor-styles' ); 
+		add_theme_support( 'editor-styles' );
 
-		//wp_register_style( 'diym-block-editor-styles', get_theme_file_uri( '/dist/assets/css/editor.css' ), array( ), filemtime( get_template_directory() . '/dist/assets/css/editor.css' ), 'all' );
-
-		//add_editor_style( 'diym-block-editor-styles' );
+		add_editor_style( 'dist/assets/css/editor.css' );
 
         /**
          * Add support for core custom logo.
@@ -76,6 +74,8 @@ if ( ! function_exists( 'diym_setup' ) ) {
 		]);
 		
 		$mailer = new DIYM_Send_Mail();
+
+		$block_editor = new DIYM_Block_Editor();
     }
 }
 
@@ -84,7 +84,7 @@ add_action('after_setup_theme', 'diym_setup');
 
 //require get_template_directory() . '/customizer-repeater/functions.php';
 
-require get_template_directory() . '/inc/blocks.php';
+//require get_template_directory() . '/inc/blocks.php';
 
 /**
  * REQUIRED FILES
@@ -103,6 +103,9 @@ require get_template_directory() . '/classes/class-diym-repeater-control.php';
 
 // Require Send Mail class.
 require get_template_directory() . '/classes/class-diym-send-mail.php';
+
+// Require block editor class.
+require get_template_directory() . '/classes/class-diym-block-editor.php';
 
 // Custom CSS.
 require get_template_directory() . '/inc/custom-css.php';
@@ -232,36 +235,30 @@ function diym_widgets_init() {
 }
 add_action( 'widgets_init', 'diym_widgets_init' );
 
-/*
-add_action( 'wp_enqueue_scripts', 'remove_block_css', 100 );
 
-function remove_block_css() {
-    wp_dequeue_style( 'wp-editor-font' ); // Wordpress core
-}
-*/
 
 
 /**
  * Enqueue supplemental block editor assets.
  */
-function diym_block_editor_assets() {
+//function diym_block_editor_assets() {
 
 	// Enqueue the editor styles.
 	//wp_enqueue_style( 'twentytwenty-block-editor-styles', get_theme_file_uri( '/assets/css/editor-style-block.css' ), array(), wp_get_theme()->get( 'Version' ), 'all' );
-	wp_enqueue_style( 'diym-block-editor-styles', get_theme_file_uri( '/dist/assets/css/editor.css' ), array( ), filemtime( get_template_directory() . '/dist/assets/css/editor.css' ), 'all' );
+	//wp_enqueue_style( 'diym-block-editor-styles', get_theme_file_uri( '/dist/assets/css/editor.css' ), array( ), filemtime( get_template_directory() . '/dist/assets/css/editor.css' ), 'all' );
 	//wp_style_add_data( 'twentytwenty-block-editor-styles', 'rtl', 'replace' );
 
 	// Add inline style from the Customizer.
-	wp_add_inline_style( 'diym-block-editor-styles', diym_get_customizer_css( 'block-editor' ) );
+
 
 	// Add inline style for non-latin fonts.
 	//wp_add_inline_style( 'twentytwenty-block-editor-styles', TwentyTwenty_Non_Latin_Languages::get_non_latin_css( 'block-editor' ) );
 
 	// Enqueue the editor script.
 	//wp_enqueue_script( 'twentytwenty-block-editor-script', get_theme_file_uri( '/assets/js/editor-script-block.js' ), array( 'wp-blocks', 'wp-dom' ), wp_get_theme()->get( 'Version' ), true );
-}
+//}
 
-add_action( 'enqueue_block_editor_assets', 'diym_block_editor_assets', 1, 1 );
+//add_action( 'enqueue_block_editor_assets', 'diym_block_editor_assets', 1, 1 );
 
 /**
  * Block Editor Settings.

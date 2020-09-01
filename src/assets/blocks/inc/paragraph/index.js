@@ -144,6 +144,9 @@ registerBlockType("diy-marketer/paragraph", {
                     onChange={onChangeContent}
                     value={content}
                     allowedFormats={[
+                        "core/text-color",
+                        "diym/underline"
+                        /*
                         "core/bold",
                         "core/code",
                         "core/image",
@@ -151,9 +154,9 @@ registerBlockType("diy-marketer/paragraph", {
                         "core/link",
                         "core/strikethrough",
                         "wpcom/underline",
-                        "core/text-color",
                         "core/subscript",
                         "core/superscript"
+                        */
                     ]}
                     //style={{ textAlign: align }}
                 />

@@ -1,5 +1,23 @@
 <?php
 
+function diym_editor_assets() {
+
+    //wp_register_script( 'diy-marketer-blocks-script', get_template_directory_uri() . '/dist/assets/blocks/script.js', array( 'jquery' ), filemtime( get_template_directory() . '/dist/assets/blocks/script.js'), true );
+
+    // Scripts.
+    wp_enqueue_script(
+        'diym-editor-assets',
+        get_template_directory_uri() . '/dist/assets/blocks/assets.js',
+        //array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-plugins', 'wp-components', 'wp-edit-post', 'wp-api', 'wp-editor', 'wp-hooks', 'lodash' ),
+        array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-plugins', 'wp-components', 'wp-edit-post', 'wp-api', 'wp-editor', 'wp-hooks', 'lodash' ),
+        time(),
+        false
+    );
+
+}
+
+//add_action( 'init', 'diym_editor_assets', 9999 );
+
 
 function diy_marketer_blocks_register_block_type( $block, $options = array() ) {
     register_block_type( 
