@@ -1,8 +1,10 @@
+//import { heading } from "@wordpress/icons";
 import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
 import { RichText, BlockControls, AlignmentToolbar } from "@wordpress/block-editor";
+import { Icon, heading } from "@wordpress/icons";
 
-//import "./editor.scss";
+//console.log(heading);
 
 import classnames from "classnames";
 
@@ -29,15 +31,12 @@ const DEFAULT_ALIGNMENT_CONTROLS = [
     }
 ];
 
-registerBlockType("diy-marketer/paragraph", {
-    title: __("Paragraph", "diy-marketer"),
-    description: __("Start with the building block of all narrative.", "diy-marketer"),
-    category: "media",
-    icon: {
-        foreground: "#007bff",
-        src: "editor-paragraph"
-    },
-    keywords: [__("paragraph", "diymarketer"), __("text", "diymarketer")],
+registerBlockType("diy-marketer/subhead", {
+    title: __("Subhead", "diy-marketer"),
+    description: __(
+        "Introduce the page with a main headline to help visitors (and search engines) understand what your page is about.",
+        "diy-marketer"
+    ),
     supports: {
         html: false,
         reusable: false
@@ -46,12 +45,22 @@ registerBlockType("diy-marketer/paragraph", {
         content: {
             type: "string",
             source: "html",
-            selector: "p"
+            selector: "h2"
         },
         align: {
             type: "string"
         }
     },
+    category: "media",
+    icon: {
+        foreground: "#007bff",
+        //src: heading
+        //src: icon
+        src: () => {
+            return <Icon icon={heading} />;
+        }
+    },
+    keywords: [__("subhead", "diy-marketer"), __("h2", "diy-marketer")],
     edit: ({ className, attributes, setAttributes }) => {
         const { content, align } = attributes;
 
@@ -73,13 +82,13 @@ registerBlockType("diy-marketer/paragraph", {
                     />
                 </BlockControls>
                 <RichText
-                    tagName="p"
+                    tagName="h2"
                     className={classnames(className, `has-text-align-${align}`)}
                     onChange={onChangeContent}
                     value={content}
                     allowedFormats={[
                         "core/text-color",
-                        "diym/underline",
+                        //"diym/underline",
                         "core/bold",
                         "core/italic",
                         "core/link",
@@ -88,7 +97,7 @@ registerBlockType("diy-marketer/paragraph", {
                         "core/subscript",
                         "core/superscript"
                     ]}
-                    placeholder={__("Start writing or type / to choose a block", "diy-marketer")}
+                    placeholder={__("Write subhead…", "diy-marketer")}
                 />
             </>
         );
@@ -100,7 +109,7 @@ registerBlockType("diy-marketer/paragraph", {
 
         return (
             <RichText.Content
-                tagName="p"
+                tagName="h2"
                 value={content}
                 className={className ? className : undefined}
             />

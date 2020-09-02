@@ -27,8 +27,8 @@ const DEFAULT_ALIGNMENT_CONTROLS = [
     }
 ];
 
-registerBlockType("diy-marketer/heading1", {
-    title: __("Heading 1", "diy-marketer"),
+registerBlockType("diy-marketer/heading", {
+    title: __("Heading", "diy-marketer"),
     description: __(
         "Introduce the page with a main headline to help visitors (and search engines) understand what your page is about.",
         "diy-marketer"
