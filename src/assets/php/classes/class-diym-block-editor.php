@@ -76,6 +76,7 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
                     'wp-blocks',
                     'wp-i18n',
                     'wp-block-editor',
+                    'wp-components',
                     'lodash',
                     /*
                     'jquery',

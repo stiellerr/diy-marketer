@@ -86,7 +86,6 @@ registerBlockType("diy-marketer/heading", {
                         "core/italic",
                         "core/link",
                         "core/strikethrough",
-                        "wpcom/underline",
                         "core/subscript",
                         "core/superscript"
                     ]}

@@ -18,9 +18,9 @@ ReactDom.render(
 import "./editor.scss";
 
 // block underline control.
-//import underline from "./inc/underline";
+import underline from "./inc/underline";
 
 // register blocks.
-//import heading from "./inc/heading";
+import heading from "./inc/heading";
 import subhead from "./inc/subhead";
-//import paragraph from "./inc/paragraph";
+import paragraph from "./inc/paragraph";

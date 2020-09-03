@@ -1,8 +1,26 @@
-//import { heading } from "@wordpress/icons";
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
 import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
-import { RichText, BlockControls, AlignmentToolbar } from "@wordpress/block-editor";
+import {
+    RichText,
+    BlockControls,
+    AlignmentToolbar,
+    __experimentalBlock as Block
+} from "@wordpress/block-editor";
 import { Icon, heading } from "@wordpress/icons";
+import { ToolbarGroup } from "@wordpress/components";
+
+/**
+ * Internal dependencies
+ */
+import HeadingLevelDropdown from "./heading-level-dropdown.native.js";
+//import "./editor.scss";
 
 //console.log(heading);
 
@@ -45,10 +63,15 @@ registerBlockType("diy-marketer/subhead", {
         content: {
             type: "string",
             source: "html",
-            selector: "h2"
+            selector: "h2,h3,h4,h5,h6",
+            default: ""
         },
         align: {
             type: "string"
+        },
+        level: {
+            type: "number",
+            default: 2
         }
     },
     category: "media",
@@ -60,9 +83,10 @@ registerBlockType("diy-marketer/subhead", {
             return <Icon icon={heading} />;
         }
     },
-    keywords: [__("subhead", "diy-marketer"), __("h2", "diy-marketer")],
+    keywords: [__("subhead", "diy-marketer")],
     edit: ({ className, attributes, setAttributes }) => {
-        const { content, align } = attributes;
+        const { content, align, level } = attributes;
+        const tagName = "h" + level;
 
         const onChangeContent = content => {
             setAttributes({ content });
@@ -75,6 +99,12 @@ registerBlockType("diy-marketer/subhead", {
         return (
             <>
                 <BlockControls>
+                    <ToolbarGroup>
+                        <HeadingLevelDropdown
+                            selectedLevel={level}
+                            onChange={newLevel => setAttributes({ level: newLevel })}
+                        />
+                    </ToolbarGroup>
                     <AlignmentToolbar
                         value={align}
                         alignmentControls={DEFAULT_ALIGNMENT_CONTROLS}
@@ -82,18 +112,17 @@ registerBlockType("diy-marketer/subhead", {
                     />
                 </BlockControls>
                 <RichText
-                    tagName="h2"
+                    tagName={Block[tagName]}
                     className={classnames(className, `has-text-align-${align}`)}
                     onChange={onChangeContent}
                     value={content}
                     allowedFormats={[
                         "core/text-color",
-                        //"diym/underline",
+                        "diym/underline",
                         "core/bold",
                         "core/italic",
                         "core/link",
                         "core/strikethrough",
-                        "wpcom/underline",
                         "core/subscript",
                         "core/superscript"
                     ]}
@@ -103,13 +132,14 @@ registerBlockType("diy-marketer/subhead", {
         );
     },
     save: ({ attributes }) => {
-        const { content, align } = attributes;
+        const { content, align, level } = attributes;
+        const tagName = "h" + level;
 
         const className = align ? `text-${align}` : false;
 
         return (
             <RichText.Content
-                tagName="h2"
+                tagName={tagName}
                 value={content}
                 className={className ? className : undefined}
             />
