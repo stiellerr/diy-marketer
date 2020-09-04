@@ -36,7 +36,12 @@ registerBlockType("diy-marketer/heading", {
     supports: {
         html: false,
         reusable: false,
-        multiple: false
+        multiple: false,
+        className: false,
+        __experimentalColor: {
+            linkColor: true
+        },
+        __experimentalFontSize: true
     },
     attributes: {
         content: {

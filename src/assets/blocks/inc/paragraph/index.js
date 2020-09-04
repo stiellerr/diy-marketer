@@ -40,7 +40,17 @@ registerBlockType("diy-marketer/paragraph", {
     keywords: [__("paragraph", "diymarketer"), __("text", "diymarketer")],
     supports: {
         html: false,
-        reusable: false
+        reusable: false,
+        //
+        //anchor: true,
+        className: false,
+        __experimentalColor: {
+            linkColor: true
+        },
+        __experimentalFontSize: true
+        //__experimentalLineHeight: true,
+        //__experimentalSelector: "p",
+        //__unstablePasteTextInline: true
     },
     attributes: {
         content: {

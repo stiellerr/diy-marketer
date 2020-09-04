@@ -57,7 +57,12 @@ registerBlockType("diy-marketer/subhead", {
     ),
     supports: {
         html: false,
-        reusable: false
+        reusable: false,
+        className: false,
+        __experimentalColor: {
+            linkColor: true
+        },
+        __experimentalFontSize: true
     },
     attributes: {
         content: {
