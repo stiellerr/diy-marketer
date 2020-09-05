@@ -28,8 +28,26 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
 
             add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ), 9 );
 
+            add_filter( 'block_categories', array( $this, 'diym_block_categories' ), 10, 2 );
+
             //add_action('wp_ajax_send_form', array( $this, 'send_form' ) ); // This is for authenticated users
             //add_action('wp_ajax_nopriv_send_form', array( $this, 'send_form') ); // This is for unauthenticated users.
+        }
+
+        function diym_block_categories( $categories, $post ) {
+            //
+            write_log( $categories );
+            // merge custom block category.
+            return array_merge(
+                $categories,
+                array(
+                    array(
+                        'slug'  => 'diy-marketer',
+                        'title' => __( 'DIY Marketer', 'diy-marketer' ),
+                        //'icon'  => 'wordpress'
+                    )
+                )
+            );
         }
 
         /*

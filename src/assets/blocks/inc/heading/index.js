@@ -1,4 +1,4 @@
-import { registerBlockType } from "@wordpress/blocks";
+import { createBlock, registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
 import { RichText, BlockControls, AlignmentToolbar } from "@wordpress/block-editor";
 
@@ -27,7 +27,7 @@ const DEFAULT_ALIGNMENT_CONTROLS = [
     }
 ];
 
-registerBlockType("diy-marketer/heading", {
+registerBlockType("diym/heading", {
     title: __("Heading", "diy-marketer"),
     description: __(
         "Introduce the page with a main headline to help visitors (and search engines) understand what your page is about.",
@@ -53,12 +53,25 @@ registerBlockType("diy-marketer/heading", {
             type: "string"
         }
     },
-    category: "media",
+    category: "diy-marketer",
     icon: {
         foreground: "#007bff",
         src: "heading"
     },
     keywords: [__("heading", "diymarketer"), __("h1", "diymarketer")],
+    /*
+    transforms: {
+        from: [
+            {
+                type: "block",
+                blocks: ["diym/subhead", "diym/paragraph"],
+                transform: ({ content, align }) => {
+                    return createBlock("diym/heading", { content, align });
+                }
+            }
+        ]
+    },
+    */
     edit: ({ className, attributes, setAttributes }) => {
         const { content, align } = attributes;
 

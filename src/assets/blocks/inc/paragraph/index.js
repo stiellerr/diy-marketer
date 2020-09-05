@@ -1,4 +1,4 @@
-import { registerBlockType } from "@wordpress/blocks";
+import { createBlock, registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
 import { RichText, BlockControls, AlignmentToolbar } from "@wordpress/block-editor";
 
@@ -29,10 +29,10 @@ const DEFAULT_ALIGNMENT_CONTROLS = [
     }
 ];
 
-registerBlockType("diy-marketer/paragraph", {
+registerBlockType("diym/paragraph", {
     title: __("Paragraph", "diy-marketer"),
     description: __("Start with the building block of all narrative.", "diy-marketer"),
-    category: "media",
+    category: "diy-marketer",
     icon: {
         foreground: "#007bff",
         src: "editor-paragraph"
@@ -61,6 +61,17 @@ registerBlockType("diy-marketer/paragraph", {
         align: {
             type: "string"
         }
+    },
+    transforms: {
+        from: [
+            {
+                type: "block",
+                blocks: ["diym/subhead", "diym/heading"],
+                transform: ({ content, align }) => {
+                    return createBlock("diym/paragraph", { content, align });
+                }
+            }
+        ]
     },
     edit: ({ className, attributes, setAttributes }) => {
         const { content, align } = attributes;

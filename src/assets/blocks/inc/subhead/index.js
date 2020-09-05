@@ -5,7 +5,7 @@
 /**
  * WordPress dependencies
  */
-import { registerBlockType } from "@wordpress/blocks";
+import { registerBlockType, createBlock } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
 import {
     RichText,
@@ -49,7 +49,7 @@ const DEFAULT_ALIGNMENT_CONTROLS = [
     }
 ];
 
-registerBlockType("diy-marketer/subhead", {
+registerBlockType("diym/subhead", {
     title: __("Subhead", "diy-marketer"),
     description: __(
         "Introduce the page with a main headline to help visitors (and search engines) understand what your page is about.",
@@ -79,7 +79,7 @@ registerBlockType("diy-marketer/subhead", {
             default: 2
         }
     },
-    category: "media",
+    category: "diy-marketer",
     icon: {
         foreground: "#007bff",
         //src: heading
@@ -89,6 +89,17 @@ registerBlockType("diy-marketer/subhead", {
         }
     },
     keywords: [__("subhead", "diy-marketer")],
+    transforms: {
+        from: [
+            {
+                type: "block",
+                blocks: ["diym/paragraph", "diym/heading"],
+                transform: ({ content, align }) => {
+                    return createBlock("diym/subhead", { content, align });
+                }
+            }
+        ]
+    },
     edit: ({ className, attributes, setAttributes }) => {
         const { content, align, level } = attributes;
         const tagName = "h" + level;
