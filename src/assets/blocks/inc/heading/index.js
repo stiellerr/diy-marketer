@@ -4,6 +4,8 @@ import { RichText, BlockControls, AlignmentToolbar } from "@wordpress/block-edit
 
 import classnames from "classnames";
 
+//import "./editor.scss";
+
 const DEFAULT_ALIGNMENT_CONTROLS = [
     {
         icon: "editor-alignleft",
@@ -40,8 +42,10 @@ registerBlockType("diym/heading", {
         className: false,
         __experimentalColor: {
             linkColor: true
-        },
-        __experimentalFontSize: true
+        }
+        //__experimentalFontSize: true,
+        // Remove the Default Style picker.
+        //defaultStylePicker: true
     },
     attributes: {
         content: {
@@ -97,6 +101,9 @@ registerBlockType("diym/heading", {
                     className={classnames(className, `has-text-align-${align}`)}
                     onChange={onChangeContent}
                     value={content}
+                    //style={{ whiteSpace: "normal", backgroundColor: "blue" }}
+                    //style={{ "background-color": "blue;" }}
+                    preserveWhiteSpace={false}
                     allowedFormats={[
                         "core/text-color",
                         "diym/underline",
@@ -122,6 +129,12 @@ registerBlockType("diym/heading", {
                 tagName="h1"
                 value={content}
                 className={className ? className : undefined}
+                //style={("white-space": "pre-wrap;")}
+                //style={{
+                //"white-space": "initial"
+                // backgroundColor: backgroundColor,
+                //color: textColor
+                //}}
             />
         );
     }

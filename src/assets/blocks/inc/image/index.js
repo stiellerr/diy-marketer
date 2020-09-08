@@ -9,12 +9,29 @@ registerBlockType("diym/image", {
         "Introduce the page with a main headline to help visitors (and search engines) understand what your page is about.",
         "diy-marketer"
     ),
+    attributes: {
+        id: {
+            type: "number"
+        },
+        alt: {
+            type: "string",
+            source: "attribute",
+            selector: "img",
+            attribute: "alt",
+            default: ""
+        },
+        url: {
+            type: "string",
+            source: "attribute",
+            selector: "img",
+            attribute: "src"
+        }
+    },
     supports: {
         html: false,
         reusable: false,
         className: false
     },
-    attributes: {},
     category: "diy-marketer",
     icon: {
         foreground: "#007bff",
@@ -25,22 +42,42 @@ registerBlockType("diym/image", {
         __("photo", "diymarketer"),
         __("picture", "diymarketer")
     ],
+    edit: ({ attributes, setAttributes }) => {
+        const { url } = attributes;
+        // on select image.
+        /*
+        const onSelectImage = ({ id, url, alt }) => {
+            setAttributes({ id, url, alt });
+            //console.log(v);
+        };
+        */
+        // on select image.
+        const onSelectImage = ({ id, url, alt }) => {
+            setAttributes({ id, url, alt });
+            //console.log(media);
+        };
 
-    edit: () => {
         return (
             <>
-                <MediaPlaceholder
-                    icon="format-image"
-                    accept="image/*"
-                    allowedTypes={["image"]}
-                    onSelect={image => {
-                        console.log(image);
-                    }}
-                />
+                {url && <img src={url} />}
+                {
+                    <MediaPlaceholder
+                        icon="format-image"
+                        accept="image/*"
+                        allowedTypes={["image"]}
+                        onSelect={onSelectImage}
+                        disableMediaButtons={url}
+                    />
+                }
             </>
         );
     },
-    save: () => {
-        return <h1>hello</h1>;
+    save: ({ attributes }) => {
+        const { url, alt, id } = attributes;
+        return (
+            <figure>
+                <img src={url} alt={alt} className={id ? `img-fluid wp-image-${id}` : null} />
+            </figure>
+        );
     }
 });

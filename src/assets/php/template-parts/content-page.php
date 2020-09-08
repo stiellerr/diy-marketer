@@ -11,6 +11,18 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<?php the_content(); ?>
+
+	<?php /*  191   */
+
+	echo "<h2>This is a test page.</h2>";
+	
+	//var_dump( wp_get_attachment_image_src(191, 'large' ) );
+	//var_dump( wp_get_attachment_image_url(191, 'large' ) );
+	//var_dump( wp_get_attachment_image_url(191, 'full' ) );
+	//var_dump( wp_get_attachment_url(191 ) );
+	//var_dump( wp_get_attachment_image_url( 341, 'diym-custom-size' ) );
+	var_dump( wp_get_attachment_image( 343, 'diym-custom-size' ) );
+	?>
 	
 	<?php if ( get_edit_post_link() ) : ?>
 		<footer class="entry-footer">

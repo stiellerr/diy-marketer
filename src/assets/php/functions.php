@@ -42,6 +42,14 @@ if ( ! function_exists( 'diym_setup' ) ) {
                 //'default-image' => DIYM_IMG_URL . 'bg/pattern6.png',
             )
 		);
+
+		// Set content-width.
+		// TO DO
+		// this needs to be changed dynamically, dependant on wether a side bar is visible or not...
+		global $content_width;
+		if ( ! isset( $content_width ) ) {
+			$content_width = 1140;
+		}
 		
 		// Set up excerpt support for pages.
 		add_post_type_support( 'page', 'excerpt' );
@@ -51,6 +59,8 @@ if ( ! function_exists( 'diym_setup' ) ) {
 
 		// Add theme support for post thumbnails.
 		//add_theme_support( 'post-thumbnails' );
+		// Add custom image size used in Cover Template.
+		add_image_size( 'diym-custom-size', 1200, 0 );
 		
 		// unsure if ill need this ?? its for gutenberg
 		//add_theme_support( 'align-wide' ); 
