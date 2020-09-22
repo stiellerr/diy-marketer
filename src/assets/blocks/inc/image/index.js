@@ -3,6 +3,8 @@ import { __ } from "@wordpress/i18n";
 import { image } from "@wordpress/icons";
 import { MediaPlaceholder } from "@wordpress/block-editor";
 
+import classNames from "classnames";
+
 registerBlockType("diym/image", {
     title: __("Image", "diy-marketer"),
     description: __(
@@ -74,9 +76,19 @@ registerBlockType("diym/image", {
     },
     save: ({ attributes }) => {
         const { url, alt, id } = attributes;
+
+        const className = classNames("img-fluid", id ? `wp-image-${id}` : null);
+
         return (
             <figure>
-                <img src={url} alt={alt} className={id ? `img-fluid wp-image-${id}` : null} />
+                <img
+                    src={url}
+                    alt={alt}
+                    //width="100%"
+                    //height="auto"
+                    //className={"img-fluid".id ? ` wp-image-${id}` : null}
+                    className={className}
+                />
             </figure>
         );
     }

@@ -18,6 +18,11 @@ if ( ! function_exists( 'write_log ') ) {
 	}
 }
 
+//global $_wp_additional_image_sizes;
+//print_r( get_intermediate_image_sizes() );
+write_log( get_option( 'medium_size_w' ) );
+
+
 if ( ! defined( 'DIYM_VER' ) ) {
 	// Replace the version number of the theme on each release.
 	define( 'DIYM_VER', wp_get_theme()->get( 'Version' ) );
@@ -60,7 +65,8 @@ if ( ! function_exists( 'diym_setup' ) ) {
 		// Add theme support for post thumbnails.
 		//add_theme_support( 'post-thumbnails' );
 		// Add custom image size used in Cover Template.
-		add_image_size( 'diym-custom-size', 1200, 0 );
+		// add_image_size( 'diym-custom-size', 510, 0 );
+		//add_image_size('medium', get_option( 'medium_size_w' ), get_option( 'medium_size_h' ), true 
 		
 		// unsure if ill need this ?? its for gutenberg
 		//add_theme_support( 'align-wide' ); 
@@ -659,6 +665,23 @@ function diym_get_elements_array() {
 
 	return $elements;
 }
+
+// set responsize image sizes...
+function diym_calculate_image_sizes( $sizes, $size, $image_src, $image_meta, $attachment_id ) {
+	//return $sizes;
+	//sizes="(max-width: 575px) 546px, (max-width: 767px) 510px, (max-width: 991px) 690px, (max-width: 1199px) 930px, 1110px"
+	
+	write_log( $image_meta );
+	
+	$sizes = "(max-width: 575px) calc(100vw - 30px), (max-width: 767px) 510px, (max-width: 991px) 690px, (max-width: 1199px) 930px, 1110px";
+
+	return $sizes;
+
+	//return 
+
+}
+
+add_filter( 'wp_calculate_image_sizes', 'diym_calculate_image_sizes', 10, 5 );
 
 /**
  * Contact Details Widget

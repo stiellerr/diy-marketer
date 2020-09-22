@@ -20,8 +20,12 @@
 	//var_dump( wp_get_attachment_image_url(191, 'large' ) );
 	//var_dump( wp_get_attachment_image_url(191, 'full' ) );
 	//var_dump( wp_get_attachment_url(191 ) );
-	//var_dump( wp_get_attachment_image_url( 341, 'diym-custom-size' ) );
-	var_dump( wp_get_attachment_image( 343, 'diym-custom-size' ) );
+	//var_dump( wp_get_attachment_image_url( 348 ) );
+	//var_dump( wp_get_attachment_url( 348 ) );
+
+	echo wp_get_attachment_image( 348, 'diym-custom-size' );
+
+	//wp_get_attachment_image_srcset
 	?>
 	
 	<?php if ( get_edit_post_link() ) : ?>
