@@ -7,6 +7,43 @@
  * @package DIY_Marketer
  */
 
+//if ( ! class_exists( 'DIYM_Google_Places' ) ) {
+	//require_once( 'checker.php' );
+	//require get_template_directory() . '/inc/google-places/sync.php';
+//}
+
+if ( ! class_exists( 'DIYM_Options_Page' ) ) {
+	//require_once( 'checker.php' );
+	require get_template_directory() . '/classes/class-diym-options-page.php';
+}
+
+//$diym_google_places = new DIYM_Google_places();
+$diym_google_places = new DIYM_Options_Page();
+
+function use_jquery_from_google () {
+	if (is_admin()) {
+		return;
+	}
+
+	global $wp_scripts;
+	if (isset($wp_scripts->registered['jquery']->ver)) {
+		$ver = $wp_scripts->registered['jquery']->ver;
+                $ver = str_replace("-wp", "", $ver);
+	} else {
+		$ver = '1.12.4';
+	}
+
+	//wp_deregister_script('jquery');
+	//wp_register_script('jquery', "https://ajax.googleapis.com/ajax/libs/jquery/$ver/jquery.min.js", array(), $ver, true);
+}
+
+add_action('init', 'use_jquery_from_google');
+
+
+
+
+
+
 // useful function for witing to the log
 if ( ! function_exists( 'write_log ') ) {
 	function write_log ( $log )  {
@@ -20,7 +57,7 @@ if ( ! function_exists( 'write_log ') ) {
 
 //global $_wp_additional_image_sizes;
 //print_r( get_intermediate_image_sizes() );
-write_log( get_option( 'medium_size_w' ) );
+//write_log( get_option( 'medium_size_w' ) );
 
 
 if ( ! defined( 'DIYM_VER' ) ) {
@@ -82,7 +119,8 @@ if ( ! function_exists( 'diym_setup' ) ) {
          * @link https://codex.wordpress.org/Theme_Logo
          */
         add_theme_support('custom-logo', [
-            'height'     => 80,
+			'height'     => 80,
+			// to do
             'width'      => 80,
             'flex-width' => true,
             'flex-height' => false,
@@ -134,13 +172,31 @@ require get_template_directory() . '/inc/custom-css.php';
 /**
  * Register and Enqueue Styles.
  */
+
+
+
+/**
+ * Register and Enqueue Styles.
+ */
 function diym_register_styles() {
 
+	$production = true;
+
+	if ( $production ) {
+		wp_enqueue_style( 'diym-bs', 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css', array(), false, 'all'  );
+		wp_enqueue_style( 'diym-style', get_template_directory_uri() . '/dist/assets/css/bundle.css', array( 'diym-bs' ), filemtime( get_template_directory() . '/dist/assets/css/bundle.css' ), 'all' );
+	} else {
+		wp_enqueue_style( 'diym-style', get_template_directory_uri() . '/dist/assets/css/bundle.css', array(), filemtime( get_template_directory() . '/dist/assets/css/bundle.css' ), 'all' );
+	}
+
 	//wp_enqueue_style( 'diym-style', get_template_directory_uri() . '/dist/assets/css/bundle.css', array( 'dashicons' ), DIYM_VER, 'all' );
-	wp_enqueue_style( 'diym-style', get_template_directory_uri() . '/dist/assets/css/bundle.css', array( 'dashicons' ), filemtime( get_template_directory() . '/dist/assets/css/bundle.css' ), 'all' );
+	//wp_enqueue_style( 'diym-style', get_template_directory_uri() . '/dist/assets/css/bundle.css', array( 'dashicons' ), filemtime( get_template_directory() . '/dist/assets/css/bundle.css' ), 'all' );
 
 	// Add output of Customizer settings as inline style.
 	wp_add_inline_style( 'diym-style', diym_get_customizer_css( 'front-end' ) );
+
+	wp_dequeue_style( 'wp-block-library' );
+
 }
 
 add_action( 'wp_enqueue_scripts', 'diym_register_styles' );
@@ -150,9 +206,17 @@ add_action( 'wp_enqueue_scripts', 'diym_register_styles' );
  */
 function diym_register_scripts() {
     
+	//<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+	//<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+	wp_enqueue_script( 'diym-fa', 'https://kit.fontawesome.com/e2e75b056d.js', array(), false, true );
+	wp_enqueue_script( 'diym-popper', 'https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js', array( 'jquery' ), false, true );
+	wp_enqueue_script( 'diym-bs', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js', array( 'diym-popper' ), false, true );
+	//wp_enqueue_script( 'diym', get_template_directory_uri() . '/dist/assets/js/bundle.js', array( 'jquery' ), filemtime( get_template_directory() . '/dist/assets/js/bundle.js'), true );
+	wp_enqueue_script( 'diym', get_template_directory_uri() . '/dist/assets/js/bundle.js', array( 'jquery' ), false, true );
+	
 	//wp_enqueue_script( 'diym-js', get_template_directory_uri() . '/dist/assets/js/bundle.js', array( 'jquery' ), DIYM_VER, true );
-	wp_enqueue_script( 'diym-js', get_template_directory_uri() . '/dist/assets/js/bundle.js', array( 'jquery' ), filemtime( get_template_directory() . '/dist/assets/js/bundle.js'), true );
-    wp_script_add_data( 'diym-js', 'async', true );
+	//wp_enqueue_script( 'diym-js', get_template_directory_uri() . '/dist/assets/js/bundle.js', array( 'jquery' ), filemtime( get_template_directory() . '/dist/assets/js/bundle.js'), true );
+    //wp_script_add_data( 'diym-js', 'async/defer', true );
 }
 
 add_action( 'wp_enqueue_scripts', 'diym_register_scripts' );
@@ -308,7 +372,7 @@ function diym_block_editor_settings() {
 		*/
 	);
 
-	write_log( $editor_color_palette );
+	//write_log( $editor_color_palette );
 
 	// Add the background option.
 	/*
@@ -671,7 +735,7 @@ function diym_calculate_image_sizes( $sizes, $size, $image_src, $image_meta, $at
 	//return $sizes;
 	//sizes="(max-width: 575px) 546px, (max-width: 767px) 510px, (max-width: 991px) 690px, (max-width: 1199px) 930px, 1110px"
 	
-	write_log( $image_meta );
+	//write_log( $image_meta );
 	
 	$sizes = "(max-width: 575px) calc(100vw - 30px), (max-width: 767px) 510px, (max-width: 991px) 690px, (max-width: 1199px) 930px, 1110px";
 
@@ -717,6 +781,39 @@ require get_template_directory() . '/inc/widget-page-excerpt.php';
  * Business Contact Form Widget
  */
 require get_template_directory() . '/inc/widget-contact-form.php';
+
+
+
+
+
+function mind_defer_scripts( $tag, $handle, $src ) {
+/*
+	//write_log( $tag );
+	write_log( $handle );
+	//write_log( $src );
+	
+	$async = array (
+		'jquery-core'
+	);
+
+	if ( in_array( $handle, $async ) ) {
+		return '<script type="text/javascript" async src="' . $src . '" id="' . $handle . '"></script>' . "\n";
+	}
+*/	
+	$defer = array( 
+		'diym'
+	);
+	
+	if ( in_array( $handle, $defer ) ) {
+		return '<script type="text/javascript" defer src="' . $src . '" id="' . $handle . '"></script>' . "\n";
+		//return '<script src="' . $src . '" defer="defer" type="text/javascript"></script>' . "\n";
+	}
+	
+	return $tag;
+	
+} 
+
+add_filter( 'script_loader_tag', 'mind_defer_scripts', 10, 3 );
 
 
 

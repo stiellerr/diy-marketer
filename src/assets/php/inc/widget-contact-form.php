@@ -72,7 +72,7 @@ class DIYM_Contact_Form_Widget extends WP_Widget {
                 <button type="submit" class="btn btn-block btn-primary"><?php esc_html_e("Submit.", 'diy-marketer'); ?></button>
             </div>
             <small>
-                <span class="dashicons dashicons-lock"></span><?php esc_html_e("we'll never share your information with anyone.", 'diy-marketer'); ?>
+                <i class="fas fa-lock"></i>&nbsp;<?php esc_html_e("we'll never share your information with anyone.", 'diy-marketer'); ?>
             </small>
 
         </form>

@@ -34,10 +34,7 @@ $temp .= $diym_city ? $diym_postal_code ? $diym_city . ', ' . $diym_postal_code 
     <?php if ( $diym_name ) { ?>
         <tr>
             <td>
-                <i class="fas fa-user"></i>
-                <!--
                 <span class="dashicons dashicons-admin-users"></span>
-                -->
             </td>
             <td><?php echo $diym_name; ?></td>
         </tr>
@@ -45,17 +42,15 @@ $temp .= $diym_city ? $diym_postal_code ? $diym_city . ', ' . $diym_postal_code 
     <?php if ( $temp ) { ?>
         <tr>
             <td>
-                <i class="fas fa-map-marker-alt"></i>
-                <!--<span class="dashicons dashicons-location"></span>-->
+                <span class="dashicons dashicons-location"></span>
             </td>
             <td><?php echo $temp; ?></td>
         </tr>
     <?php } ?>
     <?php if ( $diym_phone_number ) { ?>
         <tr>
-            <td><!--
-                <span class="dashicons dashicons-phone"></span>-->
-                <i class="fas fa-phone"></i>
+            <td>
+                <span class="dashicons dashicons-phone"></span>
             </td>
             <td>
                 <a href="tel:<?php echo $diym_phone_number; ?>"><?php echo $diym_phone_number; ?></a>
@@ -64,9 +59,8 @@ $temp .= $diym_city ? $diym_postal_code ? $diym_city . ', ' . $diym_postal_code 
     <?php } ?>
     <?php if ( $diym_email ) { ?>
         <tr>
-            <td><!--
-                <span class="dashicons dashicons-email"></span>-->
-                <i class="fas fa-envelope"></i>
+            <td>
+                <span class="dashicons dashicons-email"></span>
             </td>
             <td>
                 <a href="mailto:<?php echo $diym_email; ?>"><?php echo $diym_email; ?></a>
@@ -75,9 +69,8 @@ $temp .= $diym_city ? $diym_postal_code ? $diym_city . ', ' . $diym_postal_code 
     <?php } ?>
     <?php if ( $diym_url ) { ?>
         <tr>
-            <td><!--
-                <span class="dashicons dashicons-admin-site-alt3"></span>-->
-                <i class="fas fa-globe"></i>
+            <td>
+                <span class="dashicons dashicons-admin-site-alt3"></span>
             </td>
             <td>
                 <a href="<?php echo $diym_url; ?>"><?php echo $diym_url; ?></a>

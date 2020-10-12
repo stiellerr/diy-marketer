@@ -4,6 +4,7 @@ import $ from "jquery";
 
 $(document).ready(() => {
     // from submit event
+    // to do... datalayer.push google tag manager, deferentiate between footer and side bar forms...
     $(".contact-form").submit(evt => {
         // prevent page refresh
         evt.preventDefault();

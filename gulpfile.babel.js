@@ -58,7 +58,8 @@ const paths = {
             "src/assets/js/mail.js",
             "src/assets/js/customize-preview.js", //new
             "src/assets/js/customize-controls.js",
-            "src/assets/js/customize-repeater.js"
+            "src/assets/js/customize-repeater.js",
+            "src/assets/js/google-places.js"
         ],
         dest: "dist/assets/js"
     },

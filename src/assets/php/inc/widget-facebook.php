@@ -9,7 +9,8 @@
 
 function diym_wp_body_open() {
     ?>
-       <script async defer src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>
+        <div id="fb-root"></div>
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v8.0" nonce="EnWB7388"></script>
    <?php
 }
 
@@ -26,7 +27,8 @@ class DIYM_Facebook_Widget extends WP_Widget {
         );
 
         if ( is_active_widget( false, false, $this->id_base ) || is_customize_preview() ) {
-            add_action( 'wp_body_open', 'diym_wp_body_open' );
+            //add_action( 'wp_body_open', 'diym_wp_body_open' );
+            //add_action( 'wp_head', 'diym_wp_head' );
         }
     }
 
@@ -46,8 +48,13 @@ class DIYM_Facebook_Widget extends WP_Widget {
         }
         ?>
 
-        <div class="fb-page" data-href="<?php echo $diym_facebook; ?>" data-small-header="true"></div>
+        <!--<div class="fb-page" data-href="<?php echo $diym_facebook; ?>" data-small-header="true"></div>
 
+        <div class="fb-page" data-href="https://www.facebook.com/michaelsurealestate/" data-tabs="" data-width="" data-height="" data-small-header="true" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/michaelsurealestate/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/michaelsurealestate/">Michael Su - Real Estate Salesperson</a></blockquote></div>
+        https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fmichaelsurealestate%2F&tabs&width&height&small_header=true&adapt_container_width&hide_cover=false&show_facepile=true&appId
+
+        <iframe id="diym-fb" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+-->
         <?php
 
         echo $args['after_widget'];

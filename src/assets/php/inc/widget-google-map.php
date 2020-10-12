@@ -34,8 +34,13 @@ class DIYM_Google_Map_Widget extends WP_Widget {
         if ( $title ) {
             echo $args['before_title'] . $title . $args['after_title'];
         }
+        //echo $diym_google_map;
+        ?>
+        <!--
+            <iframe id="diym-gmap" frameborder="0" style="border:0" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+    -->
         
-        echo $diym_google_map;
+        <?php
 
         echo $args['after_widget'];
     }

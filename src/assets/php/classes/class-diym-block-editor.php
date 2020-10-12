@@ -36,7 +36,7 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
 
         function diym_block_categories( $categories, $post ) {
             //
-            write_log( $categories );
+            //write_log( $categories );
             // merge custom block category.
             return array_merge(
                 $categories,

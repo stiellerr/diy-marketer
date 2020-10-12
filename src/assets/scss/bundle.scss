@@ -1,5 +1,5 @@
 //@import "./components/header.scss";
-
+@import "../../../node_modules/@fortawesome/fontawesome-free/css/all.css";
 @import "../../../node_modules/bootstrap/scss/bootstrap.scss";
 
 /*--------------------------------------------------------------
@@ -129,34 +129,61 @@ aside > .widget_diym_contact_form {
     }
 }
 
-.widget_diym_contact_details table tr td:last-of-type {
-    padding-left: 0.3rem;
+.widget_diym_contact_details table tr {
+    td:first-of-type {
+        text-align: center;
+    }
+    td:last-of-type {
+        padding-left: 0.3rem;
+    }
 }
-
+/*
 .dashicons {
     transition: initial;
 }
-
+*/
 .site-socials {
-    display: inline-flex;
+    display: inline-block;
+    a i {
+        text-align: center;
+    }
+    /*
+    li::not(:last-child) {
+        margin-right: 0.5rem;
+    }
+    */
+
+    //display: inline-block;
+    /*
     li:not(.facebook):not(:last-child) {
         margin-right: 0.1rem;
     }
     .dashicons {
         line-height: 24px;
     }
+    */
 }
 
-.widget_diym_social_media ul {
-    display: block;
-    .facebook a::after {
+.widget_diym_social_media .site-socials {
+    a {
+        display: block;
+        i {
+            //text-align: center;
+            width: 1.25rem;
+        }
+    }
+    //display: block;
+    .facebook::after {
         content: "Like Us On Facebook";
     }
-    .twitter a::after {
+    .twitter::after {
         content: "Follow Us On Twitter";
     }
-    .instagram a::after {
+    .instagram::after {
         content: "Follow Us On Instagram";
+    }
+    .youtube::after {
+        content: "Our Youtube Channel";
     }
 }
 
