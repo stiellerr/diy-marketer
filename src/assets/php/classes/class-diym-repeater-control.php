@@ -22,7 +22,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 			/**
 			 * The type of control being rendered
 			 */
-			public $type = 'diym_repeater';
+			public $type = 'diym_sortable_repeater';
 			/**
 			 * Enqueue our scripts and styles
 			 */
@@ -42,36 +42,38 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 			 */
 			public function render_content() {
 				?>
-				<?php if ( ! empty( $this->label ) ) : ?>
-					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-				<?php endif; ?>
-				<?php if( !empty( $this->description ) ) { ?>
-					<span class="customize-control-description"><?php echo esc_html( $this->description ); ?></span>
-				<?php } ?>
+				<div class="diym_sortable_repeater_control">
 
-				<div class="diym-repeater-sortable">
+					<?php if ( ! empty( $this->label ) ) : ?>
+						<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+					<?php endif; ?>
+					<?php if( !empty( $this->description ) ) { ?>
+						<span class="customize-control-description"><?php echo esc_html( $this->description ); ?></span>
+					<?php } ?>
 
 					<!-- hidden value to hold all field values... -->					   
-					<input type="hidden" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_textarea( $this->value() ); ?>" <?php esc_attr( $this->link() ); ?>/>
-					
-					<!-- this is the element that gets cloned. -->
-					<div class="diym-repeater-container">
-						<div class="diym-repeater-title"><?php echo esc_html( $this->label ); ?></div>
-						<div class="diym-repeater-box">
-							<button type="button" class="diym-add-image">Add Image</button>
-							<label>url:
-								<input class="diym-repeater-url" type="text" readonly />
-							</label>
-							<label>Heading:
-								<input class="diym-repeater-heading" type="text" />
-							</label>
+					<input type="hidden" class="customize-control-sortable-repeater" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $this->value() ); ?>" <?php esc_attr( $this->link() ); ?>/>
+
+					<div class="diym-sortable">
+						<!-- this is the element that gets cloned. -->
+						<div class="diym-repeater-container">
+							<div class="diym-repeater-title"><?php echo esc_html( $this->label ); ?></div>
+							<div class="diym-repeater-box">
+								<button type="button" class="diym-add-image">Add Image</button>
+								<label>url:
+									<input class="diym-repeater-url" type="text" readonly />
+								</label>
+								<label>Heading:
+									<input class="diym-repeater-heading" type="text" />
+								</label>
+							</div>
 						</div>
 					</div>
-
+					
+					<button type="button" class="button diym-repeater-new-field">
+						<?php echo esc_html( 'Add new field' ); ?>
+					</button>
 				</div>
-				<button type="button" class="button diym-repeater-new-field">
-					<?php echo esc_html( 'Add new field' ); ?>
-        		</button>
 
 				<?php
 			}

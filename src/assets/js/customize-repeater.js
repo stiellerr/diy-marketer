@@ -9,6 +9,7 @@ const repeater_refresh = () => {
     let arr_values = [];
 
     for (var con of repeater.children(".diym-repeater-container")) {
+        //
         let image_url = $(con).find(".diym-repeater-url").val();
 
         if (image_url) {
