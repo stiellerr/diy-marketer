@@ -32,9 +32,16 @@ class DIYM_Options_Page {
     }
 
 	public function enqueue() {
-        //wp_register_script( 'jquery-ui-timepicker', "$url/jquery-ui-timepicker-addon.min.js", array( 'jquery-ui-datepicker', 'jquery-ui-slider' ), '1.5.0', true );
-        wp_enqueue_script( 'jquery-ui-timepicker', get_template_directory_uri() . '/dist/assets/js/jquery-ui-timepicker.js', array( 'jquery-ui-datepicker', 'jquery-ui-slider' ), '1.5.6', true );
-        wp_enqueue_script( 'diym-google-places', get_template_directory_uri() . '/dist/assets/js/google-places.js', array( 'jquery', 'underscore' ), filemtime( get_template_directory() . '/dist/assets/js/google-places.js'), true );
+        // css       
+		wp_enqueue_style( 'jquery-ui-core', get_template_directory_uri() . "/assets/css/jqueryui/jquery.ui.core.css", array(), '1.8.17' );
+		wp_enqueue_style( 'jquery-ui-theme', get_template_directory_uri() . "/assets/css/jqueryui/jquery.ui.theme.css", array(), '1.8.17' );
+        wp_enqueue_style( 'jquery-ui-datepicker', get_template_directory_uri() . "/assets/css/jqueryui/jquery.ui.datepicker.css", array( 'jquery-ui-core', 'jquery-ui-theme' ), '1.8.17' );
+        wp_enqueue_style( 'jquery-ui-slider', get_template_directory_uri() . "/assets/css/jqueryui/jquery.ui.slider.css", array( 'jquery-ui-core', 'jquery-ui-theme' ), '1.8.17' );
+		wp_enqueue_style( 'jquery-ui-timepicker', get_template_directory_uri() . "/assets/css/jqueryui/jquery-ui-timepicker-addon.min.css", array( 'jquery-ui-datepicker', 'jquery-ui-slider' ), '1.5.0' );       
+        //js
+        wp_enqueue_script( 'jquery-ui-timepicker', get_template_directory_uri() . '/assets/js/jqueryui/jquery-ui-timepicker-addon.min.js', array( 'jquery-ui-datepicker', 'jquery-ui-slider' ), '1.5.6', true );
+        //custom js
+        wp_enqueue_script( 'diym-google-places', get_template_directory_uri() . '/assets/js/google-places.js', array( 'jquery', 'underscore' ), filemtime( get_template_directory() . '/assets/js/google-places.js'), true );
     }
     
 	public function sync_data() {
@@ -350,7 +357,7 @@ class DIYM_Options_Page {
     // render input
     public function render_time( $args ) {
         ?>
-            <input type='time' id="<?php echo $args['section'] . '[' . $args['id'] . ']'; ?>" name="<?php echo $args['section'] . '[' . $args['id'] . ']'; ?>" value='<?php echo get_option( $args['section'] ) [ $args['id'] ] ; ?>' class=''>
+            <input type='text' id="<?php echo $args['section'] . '[' . $args['id'] . ']'; ?>" name="<?php echo $args['section'] . '[' . $args['id'] . ']'; ?>" value='<?php echo get_option( $args['section'] ) [ $args['id'] ] ; ?>' class='datetimepicker'>
         <?php
     }
 

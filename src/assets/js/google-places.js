@@ -46,7 +46,7 @@ function extractAddress(context) {
 
 $(document).ready(() => {
     // jquery date picker ui
-    //$(".datepicker").datetimepicker({ dateFormat: "yy-mm-dd hh:mm:ss" });
+    $(".datetimepicker").timepicker({ timeFormat: "hh:mm tt", timeInput: true });
 
     //
     $("#diym_google_settings\\[place_id\\]").change(e => {
