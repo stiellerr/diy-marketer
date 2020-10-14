@@ -160,6 +160,27 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 				)
 			);
 
+			/* Font Family. ----------------------------------------------- */
+			$wp_customize->add_setting(
+				'zzz_time',
+				array(
+					'capability'        => 'edit_theme_options',
+					'default'           => 'default',
+					'sanitize_callback' => array( __CLASS__, 'sanitize_select_font' ),
+					'transport'			=> 'postMessage'
+				)
+			);
+
+			$wp_customize->add_control(
+				'zzz_time',
+				array(
+					'type'     => 'date',
+					'section'  => 'typography',
+					'label'    => esc_html__( 'Date', 'diy-marketer' ),
+					//'choices'	=> diym_customize_font_family()
+				)
+			);
+
 			/* Banner & Footer Background Color. -------------------------------- */
 			$wp_customize->add_setting(
 				'banner_footer_background_color',

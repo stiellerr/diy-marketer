@@ -21,7 +21,7 @@
         }
     },
     "lint-staged": {
-        "src/**/*.js": "eslint",
+        "src/!lib{,/**}/*.js": "eslint",
         "**/*.{js,json,css,scss,html}": [
             "prettier --write",
             "git add"
@@ -83,12 +83,15 @@
         "bootstrap": "^4.5.0",
         "classnames": "^2.2.6",
         "jquery": "^3.5.1",
+        "jquery-ui": "^1.12.1",
+        "jquery-ui-timepicker-addon": "^1.6.3",
         "locutus": "^2.0.11",
         "lodash": "^4.17.20",
         "popper.js": "^1.16.1",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
-        "select2": "^4.0.13"
+        "select2": "^4.0.13",
+        "timepicker": "^1.13.15"
     },
     "browserslist": [
         "extends @wordpress/browserslist-config"

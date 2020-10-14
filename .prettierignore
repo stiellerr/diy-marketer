@@ -1,8 +1,9 @@
 node_modules
 archive
-dist
+/assets
 packaged
 src/assets/php
+src/assets/lib
 *.php
 install
 bugs

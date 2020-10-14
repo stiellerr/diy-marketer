@@ -45,11 +45,11 @@ const paths = {
             "src/assets/scss/custom-controls.scss",
             "src/assets/scss/customize-repeater.scss"
         ],
-        dest: "dist/assets/css"
+        dest: "assets/css"
     },
     images: {
-        src: ["src/assets/images/**/*.{jpg,jpeg,png,svg,gif,JPG}"],
-        dest: "dist/assets/images"
+        src: ["src/assets/img/**/*.{jpg,jpeg,png,svg,gif,JPG}"],
+        dest: "assets/img"
     },
     scripts: {
         src: [
@@ -61,7 +61,7 @@ const paths = {
             "src/assets/js/customize-repeater.js",
             "src/assets/js/google-places.js"
         ],
-        dest: "dist/assets/js"
+        dest: "assets/js"
     },
     blocks: {
         src: [
@@ -69,15 +69,16 @@ const paths = {
             //"src/assets/blocks/assets.js",
             //"src/assets/blocks/script.js"
         ],
-        dest: "dist/assets/blocks"
+        dest: "assets/blocks"
     },
     other: {
         src: [
-            "src/assets/**/*",
-            "!src/assets/{images,js,scss}",
-            "!src/assets/{images,js,scss}/**/*"
+            //"src/assets/**/*",
+            "src/assets/lib/**/*"
+            //"!src/assets/{images,js,scss,php,blocks}",
+            //"!src/assets/{images,js,scss,php,blocks}/**/*"
         ],
-        dest: "dist/assets"
+        dest: "assets"
     },
     package: {
         src: [
@@ -173,7 +174,7 @@ export const reload = done => {
 };
 
 export const clean = () => {
-    return del(["dist", "inc", "classes", "template-parts", "*.php"]);
+    return del(["inc", "classes", "template-parts", "assets", "*.php"]);
 };
 
 export const images = () => {
@@ -216,7 +217,7 @@ export const blocks = () => {
                 output: {
                     filename: "[name].js",
                     // used for the clean plugin (delete)
-                    path: __dirname + "/dist/assets/blocks"
+                    path: __dirname + "/assets/blocks"
                 },
                 optimization: {
                     minimizer: [

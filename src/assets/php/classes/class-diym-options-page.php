@@ -32,10 +32,15 @@ class DIYM_Options_Page {
     }
 
 	public function enqueue() {
-		wp_enqueue_script( 'diym-google-places', get_template_directory_uri() . '/dist/assets/js/google-places.js', array( 'jquery' ), filemtime( get_template_directory() . '/dist/assets/js/google-places.js'), true );
+        //wp_register_script( 'jquery-ui-timepicker', "$url/jquery-ui-timepicker-addon.min.js", array( 'jquery-ui-datepicker', 'jquery-ui-slider' ), '1.5.0', true );
+        wp_enqueue_script( 'jquery-ui-timepicker', get_template_directory_uri() . '/dist/assets/js/jquery-ui-timepicker.js', array( 'jquery-ui-datepicker', 'jquery-ui-slider' ), '1.5.6', true );
+        wp_enqueue_script( 'diym-google-places', get_template_directory_uri() . '/dist/assets/js/google-places.js', array( 'jquery', 'underscore' ), filemtime( get_template_directory() . '/dist/assets/js/google-places.js'), true );
     }
     
 	public function sync_data() {
+
+        // check ajax source is valid.
+        check_admin_referer( "diym-options-options" );
 
 		// query db
 		$args = get_option(
@@ -47,32 +52,25 @@ class DIYM_Options_Page {
         );
         
     	// build url
-		$url = add_query_arg(
+		$request = add_query_arg(
 			$args,
 			'https://maps.googleapis.com/maps/api/place/details/json'
         );
         
         // send request.
-        $response = wp_remote_get( $url );
+        $response = wp_remote_get( $request );
 
         if ( is_wp_error( $response ) ) {
             // Bail early
             wp_send_json_error( $response, 500 );
         }
+
+        $body = wp_remote_retrieve_body( $response );
         
-        write_log( 'good' );
-        
-        write_log( $request );
+        // return data back to js
+        wp_send_json_success( json_decode( $body ) );
+        //wp_send_json_success( $response );
 
-		$body = wp_remote_retrieve_body( $request );
-
-		$response = json_decode( $body );
-
-		//write_log( $url );
-
-		check_admin_referer( "diym-options-options" );
-
-		wp_send_json_success( 'Wahoo !!!' );
 	}
 
     public function add_menu() {
@@ -92,6 +90,22 @@ class DIYM_Options_Page {
         // Register a new setting for "wporg" page.
         register_setting( 'diym-options', 'diym_google_settings' );
         register_setting( 'diym-options', 'diym_tag_manager' );
+        register_setting( 'diym-options', 'diym_business_info' );
+        register_setting( 'diym-options', 'diym_hours' );
+
+        //$theme = get_option( 'stylesheet' );
+        
+        //write_log( $theme );
+
+        //update_option( "theme_mods_diy-marketer[test]", 'hello world!' );
+
+
+        //$zzz = get_option( "theme_mods_$theme" );
+
+        //write_log( $zzz );
+        
+        //update_option( "theme_mods_$theme", $mods );
+
 
         // First, we register a section. This is necessary since all future options must belong to one.
         add_settings_section(
@@ -171,6 +185,120 @@ class DIYM_Options_Page {
             )
         );
 
+        // register section: business info.
+        add_settings_section(
+            'diym_business_info', //id
+            __( 'Business Information', 'diy-marketer' ), //title
+            array( &$this, 'render_void' ), //cb function
+            'diym-options' //page
+        );
+
+        // register field: street address.
+        add_settings_field( 
+            'addressCountry', //id
+            __( 'Country', 'diy-marketer' ),  //address
+            array( &$this, 'render_input' ), //cb function
+            'diym-options', //page
+            'diym_business_info', //section
+            array(    //args
+                'label_for' => 'diym_business_info[addressCountry]',
+                'section' => 'diym_business_info',
+                'id' => 'addressCountry',
+            )
+        );
+
+        // register field: street address.
+        add_settings_field( 
+            'streetAddress', //id
+            __( 'Street Address', 'diy-marketer' ),  //address
+            array( &$this, 'render_input' ), //cb function
+            'diym-options', //page
+            'diym_business_info', //section
+            array(    //args
+                'label_for' => 'diym_business_info[streetAddress]',
+                'section' => 'diym_business_info',
+                'id' => 'streetAddress',
+            )
+        );
+
+        // register field: suburb.
+        add_settings_field( 
+            'subLocality', //id
+            __( 'Suburb', 'diy-marketer' ),  //address
+            array( &$this, 'render_input' ), //cb function
+            'diym-options', //page
+            'diym_business_info', //section
+            array(    //args
+                'label_for' => 'diym_business_info[subLocality]',
+                'section' => 'diym_business_info',
+                'id' => 'subLocality',
+            )
+        );
+
+        // register field: suburb.
+        add_settings_field( 
+            'addressLocality', //id
+            __( 'City', 'diy-marketer' ),  //address
+            array( &$this, 'render_input' ), //cb function
+            'diym-options', //page
+            'diym_business_info', //section
+            array(    //args
+                'label_for' => 'diym_business_info[addressLocality]',
+                'section' => 'diym_business_info',
+                'id' => 'addressLocality',
+            )
+        );
+
+        // register field: suburb.
+        add_settings_field( 
+            'addressRegion', //id
+            __( 'Region', 'diy-marketer' ),  //address
+            array( &$this, 'render_input' ), //cb function
+            'diym-options', //page
+            'diym_business_info', //section
+            array(    //args
+                'label_for' => 'diym_business_info[addressRegion]',
+                'section' => 'diym_business_info',
+                'id' => 'addressRegion',
+            )
+        );
+
+        // register field: suburb.
+        add_settings_field( 
+            'postalCode', //id
+            __( 'Postal code', 'diy-marketer' ),  //address
+            array( &$this, 'render_input' ), //cb function
+            'diym-options', //page
+            'diym_business_info', //section
+            array(    //args
+                'label_for' => 'diym_business_info[postalCode]',
+                'section' => 'diym_business_info',
+                'id' => 'postalCode',
+            )
+        );
+
+        // register section: business info.
+        add_settings_section(
+            'diym_hours', //id
+            __( 'Business Hours', 'diy-marketer' ), //title
+            array( &$this, 'render_void' ), //cb function
+            'diym-options' //page
+        );
+
+        // register field: street address.
+        add_settings_field( 
+            'mondayOpen', //id
+            __( 'Monday', 'diy-marketer' ),  //address
+            array( &$this, 'render_time' ), //cb function
+            'diym-options', //page
+            'diym_hours', //section
+            array(    //args
+                'label_for' => 'diym_hours[mondayOpen]',
+                'section' => 'diym_hours',
+                'id' => 'mondayOpen',
+            )
+        );
+
     }
 
     // render page
@@ -200,9 +328,11 @@ class DIYM_Options_Page {
         <?php
     }
 
+
+
     // render page
-    public function render_void() {
-        // return nothing
+    public function render_void( $args ) {
+
     }
 
     // render button
@@ -214,6 +344,13 @@ class DIYM_Options_Page {
         
         ?>
             <input id="sync_places" type='button' value="Synchronise Data" class="button button-secondary"<?php echo $is_disabled ?>>
+        <?php
+    }
+
+    // render input
+    public function render_time( $args ) {
+        ?>
+            <input type='time' id="<?php echo $args['section'] . '[' . $args['id'] . ']'; ?>" name="<?php echo $args['section'] . '[' . $args['id'] . ']'; ?>" value='<?php echo get_option( $args['section'] ) [ $args['id'] ] ; ?>' class=''>
         <?php
     }
 

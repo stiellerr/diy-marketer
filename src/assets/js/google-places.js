@@ -1,10 +1,68 @@
-/* global ajaxurl */
+/* global ajaxurl, _ */
 import $ from "jquery";
 
+// zzz
+function extractAddress(context) {
+    //
+    const fields = {
+        streetAddress: ["subpremise", "street_number", "route"],
+        subLocality: "sublocality",
+        addressLocality: "locality",
+        addressRegion: "administrative_area_level_1",
+        addressCountry: "country",
+        postalCode: "postal_code"
+    };
+
+    let data = {};
+
+    // initialise object with props (but not values)
+    _.each(_.keys(fields), prop => {
+        data[prop] = "";
+    });
+
+    _.each(fields, (values, key) => {
+        // convert string to array for loop
+        if (_.isString(values)) {
+            values = values.split();
+        }
+        _.each(values, val => {
+            _.each(context, element => {
+                if (_.contains(element.types, val)) {
+                    if (data[key]) {
+                        data[key] += (val == "street_number" ? "/" : " ") + element.long_name;
+                    } else {
+                        data[key] = element.long_name;
+                    }
+                }
+            });
+        });
+    });
+
+    // update values on options page
+    _.each(data, (value, key) => {
+        $("input[name='diym_business_info[" + key + "]']").val(value);
+    });
+}
+
 $(document).ready(() => {
+    // jquery date picker ui
+    //$(".datepicker").datetimepicker({ dateFormat: "yy-mm-dd hh:mm:ss" });
+
+    //
+    $("#diym_google_settings\\[place_id\\]").change(e => {
+        $(e.currentTarget).css("border", "3px solid red");
+
+        //console.log(e);
+        //.css( "border", "3px solid red" );
+        //alert("The text has been changed.");
+    });
+
     //
     $("#sync_places").click(evt => {
         // disable button
+
+        //extractAddress("zzz");
+
         $(evt.currentTarget).prop("disabled", true);
 
         let data = {
@@ -19,7 +77,7 @@ $(document).ready(() => {
             dataType: "JSON", // Set this so we don't need to decode the response...
             data,
             beforeSend: () => {
-                console.log("before send");
+                //console.log("before send");
                 $(".notice").remove();
 
                 //self.find(".button").prop("disabled", true);
@@ -28,8 +86,13 @@ $(document).ready(() => {
                 //self.find(".btn").prop("disabled", true);
             },
             success: response => {
-                console.log(response);
-                //
+                if (response.success == true) {
+                    if (response.data.status == "OK") {
+                        let place_data = response.data.result;
+                        extractAddress(place_data.address_components);
+                        //console.log(place_data.address_components);
+                    }
+                }
             },
             complete: r => {
                 // remove any alerts that exist...
