@@ -5,12 +5,20 @@ import $ from "jquery";
 function extractAddress(context) {
     //
     const fields = {
+        /*
         streetAddress: ["subpremise", "street_number", "route"],
         subLocality: "sublocality",
         addressLocality: "locality",
         addressRegion: "administrative_area_level_1",
         addressCountry: "country",
         postalCode: "postal_code"
+        */
+        street_address: ["subpremise", "street_number", "route"],
+        suburb: "sublocality",
+        city: "locality",
+        region: "administrative_area_level_1",
+        country: "country",
+        post_code: "postal_code"
     };
 
     let data = {};
@@ -40,13 +48,13 @@ function extractAddress(context) {
 
     // update values on options page
     _.each(data, (value, key) => {
-        $("input[name='diym_business_info[" + key + "]']").val(value);
+        $("input[name$='[" + key + "]']").val(value);
     });
 }
 
 $(document).ready(() => {
     // jquery date picker ui
-    $(".datetimepicker").timepicker({ timeFormat: "hh:mm tt", timeInput: true });
+    $(".timepicker").timepicker({ timeFormat: "hh:mm tt", timeInput: true });
 
     //
     $("#diym_google_settings\\[place_id\\]").change(e => {
@@ -86,6 +94,7 @@ $(document).ready(() => {
                 //self.find(".btn").prop("disabled", true);
             },
             success: response => {
+                console.log(response);
                 if (response.success == true) {
                     if (response.data.status == "OK") {
                         let place_data = response.data.result;

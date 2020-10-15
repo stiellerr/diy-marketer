@@ -32,14 +32,11 @@ class DIYM_Options_Page {
     }
 
 	public function enqueue() {
-        // css       
-		wp_enqueue_style( 'jquery-ui-core', get_template_directory_uri() . "/assets/css/jqueryui/jquery.ui.core.css", array(), '1.8.17' );
-		wp_enqueue_style( 'jquery-ui-theme', get_template_directory_uri() . "/assets/css/jqueryui/jquery.ui.theme.css", array(), '1.8.17' );
-        wp_enqueue_style( 'jquery-ui-datepicker', get_template_directory_uri() . "/assets/css/jqueryui/jquery.ui.datepicker.css", array( 'jquery-ui-core', 'jquery-ui-theme' ), '1.8.17' );
-        wp_enqueue_style( 'jquery-ui-slider', get_template_directory_uri() . "/assets/css/jqueryui/jquery.ui.slider.css", array( 'jquery-ui-core', 'jquery-ui-theme' ), '1.8.17' );
-		wp_enqueue_style( 'jquery-ui-timepicker', get_template_directory_uri() . "/assets/css/jqueryui/jquery-ui-timepicker-addon.min.css", array( 'jquery-ui-datepicker', 'jquery-ui-slider' ), '1.5.0' );       
+        // css
+        wp_enqueue_style( 'jquery-ui', get_template_directory_uri() . "/assets/css/jqueryui/jquery-ui.min.css", array(), '1.11.4' );
+        wp_enqueue_style( 'jquery-ui-timepicker', get_template_directory_uri() . "/assets/css/jqueryui/jquery-ui-timepicker-addon.min.css", array( 'jquery-ui' ), '1.6.3' );       
         //js
-        wp_enqueue_script( 'jquery-ui-timepicker', get_template_directory_uri() . '/assets/js/jqueryui/jquery-ui-timepicker-addon.min.js', array( 'jquery-ui-datepicker', 'jquery-ui-slider' ), '1.5.6', true );
+        wp_enqueue_script( 'jquery-ui-timepicker', get_template_directory_uri() . '/assets/js/jqueryui/jquery-ui-timepicker-addon.min.js', array( 'jquery-ui-datepicker', 'jquery-ui-slider' ), '1.6.3', true );
         //custom js
         wp_enqueue_script( 'diym-google-places', get_template_directory_uri() . '/assets/js/google-places.js', array( 'jquery', 'underscore' ), filemtime( get_template_directory() . '/assets/js/google-places.js'), true );
     }
@@ -50,8 +47,8 @@ class DIYM_Options_Page {
         check_admin_referer( "diym-options-options" );
 
 		// query db
-		$args = get_option(
-            'diym_google_settings',
+		$args = get_theme_mod(
+            'google',
 			array(
 				'place_id'	=> '',
 				'key'	=> ''
@@ -94,215 +91,221 @@ class DIYM_Options_Page {
 
     public function admin_init() {
 
-        // Register a new setting for "wporg" page.
-        register_setting( 'diym-options', 'diym_google_settings' );
-        register_setting( 'diym-options', 'diym_tag_manager' );
+        $theme = get_option( 'stylesheet' );
+        $theme_mod = "theme_mods_{$theme}";
+
+        register_setting( 'diym-options', "theme_mods_$theme" );
+
+        // will be redundant...
         register_setting( 'diym-options', 'diym_business_info' );
         register_setting( 'diym-options', 'diym_hours' );
-
-        //$theme = get_option( 'stylesheet' );
         
-        //write_log( $theme );
-
-        //update_option( "theme_mods_diy-marketer[test]", 'hello world!' );
-
-
-        //$zzz = get_option( "theme_mods_$theme" );
-
-        //write_log( $zzz );
-        
-        //update_option( "theme_mods_$theme", $mods );
-
-
-        // First, we register a section. This is necessary since all future options must belong to one.
         add_settings_section(
-            'diym_google_settings',         // ID used to identify this section and with which to register options
+            'google',
             __( 'Google Settings', 'diy-marketer' ),
             array( &$this, 'render_void' ),
-            'diym-options'               // Title to be displayed on the administration page
+            'diym-options'
         );
 
-        // Next, we will introduce the fields for toggling the visibility of content elements.
         add_settings_field( 
-            'place_id',    //id                  // ID used to identify the field throughout the theme
-            __( 'Place ID', 'diy-marketer' ),  //title                          // The label to the left of the option interface element
-            array( &$this, 'render_input' ), //cb
-            'diym-options', //page
-            'diym_google_settings', //settings section
-            array(    //args
-                'label_for' => 'diym_google_settings[places_id]',                          // The array of arguments to pass to the callback. In this case, just a description.
-                'section' => 'diym_google_settings',
-                'id' => 'place_id',                        // The array of arguments to pass to the callback. In this case, just a description.
+            'place_id',
+            __( 'Place ID', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'google',
+            array(
+                'label_for' => "{$theme_mod}[google][place_id]",
+                'theme_mod' => $theme_mod,
+                'section' => 'google',
+                'id' => 'place_id',
             )
         );
 
         add_settings_field( 
-            'key',    //id                  // ID used to identify the field throughout the theme
-            __( 'API Key', 'diy-marketer' ),  //title                          // The label to the left of the option interface element
-            array( &$this, 'render_input' ), //cb
-            'diym-options', //page
-            'diym_google_settings', //settings section
-            array(    //args
-                'label_for' => 'diym_google_settings[key]',                          // The array of arguments to pass to the callback. In this case, just a description.
-                'section' => 'diym_google_settings',
-                'id' => 'key',                        // The array of arguments to pass to the callback. In this case, just a description.
+            'key',
+            __( 'API Key', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'google',
+            array(
+                'label_for' => "{$theme_mod}[google][key]",
+                'theme_mod' => $theme_mod,
+                'section' => 'google',
+                'id' => 'key'
+            )
+        );
+        
+        add_settings_field( 
+            'button',
+            __( '&nbsp;', 'diy-marketer' ),
+            array( &$this, 'render_button' ),
+            'diym-options',
+            'google',
+            // pass google value & set defaults if required.
+            get_theme_mod( 'google',
+                array(
+                    'place_id' => '',
+                    'key' => ''
+                )
             )
         );
 
-        add_settings_field( 
-            'btn',    //id                  // ID used to identify the field throughout the theme
-            __( '&nbsp;', 'diy-marketer' ),  //title                          // The label to the left of the option interface element
-            array( &$this, 'render_button' ), //cb
-            'diym-options', //page
-            'diym_google_settings', //settings section
-            array()
-        );
-
-        // First, we register a section. This is necessary since all future options must belong to one.
         add_settings_section(
-            'diym_tag_manager',         // ID used to identify this section and with which to register options
+            'tag_manager',
             __( 'Google Tag Manager', 'diy-marketer' ),
             array( &$this, 'render_void' ),
-            'diym-options'               // Title to be displayed on the administration page
+            'diym-options'
         );
 
         add_settings_field( 
-            'head_code',    //id                  // ID used to identify the field throughout the theme
-            __( 'Head Code', 'diy-marketer' ),  //title                          // The label to the left of the option interface element
-            array( &$this, 'render_textarea' ), //cb
-            'diym-options', //page
-            'diym_tag_manager', //settings section
-            array(    //args
-                'label_for' => 'diym_tag_manager[head_code]',                          // The array of arguments to pass to the callback. In this case, just a description.
-                'section' => 'diym_tag_manager',
-                'id' => 'head_code',
+            'head_code',
+            __( 'Head Code', 'diy-marketer' ),
+            array( &$this, 'render_textarea' ),
+            'diym-options',
+            'tag_manager',
+            array(
+                'label_for' => "{$theme_mod}[tag_manager][body_code]",
+                'theme_mod' => $theme_mod,
+                'section' => 'tag_manager',
+                'id' => 'head_code'
             )
         );
 
         add_settings_field( 
-            'body_code',    //id                  // ID used to identify the field throughout the theme
-            __( 'Body Code', 'diy-marketer' ),  //title                          // The label to the left of the option interface element
-            array( &$this, 'render_textarea' ), //cb
-            'diym-options', //page
-            'diym_tag_manager', //settings section
-            array(    //args
-                'label_for' => 'diym_tag_manager[body_code]',                          // The array of arguments to pass to the callback. In this case, just a description.
-                'section' => 'diym_tag_manager',
-                'id' => 'body_code',
+            'body_code',
+            __( 'Body Code', 'diy-marketer' ),
+            array( &$this, 'render_textarea' ),
+            'diym-options',
+            'tag_manager',
+            array(
+                'label_for' => "{$theme_mod}[tag_manager][body_code]",
+                'theme_mod' => $theme_mod,
+                'section' => 'tag_manager',
+                'id' => 'body_code'
             )
         );
 
-        // register section: business info.
         add_settings_section(
-            'diym_business_info', //id
-            __( 'Business Information', 'diy-marketer' ), //title
-            array( &$this, 'render_void' ), //cb function
-            'diym-options' //page
+            'address',
+            __( 'Business Address', 'diy-marketer' ),
+            array( &$this, 'render_void' ),
+            'diym-options'
         );
 
-        // register field: street address.
         add_settings_field( 
-            'addressCountry', //id
-            __( 'Country', 'diy-marketer' ),  //address
-            array( &$this, 'render_input' ), //cb function
-            'diym-options', //page
-            'diym_business_info', //section
-            array(    //args
-                'label_for' => 'diym_business_info[addressCountry]',
-                'section' => 'diym_business_info',
-                'id' => 'addressCountry',
+            'country', //id
+            __( 'Country', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'address',
+            array(
+                'label_for' => "{$theme_mod}[address][country]",
+                'theme_mod' => $theme_mod,
+                'section' => 'address',
+                'id' => 'country'
             )
         );
 
-        // register field: street address.
         add_settings_field( 
-            'streetAddress', //id
-            __( 'Street Address', 'diy-marketer' ),  //address
-            array( &$this, 'render_input' ), //cb function
-            'diym-options', //page
-            'diym_business_info', //section
-            array(    //args
-                'label_for' => 'diym_business_info[streetAddress]',
-                'section' => 'diym_business_info',
-                'id' => 'streetAddress',
+            'street_address',
+            __( 'Street Address', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'address',
+            array(
+                'label_for' => "{$theme_mod}[address][street_address]",
+                'theme_mod' => $theme_mod,
+                'section' => 'address',
+                'id' => 'street_address'
             )
         );
 
-        // register field: suburb.
         add_settings_field( 
-            'subLocality', //id
-            __( 'Suburb', 'diy-marketer' ),  //address
-            array( &$this, 'render_input' ), //cb function
-            'diym-options', //page
-            'diym_business_info', //section
-            array(    //args
-                'label_for' => 'diym_business_info[subLocality]',
-                'section' => 'diym_business_info',
-                'id' => 'subLocality',
+            'suburb',
+            __( 'Suburb', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'address',
+            array(
+                'label_for' => "{$theme_mod}[address][suburb]",
+                'theme_mod' => $theme_mod,
+                'section' => 'address',
+                'id' => 'suburb'
             )
         );
 
-        // register field: suburb.
         add_settings_field( 
-            'addressLocality', //id
-            __( 'City', 'diy-marketer' ),  //address
-            array( &$this, 'render_input' ), //cb function
-            'diym-options', //page
-            'diym_business_info', //section
-            array(    //args
-                'label_for' => 'diym_business_info[addressLocality]',
-                'section' => 'diym_business_info',
-                'id' => 'addressLocality',
+            'city',
+            __( 'City', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'address',
+            array(
+                'label_for' => "{$theme_mod}[address][city]",
+                'theme_mod' => $theme_mod,
+                'section' => 'address',
+                'id' => 'city'
             )
         );
 
-        // register field: suburb.
         add_settings_field( 
-            'addressRegion', //id
-            __( 'Region', 'diy-marketer' ),  //address
-            array( &$this, 'render_input' ), //cb function
-            'diym-options', //page
-            'diym_business_info', //section
-            array(    //args
-                'label_for' => 'diym_business_info[addressRegion]',
-                'section' => 'diym_business_info',
-                'id' => 'addressRegion',
+            'region',
+            __( 'Region', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'address',
+            array(
+                'label_for' => "{$theme_mod}[address][region]",
+                'theme_mod' => $theme_mod,
+                'section' => 'address',
+                'id' => 'region'
             )
         );
 
-        // register field: suburb.
         add_settings_field( 
-            'postalCode', //id
-            __( 'Postal code', 'diy-marketer' ),  //address
-            array( &$this, 'render_input' ), //cb function
-            'diym-options', //page
-            'diym_business_info', //section
-            array(    //args
-                'label_for' => 'diym_business_info[postalCode]',
-                'section' => 'diym_business_info',
-                'id' => 'postalCode',
+            'post_code',
+            __( 'Postal code', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'address',
+            array(
+                'label_for' => "{$theme_mod}[address][post_code]",
+                'theme_mod' => $theme_mod,
+                'section' => 'address',
+                'id' => 'post_code'
             )
         );
 
-        // register section: business info.
         add_settings_section(
-            'diym_hours', //id
-            __( 'Business Hours', 'diy-marketer' ), //title
-            array( &$this, 'render_void' ), //cb function
-            'diym-options' //page
+            'hours',
+            __( 'Business hours', 'diy-marketer' ),
+            array( &$this, 'render_void' ),
+            'diym-options'
         );
 
-        // register field: street address.
         add_settings_field( 
-            'mondayOpen', //id
-            __( 'Monday', 'diy-marketer' ),  //address
-            array( &$this, 'render_time' ), //cb function
-            'diym-options', //page
-            'diym_hours', //section
-            array(    //args
-                'label_for' => 'diym_hours[mondayOpen]',
-                'section' => 'diym_hours',
-                'id' => 'mondayOpen',
+            'monday',
+            __( 'Monday', 'diy-marketer' ),
+            array( &$this, 'render_hours' ),
+            'diym-options',
+            'hours',
+            array(
+                'theme_mod' => $theme_mod,
+                'section' => "hours",
+                'id' => 'monday'
+            )
+        );
+
+        add_settings_field( 
+            'tuesday',
+            __( 'Tuesday', 'diy-marketer' ),
+            array( &$this, 'render_hours' ),
+            'diym-options',
+            'hours',
+            array(
+                'theme_mod' => $theme_mod,
+                'section' => "hours",
+                'id' => 'tuesday'
             )
         );
 
@@ -336,42 +339,66 @@ class DIYM_Options_Page {
     }
 
 
+    // render input
+    public function render_hours( $args ) {
+        // extract tags from array
+        extract( $args );
 
-    // render page
+        // build prefix
+        $prefix = "{$theme_mod}[{$section}][{$id}";
+
+        ?>
+           <fieldset>
+                <label for="<? echo "{$prefix}_open]"; ?>">Open</label>
+                <input type="text" id="<?php echo "{$prefix}_open]"; ?>" name="<?php echo "{$prefix}_open]"; ?>" value="<?php echo get_theme_mod($section)["{$id}_open"]; ?>" class="timepicker small-text">
+                <br>
+                <label for="<? echo "{$prefix}_close]"; ?>">Close</label>
+                <input type="text" id="<?php echo "{$prefix}_close]"; ?>" name="<?php echo "{$prefix}_close]"; ?>" value="<?php echo get_theme_mod($section)["{$id}_close"]; ?>" class="timepicker small-text">
+            </fieldset>
+        <?php
+    }
+
+    // render input
     public function render_void( $args ) {
 
     }
 
     // render button
-    public function render_button() {
+    public function render_button( $args ) {
 
-        $google_settings = get_option( 'diym_google_settings' );
-
-        $is_disabled = ( empty( $google_settings[ 'key' ] ) || empty( $google_settings[ 'place_id' ] ) ) ? ' disabled' : '';
+        // extract tags from array
+        extract( $args );
         
         ?>
-            <input id="sync_places" type='button' value="Synchronise Data" class="button button-secondary"<?php echo $is_disabled ?>>
-        <?php
-    }
-
-    // render input
-    public function render_time( $args ) {
-        ?>
-            <input type='text' id="<?php echo $args['section'] . '[' . $args['id'] . ']'; ?>" name="<?php echo $args['section'] . '[' . $args['id'] . ']'; ?>" value='<?php echo get_option( $args['section'] ) [ $args['id'] ] ; ?>' class='datetimepicker'>
+            <input id="sync_places" type='button' value="Synchronise Data" class="button button-secondary"<?php echo empty( $place_id ) || empty( $key ) ? ' disabled' : '' ?>>
         <?php
     }
 
     // render input
     public function render_input( $args ) {
+
+        // extract tags from array
+        extract( $args );
+
+        // build tag
+        $tag = "{$theme_mod}[{$section}][{$id}]";
+
         ?>
-            <input type='text' id="<?php echo $args['section'] . '[' . $args['id'] . ']'; ?>" name="<?php echo $args['section'] . '[' . $args['id'] . ']'; ?>" value='<?php echo get_option( $args['section'] ) [ $args['id'] ] ; ?>' class='regular-text'>
+            <input type="text" id="<?php echo $tag; ?>" name="<?php echo $tag; ?>" value="<?php echo get_theme_mod($section)[$id]; ?>" class="regular-text">
         <?php
     }
 
     // render textarea
     public function render_textarea( $args ) {
+
+        // extract tags from array
+        extract( $args );
+
+        // build tag
+        $tag = "{$theme_mod}[{$section}][{$id}]";
+
         ?>
-            <textarea id="<?php echo $args['section'] . '[' . $args['id'] . ']'; ?>" name="<?php echo $args['section'] . '[' . $args['id'] . ']'; ?>"  class="large-text code" rows="3"><?php echo get_option( $args['section'] ) [ $args['id'] ] ; ?></textarea>
+            <textarea id="<?php echo $tag; ?>" name="<?php echo $tag; ?>"  class="large-text code" rows="3"><?php echo get_theme_mod( $section ) [ $id ]; ?></textarea>
         <?php
     }
 

@@ -74,7 +74,8 @@ const paths = {
     other: {
         src: [
             //"src/assets/**/*",
-            "src/assets/lib/**/*"
+            "src/assets/lib/{js,css}/**/*min*",
+            "src/assets/lib/{img,!js,!css}/**/*"
             //"!src/assets/{images,js,scss,php,blocks}",
             //"!src/assets/{images,js,scss,php,blocks}/**/*"
         ],
