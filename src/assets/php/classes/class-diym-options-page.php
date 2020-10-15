@@ -95,10 +95,6 @@ class DIYM_Options_Page {
         $theme_mod = "theme_mods_{$theme}";
 
         register_setting( 'diym-options', "theme_mods_$theme" );
-
-        // will be redundant...
-        register_setting( 'diym-options', 'diym_business_info' );
-        register_setting( 'diym-options', 'diym_hours' );
         
         add_settings_section(
             'google',
@@ -306,6 +302,19 @@ class DIYM_Options_Page {
                 'theme_mod' => $theme_mod,
                 'section' => "hours",
                 'id' => 'tuesday'
+            )
+        );
+
+        add_settings_field( 
+            'wednesday',
+            __( 'Wednesday', 'diy-marketer' ),
+            array( &$this, 'render_hours' ),
+            'diym-options',
+            'hours',
+            array(
+                'theme_mod' => $theme_mod,
+                'section' => "hours",
+                'id' => 'wednesday'
             )
         );
 

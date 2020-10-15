@@ -33,11 +33,14 @@ class DIYM_Contact_Details_Widget extends WP_Widget {
         </p>
         <p>
 			<?php
+                /*
                 if ( $wp_customize instanceof WP_Customize_Manager ) {
                     $url = 'javascript: wp.customize.section( "contact_details" ).focus();' ;
                 } else {
                     $url = admin_url( 'customize.php' );
                 }
+                */
+                $url = admin_url( 'options-general.php?page=diym-options#sync_places' );
 
 			/* translators: %s: URL to create a new menu. */
             printf( __( 'Edit your contact details. <a href="%s">here</a>.' ), esc_attr( $url ) );

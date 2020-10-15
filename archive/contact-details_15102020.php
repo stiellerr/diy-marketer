@@ -16,10 +16,7 @@ $diym_city          = get_theme_mod( 'diym_city' );
 $diym_postal_code   = get_theme_mod( 'diym_postalCode' );
 
 //temp
-$diym_address       = get_theme_mod( 'address' );
-
-write_log( $diym_address );
-
+$diym_address       = get_theme_mod( 'diym_postalCode' );
 
 //
 $diym_phone_number  = get_theme_mod( 'diym_phoneNumber' );
@@ -27,8 +24,7 @@ $diym_email         = get_bloginfo( 'admin_email' );
 $diym_url           = get_bloginfo( 'url' );
 
 // build address string...
-//$temp  = $diym_street_address;
-$temp  = $diym_address['street_address'];
+$temp  = $diym_street_address;
 
 $temp .= $temp && $diym_suburb ? '<br>' : '';
 $temp .= $diym_suburb;
