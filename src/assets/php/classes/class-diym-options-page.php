@@ -318,6 +318,58 @@ class DIYM_Options_Page {
             )
         );
 
+        add_settings_field( 
+            'thursday',
+            __( 'Thursday', 'diy-marketer' ),
+            array( &$this, 'render_hours' ),
+            'diym-options',
+            'hours',
+            array(
+                'theme_mod' => $theme_mod,
+                'section' => "hours",
+                'id' => 'thursday'
+            )
+        );
+
+        add_settings_field( 
+            'friday',
+            __( 'Friday', 'diy-marketer' ),
+            array( &$this, 'render_hours' ),
+            'diym-options',
+            'hours',
+            array(
+                'theme_mod' => $theme_mod,
+                'section' => "hours",
+                'id' => 'friday'
+            )
+        );
+
+        add_settings_field( 
+            'saturday',
+            __( 'Saturday', 'diy-marketer' ),
+            array( &$this, 'render_hours' ),
+            'diym-options',
+            'hours',
+            array(
+                'theme_mod' => $theme_mod,
+                'section' => "hours",
+                'id' => 'saturday'
+            )
+        );
+
+        add_settings_field( 
+            'sunday',
+            __( 'Sunday', 'diy-marketer' ),
+            array( &$this, 'render_hours' ),
+            'diym-options',
+            'hours',
+            array(
+                'theme_mod' => $theme_mod,
+                'section' => "hours",
+                'id' => 'sunday'
+            )
+        );
+
     }
 
     // render page

@@ -86,6 +86,7 @@
         "jquery-ui-timepicker-addon": "^1.6.3",
         "locutus": "^2.0.11",
         "lodash": "^4.17.20",
+        "moment": "^2.29.1",
         "popper.js": "^1.16.1",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",

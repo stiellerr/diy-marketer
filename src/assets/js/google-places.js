@@ -1,7 +1,39 @@
 /* global ajaxurl, _ */
 import $ from "jquery";
+//import Moment from "../../../node_modules/moment";
 
-// zzz
+// parse hours
+function parseHours(context) {
+    // init hours.
+    var hours = [
+        { day: "sunday" },
+        { day: "monday" },
+        { day: "tuesday" },
+        { day: "wednesday" },
+        { day: "thursday" },
+        { day: "friday" },
+        { day: "saturday" }
+    ];
+
+    hours.forEach(day => {
+        day.open = "";
+        day.close = "";
+    });
+
+    // build array
+    let pattern = /^(\d{2})(\d{2})$/;
+
+    context.forEach(e => {
+        hours[e.open.day].open = pattern.test(e.open.time) ? RegExp.$1 + ":" + RegExp.$2 : "";
+        hours[e.open.day].close = pattern.test(e.close.time) ? RegExp.$1 + ":" + RegExp.$2 : "";
+    });
+
+    hours.forEach(e => {
+        $("input[name$='[" + e.day + "_open]']").val(e.open);
+        $("input[name$='[" + e.day + "_close]']").val(e.close);
+    });
+}
+
 function extractAddress(context) {
     //
     const fields = {
@@ -54,7 +86,7 @@ function extractAddress(context) {
 
 $(document).ready(() => {
     // jquery date picker ui
-    $(".timepicker").timepicker({ timeFormat: "hh:mm tt", timeInput: true });
+    $(".timepicker").timepicker({ timeFormat: "HHmm", timeInput: true });
 
     //
     $("#diym_google_settings\\[place_id\\]").change(e => {
@@ -98,7 +130,10 @@ $(document).ready(() => {
                 if (response.success == true) {
                     if (response.data.status == "OK") {
                         let place_data = response.data.result;
+                        //console.log(place_data);
+
                         extractAddress(place_data.address_components);
+                        parseHours(place_data.opening_hours.periods);
                         //console.log(place_data.address_components);
                     }
                 }
