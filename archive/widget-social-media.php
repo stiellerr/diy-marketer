@@ -40,6 +40,8 @@ class DIYM_Social_Media_Widget extends WP_Widget {
 
     public function form( $instance ) {
 
+        global $wp_customize;
+
         $title = isset( $instance['title'] ) ? $instance['title'] : esc_html__('Social Media', 'diy-marketer');
 
         ?>
@@ -49,10 +51,14 @@ class DIYM_Social_Media_Widget extends WP_Widget {
         </p>
         <p>
 			<?php
-                $url = admin_url( 'options-general.php?page=diym-options' );
+                if ( $wp_customize instanceof WP_Customize_Manager ) {
+                    $url = 'javascript: wp.customize.section( "social_media" ).focus();' ;
+                } else {
+                    $url = admin_url( 'customize.php' );
+                }
 
-                /* translators: %s: URL to create a new menu. */
-                printf( __( 'Edit your social media. <a href="%s">here</a>.' ), esc_attr( $url ) );
+			/* translators: %s: URL to create a new menu. */
+            printf( __( 'Edit your social media. <a href="%s">here</a>.' ), esc_attr( $url ) );
 			?>
         </p>
         <?php

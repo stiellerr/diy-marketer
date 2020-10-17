@@ -3,6 +3,12 @@ import $ from "jquery";
 //import Moment from "../../../node_modules/moment";
 
 // parse hours
+function parseGeometry(context) {
+    $("input[name$='[lat]']").val(context.location.lat);
+    $("input[name$='[lng]']").val(context.location.lng);
+}
+
+// parse hours
 function parseHours(context) {
     // init hours.
     var hours = [
@@ -16,8 +22,8 @@ function parseHours(context) {
     ];
 
     hours.forEach(day => {
-        day.open = "";
-        day.close = "";
+        day.open = "00:00";
+        day.close = "00:00";
     });
 
     // build array
@@ -25,7 +31,12 @@ function parseHours(context) {
 
     context.forEach(e => {
         hours[e.open.day].open = pattern.test(e.open.time) ? RegExp.$1 + ":" + RegExp.$2 : "";
-        hours[e.open.day].close = pattern.test(e.close.time) ? RegExp.$1 + ":" + RegExp.$2 : "";
+
+        if (e.open.time == e.close.time) {
+            hours[e.open.day].close = "23:59";
+        } else {
+            hours[e.open.day].close = pattern.test(e.close.time) ? RegExp.$1 + ":" + RegExp.$2 : "";
+        }
     });
 
     hours.forEach(e => {
@@ -86,7 +97,7 @@ function extractAddress(context) {
 
 $(document).ready(() => {
     // jquery date picker ui
-    $(".timepicker").timepicker({ timeFormat: "HHmm", timeInput: true });
+    $(".timepicker").timepicker({ timeFormat: "HH:mm", timeInput: true });
 
     //
     $("#diym_google_settings\\[place_id\\]").change(e => {
@@ -134,6 +145,10 @@ $(document).ready(() => {
 
                         extractAddress(place_data.address_components);
                         parseHours(place_data.opening_hours.periods);
+                        parseGeometry(place_data.geometry);
+
+                        $("input[name$='[url]']").val(place_data.url);
+                        $("input[name$='[phone]']").val(place_data.formatted_phone_number);
                         //console.log(place_data.address_components);
                     }
                 }

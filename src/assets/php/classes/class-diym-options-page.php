@@ -94,7 +94,13 @@ class DIYM_Options_Page {
         $theme = get_option( 'stylesheet' );
         $theme_mod = "theme_mods_{$theme}";
 
-        register_setting( 'diym-options', "theme_mods_$theme" );
+        register_setting(
+            'diym-options',
+            "theme_mods_$theme",
+            array(
+                'sanitize_callback' => array( &$this, 'sanitize_settings' )
+            )
+        );
         
         add_settings_section(
             'google',
@@ -186,6 +192,20 @@ class DIYM_Options_Page {
             __( 'Business Address', 'diy-marketer' ),
             array( &$this, 'render_void' ),
             'diym-options'
+        );
+
+        add_settings_field( 
+            'phone', //id
+            __( 'Phone number', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'address',
+            array(
+                'label_for' => "{$theme_mod}[address][phone]",
+                'theme_mod' => $theme_mod,
+                'section' => 'address',
+                'id' => 'phone'
+            )
         );
 
         add_settings_field( 
@@ -370,6 +390,119 @@ class DIYM_Options_Page {
             )
         );
 
+        // map section
+        add_settings_section(
+            'map',
+            __( 'Google Map settings', 'diy-marketer' ),
+            array( &$this, 'render_void' ),
+            'diym-options'
+        );
+
+        add_settings_field( 
+            'lat',
+            __( 'Latitude', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'map',
+            array(
+                'label_for' => "{$theme_mod}[map][lat]",
+                'theme_mod' => $theme_mod,
+                'section' => 'map',
+                'id' => 'lat',
+            )
+        );
+
+        add_settings_field( 
+            'lng',
+            __( 'Longitude', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'map',
+            array(
+                'label_for' => "{$theme_mod}[map][lng]",
+                'theme_mod' => $theme_mod,
+                'section' => 'map',
+                'id' => 'lng'
+            )
+        );
+
+        add_settings_field( 
+            'url',
+            __( 'Map url', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'map',
+            array(
+                'label_for' => "{$theme_mod}[map][url]",
+                'theme_mod' => $theme_mod,
+                'section' => 'map',
+                'id' => 'url'
+            )
+        );
+
+        add_settings_section(
+            'socials',
+            __( 'Social media', 'diy-marketer' ),
+            array( &$this, 'render_void' ),
+            'diym-options'
+        );
+
+        add_settings_field( 
+            'facebook',
+            __( 'Facebook', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'socials',
+            array(
+                'label_for' => "{$theme_mod}[socials][facebook]",
+                'theme_mod' => $theme_mod,
+                'section' => 'socials',
+                'id' => 'facebook'
+            )
+        );
+
+        add_settings_field( 
+            'instagram',
+            __( 'Instagram', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'socials',
+            array(
+                'label_for' => "{$theme_mod}[socials][instagram]",
+                'theme_mod' => $theme_mod,
+                'section' => 'socials',
+                'id' => 'instagram'
+            )
+        );
+
+        add_settings_field( 
+            'youtube',
+            __( 'Youtube', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'socials',
+            array(
+                'label_for' => "{$theme_mod}[socials][youtube]",
+                'theme_mod' => $theme_mod,
+                'section' => 'socials',
+                'id' => 'youtube'
+            )
+        );
+
+        add_settings_field( 
+            'twitter',
+            __( 'Twitter', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'socials',
+            array(
+                'label_for' => "{$theme_mod}[socials][twitter]",
+                'theme_mod' => $theme_mod,
+                'section' => 'socials',
+                'id' => 'twitter'
+            )
+        );
+
     }
 
     // render page
@@ -461,6 +594,64 @@ class DIYM_Options_Page {
         ?>
             <textarea id="<?php echo $tag; ?>" name="<?php echo $tag; ?>"  class="large-text code" rows="3"><?php echo get_theme_mod( $section ) [ $id ]; ?></textarea>
         <?php
+    }
+
+    public function sanitize_settings( $data ) {
+
+        // sanitize time...
+        foreach ( $data['hours'] as $key => $value) {
+            $data[ 'hours' ][ $key ] = sanitize_event_time( $value );
+        }
+
+        // sanitize socials...
+        foreach ( $data['socials'] as $key => $value) {
+            $data[ 'socials' ][ $key ] = esc_url_raw( $value );
+
+            //esc_url_raw( 
+            //write_log( $key );
+            //write_log( $value );
+            //$data[ 'socials' ][ $key ] = sanitize_event_time( $value );
+        }
+
+        return $data;
+    }
+
+    /**
+     * Sanitizes date time input
+     * https://www.lehelmatyus.com/1416/sanitize-date-time-value-in-wordpress
+     * 
+     * @return String
+     */
+    function sanitize_event_time($event_time) {
+
+        // General sanitization, to get rid of malicious scripts or characters
+        $event_time = sanitize_text_field($event_time);
+        $event_time = filter_var($event_time, FILTER_SANITIZE_STRING);
+    
+        // Validation to see if it is the right format
+        if (_my_validate_date($event_time)){
+            return $event_time;
+        }
+    
+        // default value, to return if checks have failed
+        return "00:00";
+    }
+    
+    /**
+     * Validates that a date string is in the right format
+     * default format is 'H:i' to test for time only in this format '24:00'
+     * but you can pass a new format to test against other formats
+     * other formats here https://www.lehelmatyus.com/1003/android-change-date-format-from-utc-to-local-time
+     * 
+     * @return bool
+     */
+    
+    function _my_validate_date($date, $format = 'H:i') {
+        // Create the format date
+        $d = DateTime::createFromFormat($format, $date);
+    
+        // Return the comparison    
+        return $d && $d->format($format) === $date;
     }
 
 }

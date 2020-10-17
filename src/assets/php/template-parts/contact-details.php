@@ -10,15 +10,15 @@
 $diym_name          = get_bloginfo( 'name' );
         
 // get theme mods.
-$diym_street_address= get_theme_mod( 'diym_streetAddress' );
-$diym_suburb        = get_theme_mod( 'diym_suburb' );
-$diym_city          = get_theme_mod( 'diym_city' );
-$diym_postal_code   = get_theme_mod( 'diym_postalCode' );
+//$diym_street_address= get_theme_mod( 'diym_streetAddress' );
+//$diym_suburb        = get_theme_mod( 'diym_suburb' );
+//$diym_city          = get_theme_mod( 'diym_city' );
+//$diym_postal_code   = get_theme_mod( 'diym_postalCode' );
 
 //temp
-$diym_address       = get_theme_mod( 'address' );
+$address       = get_theme_mod( 'address' );
 
-write_log( $diym_address );
+//write_log( $diym_address );
 
 
 //
@@ -28,6 +28,7 @@ $diym_url           = get_bloginfo( 'url' );
 
 // build address string...
 //$temp  = $diym_street_address;
+/*
 $temp  = $diym_address['street_address'];
 
 $temp .= $temp && $diym_suburb ? '<br>' : '';
@@ -35,6 +36,23 @@ $temp .= $diym_suburb;
 
 $temp .= $temp && ( $diym_city || $diym_postal_code ) ? '<br>' : '';
 $temp .= $diym_city ? $diym_postal_code ? $diym_city . ', ' . $diym_postal_code : $diym_city : $diym_postal_code;
+*/
+
+// extract address args
+if ( !empty( $address ) ) {
+    
+    extract( $address );
+
+    // build address html string...
+    $temp = $street_address;
+
+    $temp .= $temp && $suburb ? '<br>' : '';
+    $temp .= $suburb;
+
+    $temp .= $temp && ( $city || $postal_code ) ? '<br>' : '';
+    $temp .= $city ? $post_code ? $city . ', ' . $post_code : $city : $post_code;
+}
+
 
 ?>
 <table class="contact-details">

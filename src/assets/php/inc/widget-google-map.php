@@ -14,15 +14,13 @@ class DIYM_Google_Map_Widget extends WP_Widget {
             'diym_google_map',
             esc_html__('Google Map', 'diy-marketer'),
             array(
-                'description' => esc_html__("Embeds a google map to your website", 'diy-marketer'),
+                'description' => esc_html__("Adds a google static map to your website.", 'diy-marketer'),
                 'customize_selective_refresh' => true
             )
         );
     }
 
     public function widget($args, $instance) {
-
-        $diym_google_map = get_theme_mod( 'diym_googleMap', '' );
 
         $title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__('Google Map', 'diy-marketer');
 
@@ -34,23 +32,46 @@ class DIYM_Google_Map_Widget extends WP_Widget {
         if ( $title ) {
             echo $args['before_title'] . $title . $args['after_title'];
         }
-        //echo $diym_google_map;
-        ?>
-        <!--
-            <iframe id="diym-gmap" frameborder="0" style="border:0" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-    -->
-        
-        <?php
 
+        $map = get_theme_mod( 'map', null );
+
+        if ( !empty( $map ) ) {
+            extract( $map );
+            if ( !empty( $lat ) && !empty( $lng ) ) {
+                //
+                $key = get_theme_mod('google')['key'];
+                if ( !empty( $key ) ) {
+                    //
+                    $params = array(
+                        'zoom'  => 10,
+                        'format'=> 'jpg',
+                        'size'  => '208x180'
+                    );
+                    $params['center']   = $lat . "," . $lng;
+                    $params['markers']  = $params['center'];
+                    $params['key']      = $key;
+
+                    // build image src url
+                    $request = add_query_arg(
+                        $params,
+                        'https://maps.googleapis.com/maps/api/staticmap'
+                    );
+
+                    ?>
+                        <a href="<?php echo $url; ?>" target="_blank">
+                            <img class="border" src="<?php echo $request; ?>" alt="google map">
+                        </a>
+                    <?php
+                }
+            }
+        }
+        //
         echo $args['after_widget'];
     }
 
     public function form( $instance ) {
 
-        //global $wp_customize;
-
         $title = isset( $instance['title'] ) ? $instance['title'] : esc_html__('Google Map', 'diy-marketer');
-
         ?>
         <p>
             <label for="<?php echo $this->get_field_id('title') ?>"><?php esc_html_e('Title:', 'diy-marketer'); ?></label>
@@ -58,23 +79,10 @@ class DIYM_Google_Map_Widget extends WP_Widget {
         </p>
         <p>
 			<?php
-                /*
-                if ( $wp_customize instanceof WP_Customize_Manager ) {
-                    $url = 'javascript: wp.customize.section( "diym_social" ).focus();' ;
-                } else {
-                    $url = admin_url( 'customize.php' );
-                }
+                $url = admin_url( 'options-general.php?page=diym-options' );
                 
-                */
-                if ( is_customize_preview() ) {
-                    $url = 'javascript: wp.customize.section( "contact_details" ).focus();' ;
-                } else {
-                    $url = admin_url( 'customize.php' );
-                }
-                
-
-			/* translators: %s: URL to create a new menu. */
-            printf( __( 'Edit your google map details. <a href="%s">here</a>.' ), esc_attr( $url ) );
+                /* translators: %s: URL to create a new menu. */
+                printf( __( 'Edit your google map details. <a href="%s">here</a>.' ), esc_attr( $url ) );
 			?>
         </p>
         <?php
@@ -83,6 +91,7 @@ class DIYM_Google_Map_Widget extends WP_Widget {
     public function update($new_instance, $old_instance) {
         $instance = array();
         $instance['title'] =  sanitize_text_field($new_instance['title']);
+
         return $instance;
     }
 }
