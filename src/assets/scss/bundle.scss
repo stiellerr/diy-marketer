@@ -1,6 +1,6 @@
 //@import "./components/header.scss";
-@import "../../../node_modules/@fortawesome/fontawesome-free/css/all.css";
-@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
+//@import "../../../node_modules/@fortawesome/fontawesome-free/css/all.css";
+//@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
 
 /*--------------------------------------------------------------
 >>> TABLE OF CONTENTS:
@@ -137,39 +137,21 @@ aside > .widget_diym_contact_form {
         padding-left: 0.3rem;
     }
 }
-/*
-.dashicons {
-    transition: initial;
-}
-*/
+
 .site-socials {
     display: inline-block;
     a i {
-        text-align: center;
+        margin-left: 0.35rem;
     }
-    /*
-    li::not(:last-child) {
-        margin-right: 0.5rem;
-    }
-    */
-
-    //display: inline-block;
-    /*
-    li:not(.facebook):not(:last-child) {
-        margin-right: 0.1rem;
-    }
-    .dashicons {
-        line-height: 24px;
-    }
-    */
 }
 
 .widget_diym_social_media .site-socials {
     a {
         display: block;
         i {
-            //text-align: center;
-            width: 1.25rem;
+            text-align: center;
+            width: 1.6rem;
+            margin-left: 0;
         }
     }
     //display: block;

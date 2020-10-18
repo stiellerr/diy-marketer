@@ -34,25 +34,21 @@
 			<div class="col-md-auto text-center align-self-center">
 				<?php
 					// unsure what the display argument does exactly, further investigation required.
-					$blog_description = get_bloginfo( 'description', 'display' );
-
-					if ( $blog_description || is_customize_preview() ) :
+					$diym_description = get_bloginfo( 'description', 'display' );
+					if ( $diym_description || is_customize_preview() ) :
 						?>
-						<span class="blog-description"><?php echo $blog_description; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+						<span class="blog-description"><?php echo $diym_description; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 					<?php endif; ?>
 			</div>
 			<div class="col-md text-center text-md-right">
 				<?php
-					$details  = get_theme_mod( 'details', null );
-
-					if ( $details ) {
-						$phone = $details[ 'phone' ] ? $details[ 'phone' ] : null;
-						if ( $phone ) {
-							echo "Call Now. <a class='font-weight-bold phone-number text-nowrap' href='tel:{$phone}'>{$phone}</a>";
-						}
-					}
-					get_template_part( 'template-parts/socials' );
-				?>
+					$diym_phoneNumber  = get_theme_mod( 'diym_phoneNumber' );
+					if ( $diym_phoneNumber || is_customize_preview() ) :
+						// echo phone number...
+						echo $diym_phoneNumber ? 'Call Now.' : ''; ?>
+						<a class="font-weight-bold phone-number text-nowrap" href="tel:<?php echo $diym_phoneNumber; ?>"><?php echo $diym_phoneNumber; ?></a>
+					<?php endif; ?>
+				<?php get_template_part( 'template-parts/socials' ); ?>
 			</div>
 		</div>
 
@@ -67,7 +63,7 @@
 								if ( has_custom_logo() ) {
 									the_custom_logo();
 								} else {
-									echo '<h2 class="site-name my-2 my-md-3">'. get_bloginfo( 'name' ) .'</h2>';
+									echo '<h1 class="site-name my-2 my-md-3">'. get_bloginfo( 'name' ) .'</h1>';
 								}
 							?>
 						</div>

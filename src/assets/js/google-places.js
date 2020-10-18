@@ -149,6 +149,8 @@ $(document).ready(() => {
 
                         $("input[name$='[url]']").val(place_data.url);
                         $("input[name$='[phone]']").val(place_data.formatted_phone_number);
+                        $("input[name='blogname']").val(place_data.name);
+                        $("input[name='admin_email']").val(place_data.name);
                         //console.log(place_data.address_components);
                     }
                 }

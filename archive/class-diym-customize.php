@@ -28,7 +28,6 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 			$wp_customize->get_setting( 'blogname' )->transport        = 'postMessage';
 			$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
 
-			/*
 			$wp_customize->selective_refresh->add_partial(
 				'diym_instagram',
 				array(
@@ -63,7 +62,6 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					'fallback_refresh' => false
 				)
 			);
-			*/
 
 			/*
 			$wp_customize->selective_refresh->add_partial(
@@ -163,7 +161,6 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 			);
 
 			/* Font Family. ----------------------------------------------- */
-			/*
 			$wp_customize->add_setting(
 				'zzz_time',
 				array(
@@ -183,7 +180,6 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					//'choices'	=> diym_customize_font_family()
 				)
 			);
-			*/
 
 			/* Banner & Footer Background Color. -------------------------------- */
 			$wp_customize->add_setting(
@@ -282,7 +278,6 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 			/**
 			 * Contact Details
 			 */
-			/*
 			$wp_customize->add_section(
 				'contact_details',
 				array(
@@ -292,10 +287,8 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					'capability' => 'edit_theme_options'
 				)
 			);
-			*/
 
 			/* Business Name ----------------------------------------------- */
-			/*
 			$wp_customize->add_setting(
 				'diym_businessName'
 			);
@@ -323,9 +316,8 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					 ),
 				)
 			);
-*/
+
 			/* Street Address ----------------------------------------------- */
-			/*
 			$wp_customize->add_setting(
 				'diym_streetAddress',
 				array(
@@ -345,10 +337,8 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					'label' => esc_html__( 'Street Address', 'diy-marketer' )
 				)
 			);
-			*/
 
 			/* Suburb ----------------------------------------------- */
-			/*
 			$wp_customize->add_setting(
 				'diym_suburb',
 				array(
@@ -368,10 +358,8 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					'label' => esc_html__( 'Suburb', 'diy-marketer' )
 				)
 			);
-			*/
 
 			/* City ----------------------------------------------- */
-			/*
 			$wp_customize->add_setting(
 				'diym_city',
 				array(
@@ -391,10 +379,8 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					'label' => esc_html__( 'City', 'diy-marketer' )
 				)
 			);
-			*/
 
 			/* Postal Code ----------------------------------------------- */
-			/*
 			$wp_customize->add_setting(
 				'diym_postalCode',
 				array(
@@ -415,7 +401,7 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 				)
 			);
 
-			/* Phone Number ----------------------------------------------- 
+			/* Phone Number ----------------------------------------------- */
 			$wp_customize->add_setting(
 				'diym_phoneNumber',
 				array(
@@ -435,10 +421,8 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					'label' => esc_html__( 'Phone Number', 'diy-marketer' )
 				)
 			);
-			*/
 
 			/* Email ----------------------------------------------- */
-			/*
 			$wp_customize->add_setting( 'diym_email' );
 
 			$wp_customize->add_control( 'diym_email',
@@ -460,10 +444,8 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					),
 				)
 			);
-			*/
 
-			/* Website ----------------------------------------------- 
-			/*
+			/* Website ----------------------------------------------- */
 			$wp_customize->add_setting( 'diym_website' );
 		
 			$wp_customize->add_control( 'diym_website',
@@ -485,10 +467,8 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					),
 				)
 			);
-			*/
 
 			/* Google Map ----------------------------------------------- */
-			/*
 			$wp_customize->add_setting( 'diym_googleMap',
 				array(
 					//'default' => '',
@@ -505,12 +485,10 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					'section' => 'contact_details',
 				)
 			);
-			*/
 
 			/**
 			 * Social Media
 			 */
-			/*
 			$wp_customize->add_section(
 				'social_media',
 				array(
@@ -521,7 +499,7 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 				)
 			);
 			
-			/* Facebook ----------------------------------------------- 
+			/* Facebook ----------------------------------------------- */
 			$wp_customize->add_setting(
 				'diym_facebook',
 				array(
@@ -543,10 +521,8 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					//'description' => esc_html__( 'Enter you facebook url below...', 'diy-marketer' )
 				)
 			);
-			*/
 
 			/* Instagram ----------------------------------------------- */
-			/*
 			$wp_customize->add_setting(
 				'diym_instagram',
 				array(
@@ -568,10 +544,8 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					//'description' => esc_html__( 'Enter you facebook url below...', 'diy-marketer' )
 				)
 			);
-			*/
 
 			/* Twitter ----------------------------------------------- */
-			/*
 			$wp_customize->add_setting(
 				'diym_twitter',
 				array(
@@ -593,7 +567,6 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 					//'description' => esc_html__( 'Enter you facebook url below...', 'diy-marketer' )
 				)
 			);
-			*/
 
 			/*
 			$wp_customize->add_setting(
@@ -872,7 +845,7 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 		   //'customizer_repeater_repeater_control' => true
 		) ) );
 */
-/*
+
 		$wp_customize->add_setting( 'customizer_repeater_example2', array(
 			'sanitize_callback' => 'customizer_repeater_sanitize'
 		 ));
@@ -881,7 +854,6 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 	   'section' => 'colors',
 	   'priority' => 1,
 	) ) );
-	*/
 /*
 			$wp_customize->add_setting(
 				'hannover_example_setting',

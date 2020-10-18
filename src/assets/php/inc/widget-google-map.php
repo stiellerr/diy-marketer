@@ -59,7 +59,7 @@ class DIYM_Google_Map_Widget extends WP_Widget {
 
                     ?>
                         <a href="<?php echo $url; ?>" target="_blank">
-                            <img class="border" src="<?php echo $request; ?>" alt="google map">
+                            <img class="border" src="<?php echo $request; ?>" alt="google map" width="208" height="180">
                         </a>
                     <?php
                 }

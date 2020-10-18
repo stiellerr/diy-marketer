@@ -11,6 +11,40 @@ import DIYM_Color from "./components/class-diym-color";
 
 // Wait until the customizer has finished loading.
 wp.customize.bind("ready", () => {
+    // hide blog name.
+    wp.customize.control("blogname").toggle();
+
+    // Site Title Color Section.
+    /*
+    wp.customize.section.add(
+        new wp.customize.Section("zzztestsection", {
+            title: "zzz this is a test"
+            //panel: 'myPanel',
+            //customizeAction: 'Customizing ▸ Site Title Color', // String above title's Section.
+            //priority: 5 // The order of this section in the panel.
+        })
+    );
+    */
+
+    // Site Title Color Setting.
+    /*
+    wp.customize.add(
+        new wp.customize.Setting("", "#fff", {
+            transport: "postMessage"
+        })
+    );
+
+    // Site Title Color Control.
+    wp.customize.control.add(
+        new wp.customize.ColorControl("siteTitleColorControl", {
+            section: "siteTitleColorSection",
+            label: "Site Title Color Control",
+            setting: "siteTitleColorSetting",
+            priority: 5 // The order of this control in the section.
+        })
+    );
+    */
+
     //
     //let z = wp.customize.panel("nav_menus");
 
@@ -94,7 +128,9 @@ wp.customize.bind("ready", () => {
                 if (i <= to) {
                     wp.customize.section("sidebar-widgets-footer-" + i).active.set(true);
                 } else {
-                    wp.customize.section("sidebar-widgets-footer-" + i).active.set(false);
+                    wp.customize.section("side
+                    
+                    bar-widgets-footer-" + i).active.set(false);
                 }
                 */
     //}

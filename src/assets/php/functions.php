@@ -33,7 +33,7 @@ function use_jquery_from_google () {
 		$ver = '1.12.4';
 	}
 
-	//wp_deregister_script('jquery');
+	wp_deregister_script('jquery');
 	//wp_register_script('jquery', "https://ajax.googleapis.com/ajax/libs/jquery/$ver/jquery.min.js", array(), $ver, true);
 }
 
@@ -184,7 +184,8 @@ function diym_register_styles() {
 
 	if ( $production ) {
 		wp_enqueue_style( 'diym-bs', 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css', array(), false, 'all'  );
-		wp_enqueue_style( 'diym-style', get_template_directory_uri() . '/assets/css/bundle.css', array( 'diym-bs' ), filemtime( get_template_directory() . '/assets/css/bundle.css' ), 'all' );
+		//wp_enqueue_style( 'diym-style', get_template_directory_uri() . '/assets/css/bundle.css', array( 'diym-bs' ), filemtime( get_template_directory() . '/assets/css/bundle.css' ), 'all' );
+		wp_enqueue_style( 'diym-style', get_template_directory_uri() . '/assets/css/bundle.css', array( 'diym-bs' ), false, 'all' );
 	} else {
 		wp_enqueue_style( 'diym-style', get_template_directory_uri() . '/assets/css/bundle.css', array(), filemtime( get_template_directory() . '/assets/css/bundle.css' ), 'all' );
 	}
@@ -209,10 +210,11 @@ function diym_register_scripts() {
 	//<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 	//<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 	wp_enqueue_script( 'diym-fa', 'https://kit.fontawesome.com/e2e75b056d.js', array(), false, true );
-	wp_enqueue_script( 'diym-popper', 'https://cdn.jsdelivr.net/npm/popper.js@1.16.1/umd/popper.min.js', array( 'jquery' ), false, true );
-	wp_enqueue_script( 'diym-bs', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js', array( 'diym-popper' ), false, true );
+	//wp_enqueue_script( 'diym-popper', 'https://cdn.jsdelivr.net/npm/popper.js@1.16.1/umd/popper.min.js', array( 'jquery' ), false, true );
+	//wp_enqueue_script( 'diym-bs', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js', array( 'diym-popper' ), false, true );
 	//wp_enqueue_script( 'diym', get_template_directory_uri() . '/assets/js/bundle.js', array( 'jquery' ), filemtime( get_template_directory() . '/assets/js/bundle.js'), true );
-	wp_enqueue_script( 'diym', get_template_directory_uri() . '/assets/js/bundle.js', array( 'jquery' ), false, true );
+	//wp_enqueue_script( 'diym', get_template_directory_uri() . '/assets/js/bundle.js', array( 'jquery' ), false, true );
+	wp_enqueue_script( 'diym', get_template_directory_uri() . '/assets/js/bundle.js', array(), false, false );
 	
 	//wp_enqueue_script( 'diym-js', get_template_directory_uri() . '/assets/js/bundle.js', array( 'jquery' ), DIYM_VER, true );
 	//wp_enqueue_script( 'diym-js', get_template_directory_uri() . '/assets/js/bundle.js', array( 'jquery' ), filemtime( get_template_directory() . '/assets/js/bundle.js'), true );
@@ -814,6 +816,11 @@ function mind_defer_scripts( $tag, $handle, $src ) {
 } 
 
 add_filter( 'script_loader_tag', 'mind_defer_scripts', 10, 3 );
+
+function dequeue_scripts() {
+    wp_deregister_script( 'wp-embed' );
+}
+add_action( 'wp_enqueue_scripts', 'dequeue_scripts' );
 
 
 

@@ -101,7 +101,12 @@ class DIYM_Options_Page {
                 'sanitize_callback' => array( &$this, 'sanitize_settings' )
             )
         );
-        
+
+        register_setting(
+            'diym-options',
+            "blogname"
+        );
+
         add_settings_section(
             'google',
             __( 'Google Settings', 'diy-marketer' ),
@@ -188,8 +193,8 @@ class DIYM_Options_Page {
         );
 
         add_settings_section(
-            'address',
-            __( 'Business Address', 'diy-marketer' ),
+            'details',
+            __( 'Business Details', 'diy-marketer' ),
             array( &$this, 'render_void' ),
             'diym-options'
         );
@@ -197,15 +202,22 @@ class DIYM_Options_Page {
         add_settings_field( 
             'phone', //id
             __( 'Phone number', 'diy-marketer' ),
-            array( &$this, 'render_input' ),
+            array( &$this, 'render_details' ),
             'diym-options',
-            'address',
+            'details',
             array(
-                'label_for' => "{$theme_mod}[address][phone]",
+                'label_for' => "{$theme_mod}[details][phone]",
                 'theme_mod' => $theme_mod,
-                'section' => 'address',
+                'section' => 'details',
                 'id' => 'phone'
             )
+        );
+
+        add_settings_section(
+            'address',
+            __( 'Business Address', 'diy-marketer' ),
+            array( &$this, 'render_void' ),
+            'diym-options'
         );
 
         add_settings_field( 
@@ -529,6 +541,22 @@ class DIYM_Options_Page {
                 ?>
             </form>
         </div>
+        <?php
+    }
+
+    // render input
+    public function render_details( $args ) {
+
+        // extract tags from array
+        extract( $args );
+
+        // build tag
+        $tag = "{$theme_mod}[{$section}][{$id}]";
+        
+
+        ?>
+            <input type="text" id="<?php echo $tag; ?>" name="<?php echo $tag; ?>" value="<?php echo get_theme_mod($section)[$id]; ?>" class="regular-text">
+            <input type="hidden" name="blogname" value="<?php echo get_option('blogname'); ?>">
         <?php
     }
 

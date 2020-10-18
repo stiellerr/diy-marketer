@@ -7,40 +7,18 @@
  * @package DIY_Marketer
  */
 
-$diym_name          = get_bloginfo( 'name' );
-        
-// get theme mods.
-//$diym_street_address= get_theme_mod( 'diym_streetAddress' );
-//$diym_suburb        = get_theme_mod( 'diym_suburb' );
-//$diym_city          = get_theme_mod( 'diym_city' );
-//$diym_postal_code   = get_theme_mod( 'diym_postalCode' );
+$name          = get_bloginfo( 'name' );
+$email         = get_bloginfo( 'admin_email' );
+$url           = get_bloginfo( 'url' );
 
-//temp
-$address       = get_theme_mod( 'address' );
+// object...
+$address       = get_theme_mod( 'address', null );
+$details       = get_theme_mod( 'details', null );
 
-//write_log( $diym_address );
+$temp = null;
+$phone = null;
 
-
-//
-$diym_phone_number  = get_theme_mod( 'diym_phoneNumber' );
-$diym_email         = get_bloginfo( 'admin_email' );
-$diym_url           = get_bloginfo( 'url' );
-
-// build address string...
-//$temp  = $diym_street_address;
-/*
-$temp  = $diym_address['street_address'];
-
-$temp .= $temp && $diym_suburb ? '<br>' : '';
-$temp .= $diym_suburb;
-
-$temp .= $temp && ( $diym_city || $diym_postal_code ) ? '<br>' : '';
-$temp .= $diym_city ? $diym_postal_code ? $diym_city . ', ' . $diym_postal_code : $diym_city : $diym_postal_code;
-*/
-
-// extract address args
-if ( !empty( $address ) ) {
-    
+if ( $address ) {
     extract( $address );
 
     // build address html string...
@@ -53,60 +31,56 @@ if ( !empty( $address ) ) {
     $temp .= $city ? $post_code ? $city . ', ' . $post_code : $city : $post_code;
 }
 
+if ( $details ) {
+    if ( $details[ 'phone' ] ) {
+        $phone = $details[ 'phone' ];
+    }
+}
 
+if ( $name || $temp || $phone || $email || $url ) {
+    // build html string
+    $html = "<table class='contact-details'>";
+        if ( $name ) {
+            $html .= "<tr>";
+                $html .= "<td>";
+                    $html .= "<i class='fas fa-user'></i>";
+                $html .= "</td>";
+                $html .= "<td>{$name}</td>";
+            $html .= "</tr>";
+        }
+        if ( $temp ) {
+            $html .= "<tr>";
+                $html .= "<td>";
+                    $html .= "<i class='fas fa-map-marker-alt'></i>";
+                $html .= "</td>";
+                $html .= "<td>{$temp}</td>";
+            $html .= "</tr>";
+        }
+        if ( $phone ) {
+            $html .= "<tr>";
+                $html .= "<td>";
+                    $html .= "<i class='fas fa-phone'></i>";
+                $html .= "</td>";
+                $html .= "<td><a href='tel:{$phone}'>{$phone}</a></td>";
+            $html .= "</tr>";
+        }
+        if ( $email ) {
+            $html .= "<tr>";
+                $html .= "<td>";
+                    $html .= "<i class='fas fa-envelope'></i>";
+                $html .= "</td>";
+                $html .= "<td><a href='mailto:{$email}'>{$email}</a></td>";
+            $html .= "</tr>";
+        }
+        if ( $url ) {
+            $html .= "<tr>";
+                $html .= "<td>";
+                    $html .= "<i class='fas fa-globe'></i>";
+                $html .= "</td>";
+                $html .= "<td><a href='{$url}' target='_blank'>{$url}</a></td>";
+            $html .= "</tr>";
+        }
+    $html .= "</table>";
+    echo $html;
+}
 ?>
-<table class="contact-details">
-    <?php if ( $diym_name ) { ?>
-        <tr>
-            <td>
-                <i class="fas fa-user"></i>
-                <!--
-                <span class="dashicons dashicons-admin-users"></span>
-                -->
-            </td>
-            <td><?php echo $diym_name; ?></td>
-        </tr>
-    <?php } ?>
-    <?php if ( $temp ) { ?>
-        <tr>
-            <td>
-                <i class="fas fa-map-marker-alt"></i>
-                <!--<span class="dashicons dashicons-location"></span>-->
-            </td>
-            <td><?php echo $temp; ?></td>
-        </tr>
-    <?php } ?>
-    <?php if ( $diym_phone_number ) { ?>
-        <tr>
-            <td><!--
-                <span class="dashicons dashicons-phone"></span>-->
-                <i class="fas fa-phone"></i>
-            </td>
-            <td>
-                <a href="tel:<?php echo $diym_phone_number; ?>"><?php echo $diym_phone_number; ?></a>
-            </td>
-        </tr>
-    <?php } ?>
-    <?php if ( $diym_email ) { ?>
-        <tr>
-            <td><!--
-                <span class="dashicons dashicons-email"></span>-->
-                <i class="fas fa-envelope"></i>
-            </td>
-            <td>
-                <a href="mailto:<?php echo $diym_email; ?>"><?php echo $diym_email; ?></a>
-            </td>
-        </tr>
-    <?php } ?>
-    <?php if ( $diym_url ) { ?>
-        <tr>
-            <td><!--
-                <span class="dashicons dashicons-admin-site-alt3"></span>-->
-                <i class="fas fa-globe"></i>
-            </td>
-            <td>
-                <a href="<?php echo $diym_url; ?>"><?php echo $diym_url; ?></a>
-            </td>
-        </tr>
-    <?php } ?>
-</table>

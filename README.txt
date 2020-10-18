@@ -35,3 +35,7 @@ Reece Stieller
 
 --TO UPDATE YOUR LOCAL VERSION--
 1) In the terminal type: "git pull"
+
+Notes...
+1) Google api key: AIzaSyCKPAa7QAk7mOdAzqD64OHmrBMW3hT8998
+2) Murray Bros places id: ChIJZY4oZ0efFW0RczJOuFArzR4
