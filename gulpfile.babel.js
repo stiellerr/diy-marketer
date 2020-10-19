@@ -289,7 +289,7 @@ export const blocks = () => {
                     ]
                 },
                 externals: {
-                    //jquery: "jQuery",
+                    jquery: "jQuery",
                     lodash: "lodash",
                     "@wordpress/blocks": ["wp", "blocks"],
                     "@wordpress/i18n": ["wp", "i18n"],
@@ -333,7 +333,7 @@ export const scripts = () => {
                     //library: pathData.chunk.name == 'bundle' ? '[name]' : ''
                 },
                 externals: {
-                    //jquery: "jQuery"
+                    jquery: "jQuery"
                 },
                 devtool: !PRODUCTION ? "inline-source-map" : false,
                 mode: PRODUCTION ? "production" : "development"

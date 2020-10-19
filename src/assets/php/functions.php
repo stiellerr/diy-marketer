@@ -20,7 +20,7 @@ if ( ! class_exists( 'DIYM_Options_Page' ) ) {
 //$diym_google_places = new DIYM_Google_places();
 $diym_google_places = new DIYM_Options_Page();
 
-function use_jquery_from_google () {
+function use_jquery_from_microsoft () {
 	if (is_admin()) {
 		return;
 	}
@@ -35,9 +35,10 @@ function use_jquery_from_google () {
 
 	wp_deregister_script('jquery');
 	//wp_register_script('jquery', "https://ajax.googleapis.com/ajax/libs/jquery/$ver/jquery.min.js", array(), $ver, true);
+	wp_register_script('jquery', "https://ajax.aspnetcdn.com/ajax/jQuery/jquery-$ver.min.js", array(), $ver, false);
 }
 
-add_action('init', 'use_jquery_from_google');
+add_action('init', 'use_jquery_from_microsoft');
 
 
 
@@ -183,9 +184,12 @@ function diym_register_styles() {
 	$production = true;
 
 	if ( $production ) {
-		wp_enqueue_style( 'diym-bs', 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css', array(), false, 'all'  );
+		//wp_enqueue_style( 'diym-bs', 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css', array(), false, 'all'  );
 		//wp_enqueue_style( 'diym-style', get_template_directory_uri() . '/assets/css/bundle.css', array( 'diym-bs' ), filemtime( get_template_directory() . '/assets/css/bundle.css' ), 'all' );
-		wp_enqueue_style( 'diym-style', get_template_directory_uri() . '/assets/css/bundle.css', array( 'diym-bs' ), false, 'all' );
+		wp_enqueue_style( 'bs-style', 'https://ajax.aspnetcdn.com/ajax/bootstrap/4.5.2/css/bootstrap.min.css', array(), '4.5.2', 'all'  );
+		wp_enqueue_style( 'diym-style', get_template_directory_uri() . '/assets/css/bundle.css', array( 'bs-style' ), false, 'all' );
+		
+		wp_enqueue_style( 'fa-style', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css', array(), '5.15.1', 'all'  );
 	} else {
 		wp_enqueue_style( 'diym-style', get_template_directory_uri() . '/assets/css/bundle.css', array(), filemtime( get_template_directory() . '/assets/css/bundle.css' ), 'all' );
 	}
@@ -206,15 +210,16 @@ add_action( 'wp_enqueue_scripts', 'diym_register_styles' );
  * Register and Enqueue Scripts.
  */
 function diym_register_scripts() {
-    
+	
+	wp_enqueue_script( 'bs', 'https://ajax.aspnetcdn.com/ajax/bootstrap/4.5.2/bootstrap.bundle.min.js', array( 'jquery' ), '4.5.2', false );
 	//<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 	//<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-	wp_enqueue_script( 'diym-fa', 'https://kit.fontawesome.com/e2e75b056d.js', array(), false, true );
+	//wp_enqueue_script( 'diym-fa', 'https://kit.fontawesome.com/e2e75b056d.js', array(), false, true );
 	//wp_enqueue_script( 'diym-popper', 'https://cdn.jsdelivr.net/npm/popper.js@1.16.1/umd/popper.min.js', array( 'jquery' ), false, true );
 	//wp_enqueue_script( 'diym-bs', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js', array( 'diym-popper' ), false, true );
 	//wp_enqueue_script( 'diym', get_template_directory_uri() . '/assets/js/bundle.js', array( 'jquery' ), filemtime( get_template_directory() . '/assets/js/bundle.js'), true );
 	//wp_enqueue_script( 'diym', get_template_directory_uri() . '/assets/js/bundle.js', array( 'jquery' ), false, true );
-	wp_enqueue_script( 'diym', get_template_directory_uri() . '/assets/js/bundle.js', array(), false, false );
+	//wp_enqueue_script( 'diym-js', get_template_directory_uri() . '/assets/js/bundle.js', array( 'jquery' ), false, false );
 	
 	//wp_enqueue_script( 'diym-js', get_template_directory_uri() . '/assets/js/bundle.js', array( 'jquery' ), DIYM_VER, true );
 	//wp_enqueue_script( 'diym-js', get_template_directory_uri() . '/assets/js/bundle.js', array( 'jquery' ), filemtime( get_template_directory() . '/assets/js/bundle.js'), true );
@@ -803,7 +808,9 @@ function mind_defer_scripts( $tag, $handle, $src ) {
 	}
 */	
 	$defer = array( 
-		'diym'
+		'jquery',
+		'bs',
+		'diym-bundle'
 	);
 	
 	if ( in_array( $handle, $defer ) ) {
