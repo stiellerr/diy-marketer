@@ -40,6 +40,7 @@ const paths = {
     styles: {
         src: [
             "src/assets/scss/bundle.scss",
+            "src/assets/scss/slim.scss",
             "src/assets/scss/admin.scss",
             "src/assets/scss/editor.scss",
             "src/assets/scss/custom-controls.scss",
@@ -53,9 +54,9 @@ const paths = {
     },
     scripts: {
         src: [
-            "src/assets/js/bundle.js",
+            "src/assets/js/slim.js",
             "src/assets/js/admin.js",
-            "src/assets/js/mail.js",
+            //"src/assets/js/mail.js",
             "src/assets/js/customize-preview.js", //new
             "src/assets/js/customize-controls.js",
             "src/assets/js/customize-repeater.js",
@@ -305,7 +306,7 @@ export const blocks = () => {
         .pipe(gulp.dest(paths.blocks.dest));
 };
 
-export const scripts = () => {
+export const script = () => {
     return gulp
         .src(paths.scripts.src)
         .pipe(named())
@@ -330,7 +331,6 @@ export const scripts = () => {
                 },
                 output: {
                     filename: "[name].js"
-                    //library: pathData.chunk.name == 'bundle' ? '[name]' : ''
                 },
                 externals: {
                     jquery: "jQuery"
@@ -342,8 +342,45 @@ export const scripts = () => {
         .pipe(gulp.dest(paths.scripts.dest));
 };
 
-export const build = gulp.series(clean, gulp.parallel(styles, scripts, images, copy));
-export const dev = gulp.series(clean, gulp.parallel(styles, scripts, images, copy), serve, watch);
+export const bundlejs = () => {
+    return gulp
+        .src(["src/assets/js/bundle.js"])
+        .pipe(named())
+        .pipe(
+            webpack({
+                module: {
+                    rules: [
+                        {
+                            test: /\.js$/,
+                            exclude: /node_modules/,
+                            use: [
+                                {
+                                    loader: "babel-loader",
+                                    options: {
+                                        presets: ["@babel/preset-env"]
+                                    }
+                                },
+                                "eslint-loader"
+                            ]
+                        }
+                    ]
+                },
+                output: {
+                    filename: "[name].js"
+                },
+                devtool: !PRODUCTION ? "inline-source-map" : false,
+                mode: PRODUCTION ? "production" : "development"
+            })
+        )
+        .pipe(gulp.dest(paths.scripts.dest));
+};
+
+export const scripts = gulp.series(script, bundlejs);
 export const php = gulp.series(prettify_php, minify_php);
+export const build = gulp.series(
+    clean,
+    gulp.parallel(styles, gulp.series(scripts, blocks), images, copy)
+);
+export const dev = gulp.series(clean, gulp.parallel(styles, scripts, images, copy), serve, watch);
 export const bundle = gulp.series(build, compress);
 export default dev;

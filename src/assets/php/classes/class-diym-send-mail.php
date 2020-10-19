@@ -20,7 +20,7 @@ if ( ! class_exists( 'DIYM_Send_Mail' ) ) {
 
         function __construct() {
 
-            add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
+            //add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
 
             add_action('wp_ajax_send_form', array( $this, 'send_form' ) ); // This is for authenticated users
             add_action('wp_ajax_nopriv_send_form', array( $this, 'send_form') ); // This is for unauthenticated users.
