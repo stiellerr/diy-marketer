@@ -76,7 +76,8 @@ const paths = {
         src: [
             //"src/assets/**/*",
             "src/assets/lib/{js,css}/**/*min*",
-            "src/assets/lib/{img,!js,!css}/**/*"
+            "src/assets/lib/{img,webfonts,!js,!css}/**/*"
+            //"src/assets//ib/webfonts/**/*"
             //"!src/assets/{images,js,scss,php,blocks}",
             //"!src/assets/{images,js,scss,php,blocks}/**/*"
         ],
@@ -362,7 +363,8 @@ export const bundlejs = () => {
                                 },
                                 "eslint-loader"
                             ]
-                        },
+                        }
+                        /*
                         {
                             test: require.resolve("jquery"),
                             loader: "expose-loader",
@@ -370,6 +372,7 @@ export const bundlejs = () => {
                                 exposes: ["$", "jQuery"]
                             }
                         }
+                        */
                     ]
                 },
                 output: {

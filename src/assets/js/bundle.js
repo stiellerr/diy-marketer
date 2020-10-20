@@ -1,3 +1,4 @@
-import "jquery";
-import "bootstrap";
-import "./components/diym-mail";
+import "../../../node_modules/bootstrap/js/dist/util";
+import "../../../node_modules/bootstrap/js/dist/collapse";
+
+import "./components/mailer";

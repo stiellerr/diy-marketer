@@ -1,1 +1,1 @@
-import "./components/diym-mail";
+import "./components/mailer";
