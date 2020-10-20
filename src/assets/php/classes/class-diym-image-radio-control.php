@@ -27,7 +27,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 			 * Enqueue our scripts and styles
 			 */
 			public function enqueue() {
-				wp_enqueue_style( 'diym-custom-controls', get_template_directory_uri() . '/dist/assets/css/custom-controls.css', array(), wp_get_theme()->get( 'Version' ), 'all' );
+				wp_enqueue_style( 'diym-custom-controls', get_template_directory_uri() . '/assets/css/custom-controls.css', array(), wp_get_theme()->get( 'Version' ), 'all' );
 			}
 
 			/**

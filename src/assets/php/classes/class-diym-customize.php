@@ -1138,51 +1138,51 @@ function diym_customize_background_pattern() {
 	 */
 	return array(
 		'pattern1' => array(
-			'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern1.png',
+			'image' => get_template_directory_uri() . '/assets/img/bg/pattern1.png',
 			'name' => __( 'Pattern 1', 'diy-marketer' )
 		),
 		'pattern2' => array(
-			'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern2.png',
+			'image' => get_template_directory_uri() . '/assets/img/bg/pattern2.png',
 			'name' => __( 'Pattern 2', 'diy-marketer' )
 		),
 		'pattern3' => array(
-			'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern3.png',
+			'image' => get_template_directory_uri() . '/assets/img/bg/pattern3.png',
 			'name' => __( 'Pattern 3', 'diy-marketer' )
 		),
 		'pattern4' => array(
-			'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern4.png',
+			'image' => get_template_directory_uri() . '/assets/img/bg/pattern4.png',
 			'name' => __( 'Pattern 4', 'diy-marketer' )
 		),
 		'pattern5' => array(
-			'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern5.png',
+			'image' => get_template_directory_uri() . '/assets/img/bg/pattern5.png',
 			'name' => __( 'Pattern 5', 'diy-marketer' )
 		),
 		'pattern6' => array(
-			'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern6.png',
+			'image' => get_template_directory_uri() . '/assets/img/bg/pattern6.png',
 			'name' => __( 'Pattern 6', 'diy-marketer' )
 		),
 		'pattern7' => array(
-			'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern7.png',
+			'image' => get_template_directory_uri() . '/assets/img/bg/pattern7.png',
 			'name' => __( 'Pattern 7', 'diy-marketer' )
 		),
 		'pattern8' => array(
-			'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern8.png',
+			'image' => get_template_directory_uri() . '/assets/img/bg/pattern8.png',
 			'name' => __( 'Pattern 8', 'diy-marketer' )
 		),
 		'pattern9' => array(
-			'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern9.png',
+			'image' => get_template_directory_uri() . '/assets/img/bg/pattern9.png',
 			'name' => __( 'Pattern 9', 'diy-marketer' )
 		),
 		'pattern10' => array(
-			'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern10.png',
+			'image' => get_template_directory_uri() . '/assets/img/bg/pattern10.png',
 			'name' => __( 'Pattern 10', 'diy-marketer' )
 		),
 		'pattern11' => array(
-			'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern11.png',
+			'image' => get_template_directory_uri() . '/assets/img/bg/pattern11.png',
 			'name' => __( 'Pattern 11', 'diy-marketer' )
 		),
 		'pattern12' => array(
-			'image' => get_template_directory_uri() . '/dist/assets/images/bg/pattern12.png',
+			'image' => get_template_directory_uri() . '/assets/img/bg/pattern12.png',
 			'name' => __( 'Pattern 12', 'diy-marketer' )
 		)
 	);

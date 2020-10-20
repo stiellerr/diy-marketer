@@ -117,6 +117,9 @@ for (let context of Object.keys(diymBgColors)) {
  */
 function diymGenerateColorPreviewStyles(context) {
     // Get the accessible colors option.
+
+    console.log("hello world!");
+
     let a11yColors = window.parent.wp.customize.get().custom_colors,
         stylesheedID = "diym-customizer-styles-" + context,
         stylesheet = $("#" + stylesheedID),
@@ -124,7 +127,7 @@ function diymGenerateColorPreviewStyles(context) {
 
     // If the stylesheet doesn't exist, create it and append it to <head>.
     if (!stylesheet.length) {
-        $("#diym-style-inline-css").after('<style id="' + stylesheedID + '"></style>');
+        $("#diym-inline-css").after('<style id="' + stylesheedID + '"></style>');
         stylesheet = $("#" + stylesheedID);
     }
 

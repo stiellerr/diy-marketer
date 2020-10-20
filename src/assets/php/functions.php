@@ -7,7 +7,44 @@
  * @package DIY_Marketer
  */
 
-define("DIYM_USE_CDN", true);
+// useful function for witing to the log
+if ( ! function_exists( 'write_log ') ) {
+	function write_log ( $log )  {
+		if ( is_array( $log ) || is_object( $log ) ) {
+			error_log( print_r( $log, true ) );
+		} else {
+			error_log( $log );	
+		}
+	}
+}
+
+//
+//add_filter('xmlrpc_enabled', '__return_false');
+
+function diym_clean_up() {
+
+	// remove emoji support
+	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+	remove_action( 'wp_print_styles', 'print_emoji_styles' );
+	remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+	remove_action( 'admin_print_styles', 'print_emoji_styles' );
+
+	// remove wp version header
+	remove_action( 'wp_head', 'wp_generator' );
+
+	// remove windows live writer tag support
+	remove_action( 'wp_head', 'wlwmanifest_link' );
+
+	// remove xml rpc link
+	remove_action('wp_head', 'rsd_link');
+
+	remove_action('wp_head', 'rest_output_link_wp_head', 10);
+}
+
+add_action( 'init', 'diym_clean_up' );
+
+
+define( "DIYM_USE_CDN", false );
 
 //$DIYM_USE_CDN = false;
 
@@ -59,16 +96,7 @@ add_action('init', 'use_jquery_from_microsoft');
 
 
 
-// useful function for witing to the log
-if ( ! function_exists( 'write_log ') ) {
-	function write_log ( $log )  {
-		if ( is_array( $log ) || is_object( $log ) ) {
-			error_log( print_r( $log, true ) );
-		} else {
-			error_log( $log );	
-		}
-	}
-}
+
 
 //global $_wp_additional_image_sizes;
 //print_r( get_intermediate_image_sizes() );
@@ -237,8 +265,7 @@ add_action( 'wp_enqueue_scripts', 'diym_register_styles' );
  */
 function diym_enqueue_scripts() {
 
-	if ( DIYM_USE_CDN ) {
-
+	if ( DIYM_USE_CDN || is_customize_preview() ) {
 		global $wp_scripts;
 		
 		if ( isset( $wp_scripts->registered['jquery']->ver) ) {
@@ -268,6 +295,7 @@ function diym_enqueue_scripts() {
 
 	// deregister unused scripts to speed up wp.
 	wp_deregister_script( 'wp-embed' );
+	//wp_dequeue_script( 'wp-embed' );
 
 	//write_log( DIYM_USE_CDN );
 	
@@ -851,6 +879,10 @@ require get_template_directory() . '/inc/widget-contact-form.php';
 
 //defer scripts
 function diym_defer_scripts( $tag, $handle, $src ) {
+
+	if ( is_customize_preview() ) {
+		return $tag;
+	}
 	
 	$defer = array( 
 		'jquery',
@@ -861,9 +893,8 @@ function diym_defer_scripts( $tag, $handle, $src ) {
 	if ( in_array( $handle, $defer ) ) {
 		return str_replace(' src', ' defer src', $tag );
 	}
-	
+
 	return $tag;
-	
 } 
 
 add_filter( 'script_loader_tag', 'diym_defer_scripts', 10, 3 );
