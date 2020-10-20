@@ -266,6 +266,7 @@ add_action( 'wp_enqueue_scripts', 'diym_register_styles' );
 function diym_enqueue_scripts() {
 
 	if ( DIYM_USE_CDN || is_customize_preview() ) {
+
 		global $wp_scripts;
 		
 		if ( isset( $wp_scripts->registered['jquery']->ver) ) {

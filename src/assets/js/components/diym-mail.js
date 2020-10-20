@@ -1,6 +1,4 @@
-/* global diymMailVars */
-
-import $ from "jquery";
+/* global diymMailVars, $ */
 
 $(document).ready(() => {
     // from submit event

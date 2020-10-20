@@ -362,6 +362,13 @@ export const bundlejs = () => {
                                 },
                                 "eslint-loader"
                             ]
+                        },
+                        {
+                            test: require.resolve("jquery"),
+                            loader: "expose-loader",
+                            options: {
+                                exposes: ["$", "jQuery"]
+                            }
                         }
                     ]
                 },
