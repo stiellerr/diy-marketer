@@ -2,14 +2,19 @@
 
 .settings_page_diym-options {
     //
-    [for*="[hours]"] {
+    [for^="diym_hours"],
+    [for^="diym_map"] {
         min-width: 10em;
         vertical-align: baseline;
     }
-    //
-    .small-text[name*="[hours]"] {
+
+    .small-text[name^="diym_hours"] {
+        width: 65px;
+    }
+
+    .small-text[name^="diym_hours"],
+    .medium-text[name^="diym_map"] {
         margin: 0 0 1em;
-        width: 70px;
-        padding-right: 0;
+        //padding-right: 0;
     }
 }

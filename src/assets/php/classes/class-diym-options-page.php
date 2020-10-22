@@ -46,15 +46,9 @@ class DIYM_Options_Page {
         // check ajax source is valid.
         check_admin_referer( "diym-options-options" );
 
-		// query db
-		$args = get_theme_mod(
-            'google',
-			array(
-				'place_id'	=> '',
-				'key'	=> ''
-            )
-        );
-        
+        // query db
+        $args = get_option( 'diym_google' );
+
     	// build url
 		$request = add_query_arg(
 			$args,
@@ -91,74 +85,64 @@ class DIYM_Options_Page {
 
     public function admin_init() {
 
-        $theme = get_option( 'stylesheet' );
-        $theme_mod = "theme_mods_{$theme}";
-
         register_setting(
             'diym-options',
-            "theme_mods_$theme",
+            "diym_google",
             array(
-                'sanitize_callback' => array( &$this, 'sanitize_settings' )
+                'sanitize_callback' => array( &$this, 'sanitize_text' )
             )
         );
 
         register_setting(
             'diym-options',
-            "blogname"
-        );
-
-        add_settings_section(
-            'google',
-            __( 'Google Settings', 'diy-marketer' ),
-            array( &$this, 'render_void' ),
-            'diym-options'
-        );
-
-        add_settings_field( 
-            'place_id',
-            __( 'Place ID', 'diy-marketer' ),
-            array( &$this, 'render_input' ),
-            'diym-options',
-            'google',
+            "diym_tag_manager",
             array(
-                'label_for' => "{$theme_mod}[google][place_id]",
-                'theme_mod' => $theme_mod,
-                'section' => 'google',
-                'id' => 'place_id',
+                'sanitize_callback' => array( &$this, 'sanitize_tag' )
             )
         );
 
-        add_settings_field( 
-            'key',
-            __( 'API Key', 'diy-marketer' ),
-            array( &$this, 'render_input' ),
+        register_setting(
             'diym-options',
-            'google',
+            "diym_details",
             array(
-                'label_for' => "{$theme_mod}[google][key]",
-                'theme_mod' => $theme_mod,
-                'section' => 'google',
-                'id' => 'key'
+                'sanitize_callback' => array( &$this, 'sanitize_text' )
             )
         );
-        
-        add_settings_field( 
-            'button',
-            __( '&nbsp;', 'diy-marketer' ),
-            array( &$this, 'render_button' ),
+
+        register_setting(
             'diym-options',
-            'google',
-            // pass google value & set defaults if required.
-            get_theme_mod( 'google',
-                array(
-                    'place_id' => '',
-                    'key' => ''
-                )
+            "blogname",
+            array(
+                'sanitize_callback' => array( &$this, 'sanitize_text' )
+            )
+        );
+
+        register_setting(
+            'diym-options',
+            "diym_hours",
+            array(
+                'sanitize_callback' => array( &$this, 'sanitize_time' )
+            )
+        );
+
+        register_setting(
+            'diym-options',
+            "diym_map",
+            array(
+                'sanitize_callback' => array( &$this, 'sanitize_map' )
+            )
+        );
+
+        register_setting(
+            'diym-options',
+            "diym_socials",
+            array(
+                'sanitize_callback' => array( &$this, 'sanitize_url' )
             )
         );
 
         add_settings_section(
-            'tag_manager',
+            'diym_tag_manager',
             __( 'Google Tag Manager', 'diy-marketer' ),
             array( &$this, 'render_void' ),
             'diym-options'
@@ -169,11 +153,10 @@ class DIYM_Options_Page {
             __( 'Head Code', 'diy-marketer' ),
             array( &$this, 'render_textarea' ),
             'diym-options',
-            'tag_manager',
+            'diym_tag_manager',
             array(
-                'label_for' => "{$theme_mod}[tag_manager][body_code]",
-                'theme_mod' => $theme_mod,
-                'section' => 'tag_manager',
+                'label_for' => "diym_tag_manager[head_code]",
+                'section' => 'diym_tag_manager',
                 'id' => 'head_code'
             )
         );
@@ -183,277 +166,16 @@ class DIYM_Options_Page {
             __( 'Body Code', 'diy-marketer' ),
             array( &$this, 'render_textarea' ),
             'diym-options',
-            'tag_manager',
+            'diym_tag_manager',
             array(
-                'label_for' => "{$theme_mod}[tag_manager][body_code]",
-                'theme_mod' => $theme_mod,
-                'section' => 'tag_manager',
+                'label_for' => "diym_tag_manager[body_code]",
+                'section' => 'diym_tag_manager',
                 'id' => 'body_code'
             )
         );
 
         add_settings_section(
-            'details',
-            __( 'Business Details', 'diy-marketer' ),
-            array( &$this, 'render_void' ),
-            'diym-options'
-        );
-
-        add_settings_field( 
-            'phone', //id
-            __( 'Phone number', 'diy-marketer' ),
-            array( &$this, 'render_details' ),
-            'diym-options',
-            'details',
-            array(
-                'label_for' => "{$theme_mod}[details][phone]",
-                'theme_mod' => $theme_mod,
-                'section' => 'details',
-                'id' => 'phone'
-            )
-        );
-
-        add_settings_section(
-            'address',
-            __( 'Business Address', 'diy-marketer' ),
-            array( &$this, 'render_void' ),
-            'diym-options'
-        );
-
-        add_settings_field( 
-            'country', //id
-            __( 'Country', 'diy-marketer' ),
-            array( &$this, 'render_input' ),
-            'diym-options',
-            'address',
-            array(
-                'label_for' => "{$theme_mod}[address][country]",
-                'theme_mod' => $theme_mod,
-                'section' => 'address',
-                'id' => 'country'
-            )
-        );
-
-        add_settings_field( 
-            'street_address',
-            __( 'Street Address', 'diy-marketer' ),
-            array( &$this, 'render_input' ),
-            'diym-options',
-            'address',
-            array(
-                'label_for' => "{$theme_mod}[address][street_address]",
-                'theme_mod' => $theme_mod,
-                'section' => 'address',
-                'id' => 'street_address'
-            )
-        );
-
-        add_settings_field( 
-            'suburb',
-            __( 'Suburb', 'diy-marketer' ),
-            array( &$this, 'render_input' ),
-            'diym-options',
-            'address',
-            array(
-                'label_for' => "{$theme_mod}[address][suburb]",
-                'theme_mod' => $theme_mod,
-                'section' => 'address',
-                'id' => 'suburb'
-            )
-        );
-
-        add_settings_field( 
-            'city',
-            __( 'City', 'diy-marketer' ),
-            array( &$this, 'render_input' ),
-            'diym-options',
-            'address',
-            array(
-                'label_for' => "{$theme_mod}[address][city]",
-                'theme_mod' => $theme_mod,
-                'section' => 'address',
-                'id' => 'city'
-            )
-        );
-
-        add_settings_field( 
-            'region',
-            __( 'Region', 'diy-marketer' ),
-            array( &$this, 'render_input' ),
-            'diym-options',
-            'address',
-            array(
-                'label_for' => "{$theme_mod}[address][region]",
-                'theme_mod' => $theme_mod,
-                'section' => 'address',
-                'id' => 'region'
-            )
-        );
-
-        add_settings_field( 
-            'post_code',
-            __( 'Postal code', 'diy-marketer' ),
-            array( &$this, 'render_input' ),
-            'diym-options',
-            'address',
-            array(
-                'label_for' => "{$theme_mod}[address][post_code]",
-                'theme_mod' => $theme_mod,
-                'section' => 'address',
-                'id' => 'post_code'
-            )
-        );
-
-        add_settings_section(
-            'hours',
-            __( 'Business hours', 'diy-marketer' ),
-            array( &$this, 'render_void' ),
-            'diym-options'
-        );
-
-        add_settings_field( 
-            'monday',
-            __( 'Monday', 'diy-marketer' ),
-            array( &$this, 'render_hours' ),
-            'diym-options',
-            'hours',
-            array(
-                'theme_mod' => $theme_mod,
-                'section' => "hours",
-                'id' => 'monday'
-            )
-        );
-
-        add_settings_field( 
-            'tuesday',
-            __( 'Tuesday', 'diy-marketer' ),
-            array( &$this, 'render_hours' ),
-            'diym-options',
-            'hours',
-            array(
-                'theme_mod' => $theme_mod,
-                'section' => "hours",
-                'id' => 'tuesday'
-            )
-        );
-
-        add_settings_field( 
-            'wednesday',
-            __( 'Wednesday', 'diy-marketer' ),
-            array( &$this, 'render_hours' ),
-            'diym-options',
-            'hours',
-            array(
-                'theme_mod' => $theme_mod,
-                'section' => "hours",
-                'id' => 'wednesday'
-            )
-        );
-
-        add_settings_field( 
-            'thursday',
-            __( 'Thursday', 'diy-marketer' ),
-            array( &$this, 'render_hours' ),
-            'diym-options',
-            'hours',
-            array(
-                'theme_mod' => $theme_mod,
-                'section' => "hours",
-                'id' => 'thursday'
-            )
-        );
-
-        add_settings_field( 
-            'friday',
-            __( 'Friday', 'diy-marketer' ),
-            array( &$this, 'render_hours' ),
-            'diym-options',
-            'hours',
-            array(
-                'theme_mod' => $theme_mod,
-                'section' => "hours",
-                'id' => 'friday'
-            )
-        );
-
-        add_settings_field( 
-            'saturday',
-            __( 'Saturday', 'diy-marketer' ),
-            array( &$this, 'render_hours' ),
-            'diym-options',
-            'hours',
-            array(
-                'theme_mod' => $theme_mod,
-                'section' => "hours",
-                'id' => 'saturday'
-            )
-        );
-
-        add_settings_field( 
-            'sunday',
-            __( 'Sunday', 'diy-marketer' ),
-            array( &$this, 'render_hours' ),
-            'diym-options',
-            'hours',
-            array(
-                'theme_mod' => $theme_mod,
-                'section' => "hours",
-                'id' => 'sunday'
-            )
-        );
-
-        // map section
-        add_settings_section(
-            'map',
-            __( 'Google Map settings', 'diy-marketer' ),
-            array( &$this, 'render_void' ),
-            'diym-options'
-        );
-
-        add_settings_field( 
-            'lat',
-            __( 'Latitude', 'diy-marketer' ),
-            array( &$this, 'render_input' ),
-            'diym-options',
-            'map',
-            array(
-                'label_for' => "{$theme_mod}[map][lat]",
-                'theme_mod' => $theme_mod,
-                'section' => 'map',
-                'id' => 'lat',
-            )
-        );
-
-        add_settings_field( 
-            'lng',
-            __( 'Longitude', 'diy-marketer' ),
-            array( &$this, 'render_input' ),
-            'diym-options',
-            'map',
-            array(
-                'label_for' => "{$theme_mod}[map][lng]",
-                'theme_mod' => $theme_mod,
-                'section' => 'map',
-                'id' => 'lng'
-            )
-        );
-
-        add_settings_field( 
-            'url',
-            __( 'Map url', 'diy-marketer' ),
-            array( &$this, 'render_input' ),
-            'diym-options',
-            'map',
-            array(
-                'label_for' => "{$theme_mod}[map][url]",
-                'theme_mod' => $theme_mod,
-                'section' => 'map',
-                'id' => 'url'
-            )
-        );
-
-        add_settings_section(
-            'socials',
+            'diym_socials',
             __( 'Social media', 'diy-marketer' ),
             array( &$this, 'render_void' ),
             'diym-options'
@@ -464,11 +186,10 @@ class DIYM_Options_Page {
             __( 'Facebook', 'diy-marketer' ),
             array( &$this, 'render_input' ),
             'diym-options',
-            'socials',
+            'diym_socials',
             array(
-                'label_for' => "{$theme_mod}[socials][facebook]",
-                'theme_mod' => $theme_mod,
-                'section' => 'socials',
+                'label_for' => "diym_socials[facebook]",
+                'section' => 'diym_socials',
                 'id' => 'facebook'
             )
         );
@@ -478,11 +199,10 @@ class DIYM_Options_Page {
             __( 'Instagram', 'diy-marketer' ),
             array( &$this, 'render_input' ),
             'diym-options',
-            'socials',
+            'diym_socials',
             array(
-                'label_for' => "{$theme_mod}[socials][instagram]",
-                'theme_mod' => $theme_mod,
-                'section' => 'socials',
+                'label_for' => "diym_socials[instagram]",
+                'section' => 'diym_socials',
                 'id' => 'instagram'
             )
         );
@@ -492,11 +212,10 @@ class DIYM_Options_Page {
             __( 'Youtube', 'diy-marketer' ),
             array( &$this, 'render_input' ),
             'diym-options',
-            'socials',
+            'diym_socials',
             array(
-                'label_for' => "{$theme_mod}[socials][youtube]",
-                'theme_mod' => $theme_mod,
-                'section' => 'socials',
+                'label_for' => "diym_socials[youtube]",
+                'section' => 'diym_socials',
                 'id' => 'youtube'
             )
         );
@@ -506,12 +225,280 @@ class DIYM_Options_Page {
             __( 'Twitter', 'diy-marketer' ),
             array( &$this, 'render_input' ),
             'diym-options',
-            'socials',
+            'diym_socials',
             array(
-                'label_for' => "{$theme_mod}[socials][twitter]",
-                'theme_mod' => $theme_mod,
-                'section' => 'socials',
+                'label_for' => "diym_socials[twitter]",
+                'section' => 'diym_socials',
                 'id' => 'twitter'
+            )
+        );
+
+        add_settings_section(
+            'diym_google',
+            __( 'Google Settings', 'diy-marketer' ),
+            array( &$this, 'render_void' ),
+            'diym-options'
+        );
+
+        add_settings_field( 
+            'place_id',
+            __( 'Place ID', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'diym_google',
+            array(
+                'label_for' => "diym_google[place_id]",
+                'section' => 'diym_google',
+                'id' => 'place_id',
+            )
+        );
+
+        add_settings_field( 
+            'key',
+            __( 'API Key', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'diym_google',
+            array(
+                'label_for' => "diym_google[key]",
+                'section' => 'diym_google',
+                'id' => 'key'
+            )
+        );
+
+        add_settings_field( 
+            'button',
+            __( '&nbsp;', 'diy-marketer' ),
+            array( &$this, 'render_button' ),
+            'diym-options',
+            'diym_google',
+            // pass google value & set defaults if required.
+            get_option( 'diym_google',
+                array(
+                    'place_id' => '',
+                    'key' => ''
+                )
+            )
+        );
+
+        add_settings_section(
+            'diym_details',
+            __( 'Business Details', 'diy-marketer' ),
+            array( &$this, 'render_void' ),
+            'diym-options'
+        );
+
+        add_settings_field( 
+            'phone', //id
+            __( 'Phone number', 'diy-marketer' ),
+            array( &$this, 'render_phone' ),
+            'diym-options',
+            'diym_details',
+            array(
+                'label_for' => "diym_details[phone]",
+                'section' => 'diym_details',
+                'id' => 'phone'
+            )
+        );
+
+        add_settings_field( 
+            'country', //id
+            __( 'Country', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'diym_details',
+            array(
+                'label_for' => "diym_details[country]",
+                'section' => 'diym_details',
+                'id' => 'country'
+            )
+        );
+
+        add_settings_field( 
+            'street_address',
+            __( 'Street Address', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'diym_details',
+            array(
+                'label_for' => "diym_details[street_address]",
+                'section' => 'diym_details',
+                'id' => 'street_address'
+            )
+        );
+
+        add_settings_field( 
+            'suburb',
+            __( 'Suburb', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'diym_details',
+            array(
+                'label_for' => "diym_details[suburb]",
+                'section' => 'diym_details',
+                'id' => 'suburb'
+            )
+        );
+
+        add_settings_field( 
+            'city',
+            __( 'City', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'diym_details',
+            array(
+                'label_for' => "diym_details[city]",
+                'section' => 'diym_details',
+                'id' => 'city'
+            )
+        );
+
+        add_settings_field( 
+            'region',
+            __( 'Region', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'diym_details',
+            array(
+                'label_for' => "diym_details[region]",
+                'section' => 'diym_details',
+                'id' => 'region'
+            )
+        );
+
+        add_settings_field( 
+            'post_code',
+            __( 'Postal code', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'diym_details',
+            array(
+                'label_for' => "diym_details[post_code]",
+                'section' => 'diym_details',
+                'id' => 'post_code'
+            )
+        );
+
+        add_settings_section(
+            'diym_hours',
+            __( 'Business hours', 'diy-marketer' ),
+            array( &$this, 'render_void' ),
+            'diym-options'
+        );
+
+        add_settings_field( 
+            'monday',
+            __( 'Monday', 'diy-marketer' ),
+            array( &$this, 'render_hours' ),
+            'diym-options',
+            'diym_hours',
+            array(
+                'section' => "diym_hours",
+                'id' => 'monday'
+            )
+        );
+
+        add_settings_field( 
+            'tuesday',
+            __( 'Tuesday', 'diy-marketer' ),
+            array( &$this, 'render_hours' ),
+            'diym-options',
+            'diym_hours',
+            array(
+                'section' => "diym_hours",
+                'id' => 'tuesday'
+            )
+        );
+
+        add_settings_field( 
+            'wednesday',
+            __( 'Wednesday', 'diy-marketer' ),
+            array( &$this, 'render_hours' ),
+            'diym-options',
+            'diym_hours',
+            array(
+                'section' => "diym_hours",
+                'id' => 'wednesday'
+            )
+        );
+
+        add_settings_field( 
+            'thursday',
+            __( 'Thursday', 'diy-marketer' ),
+            array( &$this, 'render_hours' ),
+            'diym-options',
+            'diym_hours',
+            array(
+                'section' => "diym_hours",
+                'id' => 'thursday'
+            )
+        );
+
+        add_settings_field( 
+            'friday',
+            __( 'Friday', 'diy-marketer' ),
+            array( &$this, 'render_hours' ),
+            'diym-options',
+            'diym_hours',
+            array(
+                'section' => "diym_hours",
+                'id' => 'friday'
+            )
+        );
+
+        add_settings_field( 
+            'saturday',
+            __( 'Saturday', 'diy-marketer' ),
+            array( &$this, 'render_hours' ),
+            'diym-options',
+            'diym_hours',
+            array(
+                'section' => "diym_hours",
+                'id' => 'saturday'
+            )
+        );
+
+        add_settings_field( 
+            'sunday',
+            __( 'Sunday', 'diy-marketer' ),
+            array( &$this, 'render_hours' ),
+            'diym-options',
+            'diym_hours',
+            array(
+                'section' => "diym_hours",
+                'id' => 'sunday'
+            )
+        );
+
+        // map section
+        add_settings_section(
+            'diym_map',
+            __( 'Google Map settings', 'diy-marketer' ),
+            array( &$this, 'render_void' ),
+            'diym-options'
+        );
+
+        add_settings_field( 
+            'coordinates',
+            __( 'GPS coordinates', 'diy-marketer' ),
+            array( &$this, 'render_location' ),
+            'diym-options',
+            'diym_map',
+            array(
+                'section' => 'diym_map',
+            )
+        );
+
+        add_settings_field( 
+            'url',
+            __( "Map's url", 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'diym_map',
+            array(
+                'label_for' => "diym_map[url]",
+                'section' => 'diym_map',
+                'id' => 'url'
             )
         );
 
@@ -545,18 +532,35 @@ class DIYM_Options_Page {
     }
 
     // render input
-    public function render_details( $args ) {
+    public function render_location( $args ) {
+
+        // extract tags from array
+        extract( $args );
+
+        ?>
+            <fieldset>
+                <label for="<?php echo "{$section}[lat]"; ?>">Latitude</label>
+                <input type="text" id="<?php echo "{$section}[lat]"; ?>" name="<?php echo "{$section}[lat]"; ?>" value="<?php echo get_option( $section )[ 'lat' ]; ?>" class="medium-text">
+                <br>
+                <label for="<?php echo "{$section}[lng]"; ?>">Longitude</label>
+                <input type="text" id="<?php echo "{$section}[lng]"; ?>" name="<?php echo "{$section}[lng]"; ?>" value="<?php echo get_option( $section )[ 'lng' ]; ?>" class="medium-text">
+            </fieldset>
+        <?php
+    }
+
+    // render input
+    public function render_phone( $args ) {
 
         // extract tags from array
         extract( $args );
 
         // build tag
-        $tag = "{$theme_mod}[{$section}][{$id}]";
+        $tag = "{$section}[{$id}]";
         
 
         ?>
-            <input type="text" id="<?php echo $tag; ?>" name="<?php echo $tag; ?>" value="<?php echo get_theme_mod($section)[$id]; ?>" class="regular-text">
-            <input type="hidden" name="blogname" value="<?php echo get_option('blogname'); ?>">
+            <input type="text" id="<?php echo $tag; ?>" name="<?php echo $tag; ?>" value="<?php echo get_option( $section )[ $id ]; ?>" class="regular-text">
+            <input type="hidden" name="blogname" value="<?php echo get_option( 'blogname' ); ?>">
         <?php
     }
 
@@ -567,15 +571,15 @@ class DIYM_Options_Page {
         extract( $args );
 
         // build prefix
-        $prefix = "{$theme_mod}[{$section}][{$id}";
+        $prefix = "{$section}[{$id}";
 
         ?>
            <fieldset>
                 <label for="<? echo "{$prefix}_open]"; ?>">Open</label>
-                <input type="text" id="<?php echo "{$prefix}_open]"; ?>" name="<?php echo "{$prefix}_open]"; ?>" value="<?php echo get_theme_mod($section)["{$id}_open"]; ?>" class="timepicker small-text">
+                <input type="text" id="<?php echo "{$prefix}_open]"; ?>" name="<?php echo "{$prefix}_open]"; ?>" value="<?php echo get_option($section)["{$id}_open"]; ?>" class="timepicker small-text">
                 <br>
                 <label for="<? echo "{$prefix}_close]"; ?>">Close</label>
-                <input type="text" id="<?php echo "{$prefix}_close]"; ?>" name="<?php echo "{$prefix}_close]"; ?>" value="<?php echo get_theme_mod($section)["{$id}_close"]; ?>" class="timepicker small-text">
+                <input type="text" id="<?php echo "{$prefix}_close]"; ?>" name="<?php echo "{$prefix}_close]"; ?>" value="<?php echo get_option($section)["{$id}_close"]; ?>" class="timepicker small-text">
             </fieldset>
         <?php
     }
@@ -603,10 +607,10 @@ class DIYM_Options_Page {
         extract( $args );
 
         // build tag
-        $tag = "{$theme_mod}[{$section}][{$id}]";
+        $tag = "{$section}[{$id}]";
 
         ?>
-            <input type="text" id="<?php echo $tag; ?>" name="<?php echo $tag; ?>" value="<?php echo get_theme_mod($section)[$id]; ?>" class="regular-text">
+            <input type="text" id="<?php echo $tag; ?>" name="<?php echo $tag; ?>" value="<?php echo get_option($section)[$id]; ?>" class="regular-text">
         <?php
     }
 
@@ -617,28 +621,78 @@ class DIYM_Options_Page {
         extract( $args );
 
         // build tag
-        $tag = "{$theme_mod}[{$section}][{$id}]";
+        $tag = "{$section}[{$id}]";
 
         ?>
-            <textarea id="<?php echo $tag; ?>" name="<?php echo $tag; ?>"  class="large-text code" rows="3"><?php echo get_theme_mod( $section ) [ $id ]; ?></textarea>
+            <textarea id="<?php echo $tag; ?>" name="<?php echo $tag; ?>"  class="large-text code" rows="3"><?php echo get_option( $section ) [ $id ]; ?></textarea>
         <?php
     }
 
-    public function sanitize_settings( $data ) {
-
-        // sanitize time...
-        foreach ( $data['hours'] as $key => $value) {
-            $data[ 'hours' ][ $key ] = sanitize_event_time( $value );
+    public function sanitize_text( $data ) {
+        // sanitize text...
+        foreach ( $data as $key => $value) {
+            $data[ $key ] = sanitize_text_field( $value );
         }
 
-        // sanitize socials...
-        foreach ( $data['socials'] as $key => $value) {
-            $data[ 'socials' ][ $key ] = esc_url_raw( $value );
+        return $data;
+    }
 
-            //esc_url_raw( 
-            //write_log( $key );
-            //write_log( $value );
-            //$data[ 'socials' ][ $key ] = sanitize_event_time( $value );
+    public function sanitize_time( $data ) {
+        // sanitize text...
+        foreach ( $data as $key => $value) {
+            $data[ $key ] = sanitize_event_time( $value );
+        }
+
+        return $data;
+    }
+
+    public function sanitize_tag( $data ) {
+
+        $allowed = array(
+            'script' => array(
+                'async' => array(),
+                'defer' => array(),
+                'src' => array()
+            )
+        );
+
+        // sanitize tag...
+        //wp_kses( string $custom_content, array $allowed_HTML, array $allowed_protocols = array() )
+        foreach ( $data as $key => $value) {
+            //$data[ $key ] = sanitize_text_field( $value );
+            //$data[ $key ] = wp_kses( $value, $allowed );
+            //$data[ $key ] = trim( strip_tags( $value, '<script>' ), '\n' );
+            $data[ $key ] = strip_tags( $value, '<script>' );
+        }
+
+        return $data;
+    }
+
+    public function sanitize_map( $data ) {
+
+        $number = array(
+            'lng',
+            'lat'
+        );
+
+        foreach ( $data as $key => $value) {
+            if ( in_array( $key, $number ) ) {
+                $data[ $key ] = floatval( $value );
+            }
+
+            if ( $key == 'url' ) {
+                $data[ $key ] =  esc_url_raw( $value );
+            }
+        }
+
+        return $data;
+    }
+
+    public function sanitize_url( $data ) {
+
+        // sanitize socials...
+        foreach ( $data as $key => $value) {
+            $data[ $key ] = esc_url_raw( $value );
         }
 
         return $data;
