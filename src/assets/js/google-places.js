@@ -109,7 +109,7 @@ $(document).ready(() => {
     });
 
     //
-    $("#sync_places").click(evt => {
+    $(".settings_page_diym-options #sync_places").click(evt => {
         // disable button
 
         //extractAddress("zzz");

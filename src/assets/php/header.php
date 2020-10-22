@@ -39,12 +39,12 @@
 
 					if ( $blog_description || is_customize_preview() ) :
 						?>
-						<span class="blog-description"><?php echo $blog_description; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+						<span class="blog-description"><?php echo $blog_description ? $blog_description : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 					<?php endif; ?>
 			</div>
 			<div class="col-md text-center text-md-right">
 				<?php
-					$details  = get_theme_mod( 'details', null );
+					$details  = get_option( 'diym_details', null );
 
 					if ( $details ) {
 						$phone = $details[ 'phone' ] ? $details[ 'phone' ] : null;

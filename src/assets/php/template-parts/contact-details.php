@@ -12,14 +12,13 @@ $email         = get_bloginfo( 'admin_email' );
 $url           = get_bloginfo( 'url' );
 
 // object...
-$address       = get_theme_mod( 'address', null );
-$details       = get_theme_mod( 'details', null );
+$details       = get_option( 'diym_details', null );
 
-$temp = null;
-$phone = null;
+$temp           = null;
+$phone          = null;
 
-if ( $address ) {
-    extract( $address );
+if ( $details ) {
+    extract( $details );
 
     // build address html string...
     $temp = $street_address;
@@ -29,12 +28,6 @@ if ( $address ) {
 
     $temp .= $temp && ( $city || $postal_code ) ? '<br>' : '';
     $temp .= $city ? $post_code ? $city . ', ' . $post_code : $city : $post_code;
-}
-
-if ( $details ) {
-    if ( $details[ 'phone' ] ) {
-        $phone = $details[ 'phone' ];
-    }
 }
 
 if ( $name || $temp || $phone || $email || $url ) {

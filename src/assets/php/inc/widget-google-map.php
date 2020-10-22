@@ -57,11 +57,11 @@ class DIYM_Google_Map_Widget extends WP_Widget {
                         'https://maps.googleapis.com/maps/api/staticmap'
                     );
 
-                    ?>
-                        <a href="<?php echo $url; ?>" target="_blank">
-                            <img class="border" src="<?php echo $request; ?>" alt="google map" width="208" height="180">
-                        </a>
-                    <?php
+                    $html = $url ? "<a href='{$url}' target='_blank'>" : '';
+                        $html .= "<img class='border' src='{$request}' alt='google map' width='208' height='180'>";
+                    $html .= $url ? "</a>" : '';
+
+                    echo $html;
                 }
             }
         }

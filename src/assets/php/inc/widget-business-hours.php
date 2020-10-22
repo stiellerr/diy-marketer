@@ -83,45 +83,43 @@ class DIYM_Business_Hours_Widget extends WP_Widget {
             echo $args['before_title'] . $title . $args['after_title'];
         }
 
-        $hours = get_theme_mod( 'hours', null );
+        $hours = get_option( 'diym_hours', null );
 
         if ( !empty( $hours ) ) {
             extract( $hours );
-        
-            ?>
 
-            <table style="width:100%">
-                <tr>
-                    <td>Monday</td>
-                    <td><?php echo $this->render_row( $monday_open, $monday_close ); ?></td>
-                </tr>
-                <tr>
-                    <td>Tuesday</td>
-                    <td><?php echo $this->render_row( $tuesday_open, $tuesday_close ); ?></td>
-                </tr>
-                <tr>
-                    <td>Wednesday</td>
-                    <td><?php echo $this->render_row( $wednesday_open, $wednesday_close ); ?></td>
-                </tr>
-                <tr>
-                    <td>Thursday</td>
-                    <td><?php echo $this->render_row( $thursday_open, $thursday_close ); ?></td>
-                </tr>
-                <tr>
-                    <td>Friday</td>
-                    <td><?php echo $this->render_row( $friday_open, $friday_close ); ?></td>
-                </tr>
-                <tr>
-                    <td>Saturday</td>
-                    <td><?php echo $this->render_row( $saturday_open, $saturday_close ); ?></td>
-                </tr>
-                <tr>
-                    <td>Sunday</td>
-                    <td><?php echo $this->render_row( $sunday_open, $sunday_close ); ?></td>
-                </tr>
-            </table>
-            
-            <?php
+            $html = '<table style="width:100%">';
+                $html .= '<tr>';
+                    $html .= '<td>Monday</td>';
+                    $html .= "<td>" . $this->render_row( $monday_open, $monday_close ) . "</td>";
+                $html .= '</tr>';
+                $html .= '<tr>';
+                    $html .= '<td>Tuesday</td>';
+                    $html .= "<td>" . $this->render_row( $tuesday_open, $tuesday_close ) . "</td>";
+                $html .= '</tr>';
+                $html .= '<tr>';
+                    $html .= '<td>Wednesday</td>';
+                    $html .= "<td>" . $this->render_row( $wednesday_open, $wednesday_close ) . "</td>";
+                $html .= '</tr>';
+                $html .= '<tr>';
+                    $html .= '<td>Thursday</td>';
+                    $html .= "<td>" . $this->render_row( $thursday_open, $thursday_close ) . "</td>";
+                $html .= '</tr>';
+                $html .= '<tr>';
+                    $html .= '<td>Friday</td>';
+                    $html .= "<td>" . $this->render_row( $friday_open, $friday_close ) . "</td>";
+                $html .= '</tr>';
+                $html .= '<tr>';
+                    $html .= '<td>Saturday</td>';
+                    $html .= "<td>" . $this->render_row( $saturday_open, $saturday_close ) . "</td>";
+                $html .= '</tr>';
+                $html .= '<tr>';
+                    $html .= '<td>Sunday</td>';
+                    $html .= "<td>" . $this->render_row( $sunday_open, $sunday_close ) . "</td>";
+                $html .= '</tr>';
+            $html .= '</table>';
+
+            echo $html;
         }
 
         echo $args['after_widget'];

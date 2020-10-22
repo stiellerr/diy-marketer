@@ -184,52 +184,56 @@ class DIYM_Options_Page {
         add_settings_field( 
             'facebook',
             __( 'Facebook', 'diy-marketer' ),
-            array( &$this, 'render_input' ),
+            array( &$this, 'render_url' ),
             'diym-options',
             'diym_socials',
             array(
                 'label_for' => "diym_socials[facebook]",
                 'section' => 'diym_socials',
-                'id' => 'facebook'
+                'id' => 'facebook',
+                'placeholder' => 'https://facebook.com/facebook',
             )
         );
 
         add_settings_field( 
             'instagram',
             __( 'Instagram', 'diy-marketer' ),
-            array( &$this, 'render_input' ),
+            array( &$this, 'render_url' ),
             'diym-options',
             'diym_socials',
             array(
                 'label_for' => "diym_socials[instagram]",
                 'section' => 'diym_socials',
-                'id' => 'instagram'
+                'id' => 'instagram',
+                'placeholder' => 'https://www.instagram.com/instagram',
             )
         );
 
         add_settings_field( 
             'youtube',
             __( 'Youtube', 'diy-marketer' ),
-            array( &$this, 'render_input' ),
+            array( &$this, 'render_url' ),
             'diym-options',
             'diym_socials',
             array(
                 'label_for' => "diym_socials[youtube]",
                 'section' => 'diym_socials',
-                'id' => 'youtube'
+                'id' => 'youtube',
+                'placeholder' => 'https://www.youtube.com/youtube',
             )
         );
 
         add_settings_field( 
             'twitter',
             __( 'Twitter', 'diy-marketer' ),
-            array( &$this, 'render_input' ),
+            array( &$this, 'render_url' ),
             'diym-options',
             'diym_socials',
             array(
                 'label_for' => "diym_socials[twitter]",
                 'section' => 'diym_socials',
-                'id' => 'twitter'
+                'id' => 'twitter',
+                'placeholder' => 'https://www.twitter.com/twitter',
             )
         );
 
@@ -492,13 +496,14 @@ class DIYM_Options_Page {
         add_settings_field( 
             'url',
             __( "Map's url", 'diy-marketer' ),
-            array( &$this, 'render_input' ),
+            array( &$this, 'render_url' ),
             'diym-options',
             'diym_map',
             array(
                 'label_for' => "diym_map[url]",
                 'section' => 'diym_map',
-                'id' => 'url'
+                'id' => 'url',
+                'placeholder' => 'https://google.com/maps'
             )
         );
 
@@ -597,6 +602,20 @@ class DIYM_Options_Page {
         
         ?>
             <input id="sync_places" type='button' value="Synchronise Data" class="button button-secondary"<?php echo empty( $place_id ) || empty( $key ) ? ' disabled' : '' ?>>
+        <?php
+    }
+
+    // render input
+    public function render_url( $args ) {
+
+        // extract tags from array
+        extract( $args );
+
+        // build tag
+        $tag = "{$section}[{$id}]";
+
+        ?>
+            <input type="url" id="<?php echo $tag; ?>" name="<?php echo $tag; ?>" value="<?php echo get_option($section)[$id]; ?>" class="regular-text" <?php echo $placeholder ? " placeholder='{$placeholder}'" : ""; ?>>
         <?php
     }
 

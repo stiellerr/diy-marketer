@@ -7,7 +7,7 @@
  * @package DIY_Marketer
  */
 
-$socials = get_theme_mod( 'socials', null );
+$socials = get_option( 'diym_socials', null );
 
 if ( !empty( $socials ) ) {
     extract( $socials );
