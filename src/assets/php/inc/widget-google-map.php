@@ -33,7 +33,7 @@ class DIYM_Google_Map_Widget extends WP_Widget {
             echo $args['before_title'] . $title . $args['after_title'];
         }
 
-        $map = get_theme_mod( 'map', null );
+        $map = get_option( 'diym_map', null );
 
         if ( !empty( $map ) ) {
             extract( $map );

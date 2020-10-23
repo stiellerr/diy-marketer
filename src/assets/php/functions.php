@@ -166,8 +166,8 @@ if ( ! function_exists( 'diym_setup' ) ) {
 			// to do
             'width'      => 80,
             'flex-width' => true,
-            'flex-height' => false,
-            'header-text' => array( '#site-banner' ),
+            'flex-height' => false
+            //'header-text' => array( '#site-banner' ),
 		]);
 		
 		$mailer = new DIYM_Send_Mail();

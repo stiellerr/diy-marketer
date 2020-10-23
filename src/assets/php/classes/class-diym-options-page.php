@@ -245,19 +245,6 @@ class DIYM_Options_Page {
         );
 
         add_settings_field( 
-            'place_id',
-            __( 'Place ID', 'diy-marketer' ),
-            array( &$this, 'render_input' ),
-            'diym-options',
-            'diym_google',
-            array(
-                'label_for' => "diym_google[place_id]",
-                'section' => 'diym_google',
-                'id' => 'place_id',
-            )
-        );
-
-        add_settings_field( 
             'key',
             __( 'API Key', 'diy-marketer' ),
             array( &$this, 'render_input' ),
@@ -267,6 +254,19 @@ class DIYM_Options_Page {
                 'label_for' => "diym_google[key]",
                 'section' => 'diym_google',
                 'id' => 'key'
+            )
+        );
+
+        add_settings_field( 
+            'place_id',
+            __( 'Place ID', 'diy-marketer' ),
+            array( &$this, 'render_input' ),
+            'diym-options',
+            'diym_google',
+            array(
+                'label_for' => "diym_google[place_id]",
+                'section' => 'diym_google',
+                'id' => 'place_id',
             )
         );
 
@@ -657,9 +657,10 @@ class DIYM_Options_Page {
     }
 
     public function sanitize_time( $data ) {
+
         // sanitize text...
         foreach ( $data as $key => $value) {
-            $data[ $key ] = sanitize_event_time( $value );
+            $data[ $key ] = $this->sanitize_event_time( $value );
         }
 
         return $data;
@@ -730,7 +731,7 @@ class DIYM_Options_Page {
         $event_time = filter_var($event_time, FILTER_SANITIZE_STRING);
     
         // Validation to see if it is the right format
-        if (_my_validate_date($event_time)){
+        if ($this->_my_validate_date($event_time)){
             return $event_time;
         }
     

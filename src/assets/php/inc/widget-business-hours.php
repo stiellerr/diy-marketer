@@ -14,38 +14,6 @@
  * @return String
  */
 
-function sanitize_event_time($event_time) {
-
-    // General sanitization, to get rid of malicious scripts or characters
-    $event_time = sanitize_text_field($event_time);
-    $event_time = filter_var($event_time, FILTER_SANITIZE_STRING);
-
-    // Validation to see if it is the right format
-    if (_my_validate_date($event_time)){
-        return $event_time;
-    }
-
-    // default value, to return if checks have failed
-    return "00:00";
-}
-
-/**
- * Validates that a date string is in the right format
- * default format is 'H:i' to test for time only in this format '24:00'
- * but you can pass a new format to test against other formats
- * other formats here https://www.lehelmatyus.com/1003/android-change-date-format-from-utc-to-local-time
- * 
- * @return bool
- */
-
-function _my_validate_date($date, $format = 'H:i') {
-    // Create the format date
-    $d = DateTime::createFromFormat($format, $date);
-
-    // Return the comparison    
-    return $d && $d->format($format) === $date;
-}
-
 class DIYM_Business_Hours_Widget extends WP_Widget {
 
     public function __construct() {

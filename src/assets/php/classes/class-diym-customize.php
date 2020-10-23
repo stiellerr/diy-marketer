@@ -25,7 +25,7 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 			/**
 			 * Site Title & Description.
 			 * */
-			$wp_customize->get_setting( 'blogname' )->transport        = 'postMessage';
+			//$wp_customize->get_setting( 'blogname' )->transport        = 'postMessage';
 			$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
 
 			/*
