@@ -19,10 +19,12 @@
             )
         );
 
+        /*
         if ( is_active_widget( false, false, $this->id_base ) || is_customize_preview() ) {
-            //add_action( 'wp_head', array( &$this, 'inject_head' ), 0 );
-            //add_action( 'wp_body_open', array( &$this, 'inject_body' ) );
+            add_action( 'wp_head', array( &$this, 'inject_head' ), 0 );
+            add_action( 'wp_body_open', array( &$this, 'inject_body' ) );
         }
+        */
     }
 
     function inject_head() {
@@ -62,8 +64,6 @@
         if ( $socials ) {
             if ( $socials[ 'facebook' ] ) {
                 $url = urlencode( trailingslashit( $socials[ 'facebook' ] ) );
-
-                write_log( $url );
 
                 echo "<iframe src='https://www.facebook.com/plugins/page.php?href={$url}&tabs&width=210&height=154&small_header=true&adapt_container_width=false&hide_cover=false&show_facepile=true&hide_cta=false&lazy=true&appId' width='210' height='154' style='border:none;overflow:hidden' scrolling='no' frameborder='0' allowTransparency='true' allow='encrypted-media'></iframe>";
             }

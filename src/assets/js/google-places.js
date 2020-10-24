@@ -2,7 +2,6 @@
 import $ from "jquery";
 //import Moment from "../../../node_modules/moment";
 
-// parse hours
 function parseGeometry(context) {
     $("input[name$='[lat]']").val(context.location.lat);
     $("input[name$='[lng]']").val(context.location.lng);
