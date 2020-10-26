@@ -81,7 +81,7 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
             wp_enqueue_script(
                 'diym-block-editor-script',
                 //'diym-block-editor-script',
-                get_template_directory_uri() . '/dist/assets/blocks/editor.js',
+                get_template_directory_uri() . '/assets/blocks/editor.js',
                 /*
                 $debug
                     ? '//widgets.wp.com/wpcom-block-editor/default.editor.js?minify=false'
@@ -113,7 +113,7 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
 
             wp_enqueue_style(
                 'diym-block-editor-style',
-                get_template_directory_uri() . '/dist/assets/blocks/editor.css',
+                get_template_directory_uri() . '/assets/blocks/editor.css',
                 /*
                 $debug
                     ? '//widgets.wp.com/wpcom-block-editor/default.editor.js?minify=false'
