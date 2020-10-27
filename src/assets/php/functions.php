@@ -18,11 +18,36 @@ if ( ! function_exists( 'write_log ') ) {
 	}
 }
 
+add_filter( 'the_title', 'diym_the_title', 10, 2 );
+
+function diym_print_page_meta() {
+    //if ( is_single() ) {
+        // Get the post id using the get_the_ID(); function:
+		//echo get_post_meta( get_the_ID(), 'meta-head', true );
+
+		$title = get_post_meta( get_the_ID(), '_diym_seo_page_title', true );
+		
+		echo $title ? '<title>' . $title . '</title>' : '';
+
+
+        /* Or, globalize $post so that we're accessing the global $post variable: */
+        //global $post;
+        //echo get_post_meta( $post->ID, 'meta-head', true );
+
+        /* Or, access the global $post variable directly: */
+        // echo get_post_meta( $GLOBALS['post']->ID, 'meta-head', true );
+    //}
+}
+
+add_action ( 'wp_head', 'diym_print_page_meta', 1 );
+
+//write_log( get_the_ID() );
+
 //
 //add_filter('xmlrpc_enabled', '__return_false');
 
 function diym_clean_up() {
-
+	
 	// remove emoji support
 	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 	remove_action( 'wp_print_styles', 'print_emoji_styles' );
@@ -138,6 +163,8 @@ if ( ! function_exists( 'diym_setup' ) ) {
 		
 		// Set up excerpt support for pages.
 		add_post_type_support( 'page', 'excerpt' );
+
+		add_theme_support( 'title-tag' );
 
 		// Add theme support for selective refresh for widgets.
 		add_theme_support( 'customize-selective-refresh-widgets' );
