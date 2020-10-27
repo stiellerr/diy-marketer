@@ -299,7 +299,9 @@ export const blocks = () => {
                     //"@wordpress/editor": ["wp", "editor"],
                     "@wordpress/components": ["wp", "components"],
                     "@wordpress/data": ["wp", "data"],
-                    "@wordpress/rich-text": ["wp", "richText"]
+                    "@wordpress/rich-text": ["wp", "richText"],
+                    "@wordpress/plugins": ["wp", "plugins"],
+                    "@wordpress/edit-post": ["wp", "editPost"]
                 },
                 mode: PRODUCTION ? "production" : "development"
             })

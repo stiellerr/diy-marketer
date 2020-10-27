@@ -30,8 +30,35 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
 
             add_filter( 'block_categories', array( $this, 'diym_block_categories' ), 10, 2 );
 
+            add_filter( 'init', array( &$this, 'register_meta' ) );
+            add_filter( 'init', array( &$this, 'register_page_template' ) );
+
             //add_action('wp_ajax_send_form', array( $this, 'send_form' ) ); // This is for authenticated users
             //add_action('wp_ajax_nopriv_send_form', array( $this, 'send_form') ); // This is for unauthenticated users.
+        }
+
+        function register_meta() {
+            // metabox
+            register_meta('post', '_diym_seo_page_title', array(
+                    'show_in_rest' => true,
+                    'type' => 'string',
+                    'single' => true,
+                    'sanitize_callback' => 'sanitize_text_field',
+                    // needed if meta field starts with _ note: starting with _ hides the field from custom fields in classic editor. (which is why we do it)
+                    'auth_callback' => function() {
+                        return current_user_can( 'edit_posts' );
+                    }
+                )
+            );
+        }
+
+        function register_page_template() {
+
+            $post_type_object = get_post_type_object( 'page' );
+            $post_type_object->template = array(
+                array( 'diym/meta' )
+            );
+            //$post_type_object->template_lock = 'all';
         }
 
         function diym_block_categories( $categories, $post ) {
@@ -96,6 +123,10 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
                     'wp-block-editor',
                     'wp-components',
                     'lodash',
+                    'wp-plugins',
+                    'wp-edit-post',
+                    'wp-compose'
+
                     /*
                     'jquery',
                     'wp-compose',
