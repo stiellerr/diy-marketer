@@ -18,7 +18,7 @@ let PluginMetaFields = props => {
             />
             <TextareaControl label={__("Page Description", "diy-marketer")} />
 
-            <p className="diym-seo-title">{props.subtitle}</p>
+            <span className="diym-seo-title">{props.subtitle}</span>
         </>
     );
 };
