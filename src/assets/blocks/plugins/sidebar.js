@@ -12,13 +12,17 @@ let PluginMetaFields = props => {
     return (
         <>
             <TextControl
-                value={props.subtitle}
+                value={props.meta.title}
                 label={__("Page Title", "diy-marketer")}
-                onChange={value => props.onSubtitleChange(value)}
+                onChange={value => props.onMetaChange(value, props.meta.description)}
             />
-            <TextareaControl label={__("Page Description", "diy-marketer")} />
-
-            <span className="diym-seo-title">{props.subtitle}</span>
+            <TextareaControl
+                value={props.meta.description}
+                label={__("Page Description", "diy-marketer")}
+                onChange={value => props.onMetaChange(props.meta.title, value)}
+            />
+            <span className="diym-seo-title">{props.meta.title}</span>
+            <span className="diym-seo-description">{props.meta.description}</span>
         </>
     );
 };
@@ -26,13 +30,15 @@ let PluginMetaFields = props => {
 PluginMetaFields = compose([
     withSelect(select => {
         return {
-            subtitle: select("core/editor").getEditedPostAttribute("meta")["_diym_seo_page_title"]
+            meta: select("core/editor").getEditedPostAttribute("meta")["_diym_post_meta"]
         };
     }),
     withDispatch(dispatch => {
         return {
-            onSubtitleChange: subtitle => {
-                dispatch("core/editor").editPost({ meta: { _diym_seo_page_title: subtitle } });
+            onMetaChange: (title, description) => {
+                dispatch("core/editor").editPost({
+                    meta: { _diym_post_meta: { title, description } }
+                });
             }
         };
     })

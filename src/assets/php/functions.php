@@ -18,16 +18,79 @@ if ( ! function_exists( 'write_log ') ) {
 	}
 }
 
-add_filter( 'the_title', 'diym_the_title', 10, 2 );
+// global function for text sanitization of arrays.
+function diym_sanitize_text( $data ) {
 
-function diym_print_page_meta() {
+	foreach ( $data as $key => $value) {
+		$data[ $key ] = sanitize_text_field( $value );
+	}
+
+	return $data;
+}
+
+function diym_print_title( $title ) {
     //if ( is_single() ) {
         // Get the post id using the get_the_ID(); function:
 		//echo get_post_meta( get_the_ID(), 'meta-head', true );
 
-		$title = get_post_meta( get_the_ID(), '_diym_seo_page_title', true );
+	//$title = get_post_meta( get_the_ID(), '_diym_seo_page_title', true );
+	$post_meta = get_post_meta( get_the_ID(), '_diym_post_meta', true );
+	
+	if ( $post_meta ) {
+		$title = $post_meta['title'] ? $post_meta['title'] : '';
+	}
+
+	
+
+
+        /* Or, globalize $post so that we're accessing the global $post variable: */
+        //global $post;
+        //echo get_post_meta( $post->ID, 'meta-head', true );
+
+        /* Or, access the global $post variable directly: */
+        // echo get_post_meta( $GLOBALS['post']->ID, 'meta-head', true );
+	//}
+	//write_log( $title );
+
+	return $title;
+
+}
+
+add_filter( 'pre_get_document_title', 'diym_print_title' );
+
+
+// print meta description for seo
+function diym_print_meta_description() {
+
+	$post_meta = get_post_meta( get_the_ID(), '_diym_post_meta', true );
+
+	if ( $post_meta ) {
+		echo $post_meta['description'] ? "<meta name='description' content='" . $post_meta['description'] . "' />" . "\n" : '';
+	}
+
+}
+
+add_action ( 'wp_head', 'diym_print_meta_description', 1 );
+
+// print meta description for seo
+function diym_print_google_tag_manager_head() {
+
+	//$post_meta = get_post_meta( get_the_ID(), '_diym_post_meta', true );
+
+	//echo $post_meta['description'] ? "<meta name='description' content='" . $post_meta['description'] . "' />" . "\n" : '';
+
+}
+
+add_action ( 'wp_head', 'diym_print_google_tag_manager_head', 1 );
+
+//function diym_print_page_meta() {
+    //if ( is_single() ) {
+        // Get the post id using the get_the_ID(); function:
+		//echo get_post_meta( get_the_ID(), 'meta-head', true );
+
+		//$title = get_post_meta( get_the_ID(), '_diym_seo_page_title', true );
 		
-		echo $title ? '<title>' . $title . '</title>' : '';
+		//echo $title ? '<title>' . $title . '</title>' : '';
 
 
         /* Or, globalize $post so that we're accessing the global $post variable: */
@@ -37,9 +100,9 @@ function diym_print_page_meta() {
         /* Or, access the global $post variable directly: */
         // echo get_post_meta( $GLOBALS['post']->ID, 'meta-head', true );
     //}
-}
+//}
 
-add_action ( 'wp_head', 'diym_print_page_meta', 1 );
+//add_action ( 'wp_head', 'diym_print_page_meta', 1 );
 
 //write_log( get_the_ID() );
 

@@ -39,11 +39,54 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
 
         function register_meta() {
             // metabox
+            /*
             register_meta('post', '_diym_seo_page_title', array(
                     'show_in_rest' => true,
                     'type' => 'string',
                     'single' => true,
                     'sanitize_callback' => 'sanitize_text_field',
+                    // needed if meta field starts with _ note: starting with _ hides the field from custom fields in classic editor. (which is why we do it)
+                    'auth_callback' => function() {
+                        return current_user_can( 'edit_posts' );
+                    }
+                )
+            );
+    properties: {
+        my_prop1: {
+            type: 'string',
+            enum: [ 'Hello', 'Bye' ]
+        },
+        my_prop2: {
+            type: 'integer'
+        }
+    }
+            */
+            register_meta('post',
+                '_diym_post_meta',
+                array(
+                    'show_in_rest' => array(
+                        'schema' => array(
+                            'type'       => 'object',
+                            'properties' => array(
+                                'title' => array(
+                                    'type' => 'string',
+                                ),
+                                'description'  => array(
+                                    'type' => 'string',
+                                ),
+                            ),
+                        )
+                    ),
+                    //),
+                    'type' => 'object',
+                    'single' => true,
+                    /*
+                    'default' => array(
+                        'title' => '',
+                        'description' => '',
+                    ),
+                    */
+                    'sanitize_callback' => 'diym_sanitize_text',
                     // needed if meta field starts with _ note: starting with _ hides the field from custom fields in classic editor. (which is why we do it)
                     'auth_callback' => function() {
                         return current_user_can( 'edit_posts' );

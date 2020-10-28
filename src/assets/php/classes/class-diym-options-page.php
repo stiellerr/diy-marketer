@@ -89,7 +89,7 @@ class DIYM_Options_Page {
             'diym-options',
             "diym_google",
             array(
-                'sanitize_callback' => array( &$this, 'sanitize_text' )
+                'sanitize_callback' => 'diym_sanitize_text'
             )
         );
 
@@ -105,7 +105,7 @@ class DIYM_Options_Page {
             'diym-options',
             "diym_details",
             array(
-                'sanitize_callback' => array( &$this, 'sanitize_text' )
+                'sanitize_callback' => 'diym_sanitize_text'
             )
         );
 
@@ -113,7 +113,7 @@ class DIYM_Options_Page {
             'diym-options',
             "blogname",
             array(
-                'sanitize_callback' => array( &$this, 'sanitize_text' )
+                'sanitize_callback' => 'sanitize_text_field'
             )
         );
 
@@ -647,6 +647,7 @@ class DIYM_Options_Page {
         <?php
     }
 
+    /*
     public function sanitize_text( $data ) {
         // sanitize text...
         foreach ( $data as $key => $value) {
@@ -655,6 +656,7 @@ class DIYM_Options_Page {
 
         return $data;
     }
+    */
 
     public function sanitize_time( $data ) {
 
