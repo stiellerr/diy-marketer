@@ -31,7 +31,7 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
             add_filter( 'block_categories', array( $this, 'diym_block_categories' ), 10, 2 );
 
             add_filter( 'init', array( &$this, 'register_meta' ) );
-            add_filter( 'init', array( &$this, 'register_page_template' ) );
+            //add_filter( 'init', array( &$this, 'register_page_template' ) );
 
             //add_action('wp_ajax_send_form', array( $this, 'send_form' ) ); // This is for authenticated users
             //add_action('wp_ajax_nopriv_send_form', array( $this, 'send_form') ); // This is for unauthenticated users.
@@ -80,12 +80,10 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
                     //),
                     'type' => 'object',
                     'single' => true,
-                    /*
                     'default' => array(
                         'title' => '',
                         'description' => '',
                     ),
-                    */
                     'sanitize_callback' => 'diym_sanitize_text',
                     // needed if meta field starts with _ note: starting with _ hides the field from custom fields in classic editor. (which is why we do it)
                     'auth_callback' => function() {
@@ -95,6 +93,7 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
             );
         }
 
+        /*
         function register_page_template() {
 
             $post_type_object = get_post_type_object( 'page' );
@@ -103,6 +102,7 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
             );
             //$post_type_object->template_lock = 'all';
         }
+        */
 
         function diym_block_categories( $categories, $post ) {
             //

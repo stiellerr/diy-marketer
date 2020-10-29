@@ -8,21 +8,30 @@ import { compose } from "@wordpress/compose";
 
 import "./sidebar.scss";
 
-let PluginMetaFields = props => {
+let PluginMetaFields = ({ onMetaChange, meta }) => {
     return (
         <>
             <TextControl
-                value={props.meta.title}
+                value={meta.title}
                 label={__("Page Title", "diy-marketer")}
-                onChange={value => props.onMetaChange(value, props.meta.description)}
+                onChange={value => onMetaChange(value, meta.description)}
             />
+            <p>
+                Max 70 characters, <span className="diym-seo-count">{meta.title.length}</span>
+            </p>
             <TextareaControl
-                value={props.meta.description}
+                value={meta.description}
                 label={__("Page Description", "diy-marketer")}
-                onChange={value => props.onMetaChange(props.meta.title, value)}
+                onChange={value => onMetaChange(meta.title, value)}
             />
-            <span className="diym-seo-title">{props.meta.title}</span>
-            <span className="diym-seo-description">{props.meta.description}</span>
+            <p>
+                Max 144 characters,{" "}
+                <span className="diym-seo-count">{meta.description.length}</span>
+            </p>
+            {meta.title.length > 0 && <span className="diym-seo-title">{meta.title}</span>}
+            {meta.description.length > 0 && (
+                <p className="diym-seo-description">{meta.description}</p>
+            )}
         </>
     );
 };

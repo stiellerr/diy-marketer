@@ -27,10 +27,11 @@ import paragraph from "./inc/paragraph";
 
 import image from "./inc/image";
 
-import "./inc/meta";
+//import "./inc/meta";
 import "./plugins/sidebar";
 
 // prevent user from deleting meta block...
+/*
 const getBlockList = () => wp.data.select("core/block-editor").getBlocks();
 let blockList = getBlockList();
 wp.data.subscribe(() => {
@@ -43,3 +44,4 @@ wp.data.subscribe(() => {
     }
     blockList = newBlockList;
 });
+*/

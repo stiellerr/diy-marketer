@@ -77,17 +77,21 @@ registerBlockType("diym/image", {
     save: ({ attributes }) => {
         const { url, alt, id } = attributes;
 
-        const className = classNames("img-fluid", id ? `wp-image-${id}` : null);
+        //console.log(width);
+        //console.log(height);
+
+        //const className = classNames("img-fluid", id ? `wp-image-${id}` : null);
 
         return (
             <figure>
                 <img
                     src={url}
                     alt={alt}
-                    //width="100%"
-                    //height="auto"
+                    //width="800"
+                    //height="600"
                     //className={"img-fluid".id ? ` wp-image-${id}` : null}
-                    className={className}
+                    //className={className}
+                    className={id ? `wp-image-${id}` : null}
                 />
             </figure>
         );
