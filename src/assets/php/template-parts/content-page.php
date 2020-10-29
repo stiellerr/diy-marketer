@@ -12,15 +12,19 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<?php the_content(); ?>
 
+<!--
 	<img
-		width="1110"
+		width="825"
 		height="300"
-		src="https://via.placeholder.com/1110x300"
-		srcset="https://via.placeholder.com/546x300 546w, https://via.placeholder.com/510x300 510w, https://via.placeholder.com/690x300 690w, https://via.placeholder.com/930x300 930w, https://via.placeholder.com/1110x300 1110w"
-		sizes="(max-width: 575px) calc(100vw - 30px), (max-width: 767px) 510px, (max-width: 991px) 690px, (max-width: 1199px) 930px, 1110px">
+		src="https://via.placeholder.com/825x300"
+		srcset="https://via.placeholder.com/546x300 546w, https://via.placeholder.com/510x300 510w, https://via.placeholder.com/450x300 450w, https://via.placeholder.com/690x300 690w, https://via.placeholder.com/825x300 825w"
+		sizes="(max-width: 575px) calc(100vw - 30px), (max-width: 767px) 510px, (max-width: 991px) 450px, (max-width: 1199px) 690px, 825px">
+-->
 
 	<?php /*  191   */
-
+	//srcset="https://via.placeholder.com/546x300 546w, https://via.placeholder.com/510x300 510w, https://via.placeholder.com/690x300 690w, https://via.placeholder.com/930x300 930w, https://via.placeholder.com/1110x300 1110w"
+//(max-width: 575px) calc(100vw - 30px), (max-width: 767px) 510px, (max-width: 991px) 450px, (max-width: 1199px) 690px, 825px
+//(max-width: 575px) calc(100vw - 30px), (max-width: 767px) 510px, (max-width: 991px) 690px, (max-width: 1199px) 930px, 1110px
 	//echo "<h2>This is a test page.</h2>";
 	
 	//var_dump( wp_get_attachment_image_src(454, 'large' ) );

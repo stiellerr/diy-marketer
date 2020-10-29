@@ -922,8 +922,13 @@ function diym_calculate_image_sizes( $sizes, $size, $image_src, $image_meta, $at
 	//sizes="(max-width: 575px) 546px, (max-width: 767px) 510px, (max-width: 991px) 690px, (max-width: 1199px) 930px, 1110px"
 	
 	//write_log( $image_meta );
-	
-	//$sizes = "(max-width: 575px) calc(100vw - 30px), (max-width: 767px) 510px, (max-width: 991px) 690px, (max-width: 1199px) 930px, 1110px";
+
+	if ( is_active_sidebar( 'sidebar-1' ) ) {
+		// sidebar sizes...
+		$sizes = "(max-width: 575px) calc(100vw - 30px), (max-width: 767px) 510px, (max-width: 991px) 450px, (max-width: 1199px) 690px, 825px";
+	} else {
+		$sizes = "(max-width: 575px) calc(100vw - 30px), (max-width: 767px) 510px, (max-width: 991px) 690px, (max-width: 1199px) 930px, 1110px";
+	}
 
 	return $sizes;
 
