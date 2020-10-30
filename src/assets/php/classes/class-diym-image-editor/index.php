@@ -25,15 +25,32 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
             add_filter( 'wp_generate_attachment_metadata', array( &$this, 'wp_generate_attachment_metadata' ), 10, 3 );
 
+            add_filter( 'jpeg_quality', array( &$this, 'jpeg_quality' ), 10, 2 );
+
             require_once( dirname( __FILE__ ) . '/pel/autoload.php' );
+        }
+
+        // default is 82 but doesnt do the 'full' image. therefore, we will disable it and do our own compression
+        function jpeg_quality( $quality, $context ) {
+
+            $quality = 100;
+
+            return $quality;
+
         }
 
         function wp_generate_attachment_metadata( $metadata, $attachment_id, $context ) {
 
+            /*
             if ( ! function_exists( 'imageinterlace' ) ) {
                 return $metadata;
             }
-        
+            */
+
+            if ( ! class_exists( 'Imagick' ) ) {
+                return $metadata;
+            }
+
             $image = get_post( $attachment_id );
         
             $meta = wp_parse_args(
@@ -60,27 +77,33 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
         
                     $name = basename( $data[ 'file' ] );
                     $mimetype = (string) $data[ 'mime-type' ];
-                    $file = $source_dir . '/' . $name;
+                    // these need to be seperate, causes issues otherwise...
+                    $inp = $source_dir . '/' . $name;
+                    $out = $source_dir . '/' . $name;
         
-                    if ( ! file_exists( $file ) ) {
+                    if ( ! file_exists( $inp ) ) {
                         continue;
                     }
         
                     switch ( $mimetype ) {
                         case 'image/jpeg':
 
-                            /*
-                            $image_zzz = new Imagick( $file );
-                            $image_zzz->setImageType(Imagick::IMGTYPE_GRAYSCALE);//ImageDescription
-                            $image_zzz->setImageProperty('comment', 'Reece Stieller Automated....');
-                            $image_zzz->writeImage();
-                            $image_zzz->clear();
-                            */
-        
-                            if ( $gps[ 'lng' ] && $gps[ 'lat' ] ) {
-                                // write geo codes to images...
-                                $this->addGpsInfo( $file,
-                                    $file,
+                            //this can also be done with Imagick, not sure which is better...
+                            $imagick = new Imagick( $inp );
+                            $imagick->setInterlaceScheme(Imagick::INTERLACE_PLANE);
+                            $imagick->setImageCompressionQuality(82);
+                            $imagick->writeImage();
+                            $imagick->clear();
+                            
+                            //$temp = imagecreatefromjpeg( $inp );
+                            //imageinterlace($temp, 1);
+                            //imagejpeg( $temp, $inp, 82 ); //quality is set to 82 ( this is what wp was... )
+                            //imagedestroy( $temp );
+
+                            // geo code the images...
+                            //if ( $gps[ 'lng' ] && $gps[ 'lat' ] ) {
+                                $this->addGpsInfo( $inp,
+                                    $inp,
                                     $description,
                                     $description,
                                     "iPhone XS Max",
@@ -89,15 +112,12 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
                                     0,
                                     "2020:01:01 00:00:00"
                                 );
-                            }
-        
-                            /*
-                            $temp = imagecreatefromjpeg( $file );
-                            imageinterlace($temp, 1);
-                            imagejpeg( $temp, $file );
-                            imagedestroy( $temp );
-                            */
-                            
+                            //}
+
+                            // save images as progressive then compress
+                            // this has to go before exif markup otherwise it will strip it
+                            //write_log('open file before progressive conv');
+
                         break;
                     }
                 }
@@ -239,7 +259,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             $ifd0->addEntry(new PelEntryAscii(PelTag::MODEL, $model));
             $ifd0->addEntry(new PelEntryAscii(PelTag::DATE_TIME, $date_time));
             $ifd0->addEntry(new PelEntryAscii(PelTag::IMAGE_DESCRIPTION, $description));
-
+            
             $gps_ifd->addEntry(new PelEntryByte(PelTag::GPS_VERSION_ID, 2, 2, 0, 0));
 
             /*
@@ -277,6 +297,9 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
             /* Finally we store the data in the output file. */
             file_put_contents($output, $jpeg->getBytes());
+
+            write_log('close file after exif');
+
         }
     }
 }

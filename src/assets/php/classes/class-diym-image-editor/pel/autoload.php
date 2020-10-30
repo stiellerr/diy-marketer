@@ -28,8 +28,6 @@
 spl_autoload_register(function ($class) {
     if (substr_compare($class, 'lsolesen\\pel\\', 0, 13) === 0) {
 
-        write_log( $class );
-
         $classname = str_replace('lsolesen\\pel\\', '', $class);
         $load = realpath(__DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . $classname . '.php');
         if ($load !== false) {
