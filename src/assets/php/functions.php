@@ -995,4 +995,95 @@ function diym_defer_scripts( $tag, $handle, $src ) {
 
 add_filter( 'script_loader_tag', 'diym_defer_scripts', 10, 3 );
 
+//require_once  get_template_directory() . '/inc/pel/src/PelJpeg.php';
+require_once  get_template_directory() . '/inc/pel/gps.php';
+
+//require_once '../autoload.php';
+
+//use lsolesen\pel\PelJpeg;
+//use lsolesen\pel\PelTiff;
+//use lsolesen\pel\PelTag;
+
+// this filter converts all the jpep images to interlay (progressive)
+function diym_generate_attachment_metadata( $metadata, $attachment_id, $context ) {
+
+	if ( ! function_exists( 'imageinterlace' ) ) {
+		return $metadata;
+	}
+
+	$image = get_post( $attachment_id );
+
+	//write_log( $metadata );
+
+	$meta = wp_parse_args(
+		$metadata['sizes'],
+		array(
+			'full' => array(
+				'file' => basename( $metadata[ 'file' ] ),
+				'width' => $metadata[ 'width' ],
+				'height' => $metadata[ 'height' ],
+				'mime-type' => $image->post_mime_type
+			)
+		)
+	);
+	
+	if ( $image && isset( $metadata['file'] ) ) {
+
+		$source_dir = dirname( get_attached_file( $image->ID ) );
+
+		foreach( $meta as $data ) {
+
+			$name = basename( $data[ 'file' ] );
+			$mimetype = (string) $data[ 'mime-type' ];
+			$file = $source_dir . '/' . $name;
+
+			if ( ! file_exists( $file ) ) {
+				continue;
+			}
+
+			//if ( class_exists( 'WP_Image_Editor_Imagick' ) ) {
+				//$test = new WP_Image_Editor_Imagick( $file );
+				
+				//write_log( $imagick );
+			//}
+
+			switch ( $mimetype ) {
+				case 'image/jpeg':
+					//$image->setImageProperty('Exif:Make', 'Imagick');
+					/*
+					$image_zzz = new Imagick( $file );
+					$image_zzz->setImageType(Imagick::IMGTYPE_GRAYSCALE);//ImageDescription
+					$image_zzz->setImageProperty('comment', 'Reece Stieller Automated....');
+					$image_zzz->writeImage();
+					$image_zzz->clear();
+					*/
+					//require_once('PelJpeg.php');
+
+					pel_addGpsInfo($file, $file, $name, $name, 174.1973875, -39.4615411);
+
+					//write_log( convertDecimalToDMS( 175 ));
+					
+
+					//$jpeg = new PelJpeg($file);
+					//$ifd0 = $jpeg->getExif()->getTiff()->getIfd();
+					//$entry = $ifd0->getEntry(PelTag::IMAGE_DESCRIPTION);
+					//$entry->setValue('Edited by PEL');
+					//$jpeg->saveFile($file);
+					
+
+					/*
+					$temp = imagecreatefromjpeg( $file );
+					imageinterlace($temp, 1);
+					imagejpeg( $temp, $file );
+					imagedestroy( $temp );
+					*/
+				break;
+			}
+		}
+	}
+	return $metadata;
+}
+
+add_filter( 'wp_generate_attachment_metadata', 'diym_generate_attachment_metadata', 10, 3 );
+
 ?>
