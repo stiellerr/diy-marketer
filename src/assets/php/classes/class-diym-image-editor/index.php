@@ -90,8 +90,8 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
                             //this can also be done with Imagick, not sure which is better...
                             $imagick = new Imagick( $inp );
-                            $imagick->setInterlaceScheme(Imagick::INTERLACE_PLANE);
-                            $imagick->setImageCompressionQuality(82);
+                            $imagick->setInterlaceScheme( Imagick::INTERLACE_PLANE );
+                            $imagick->setImageCompressionQuality( 82 );
                             $imagick->writeImage();
                             $imagick->clear();
                             
@@ -297,9 +297,6 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
             /* Finally we store the data in the output file. */
             file_put_contents($output, $jpeg->getBytes());
-
-            write_log('close file after exif');
-
         }
     }
 }
