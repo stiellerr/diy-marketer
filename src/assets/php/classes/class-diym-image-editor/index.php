@@ -25,6 +25,8 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
             add_filter( 'wp_generate_attachment_metadata', array( &$this, 'wp_generate_attachment_metadata' ), 10, 3 );
 
+            add_filter( 'wp_save_image_editor_file', array( &$this, 'wp_save_image_editor_file' ), 10, 5 );
+
             add_filter( 'jpeg_quality', array( &$this, 'jpeg_quality' ), 10, 2 );
 
             require_once( dirname( __FILE__ ) . '/pel/autoload.php' );
@@ -212,7 +214,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
          * @param
          *            string the date and time.
          */
-        function addGpsInfo( $input, $output, $description, $comment, $model, $longitude, $latitude, $altitude, $date_time ) {
+        function addGpsInfo( $input, $output, $description, $comment, $model, $longitude = 0, $latitude = 0, $altitude = 0, $date_time ) {
 
             /* Load the given image into a PelJpeg object */
             $jpeg = new PelJpeg($input);
@@ -238,12 +240,58 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             $ifd0 = new PelIfd(PelIfd::IFD0);
             $tiff->setIfd($ifd0);
 
-            /*
-            * Create a sub-IFD for holding GPS information. GPS data must be
-            * below the first IFD.
-            */
-            $gps_ifd = new PelIfd(PelIfd::GPS);
-            $ifd0->addSubIfd($gps_ifd);
+            if ( $longitude || $latitude || $altitude ) {
+
+                /*
+                * Create a sub-IFD for holding GPS information. GPS data must be
+                * below the first IFD.
+                */
+                $gps_ifd = new PelIfd(PelIfd::GPS);
+                $ifd0->addSubIfd($gps_ifd);
+
+                /*
+                * Create a sub-IFD for holding GPS information. GPS data must be
+                * below the first IFD.
+                */
+                $gps_ifd = new PelIfd(PelIfd::GPS);
+                $ifd0->addSubIfd($gps_ifd);
+
+                $gps_ifd->addEntry(new PelEntryByte(PelTag::GPS_VERSION_ID, 2, 2, 0, 0));
+
+                /*
+                * Use the convertDecimalToDMS function to convert the latitude from
+                * something like 12.34� to 12� 20' 42"
+                */
+                list ($hours, $minutes, $seconds) = $this->convertDecimalToDMS($latitude);
+    
+                /* We interpret a negative latitude as being south. */
+                $latitude_ref = ($latitude < 0) ? 'S' : 'N';
+    
+                $gps_ifd->addEntry(new PelEntryAscii(PelTag::GPS_LATITUDE_REF, $latitude_ref));
+                $gps_ifd->addEntry(new PelEntryRational(PelTag::GPS_LATITUDE, $hours, $minutes, $seconds));
+    
+                /* The longitude works like the latitude. */
+                list ($hours, $minutes, $seconds) = $this->convertDecimalToDMS($longitude);
+                $longitude_ref = ($longitude < 0) ? 'W' : 'E';
+    
+                $gps_ifd->addEntry(new PelEntryAscii(PelTag::GPS_LONGITUDE_REF, $longitude_ref));
+                $gps_ifd->addEntry(new PelEntryRational(PelTag::GPS_LONGITUDE, $hours, $minutes, $seconds));
+    
+                /*
+                * Add the altitude. The absolute value is stored here, the sign is
+                * stored in the GPS_ALTITUDE_REF tag below.
+                */
+                $gps_ifd->addEntry(new PelEntryRational(PelTag::GPS_ALTITUDE, [
+                    abs($altitude),
+                    1
+                ]));
+                /*
+                * The reference is set to 1 (true) if the altitude is below sea
+                * level, or 0 (false) otherwise.
+                */
+                $gps_ifd->addEntry(new PelEntryByte(PelTag::GPS_ALTITUDE_REF, (int) ($altitude < 0)));
+
+            }
 
             /*
             * The USER_COMMENT tag must be put in a Exif sub-IFD under the
@@ -260,45 +308,54 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             $ifd0->addEntry(new PelEntryAscii(PelTag::DATE_TIME, $date_time));
             $ifd0->addEntry(new PelEntryAscii(PelTag::IMAGE_DESCRIPTION, $description));
             
-            $gps_ifd->addEntry(new PelEntryByte(PelTag::GPS_VERSION_ID, 2, 2, 0, 0));
-
-            /*
-            * Use the convertDecimalToDMS function to convert the latitude from
-            * something like 12.34� to 12� 20' 42"
-            */
-            list ($hours, $minutes, $seconds) = $this->convertDecimalToDMS($latitude);
-
-            /* We interpret a negative latitude as being south. */
-            $latitude_ref = ($latitude < 0) ? 'S' : 'N';
-
-            $gps_ifd->addEntry(new PelEntryAscii(PelTag::GPS_LATITUDE_REF, $latitude_ref));
-            $gps_ifd->addEntry(new PelEntryRational(PelTag::GPS_LATITUDE, $hours, $minutes, $seconds));
-
-            /* The longitude works like the latitude. */
-            list ($hours, $minutes, $seconds) = $this->convertDecimalToDMS($longitude);
-            $longitude_ref = ($longitude < 0) ? 'W' : 'E';
-
-            $gps_ifd->addEntry(new PelEntryAscii(PelTag::GPS_LONGITUDE_REF, $longitude_ref));
-            $gps_ifd->addEntry(new PelEntryRational(PelTag::GPS_LONGITUDE, $hours, $minutes, $seconds));
-
-            /*
-            * Add the altitude. The absolute value is stored here, the sign is
-            * stored in the GPS_ALTITUDE_REF tag below.
-            */
-            $gps_ifd->addEntry(new PelEntryRational(PelTag::GPS_ALTITUDE, [
-                abs($altitude),
-                1
-            ]));
-            /*
-            * The reference is set to 1 (true) if the altitude is below sea
-            * level, or 0 (false) otherwise.
-            */
-            $gps_ifd->addEntry(new PelEntryByte(PelTag::GPS_ALTITUDE_REF, (int) ($altitude < 0)));
-
             /* Finally we store the data in the output file. */
             file_put_contents($output, $jpeg->getBytes());
         }
+
+        function wp_save_image_editor_file( $override, $filename, $image, $mime_type, $post_id ) {
+
+            if ( 'image/jpeg' !== $mime_type && 'image/png' !== $mime_type ) {
+                return $override;
+            }
+
+            $image_meta = wp_get_attachment_metadata( $post_id );
+            $upload_dir = wp_upload_dir();
+        
+            $original_file_path = path_join( $upload_dir['basedir'], $image_meta['file'] );
+        
+            // 'full dir' includes year and mouth location
+            $upload_full_dir = str_replace( basename( $original_file_path ), '', $original_file_path );
+        
+            // delete original image
+            unlink( $original_file_path );
+        
+            // delete other sizes
+            foreach ( $image_meta['sizes'] as $size ) {
+                unlink( $upload_full_dir . $size['file'] );
+            }
+            // regenerate added sizes
+            function regenerate_added_sizes( $meta_id, $object_id, $meta_key ) {
+                if ( '_wp_attachment_metadata' !== $meta_key ) {
+                    return;
+                }
+                $image_meta = wp_get_attachment_metadata( $object_id );
+                $upload_dir = wp_upload_dir();
+        
+                $new_file_path = path_join( $upload_dir['basedir'], $image_meta['file'] );
+        
+                // prevent infinite loops
+                remove_action( 'updated_post_meta', 'regenerate_added_sizes' );
+        
+                update_post_meta( $object_id, $meta_key, wp_generate_attachment_metadata( $object_id, $new_file_path ) );
+            }
+            add_action( 'updated_post_meta', 'regenerate_added_sizes', 10, 3 );
+        
+            return $override;
+
+        }
     }
 }
+
+//image_editor_save_pre
 
 ?>
