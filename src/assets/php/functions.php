@@ -18,6 +18,23 @@ if ( ! function_exists( 'write_log ') ) {
 	}
 }
 
+function custom_upload_filter( $file ){
+	write_log( $file );
+	
+	return $file;
+}
+
+//add_filter('wp_handle_upload_prefilter', 'custom_upload_filter' );
+
+function diym_wp_handle_upload( $upload, $context ){
+	write_log( $upload );
+	write_log( $context );
+	
+	return $upload;
+}
+
+//add_filter( 'wp_handle_upload', 'diym_wp_handle_upload', 10, 2 );
+
 // global function for text sanitization of arrays.
 function diym_sanitize_text( $data ) {
 
@@ -160,8 +177,194 @@ $diym_image_editor = new DIYM_Image_Editor();
 
 //$diym_google_places = new DIYM_Google_places();
 
+function diym_updated_post_meta2( $meta_id, $object_id, $meta_key, $_meta_value ) {
+
+	write_log( $meta_id );
+	write_log( $object_id );
+	write_log( $meta_key );
+	write_log( $_meta_value );
+
+	//if ( '_wp_attachment_metadata' !== $meta_key ) {
+		//return;
+	//}
+
+}
 
 
+//add_action( 'updated_post_meta', 'diym_updated_post_meta2', 10, 4 );
+
+/*
+function diym_updated_post_meta2( $meta_id, $object_id, $meta_key, $_meta_value ) {
+
+	write_log( $meta_id );
+	write_log( $object_id );
+	write_log( $meta_key );
+	write_log( $_meta_value );
+
+	//if ( '_wp_attachment_metadata' !== $meta_key ) {
+		//return;
+	//}
+
+}
+*/
+//add_action( 'updated_post_meta', 'diym_updated_post_meta2', 10, 4 );
+
+//function diym_add_attachment33( $post_ID ) {
+
+	//write_log( $post_ID );
+
+//}
+
+//do_action( 'add_attachment', 'diym_add_attachment33' );
+
+function diym_updated_post_meta44( $meta_id, $object_id, $meta_key, $_meta_value  ) {
+
+	if ( '_wp_attachment_metadata' === $meta_key ) {
+		return;
+	}
+
+	// get original file name -->
+	$image = get_post( $object_id );
+
+	// get original file name -->
+	$file_name = basename( $image->guid );
+
+	// get directory -->
+	$dir = dirname( get_attached_file( $image->ID ) );
+
+	// create full path -->
+	$file_path = path_join( $dir, $file_name );
+
+
+	update_attached_file( $object_id, $file_path );
+	//write_log( $_meta_value  );
+
+	// get original file name -->
+	//$old_file = basename( $image->guid );
+
+	// get directory -->
+	//$dir = dirname( get_attached_file( $image->ID ) );
+
+	//write_log( get_attached_file( $object_id ) );
+	//write_log( $meta_key );
+}
+
+//add_action( 'updated_post_meta', 'diym_updated_post_meta44', 10, 4 );
+
+
+function diym_wp_save_image_editor_file33( $override, $filename, $image, $mime_type, $post_id  ) {
+
+	//$override = true;
+	$upload_dir = wp_upload_dir();
+
+	$image_meta = wp_get_attachment_metadata( $post_id );
+
+	// delete old images -->
+	foreach ( $image_meta['sizes'] as $size ) {
+		unlink( $upload_dir['path'] . '/' . $size['file'] );
+	}
+
+	//write_log( $upload_dir );
+
+	$new_file_path = path_join( $upload_dir['path'], 'banner-2.jpg' );
+
+	$zzz = $image->save( $new_file_path, $mime_type );
+
+	//$image = get_post( $object_id );
+
+	//write_log( get_attached_file( $mime_type  ) );
+	write_log( get_attached_file( $post_id  ) );
+
+	return $zzz;
+}
+
+//add_filter( 'wp_save_image_editor_file', 'diym_wp_save_image_editor_file33', 10, 5 );
+
+
+function diym_wp_generate_attachment_metadata( $metadata, $attachment_id, $context ) {
+
+	write_log( $metadata );
+	//write_log( $attachment_id );
+	//write_log( $context );
+	//write_log( 'zzz' );
+
+	//$backup_sizes = get_post_meta( $post->ID, '_wp_attachment_backup_sizes', true );
+	
+	//$backup_sizes = array(
+		//'full-orig' => array(
+		//	'file' => 1
+	//	),
+		/*
+		'medium-orig' => array(
+			'file' => 1
+		),
+		'large-orig' => array(
+			'file' => 1
+		),
+		'thumbnail-orig' => array(
+			'file' => 1
+		),
+		'medium-large-orig' => array(
+			'file' => 1
+		),
+		'diym-custom-size-orig' => array(
+			'file' => 1
+		)
+		*/
+//	);
+
+	//$backup_sizes = get_post_meta( $attachment_id, '_wp_attachment_backup_sizes', true );
+
+	//write_log( $backup_sizes );
+
+	//update_post_meta( $attachment_id, '_wp_attachment_backup_sizes', $backup_sizes );
+	//sset( $backup_sizes['full-orig'] ) && $backup_sizes['full-orig']['file'] != $basename
+	//update_attached_file( int $attachment_id, string $file )
+
+	return $metadata;
+}
+
+
+//add_filter( 'wp_generate_attachment_metadata', 'diym_wp_generate_attachment_metadata', 10, 3 );
+
+
+//do_action( 'attachment_updated', int $post_ID, WP_Post $post_after, WP_Post $post_before )
+
+function diym_image_editor_save_pre( $image, $attachment_id ) {
+
+	update_post_meta( $attachment_id, '_wp_attachment_backup_sizes', array() );
+	/*
+	write_log( 'pre' );
+	$post = get_post( $attachment_id );
+
+	write_log( $image->get_size() );
+
+
+	$image_meta = wp_get_attachment_metadata( $attachment_id );
+
+	write_log( $post );
+
+	*/
+	return $image;
+
+}
+
+//add_filter( 'image_editor_save_pre', 'diym_image_editor_save_pre', 10, 2 );
+
+
+//write_log( get_post_meta(792) );
+
+function diym_post_updated( $post_ID ) {
+
+	write_log( 'zzz' );
+	write_log( get_post( $post_ID ) );
+
+
+}
+
+
+
+add_action( 'edit_attachment', 'diym_post_updated' );   
 
 
 

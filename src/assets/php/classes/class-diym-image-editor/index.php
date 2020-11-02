@@ -23,7 +23,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
         function __construct() {
 
-            add_filter( 'wp_generate_attachment_metadata', array( &$this, 'wp_generate_attachment_metadata' ), 10, 3 );
+            //add_filter( 'wp_generate_attachment_metadata', array( &$this, 'wp_generate_attachment_metadata' ), 10, 3 );
 
             add_filter( 'wp_save_image_editor_file', array( &$this, 'wp_save_image_editor_file' ), 10, 5 );
 
@@ -54,20 +54,20 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             }
 
             $image = get_post( $attachment_id );
-        
-            $meta = wp_parse_args(
-                $metadata['sizes'],
-                array(
-                    'full' => array(
-                        'file' => basename( $metadata[ 'file' ] ),
-                        'width' => $metadata[ 'width' ],
-                        'height' => $metadata[ 'height' ],
-                        'mime-type' => $image->post_mime_type
-                    )
-                )
-            );
             
             if ( $image && isset( $metadata['file'] ) ) {
+
+                $meta = wp_parse_args(
+                    $metadata['sizes'],
+                    array(
+                        'full' => array(
+                            'file' => basename( $metadata[ 'file' ] ),
+                            'width' => $metadata[ 'width' ],
+                            'height' => $metadata[ 'height' ],
+                            'mime-type' => $image->post_mime_type
+                        )
+                    )
+                );
         
                 $source_dir = dirname( get_attached_file( $image->ID ) );
         
@@ -318,40 +318,154 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
                 return $override;
             }
 
+            $post = get_post( $post_id );
+
+            // get new file name -->
+            $file_name = basename( $post->guid );
+        
+            // get directory -->
+            $dir = dirname( get_attached_file( $post->ID ) );
+
+            // create full path -->
+            $file_path = path_join( $dir, $file_name );
+
+            //write_log( $file_path );
+
             $image_meta = wp_get_attachment_metadata( $post_id );
             $upload_dir = wp_upload_dir();
-        
-            $original_file_path = path_join( $upload_dir['basedir'], $image_meta['file'] );
+
+            //write_log( $image_meta );
+
+            //$original_file_path = path_join( $upload_dir['basedir'], $image_meta['file'] );
+
+            //write_log( $original_file_path );
         
             // 'full dir' includes year and mouth location
-            $upload_full_dir = str_replace( basename( $original_file_path ), '', $original_file_path );
+            //$upload_full_dir = str_replace( basename( $original_file_path ), '', $original_file_path );
         
             // delete original image
-            unlink( $original_file_path );
+            unlink( $file_path );
         
             // delete other sizes
             foreach ( $image_meta['sizes'] as $size ) {
-                unlink( $upload_full_dir . $size['file'] );
+                unlink( path_join( $dir, $size['file'] ) );
             }
+
             // regenerate added sizes
-            function regenerate_added_sizes( $meta_id, $object_id, $meta_key ) {
+            
+            function diym_updated_post_meta( $meta_id, $object_id, $meta_key, $_meta_value ) {
+
+                //write_log( $meta_id );
+                //write_log( $object_id );
+                //write_log( $meta_key );
+                //write_log( $_meta_value );
+
+
+                //if ( '_wp_attachment_metadata' === $meta_key ) {
+                    //return;
+                //}
+                //$image_meta = wp_get_attachment_metadata( $object_id );
+                //write_log( $image_meta );
+
+                //$image = get_post( $object_id );
+
+                // get new file name -->
+                //$file_name = basename( $image->guid );
+            
+                // get directory -->
+                //$dir = dirname( get_attached_file( $image->ID ) );
+            
+                // create full path -->
+                //$file_path = path_join( $dir, $file_name );
+
+                // new file...
+                //$new_file = basename( $_meta_value[ 'file' ] );
+
+                // create full path -->
+                //$new_path = path_join( $dir, $new_file );                
+                
+                
+                //rename( $new_path, $old_path );
+
+                //write_log( $new_file );
+
+                // rename new back to old
+                //rename("/test/file1.txt","/home/docs/my_file.txt");
+
+                // prevent infinite loops
+                //remove_action( 'updated_post_meta', 'diym_updated_post_meta' );
+
+
+                //$image_meta = wp_get_attachment_metadata( $object_id );
+            
+                //write_log( $image_meta );
+
+
+
+                //update_post_meta( $object_id, $meta_key, wp_generate_attachment_metadata( $object_id, $old_path ) );
+
+                //write_log( 'done...' );
+
+                //$image_meta = wp_get_attachment_metadata( $object_id );
+
+                //$image2 = get_post( $object_id );
+            
+                //write_log( $image_meta );
+                //write_log( $image2 );
+
+                //$image_meta = wp_get_attachment_metadata( $object_id );
+
+                //write_log( $image_meta );
+/*
                 if ( '_wp_attachment_metadata' !== $meta_key ) {
                     return;
                 }
                 $image_meta = wp_get_attachment_metadata( $object_id );
+
+                //write_log( $meta_id );
+                //write_log( $object_id );
+                //write_log( $meta_key );
+
+                $zzz = '2020/10/' . 'zzztest.jpg';
+
+
                 $upload_dir = wp_upload_dir();
+
+                write_log( $upload_dir );
+                write_log( $image_meta );
+                //write_log( $meta_key );
         
-                $new_file_path = path_join( $upload_dir['basedir'], $image_meta['file'] );
+                //$new_file_path = path_join( $upload_dir['basedir'], $image_meta['file'] );
+                $new_file_path = path_join( $upload_dir['basedir'], $zzz );
+
+                write_log( $new_file_path );
         
                 // prevent infinite loops
-                remove_action( 'updated_post_meta', 'regenerate_added_sizes' );
-        
-                update_post_meta( $object_id, $meta_key, wp_generate_attachment_metadata( $object_id, $new_file_path ) );
-            }
-            add_action( 'updated_post_meta', 'regenerate_added_sizes', 10, 3 );
-        
-            return $override;
+                */
+                remove_action( 'updated_post_meta', 'diym_updated_post_meta' );
 
+                //write_log( 'zzz' );
+                update_attached_file( $object_id, $file_path );
+                update_post_meta( $object_id, '_wp_attachment_metadata', wp_generate_attachment_metadata( $object_id, $file_path ) );
+                
+
+                write_log( get_post_meta( $object_id ) );
+
+            }
+            //add_action( 'updated_post_meta', 'diym_updated_post_meta', 10, 4 );
+
+            //return $override;
+
+            //write_log( $original_file_path );
+
+            $saved = $image->save( $file_path, $mime_type );
+
+            update_attached_file( $post_id, $file_path );
+            update_post_meta( $post_id, '_wp_attachment_metadata', wp_generate_attachment_metadata( $post_id, $file_path ) );
+
+
+
+            return $saved;
         }
     }
 }
