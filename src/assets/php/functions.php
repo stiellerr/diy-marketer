@@ -191,6 +191,42 @@ function diym_updated_post_meta2( $meta_id, $object_id, $meta_key, $_meta_value 
 }
 
 
+
+
+function wpse_256351_upload( $upload, $context ) {
+
+	$diym_image_editor2 = new DIYM_Image_Editor();
+
+
+
+	$diym_image_editor2->addGpsInfo( $upload[ 'file' ],
+		$upload[ 'file' ],
+		'description 1',
+		'description 2',
+		"iPhone XS Max",
+		0,
+		0,
+		0,
+		"2020:01:01 00:00:00"
+	);
+
+	if ( 'image/jpeg' == $upload[ 'type' ] && class_exists( 'Imagick' ) ) {
+		
+		$imagick = new Imagick( $upload[ 'file' ] );
+		$imagick->setInterlaceScheme( Imagick::INTERLACE_PLANE );
+		$imagick->setImageCompressionQuality( 82 );
+		$imagick->writeImage();
+		$imagick->clear();
+		
+		unset( $imagick );
+
+	}
+	// return
+	return $upload;
+}
+
+add_filter( 'wp_handle_upload', 'wpse_256351_upload', 10, 2 );
+
 //add_action( 'updated_post_meta', 'diym_updated_post_meta2', 10, 4 );
 
 /*
@@ -364,7 +400,7 @@ function diym_post_updated( $post_ID ) {
 
 
 
-add_action( 'edit_attachment', 'diym_post_updated' );   
+//add_action( 'edit_attachment', 'diym_post_updated' );   
 
 
 

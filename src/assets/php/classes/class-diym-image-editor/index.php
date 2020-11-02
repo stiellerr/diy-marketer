@@ -25,7 +25,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
             //add_filter( 'wp_generate_attachment_metadata', array( &$this, 'wp_generate_attachment_metadata' ), 10, 3 );
 
-            add_filter( 'wp_save_image_editor_file', array( &$this, 'wp_save_image_editor_file' ), 10, 5 );
+            //add_filter( 'wp_save_image_editor_file', array( &$this, 'wp_save_image_editor_file' ), 10, 5 );
 
             add_filter( 'jpeg_quality', array( &$this, 'jpeg_quality' ), 10, 2 );
 
@@ -214,7 +214,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
          * @param
          *            string the date and time.
          */
-        function addGpsInfo( $input, $output, $description, $comment, $model, $longitude = 0, $latitude = 0, $altitude = 0, $date_time ) {
+        public function addGpsInfo( $input, $output, $description, $comment, $model, $longitude = 0, $latitude = 0, $altitude = 0, $date_time ) {
 
             /* Load the given image into a PelJpeg object */
             $jpeg = new PelJpeg($input);
@@ -321,18 +321,25 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             $post = get_post( $post_id );
 
             // get new file name -->
-            $file_name = basename( $post->guid );
-        
+            //$file_name = basename( $post->guid );
+
+            $image_meta = wp_get_attachment_metadata( $post_id );
+
+
+            // get old file name -->
+            $image_before = basename( $image_meta['file'] );
+            //write_log( $image_meta['file'] );
+
             // get directory -->
             $dir = dirname( get_attached_file( $post->ID ) );
 
             // create full path -->
-            $file_path = path_join( $dir, $file_name );
+            $path_before = path_join( $dir, $image_before );
 
             //write_log( $file_path );
 
-            $image_meta = wp_get_attachment_metadata( $post_id );
-            $upload_dir = wp_upload_dir();
+            
+            //$upload_dir = wp_upload_dir();
 
             //write_log( $image_meta );
 
@@ -343,22 +350,29 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             // 'full dir' includes year and mouth location
             //$upload_full_dir = str_replace( basename( $original_file_path ), '', $original_file_path );
         
-            // delete original image
-            unlink( $file_path );
+            // delete before image
+            wp_delete_file( $path_before );
         
             // delete other sizes
             foreach ( $image_meta['sizes'] as $size ) {
-                unlink( path_join( $dir, $size['file'] ) );
+                wp_delete_file( path_join( $dir, $size['file'] ) );
             }
 
             // regenerate added sizes
             
             function diym_updated_post_meta( $meta_id, $object_id, $meta_key, $_meta_value ) {
 
-                //write_log( $meta_id );
-                //write_log( $object_id );
-                //write_log( $meta_key );
-                //write_log( $_meta_value );
+                $post = get_post( $object_id );
+
+                // get new file name -->
+                //$file_name = basename( $post->guid );
+    
+                //$image_meta = wp_get_attachment_metadata( $post_id );
+
+                write_log( $meta_id );
+                write_log( $object_id );
+                write_log( $meta_key );
+                write_log( $_meta_value );
 
 
                 //if ( '_wp_attachment_metadata' === $meta_key ) {
@@ -442,30 +456,30 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
         
                 // prevent infinite loops
                 */
-                remove_action( 'updated_post_meta', 'diym_updated_post_meta' );
+                //remove_action( 'updated_post_meta', 'diym_updated_post_meta' );
 
                 //write_log( 'zzz' );
-                update_attached_file( $object_id, $file_path );
-                update_post_meta( $object_id, '_wp_attachment_metadata', wp_generate_attachment_metadata( $object_id, $file_path ) );
+                //update_attached_file( $object_id, $file_path );
+                //update_post_meta( $object_id, '_wp_attachment_metadata', wp_generate_attachment_metadata( $object_id, $file_path ) );
                 
 
-                write_log( get_post_meta( $object_id ) );
+                //write_log( get_post_meta( $object_id ) );
 
             }
-            //add_action( 'updated_post_meta', 'diym_updated_post_meta', 10, 4 );
+            add_action( 'updated_post_meta', 'diym_updated_post_meta', 10, 4 );
 
             //return $override;
 
             //write_log( $original_file_path );
 
-            $saved = $image->save( $file_path, $mime_type );
+            //$saved = $image->save( $file_path, $mime_type );
 
-            update_attached_file( $post_id, $file_path );
-            update_post_meta( $post_id, '_wp_attachment_metadata', wp_generate_attachment_metadata( $post_id, $file_path ) );
+            //update_attached_file( $post_id, $file_path );
+            //update_post_meta( $post_id, '_wp_attachment_metadata', wp_generate_attachment_metadata( $post_id, $file_path ) );
 
 
 
-            return $saved;
+            return $override;
         }
     }
 }
