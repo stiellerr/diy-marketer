@@ -23,11 +23,13 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
         function __construct() {
 
-            //add_filter( 'wp_generate_attachment_metadata', array( &$this, 'wp_generate_attachment_metadata' ), 10, 3 );
+            add_filter( 'wp_generate_attachment_metadata', array( &$this, 'wp_generate_attachment_metadata' ), 10, 3 );
 
-            //add_filter( 'wp_save_image_editor_file', array( &$this, 'wp_save_image_editor_file' ), 10, 5 );
+            add_filter( 'wp_save_image_editor_file', array( &$this, 'wp_save_image_editor_file' ), 10, 5 );
 
             //add_filter( 'jpeg_quality', array( &$this, 'jpeg_quality' ), 10, 2 );
+
+            //add_filter( 'updated_post_meta', array( &$this, 'updated_post_meta' ), 10, 4 );
 
             add_filter( 'wp_handle_upload', array( &$this, 'wp_handle_upload' ), 10, 2 );
 
@@ -69,8 +71,14 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
         }
 
+        //--> Use this when uploading a new image...
         function wp_generate_attachment_metadata( $metadata, $attachment_id, $context ) {
 
+            if ( $this->save_image_as_progressive( $metadata ) ) {
+                return $metadata;
+            }
+            
+            
             /*
             if ( ! function_exists( 'imageinterlace' ) ) {
                 return $metadata;
@@ -319,29 +327,66 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             file_put_contents($output, $jpeg->getBytes());
         }
 
-        function wp_save_image_editor_file( $override, $filename, $image, $mime_type, $post_id ) {
+        function save_image_as_progressive( $image_meta ) {
 
-            if ( 'image/jpeg' !== $mime_type && 'image/png' !== $mime_type ) {
-                return $override;
+            /*
+            imagick::INTERLACE_UNDEFINED (0)
+            imagick::INTERLACE_NO (1)
+            imagick::INTERLACE_LINE (2)
+            imagick::INTERLACE_PLANE (3)
+            imagick::INTERLACE_PARTITION (4)
+            imagick::INTERLACE_GIF (5)
+            imagick::INTERLACE_JPEG (6)
+            imagick::INTERLACE_PNG (7)
+
+            Imagick::getImageInterlaceScheme ( ) : int
+            */
+            write_log( 'reece' );
+            write_log( $image_meta );
+
+            
+
+            return true;
+
+        }
+
+        function updated_post_meta( $meta_id, $object_id, $meta_key, $_meta_value ) {
+            
+            if ( '_wp_attachment_metadata' !== $meta_key ) {
+                return;
             }
 
-            $post = get_post( $post_id );
+            if ( $this->save_image_as_progressive( $_meta_value ) ) {
+                return;
+            }
+
+        }
+
+
+
+        function wp_save_image_editor_file( $override, $filename, $image, $mime_type, $post_id ) {
+
+            //if ( 'image/jpeg' !== $mime_type && 'image/png' !== $mime_type ) {
+                //return $override;
+            //}
+
+            //$post = get_post( $post_id );
 
             // get new file name -->
             //$file_name = basename( $post->guid );
 
-            $image_meta = wp_get_attachment_metadata( $post_id );
+            //$image_meta = wp_get_attachment_metadata( $post_id );
 
 
             // get old file name -->
-            $image_before = basename( $image_meta['file'] );
+            //$image_before = basename( $image_meta['file'] );
             //write_log( $image_meta['file'] );
 
             // get directory -->
-            $dir = dirname( get_attached_file( $post->ID ) );
+            //$dir = dirname( get_attached_file( $post->ID ) );
 
             // create full path -->
-            $path_before = path_join( $dir, $image_before );
+            //$path_before = path_join( $dir, $image_before );
 
             //write_log( $file_path );
 
@@ -358,33 +403,49 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             //$upload_full_dir = str_replace( basename( $original_file_path ), '', $original_file_path );
         
             // delete before image
-            wp_delete_file( $path_before );
+            //wp_delete_file( $path_before );
         
             // delete other sizes
-            foreach ( $image_meta['sizes'] as $size ) {
-                wp_delete_file( path_join( $dir, $size['file'] ) );
-            }
+            //foreach ( $image_meta['sizes'] as $size ) {
+                //wp_delete_file( path_join( $dir, $size['file'] ) );
+            //}
 
             // regenerate added sizes
             
             function diym_updated_post_meta( $meta_id, $object_id, $meta_key, $_meta_value ) {
 
-                $post = get_post( $object_id );
+                //$post = get_post( $object_id );
 
                 // get new file name -->
                 //$file_name = basename( $post->guid );
     
                 //$image_meta = wp_get_attachment_metadata( $post_id );
 
-                write_log( $meta_id );
-                write_log( $object_id );
-                write_log( $meta_key );
-                write_log( $_meta_value );
+                //write_log( $meta_id );
+                //write_log( $object_id );
+                //write_log( $meta_key );
+               // write_log( $_meta_value );
 
 
-                //if ( '_wp_attachment_metadata' === $meta_key ) {
-                    //return;
-                //}
+                if ( '_wp_attachment_metadata' !== $meta_key ) {
+                    return;
+                }
+
+                if ( self::save_image_as_progressive( $_meta_value ) ) {
+                    return;
+                }
+
+                //
+                // convert images to progressive here
+                //
+
+                //write_log( $meta_id );
+                //write_log( $object_id );
+                //write_log( $meta_key );
+                //write_log( $_meta_value );
+
+
+
                 //$image_meta = wp_get_attachment_metadata( $object_id );
                 //write_log( $image_meta );
 
@@ -473,7 +534,8 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
                 //write_log( get_post_meta( $object_id ) );
 
             }
-            //add_action( 'updated_post_meta', 'diym_updated_post_meta', 10, 4 );
+            
+            add_action( 'updated_post_meta', array( &$this, 'updated_post_meta' ), 10, 4 );
 
             //return $override;
 

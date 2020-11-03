@@ -183,14 +183,21 @@ $diym_image_editor = new DIYM_Image_Editor();
 
 function diym_updated_post_meta2( $meta_id, $object_id, $meta_key, $_meta_value ) {
 
-	//$post = get_post($object_id);
+	//if ( '_wp_attached_file' !== $meta_key ) {
+		//return;
+	//}
 
-	write_log( 'cccc' );
+	// get the post...
+	//$post = get_post( $object_id );
 
-	write_log( $meta_id );
-	write_log( $object_id );
-	write_log( $meta_key );
 	write_log( $_meta_value );
+
+	//write_log( 'cccc' );
+
+	//write_log( $meta_id );
+	//write_log( $object_id );
+	//write_log( $meta_key );
+	//write_log( $_meta_value );
 
 	//if ( '_wp_attachment_metadata' !== $meta_key ) {
 		//return;
@@ -291,17 +298,19 @@ function diym_updated_post_meta88( $meta_id, $object_id, $meta_key, $_meta_value
 
 //add_action( 'updated_post_meta', 'diym_updated_post_meta88', 10, 4 );
 
-function diym_add_attachment33( $post_ID ) {
+do_action( 'add_attachment', 'zzz_add_attachment', 1 );
 
-	write_log( 'xxxxx' );
+function zzz_add_attachment( $post_ID ) {
 
-	$image_meta = wp_get_attachment_metadata( $post_ID );
+	error_log( $post_ID );
 
-	write_log( $image_meta );
+	//$image_meta = wp_get_attachment_metadata( $post_ID );
+
+	//write_log( $image_meta );
 
 }
 
-do_action( 'add_attachment', 'diym_add_attachment33' );
+
 
 function diym_updated_post_meta44( $meta_id, $object_id, $meta_key, $_meta_value  ) {
 
@@ -341,27 +350,27 @@ function diym_updated_post_meta44( $meta_id, $object_id, $meta_key, $_meta_value
 function diym_wp_save_image_editor_file33( $override, $filename, $image, $mime_type, $post_id  ) {
 
 	//$override = true;
-	$upload_dir = wp_upload_dir();
+	//$upload_dir = wp_upload_dir();
 
 	$image_meta = wp_get_attachment_metadata( $post_id );
 
 	// delete old images -->
-	foreach ( $image_meta['sizes'] as $size ) {
-		unlink( $upload_dir['path'] . '/' . $size['file'] );
-	}
+	//foreach ( $image_meta['sizes'] as $size ) {
+		//unlink( $upload_dir['path'] . '/' . $size['file'] );
+	//}
 
-	//write_log( $upload_dir );
+	write_log( $image_meta );
 
-	$new_file_path = path_join( $upload_dir['path'], 'banner-2.jpg' );
+	//$new_file_path = path_join( $upload_dir['path'], 'banner-2.jpg' );
 
-	$zzz = $image->save( $new_file_path, $mime_type );
+	//$zzz = $image->save( $new_file_path, $mime_type );
 
 	//$image = get_post( $object_id );
 
 	//write_log( get_attached_file( $mime_type  ) );
-	write_log( get_attached_file( $post_id  ) );
+	//write_log( get_attached_file( $post_id  ) );
 
-	return $zzz;
+	return $override;
 }
 
 //add_filter( 'wp_save_image_editor_file', 'diym_wp_save_image_editor_file33', 10, 5 );
@@ -372,7 +381,7 @@ function diym_wp_generate_attachment_metadata( $metadata, $attachment_id, $conte
 	write_log( 'zzz' );
 	write_log( $metadata );
 	//write_log( $attachment_id );
-	//write_log( $context );
+	write_log( $context );
 	//write_log( 'zzz' );
 
 	//$backup_sizes = get_post_meta( $post->ID, '_wp_attachment_backup_sizes', true );
@@ -414,6 +423,10 @@ function diym_wp_generate_attachment_metadata( $metadata, $attachment_id, $conte
 
 //add_filter( 'wp_generate_attachment_metadata', 'diym_wp_generate_attachment_metadata', 10, 3 );
 
+
+
+
+//add_action( 'updated_post_meta', 'diym_updated_post_meta', 10, 4 );
 
 //do_action( 'attachment_updated', int $post_ID, WP_Post $post_after, WP_Post $post_before )
 
