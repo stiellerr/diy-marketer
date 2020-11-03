@@ -24,6 +24,10 @@ function custom_upload_filter( $file ){
 	return $file;
 }
 
+//write_log( get_post_meta( 825 ) );
+
+//write_log( wp_get_attachment_metadata( 825 ) );
+
 //add_filter('wp_handle_upload_prefilter', 'custom_upload_filter' );
 
 function diym_wp_handle_upload( $upload, $context ){
@@ -179,6 +183,10 @@ $diym_image_editor = new DIYM_Image_Editor();
 
 function diym_updated_post_meta2( $meta_id, $object_id, $meta_key, $_meta_value ) {
 
+	//$post = get_post($object_id);
+
+	write_log( 'cccc' );
+
 	write_log( $meta_id );
 	write_log( $object_id );
 	write_log( $meta_key );
@@ -190,11 +198,37 @@ function diym_updated_post_meta2( $meta_id, $object_id, $meta_key, $_meta_value 
 
 }
 
+//add_action( 'updated_post_meta', 'diym_updated_post_meta2', 10, 4 );
+
+function diym_add_attachment_99( $post_ID, $post_after, $post_before ) {
+
+
+	$image_meta = wp_get_attachment_metadata( $attachment_id );
+
+	write_log( $post_ID );
+
+}
+
+//add_action( 'attachment_updated', 'diym_add_attachment_99', 10, 3 );
+
+
+function diym_wp_ajax_cropped_attachment_metadata( $metadata ) {
+
+	write_log( $metadata );
+
+	return $metadata;
+
+}
+
+
+//add_filter( 'wp_ajax_cropped_attachment_metadata', 'diym_wp_ajax_cropped_attachment_metadata' );
+
 
 
 
 function wpse_256351_upload( $upload, $context ) {
 
+	/*
 	$diym_image_editor2 = new DIYM_Image_Editor();
 
 
@@ -209,28 +243,40 @@ function wpse_256351_upload( $upload, $context ) {
 		0,
 		"2020:01:01 00:00:00"
 	);
+	*/
 
-	if ( 'image/jpeg' == $upload[ 'type' ] && class_exists( 'Imagick' ) ) {
+	//if ( 'image/jpeg' == $upload[ 'type' ] && class_exists( 'Imagick' ) ) {
+	if ( 'image/jpeg' == $upload[ 'type' ] ) {
+
+		//$editor = wp_get_image_editor( $upload[ 'file' ] );
+
+		//write_log( $editor );
 		
-		$imagick = new Imagick( $upload[ 'file' ] );
-		$imagick->setInterlaceScheme( Imagick::INTERLACE_PLANE );
-		$imagick->setImageCompressionQuality( 82 );
-		$imagick->writeImage();
-		$imagick->clear();
+		$image = imagecreatefromjpeg( $upload[ 'file' ] );
+		imageinterlace( $image, true );
+		imagejpeg( $image, $upload[ 'file' ] );
+		imagedestroy( $image );
 		
-		unset( $imagick );
+		//$imagick = new Imagick( $upload[ 'file' ] );
+		//$imagick->setInterlaceScheme( Imagick::INTERLACE_PLANE );
+		//$imagick->setImageCompressionQuality( 82 );
+		//$imagick->writeImage();
+		//$imagick->clear();
+		
+		unset( $image );
+		
 
 	}
 	// return
 	return $upload;
 }
 
-add_filter( 'wp_handle_upload', 'wpse_256351_upload', 10, 2 );
+//add_filter( 'wp_handle_upload', 'wpse_256351_upload', 10, 2 );
 
-//add_action( 'updated_post_meta', 'diym_updated_post_meta2', 10, 4 );
 
-/*
-function diym_updated_post_meta2( $meta_id, $object_id, $meta_key, $_meta_value ) {
+
+
+function diym_updated_post_meta88( $meta_id, $object_id, $meta_key, $_meta_value ) {
 
 	write_log( $meta_id );
 	write_log( $object_id );
@@ -242,16 +288,20 @@ function diym_updated_post_meta2( $meta_id, $object_id, $meta_key, $_meta_value 
 	//}
 
 }
-*/
-//add_action( 'updated_post_meta', 'diym_updated_post_meta2', 10, 4 );
 
-//function diym_add_attachment33( $post_ID ) {
+//add_action( 'updated_post_meta', 'diym_updated_post_meta88', 10, 4 );
 
-	//write_log( $post_ID );
+function diym_add_attachment33( $post_ID ) {
 
-//}
+	write_log( 'xxxxx' );
 
-//do_action( 'add_attachment', 'diym_add_attachment33' );
+	$image_meta = wp_get_attachment_metadata( $post_ID );
+
+	write_log( $image_meta );
+
+}
+
+do_action( 'add_attachment', 'diym_add_attachment33' );
 
 function diym_updated_post_meta44( $meta_id, $object_id, $meta_key, $_meta_value  ) {
 
@@ -319,6 +369,7 @@ function diym_wp_save_image_editor_file33( $override, $filename, $image, $mime_t
 
 function diym_wp_generate_attachment_metadata( $metadata, $attachment_id, $context ) {
 
+	write_log( 'zzz' );
 	write_log( $metadata );
 	//write_log( $attachment_id );
 	//write_log( $context );

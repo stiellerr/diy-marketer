@@ -27,9 +27,37 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
             //add_filter( 'wp_save_image_editor_file', array( &$this, 'wp_save_image_editor_file' ), 10, 5 );
 
-            add_filter( 'jpeg_quality', array( &$this, 'jpeg_quality' ), 10, 2 );
+            //add_filter( 'jpeg_quality', array( &$this, 'jpeg_quality' ), 10, 2 );
+
+            add_filter( 'wp_handle_upload', array( &$this, 'wp_handle_upload' ), 10, 2 );
 
             require_once( dirname( __FILE__ ) . '/pel/autoload.php' );
+        }
+
+
+        function wp_handle_upload( $upload, $context ) {
+            
+            //--> if upload is a jpeg, intercept it and write exif data to it...
+            if ( 'image/jpeg' == $upload[ 'type' ] ) {
+                
+                // --> build a description based on the file name...
+                $description = ucwords( str_replace( '-', ' ', pathinfo( $upload[ 'file' ], PATHINFO_FILENAME ) ) );
+
+                $gps = get_option( 'diym_map', null );
+                
+                $this->addGpsInfo( $upload[ 'file' ],
+                    $upload[ 'file' ],
+                    $description,
+                    $description,
+                    "iPhone XS Max",
+                    $gps[ 'lng' ],
+                    $gps[ 'lat' ],
+                    0,
+                    "2020:01:01 00:00:00"
+                );
+            }
+
+            return $upload;
         }
 
         // default is 82 but doesnt do the 'full' image. therefore, we will disable it and do our own compression
@@ -71,10 +99,6 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
         
                 $source_dir = dirname( get_attached_file( $image->ID ) );
         
-                $gps = get_option( 'diym_map', null );
-        
-                $description = ucwords( str_replace( '-', ' ', $image->post_title ) );
-        
                 foreach( $meta as $data ) {
         
                     $name = basename( $data[ 'file' ] );
@@ -102,23 +126,6 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
                             //imagejpeg( $temp, $inp, 82 ); //quality is set to 82 ( this is what wp was... )
                             //imagedestroy( $temp );
 
-                            // geo code the images...
-                            //if ( $gps[ 'lng' ] && $gps[ 'lat' ] ) {
-                                $this->addGpsInfo( $inp,
-                                    $inp,
-                                    $description,
-                                    $description,
-                                    "iPhone XS Max",
-                                    $gps[ 'lng' ],
-                                    $gps[ 'lat' ],
-                                    0,
-                                    "2020:01:01 00:00:00"
-                                );
-                            //}
-
-                            // save images as progressive then compress
-                            // this has to go before exif markup otherwise it will strip it
-                            //write_log('open file before progressive conv');
 
                         break;
                     }
@@ -466,7 +473,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
                 //write_log( get_post_meta( $object_id ) );
 
             }
-            add_action( 'updated_post_meta', 'diym_updated_post_meta', 10, 4 );
+            //add_action( 'updated_post_meta', 'diym_updated_post_meta', 10, 4 );
 
             //return $override;
 
