@@ -74,7 +74,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
         //--> Use this when uploading a new image...
         function wp_generate_attachment_metadata( $metadata, $attachment_id, $context ) {
 
-            if ( $this->save_image_as_progressive( $metadata ) ) {
+            if ( $this->save_image_as_progressive( $metadata, $attachment_id, $context ) ) {
                 return $metadata;
             }
             
@@ -327,7 +327,103 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             file_put_contents($output, $jpeg->getBytes());
         }
 
-        function save_image_as_progressive( $image_meta ) {
+        function save_image_as_progressive( $image_meta, $image_id, $context ) {
+
+            $image = get_post( $image_id );
+
+            if ( $image && isset( $image_meta['file'] ) ) {
+
+                $sizes = wp_parse_args(
+                    $image_meta[ 'sizes' ],
+                    array(
+                        'full' => array(
+                            'file'      => basename( $image_meta[ 'file' ] ),
+                            'width'     => $image_meta[ 'width' ],
+                            'height'    => $image_meta[ 'height' ],
+                            'mime-type' => $image->post_mime_type
+                        )
+                    )
+                );
+
+                $path = dirname( get_attached_file( $image->ID ) );
+        
+                foreach( $sizes as $size ) {
+        
+                    $base = basename( $size[ 'file' ] );
+                    $mimetype = (string) $size[ 'mime-type' ];
+                    // these need to be seperate, causes issues otherwise...
+
+                    $file = path_join( $path, $base );
+        
+                    if ( ! file_exists( $file ) ) {
+                        continue;
+                    }
+
+                    if ( 'image/jpeg' == $mimetype ) {
+
+                        //
+                        if ( class_exists( 'Imagick' ) ) {
+                            
+                            //$imagick = new Imagick( $file );
+
+                            //wp_get_image_editor($path, $args)
+
+                            $editor = wp_get_image_editor( $file );
+
+                            write_log( $editor );
+
+
+                            //$editor->load();
+
+                           // write_log( $aaa->image );
+
+                            /*
+                            // set interlacing if not set...
+                            if ( imagick::INTERLACE_PLANE !== $imagick->getInterlaceScheme() ) {
+                                $imagick->setInterlaceScheme( imagick::INTERLACE_PLANE );
+                                $imagick->writeImage();
+                            }
+                            */
+                            //$sss = $imagick->getImageCompressionQuality();
+                            //$this->image->setImageCompression( imagick::COMPRESSION_JPEG );
+
+                            //write_log( $sss );
+
+                            //$imagick->clear();
+                            //$this->image->destroy();
+                            //unset( $imagick );
+                            
+                        }
+
+                    }
+        
+                    //switch ( $mimetype ) {
+                        //case 'image/jpeg':
+
+                            //this can also be done with Imagick, not sure which is better...
+                            //$imagick = new Imagick( $inp );
+                            //$imagick->setInterlaceScheme( Imagick::INTERLACE_PLANE );
+                            //$imagick->setImageCompressionQuality( 82 );
+                            //$imagick->writeImage();
+                            //$imagick->clear();
+                            
+                            //$temp = imagecreatefromjpeg( $inp );
+                            //imageinterlace($temp, 1);
+                            //imagejpeg( $temp, $inp, 82 ); //quality is set to 82 ( this is what wp was... )
+                            //imagedestroy( $temp );
+
+
+                        //break;
+                    //}
+                }
+
+                // loop through sizes
+
+            }
+
+            
+
+            //$dir = dirname( get_attached_file( $image->ID ) );
 
             /*
             imagick::INTERLACE_UNDEFINED (0)
@@ -341,8 +437,12 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
             Imagick::getImageInterlaceScheme ( ) : int
             */
-            write_log( 'reece' );
-            write_log( $image_meta );
+            //write_log( $image );
+            //write_log( $image_meta );
+            
+            //$upload_dir = wp_upload_dir();
+
+            //write_log( $sizes );
 
             
 
@@ -356,7 +456,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
                 return;
             }
 
-            if ( $this->save_image_as_progressive( $_meta_value ) ) {
+            if ( $this->save_image_as_progressive( $_meta_value, $object_id, 'edit' ) ) {
                 return;
             }
 
