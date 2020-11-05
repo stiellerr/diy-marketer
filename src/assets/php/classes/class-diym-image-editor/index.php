@@ -283,18 +283,18 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
                     if ( ! file_exists( $file ) ) {
                         continue;
                     }
-                 
+                    
+                    
                     if ( 'image/jpeg' == $mimetype || 'image/png' == $mimetype ) {
                         // if image is new, and size is full, open file and compress it. wp doesnt do the original by default...
                         if ( 'full' == $size && 'create' == $context ) {
                             $editor = wp_get_image_editor( $file );
                             $editor->save( $file, $mimetype );
-
                             unset( $editor );
                         }
                     }
-
-                    if ( 'image/jpeg' == $mimetype ) {
+                    
+                    if ( 'image/jpeg' == $mimetype || 'image/gif' == $mimetype ) {
                         if ( class_exists( 'Imagick' ) ) {
                             $imagick = new Imagick( $file );
 
@@ -314,6 +314,21 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
                             //imagedestroy( $temp );
                         }
                     }
+
+                    //  ******
+                    $new_file = preg_replace( '/-e[0-9]{13}/', '',  $file );
+
+                    rename( $file, $new_file );
+
+                    write_log( $new_file );
+
+
+
+                    //preg_match( '/-e[0-9]{13}-/'
+
+
+                    //  ******
+                    
                 }
             }
         }
@@ -324,11 +339,41 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
                 return;
             }
 
+            //remove_fiter()
+
+            // *** temp code start...
+            /*
+            $image = get_post( $object_id );
+
+            write_log( $image );
+            
+
+            write_log( $meta_id );
+            write_log( $object_id );
+            write_log( $meta_key );
+            write_log( $_meta_value );
+            */
+            // *** temp code end...
+
             $this->diym_save_image_filter( $_meta_value, $object_id, 'edit' );
 
         }
 
         function wp_save_image_editor_file( $override, $filename, $image, $mime_type, $post_id ) {
+
+            // *** temp code start...
+            /*
+            $image = get_post( $object_id );
+
+            write_log( $image );
+            
+
+            write_log( $meta_id );
+            write_log( $object_id );
+            write_log( $meta_key );
+            write_log( $_meta_value );
+            */
+            // *** temp code end...
             
             add_action( 'updated_post_meta', array( &$this, 'updated_post_meta' ), 10, 4 );
 
