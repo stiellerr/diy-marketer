@@ -240,7 +240,7 @@ if ( ! function_exists( 'diym_setup' ) ) {
 		// Add theme support for post thumbnails.
 		//add_theme_support( 'post-thumbnails' );
 		// Add custom image size used in Cover Template.
-		//add_image_size( 'diym-custom-size', 780, 0 );
+		add_image_size( 'diym-custom-size', 780, 0 );
 		//add_image_size('medium', get_option( 'medium_size_w' ), get_option( 'medium_size_h' ), true 
 		
 		// unsure if ill need this ?? its for gutenberg

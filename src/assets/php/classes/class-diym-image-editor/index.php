@@ -252,27 +252,29 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             file_put_contents($output, $jpeg->getBytes());
         }
 
+        function diym_strip_junk( $haystack ) {
+
+            return preg_replace( '/-e[0-9]{13}/', '',  $haystack );
+
+        }
+
+
         function diym_save_image_filter( $image_meta, $image_id, $context ) {
 
             $image = get_post( $image_id );
 
             if ( $image && isset( $image_meta['file'] ) ) {
 
-                $sizes = wp_parse_args(
-                    $image_meta[ 'sizes' ],
-                    array(
-                        'full' => array(
-                            'file'      => basename( $image_meta[ 'file' ] ),
-                            'width'     => $image_meta[ 'width' ],
-                            'height'    => $image_meta[ 'height' ],
-                            'mime-type' => $image->post_mime_type
-                        )
-                    )
+                $image_meta[ 'sizes' ][ 'full' ] = array(
+                    'file'      => basename( $image_meta[ 'file' ] ),
+                    'width'     => $image_meta[ 'width' ],
+                    'height'    => $image_meta[ 'height' ],
+                    'mime-type' => $image->post_mime_type
                 );
 
                 $path = dirname( get_attached_file( $image->ID ) );
         
-                foreach( $sizes as $size => $data ) {
+                foreach( $image_meta[ 'sizes' ] as $size => &$data ) {
         
                     $base = basename( $data[ 'file' ] );
                     $mimetype = (string) $data[ 'mime-type' ];
@@ -283,7 +285,6 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
                     if ( ! file_exists( $file ) ) {
                         continue;
                     }
-                    
                     
                     if ( 'image/jpeg' == $mimetype || 'image/png' == $mimetype ) {
                         // if image is new, and size is full, open file and compress it. wp doesnt do the original by default...
@@ -316,20 +317,32 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
                     }
 
                     //  ******
-                    $new_file = preg_replace( '/-e[0-9]{13}/', '',  $file );
-
-                    rename( $file, $new_file );
-
-                    write_log( $new_file );
+                    $data[ 'file' ] = $this->diym_strip_junk( $data[ 'file' ] );
+                    
+                    //preg_replace( '/-e[0-9]{13}/', '',  $data[ 'file' ] );
 
 
-
-                    //preg_match( '/-e[0-9]{13}-/'
 
 
                     //  ******
                     
                 }
+
+                $new_file = $this->diym_strip_junk( $file );
+
+                rename( $file, $new_file );
+
+                update_attached_file( $image_id, $new_file );
+
+                unset( $image_meta[ 'sizes' ][ 'full' ] );
+
+                $image_meta[ 'file' ] = $this->diym_strip_junk( $image_meta[ 'file' ] );
+
+                //wp_update_attachment_metadata( $image_id, $image_meta );
+
+                update_post_meta( $image_id, '_wp_attachment_metadata', wp_generate_attachment_metadata( $image_id, $new_file ) );
+
+                write_log(  'vvv' );
             }
         }
 
@@ -339,41 +352,11 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
                 return;
             }
 
-            //remove_fiter()
-
-            // *** temp code start...
-            /*
-            $image = get_post( $object_id );
-
-            write_log( $image );
-            
-
-            write_log( $meta_id );
-            write_log( $object_id );
-            write_log( $meta_key );
-            write_log( $_meta_value );
-            */
-            // *** temp code end...
-
             $this->diym_save_image_filter( $_meta_value, $object_id, 'edit' );
 
         }
 
         function wp_save_image_editor_file( $override, $filename, $image, $mime_type, $post_id ) {
-
-            // *** temp code start...
-            /*
-            $image = get_post( $object_id );
-
-            write_log( $image );
-            
-
-            write_log( $meta_id );
-            write_log( $object_id );
-            write_log( $meta_key );
-            write_log( $_meta_value );
-            */
-            // *** temp code end...
             
             add_action( 'updated_post_meta', array( &$this, 'updated_post_meta' ), 10, 4 );
 
