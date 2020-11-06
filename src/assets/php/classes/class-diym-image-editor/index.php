@@ -317,32 +317,67 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
                     }
 
                     //  ******
-                    $data[ 'file' ] = $this->diym_strip_junk( $data[ 'file' ] );
-                    
-                    //preg_replace( '/-e[0-9]{13}/', '',  $data[ 'file' ] );
+                    if ( 'edit' == $context ) {
+                        $data[ 'file' ] = $this->diym_strip_junk( $data[ 'file' ] );
 
+                        $new_file = $this->diym_strip_junk( $file );
 
+                        //wp_delete_file( $new_file );
 
-
+                        rename( $file, $new_file );
+                    }
                     //  ******
                     
                 }
 
-                $new_file = $this->diym_strip_junk( $file );
+                //  ******
 
-                rename( $file, $new_file );
+                if ( 'edit' == $context ) {
 
-                update_attached_file( $image_id, $new_file );
+                    
 
-                unset( $image_meta[ 'sizes' ][ 'full' ] );
+                    //
+                    //write_log( $file );
 
-                $image_meta[ 'file' ] = $this->diym_strip_junk( $image_meta[ 'file' ] );
+                    //$new_file = $this->diym_strip_junk( $file );
 
-                //wp_update_attachment_metadata( $image_id, $image_meta );
+                    //write_log( $new_file );
+    
+                    //rename( $file, $new_file );
+    
+                    //update_attached_file( $image_id, $new_file );
+    
+                    unset( $image_meta[ 'sizes' ][ 'full' ] );
+    
+                    $image_meta[ 'file' ] = $this->diym_strip_junk( $image_meta[ 'file' ] );
+    
+                    //wp_update_attachment_metadata( $image_id, $image_meta );
 
-                update_post_meta( $image_id, '_wp_attachment_metadata', wp_generate_attachment_metadata( $image_id, $new_file ) );
+                    //remove_action( 'updated_post_meta', array( &$this, 'updated_post_meta' ) );
 
-                write_log(  'vvv' );
+                    //$zzzz = wp_generate_attachment_metadata( $image_id, $new_file );
+
+                    //write_log( $zzzz );
+    
+                    //update_post_meta( $image_id, '_wp_attachment_metadata', $zzzz );
+
+                    //write_log( $image_meta );
+
+                    update_post_meta( $image_id, '_wp_attachment_metadata', $image_meta );
+
+                    update_attached_file( $image_id, $new_file );
+
+                    write_log( get_post( $image_id ) );
+
+                    write_log( get_post_meta( $image_id ) );
+    
+                    //write_log( wp_generate_attachment_metadata( $image_id, $new_file ) );
+
+                }
+
+                //  ******
+
+
             }
         }
 
