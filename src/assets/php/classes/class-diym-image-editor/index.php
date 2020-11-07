@@ -272,7 +272,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
         function diym_strip_junk( $haystack ) {
 
             $return = preg_replace( '/-e[0-9]{13}/', '',  $haystack );
-            //$return = preg_replace( '/-e[0-9]{13}/', '',  $return );
+            $return = preg_replace( '/cropped-/', '',  $return );
 
             return $return;
 
@@ -410,7 +410,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             }
         }
 
-        // add version numbers to edit images to prevent browser caching them
+        // add version numbers to edit image preview to prevent browser caching them
         function wp_prepare_attachment_for_js( $response, $attachment, $meta ) {
 
             foreach( $response[ 'sizes' ] as &$size ) {
