@@ -23,10 +23,13 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
         function __construct() {
 
+            
             if ( isset( $_REQUEST[ 'action' ] ) && 'get-attachment' == $_REQUEST[ 'action' ] ) {
                 // filter meta before it is sent to js
                 add_filter( 'wp_prepare_attachment_for_js', array( &$this, 'wp_prepare_attachment_for_js' ), 10, 3 );
             }
+
+            add_filter( 'update_post_metadata', array( &$this, 'update_post_metadata' ), 10, 5 );
 
             add_filter( 'wp_generate_attachment_metadata', array( &$this, 'wp_generate_attachment_metadata' ), 10, 3 );
 
@@ -35,9 +38,18 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             add_filter( 'wp_handle_upload', array( &$this, 'wp_handle_upload' ), 10, 2 );
 
             require_once( dirname( __FILE__ ) . '/pel/autoload.php' );
+            
         }
 
+        function update_post_metadata( $check, $object_id, $meta_key, $meta_value, $prev_value ) {
+        
+            if ( '_wp_attachment_backup_sizes' == $meta_key ) {
+                return true;
+            }
 
+            return $check;	
+        }
+        
         function wp_handle_upload( $upload, $context ) {
 
             //--> if upload is a jpeg, intercept it and write exif data to it...
@@ -259,12 +271,19 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
         function diym_strip_junk( $haystack ) {
 
-            return preg_replace( '/-e[0-9]{13}/', '',  $haystack );
+            $return = preg_replace( '/-e[0-9]{13}/', '',  $haystack );
+            //$return = preg_replace( '/-e[0-9]{13}/', '',  $return );
+
+            return $return;
 
         }
 
 
         function diym_save_image_filter( $image_meta, $image_id, $context ) {
+
+            write_log( $image_meta );
+            write_log( $image_id );
+            write_log( $context );
 
             $image = get_post( $image_id );
 
@@ -322,22 +341,24 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
                     }
 
                     //  ******
-                    if ( 'edit' == $context ) {
+                   // if ( 'edit' == $context ) {
                         $data[ 'file' ] = $this->diym_strip_junk( $data[ 'file' ] );
+
+                        error_log( $data[ 'file' ] );
 
                         $new_file = $this->diym_strip_junk( $file );
 
                         //wp_delete_file( $new_file );
 
                         rename( $file, $new_file );
-                    }
+                    //}
                     //  ******
                     
                 }
 
                 //  ******
 
-                if ( 'edit' == $context ) {
+                //if ( 'edit' == $context ) {
 
                     
 
@@ -381,7 +402,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
     
                     //write_log( wp_generate_attachment_metadata( $image_id, $new_file ) );
 
-                }
+                //}
 
                 //  ******
 

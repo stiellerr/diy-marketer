@@ -166,31 +166,8 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
 $diym_image_editor = new DIYM_Image_Editor();
 
-write_log( get_post_meta( 1000 ) );
+//write_log( get_post_meta( 1000 ) );
 
-function diym_update_post_metadata( $check, $object_id, $meta_key, $meta_value, $prev_value ) {
-
-	//write_log( $meta_key );
-	//write_log( $check );
-	//write_log( $_meta_value );
-
-	if ( '_wp_attachment_backup_sizes' == $meta_key ) {
-		//delete_post_meta( $object_id, '_wp_attachment_backup_sizes' );
-		error_log( 'zzz' );
-		return true;
-	}
-
-	//write_log( $object_id );
-	//write_log( $meta_key );
-	//write_log( $_meta_value );
-
-	//_wp_attachment_backup_sizes
-	return $check;	
-	                    // delete all the backup sizes...
-						//delete_post_meta( $image_id, '_wp_attachment_backup_sizes' );
-}
-
-add_filter( 'update_post_metadata', 'diym_update_post_metadata', 10, 5 );
 
 //$diym_google_places = new DIYM_Google_places();
 
