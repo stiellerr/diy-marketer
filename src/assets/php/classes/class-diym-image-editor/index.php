@@ -22,7 +22,12 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
     class DIYM_Image_Editor {
 
         function __construct() {
-            
+
+            if ( isset( $_REQUEST[ 'action' ] ) && 'get-attachment' == $_REQUEST[ 'action' ] ) {
+                // filter meta before it is sent to js
+                add_filter( 'wp_prepare_attachment_for_js', array( &$this, 'wp_prepare_attachment_for_js' ), 10, 3 );
+            }
+
             add_filter( 'wp_generate_attachment_metadata', array( &$this, 'wp_generate_attachment_metadata' ), 10, 3 );
 
             add_filter( 'wp_save_image_editor_file', array( &$this, 'wp_save_image_editor_file' ), 10, 5 );
@@ -34,7 +39,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
 
         function wp_handle_upload( $upload, $context ) {
-            
+
             //--> if upload is a jpeg, intercept it and write exif data to it...
             if ( 'image/jpeg' == $upload[ 'type' ] ) {
                 
@@ -365,11 +370,14 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
                     update_post_meta( $image_id, '_wp_attachment_metadata', $image_meta );
 
+                    // delete all the backup sizes...
+                    //delete_post_meta( $image_id, '_wp_attachment_backup_sizes' );
+
                     update_attached_file( $image_id, $new_file );
 
-                    write_log( get_post( $image_id ) );
+                    //write_log( get_post( $image_id ) );
 
-                    write_log( get_post_meta( $image_id ) );
+                    //write_log( get_post_meta( $image_id ) );
     
                     //write_log( wp_generate_attachment_metadata( $image_id, $new_file ) );
 
@@ -379,6 +387,17 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
 
             }
+        }
+
+        // add version numbers to edit images to prevent browser caching them
+        function wp_prepare_attachment_for_js( $response, $attachment, $meta ) {
+
+            foreach( $response[ 'sizes' ] as &$size ) {
+                $size[ 'url' ] .= '?v=' . time();
+            }
+        
+            return $response;
+        
         }
 
         function updated_post_meta( $meta_id, $object_id, $meta_key, $_meta_value ) {
