@@ -166,6 +166,39 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
 $diym_image_editor = new DIYM_Image_Editor();
 
+function diym_wp_ajax_cropped_attachment_metadata( $metadata ) {
+
+	write_log( 'ajax crop 1' );
+	write_log( $metadata );
+
+	return $metadata;
+}
+
+add_filter( 'wp_ajax_cropped_attachment_metadata', 'diym_wp_ajax_cropped_attachment_metadata' );
+
+write_log( get_theme_mod( 'custom_logo' ) );
+
+function diym_wp_ajax_cropped_attachment_id( $attachment_id, $context ) {
+
+	
+
+	if ( 'custom-logo' == $context ) {
+		//wp_delete_post( $attachment_id, true );
+		//write_log( get_theme_mod( 'custom_logo' ) );
+		//
+		// to do...
+		write_log( 'fishy....' );
+	}
+
+	write_log( 'ajax crop 2' );
+	write_log( $attachment_id );
+	write_log( $context );
+
+	return $attachment_id;
+}
+
+add_filter( 'wp_ajax_cropped_attachment_id', 'diym_wp_ajax_cropped_attachment_id', 10, 2 );
+
 //write_log( get_post_meta( 1000 ) );
 
 
