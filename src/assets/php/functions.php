@@ -176,7 +176,7 @@ function diym_wp_ajax_cropped_attachment_metadata( $metadata ) {
 
 add_filter( 'wp_ajax_cropped_attachment_metadata', 'diym_wp_ajax_cropped_attachment_metadata' );
 
-write_log( get_theme_mod( 'custom_logo' ) );
+//write_log( get_theme_mod( 'custom_logo' ) );
 
 function diym_wp_ajax_cropped_attachment_id( $attachment_id, $context ) {
 
@@ -187,7 +187,9 @@ function diym_wp_ajax_cropped_attachment_id( $attachment_id, $context ) {
 		//write_log( get_theme_mod( 'custom_logo' ) );
 		//
 		// to do...
-		write_log( 'fishy....' );
+		wp_redirect( admin_url( 'customize.php' ) );
+		//javascript: wp.customize.section( "social_media" ).focus();
+		//write_log( 'fishy....' );
 	}
 
 	write_log( 'ajax crop 2' );

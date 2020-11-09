@@ -23,28 +23,25 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
         function __construct() {
 
-            /*
             if ( isset( $_REQUEST[ 'action' ] ) && 'get-attachment' == $_REQUEST[ 'action' ] ) {
                 // filter meta before it is sent to js
                 add_filter( 'wp_prepare_attachment_for_js', array( &$this, 'wp_prepare_attachment_for_js' ), 10, 3 );
             }
-
+            
             add_filter( 'update_post_metadata', array( &$this, 'update_post_metadata' ), 10, 5 );
-
+            
             add_filter( 'wp_generate_attachment_metadata', array( &$this, 'wp_generate_attachment_metadata' ), 10, 3 );
-
+            
             add_filter( 'wp_save_image_editor_file', array( &$this, 'wp_save_image_editor_file' ), 10, 5 );
-
+            
             add_filter( 'wp_handle_upload', array( &$this, 'wp_handle_upload' ), 10, 2 );
 
             require_once( dirname( __FILE__ ) . '/pel/autoload.php' );
-            */
-            
             
         }
 
         function update_post_metadata( $check, $object_id, $meta_key, $meta_value, $prev_value ) {
-        
+
             if ( '_wp_attachment_backup_sizes' == $meta_key ) {
                 return true;
             }
@@ -53,6 +50,8 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
         }
         
         function wp_handle_upload( $upload, $context ) {
+
+            write_log( 34 );
 
             //--> if upload is a jpeg, intercept it and write exif data to it...
             if ( 'image/jpeg' == $upload[ 'type' ] ) {
@@ -79,6 +78,10 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
         //--> Use this when uploading a new image...
         function wp_generate_attachment_metadata( $metadata, $attachment_id, $context ) {
+
+            write_log( $metadata );
+            write_log( $attachment_id );
+            write_log( $context );
 
             // save new image...
             $this->diym_save_image_filter( $metadata, $attachment_id, $context );
@@ -281,10 +284,30 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
         }
 
+        /*
+        function diym_strip_junk2( $pattern, $haystack ) {
+
+            $replace = preg_replace( $pattern, '',  $haystack );
+
+            if ( $replace != $haystack ) {
+                return $replace;
+            }
+
+            //$replace = preg_replace( '/cropped-/', '',  $replace );
+
+            return false;
+        }
+        */
+
 
         function diym_save_image_filter( $image_meta, $image_id, $context ) {
 
+            write_log( 36 );
+
             $image = get_post( $image_id );
+
+            write_log( $image );
+
 
             if ( $image && isset( $image_meta['file'] ) ) {
 
@@ -365,6 +388,8 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
         // add version numbers to edit image preview to prevent browser caching them
         function wp_prepare_attachment_for_js( $response, $attachment, $meta ) {
 
+            write_log( 37 );
+
             foreach( $response[ 'sizes' ] as &$size ) {
                 $size[ 'url' ] .= '?v=' . time();
             }
@@ -374,6 +399,8 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
         }
 
         function updated_post_meta( $meta_id, $object_id, $meta_key, $_meta_value ) {
+
+            write_log( 38 );
             
             if ( '_wp_attachment_metadata' !== $meta_key ) {
                 return;
@@ -385,7 +412,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
         function wp_save_image_editor_file( $override, $filename, $image, $mime_type, $post_id ) {
 
-            write_log( 'hi' );
+            write_log( 39 );
 
             if ( 'image/jpeg' !== $mime_type && 'image/png' !== $mime_type && 'image/gif' !== $mime_type ) {
                 return $override;
