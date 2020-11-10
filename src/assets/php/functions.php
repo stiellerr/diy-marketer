@@ -7,11 +7,6 @@
  * @package DIY_Marketer
  */
 
-
-
-
-
-
 // useful function for witing to the log
 if ( ! function_exists( 'write_log ') ) {
 	function write_log ( $log )  {
@@ -22,9 +17,6 @@ if ( ! function_exists( 'write_log ') ) {
 		}
 	}
 }
-
-
-
 
 // global function for text sanitization of arrays.
 function diym_sanitize_text( $data ) {
@@ -166,6 +158,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
 $diym_image_editor = new DIYM_Image_Editor();
 
+/*
 function diym_wp_ajax_cropped_attachment_metadata( $metadata ) {
 
 	write_log( 'ajax crop 1' );
@@ -178,28 +171,20 @@ add_filter( 'wp_ajax_cropped_attachment_metadata', 'diym_wp_ajax_cropped_attachm
 
 //write_log( get_theme_mod( 'custom_logo' ) );
 
-function diym_wp_ajax_cropped_attachment_id( $attachment_id, $context ) {
 
-	
 
-	if ( 'custom-logo' == $context ) {
-		//wp_delete_post( $attachment_id, true );
-		//write_log( get_theme_mod( 'custom_logo' ) );
-		//
-		// to do...
-		wp_redirect( admin_url( 'customize.php' ) );
-		//javascript: wp.customize.section( "social_media" ).focus();
-		//write_log( 'fishy....' );
-	}
 
-	write_log( 'ajax crop 2' );
-	write_log( $attachment_id );
+function diym_wp_ajax_crop_image_pre_save( $context, $attachment_id, $cropped ) {
+
+	//$context = C:\MAMP\htdocs\wordpress-5.5\wordpress/wp-content/uploads/2020/11/cropped-bayleys-logo-2.jpg
 	write_log( $context );
-
-	return $attachment_id;
+	write_log( $attachment_id );
+	write_log( $cropped );
 }
+*/
 
-add_filter( 'wp_ajax_cropped_attachment_id', 'diym_wp_ajax_cropped_attachment_id', 10, 2 );
+
+//add_action( 'wp_ajax_crop_image_pre_save', 'diym_wp_ajax_crop_image_pre_save', 10, 3 );
 
 //write_log( get_post_meta( 1000 ) );
 
