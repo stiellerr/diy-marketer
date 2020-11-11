@@ -31,16 +31,16 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             
             add_filter( 'update_post_metadata', array( &$this, 'update_post_metadata' ), 10, 5 );
             */
-            add_filter( 'wp_generate_attachment_metadata', array( &$this, 'wp_generate_attachment_metadata' ), 10, 3 );
+            //add_filter( 'wp_generate_attachment_metadata', array( &$this, 'wp_generate_attachment_metadata' ), 10, 3 );
             
             /*
             add_filter( 'image_editor_save_pre', array( &$this, 'image_editor_save_pre' ), 10, 2 );
 
             add_filter( 'wp_save_image_editor_file', array( &$this, 'wp_save_image_editor_file' ), 10, 5 );
  */
-            add_action( 'wp_ajax_crop_image_pre_save', array( &$this, 'wp_ajax_crop_image_pre_save' ), 10, 3 );
+            //add_action( 'wp_ajax_crop_image_pre_save', array( &$this, 'wp_ajax_crop_image_pre_save' ), 10, 3 );
            
-            add_filter( 'wp_ajax_cropped_attachment_id', array( &$this, 'wp_ajax_cropped_attachment_id' ), 10, 2 );
+            //add_filter( 'wp_ajax_cropped_attachment_id', array( &$this, 'wp_ajax_cropped_attachment_id' ), 10, 2 );
             /*
             require_once( dirname( __FILE__ ) . '/pel/autoload.php' );
             

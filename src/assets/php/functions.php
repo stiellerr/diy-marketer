@@ -158,6 +158,50 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
 $diym_image_editor = new DIYM_Image_Editor();
 
+
+function diym_sanitize_file_name( $filename, $filename_raw ) {
+
+	// check if image is cropped
+	if ( preg_match( '/^cropped-/', $filename ) ) {
+
+		//$src = preg_replace( '/^cropped-/', '', $filename );
+
+		//$src_file = get_attached_file( $src );
+
+		write_log( wp_get_upload_dir() );
+
+		write_log( wp_upload_dir() );
+
+		write_log( pathinfo( $filename ) );
+	}
+
+	//write_log( $filename );
+	//write_log( $filename_raw );
+
+	$filename = preg_replace( '/cropped-/', '', $filename );
+
+	return $filename;
+}
+
+add_filter( 'sanitize_file_name', 'diym_sanitize_file_name', 10, 2 );
+
+
+write_log( get_post(433) );
+write_log( get_post(434) );
+
+
+//function diyn_wp_unique_filename( $filename, $ext, $dir, $unique_filename_callback ) {
+
+	//$filename = preg_replace( '/-1/', '',  $filename );
+
+	//write_log( $dir );
+
+	//return $filename;
+//}
+
+//add_filter( 'wp_unique_filename', 'diyn_wp_unique_filename', 10, 4 );
+
+
 /*
 function diym_wp_ajax_cropped_attachment_metadata( $metadata ) {
 
