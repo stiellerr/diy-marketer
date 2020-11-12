@@ -28,15 +28,15 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
                 // filter meta before it is sent to js
                 add_filter( 'wp_prepare_attachment_for_js', array( &$this, 'wp_prepare_attachment_for_js' ), 10, 3 );
             }
-            
-            add_filter( 'update_post_metadata', array( &$this, 'update_post_metadata' ), 10, 5 );
             */
+            add_filter( 'update_post_metadata', array( &$this, 'update_post_metadata' ), 10, 5 );
+            
             add_filter( 'wp_generate_attachment_metadata', array( &$this, 'wp_generate_attachment_metadata' ), 10, 3 );
             
             
             //add_filter( 'image_editor_save_pre', array( &$this, 'image_editor_save_pre' ), 10, 2 );
 
-            add_filter( 'wp_save_image_editor_file', array( &$this, 'wp_save_image_editor_file' ), 10, 5 );
+            //add_filter( 'wp_save_image_editor_file', array( &$this, 'wp_save_image_editor_file' ), 10, 5 );
 
  /*
             add_action( 'wp_ajax_crop_image_pre_save', array( &$this, 'wp_ajax_crop_image_pre_save' ), 10, 3 );
@@ -58,10 +58,15 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
         }
 
+        function wp_ajax_cropped_attachment_metadata($metadata) {
+
+
+            return $metadata;
+        }
+
         function update_post_metadata( $check, $object_id, $meta_key, $meta_value, $prev_value ) {
 
-            write_log( 'update_post_metadata' );
-
+            //
             if ( '_wp_attachment_backup_sizes' == $meta_key ) {
                 return true;
             }
@@ -380,7 +385,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
                 $original = attachment_url_to_postid( $url );
 
-                wp_prepare_attachment_for_js( $image_id );
+                //wp_prepare_attachment_for_js( $image_id );
 
                 wp_delete_post( $original, TRUE );
                 
@@ -390,12 +395,12 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
                 write_log( 'match found...' );
             }
 
-            return $image_meta;
+            //return $image_meta;
 
-            if ( preg_match( '/cropped-/', $filename  ) ) {
-                $context = 'edit';
-                write_log( 'crop found....' );
-            }
+            //if ( preg_match( '/cropped-/', $filename  ) ) {
+                //$context = 'edit';
+                //write_log( 'crop found....' );
+            //}
 
             $image = get_post( $image_id );
 

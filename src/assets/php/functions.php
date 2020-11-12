@@ -168,20 +168,20 @@ function diym_sanitize_file_name( $filename, $filename_raw ) {
 
 		//$src_file = get_attached_file( $src );
 
-		write_log( wp_get_upload_dir() );
+		//write_log( wp_get_upload_dir() );
 
-		write_log( wp_upload_dir() );
+		//write_log( wp_upload_dir() );
 
-		write_log( pathinfo( $filename ) );
+		//write_log( pathinfo( $filename ) );
 	}
 
 	write_log( $filename );
 	//write_log( $filename_raw );
 
-	$filename = preg_replace( '/^cropped-/', '', $filename );
-	$filename = preg_replace( '/-edited\./', '.', $filename );
+	//$filename = preg_replace( '/^cropped-/', '', $filename );
+	//$filename = preg_replace( '/-edited\./', '.', $filename );
 
-	write_log( $filename );
+	//write_log( $filename );
 
 	return $filename;
 }
@@ -219,19 +219,20 @@ add_filter( 'wp_ajax_cropped_attachment_metadata', 'diym_wp_ajax_cropped_attachm
 //write_log( get_theme_mod( 'custom_logo' ) );
 
 
-
-
-function diym_wp_ajax_crop_image_pre_save( $context, $attachment_id, $cropped ) {
-
-	//$context = C:\MAMP\htdocs\wordpress-5.5\wordpress/wp-content/uploads/2020/11/cropped-bayleys-logo-2.jpg
-	write_log( $context );
-	write_log( $attachment_id );
-	write_log( $cropped );
-}
 */
 
+function diym_wp_ajax_cropped_attachment_id( $attachment_id, $context ) {
 
-//add_action( 'wp_ajax_crop_image_pre_save', 'diym_wp_ajax_crop_image_pre_save', 10, 3 );
+	if ( 'custom-logo' == $context ) {
+		delete_post_meta( $attachment_id, '_wp_attachment_context' );
+	}
+
+	return $attachment_id;
+}
+
+
+
+add_action( 'wp_ajax_cropped_attachment_id', 'diym_wp_ajax_cropped_attachment_id', 10, 3 );
 
 //write_log( get_post_meta( 1000 ) );
 
