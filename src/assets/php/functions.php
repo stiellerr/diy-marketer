@@ -230,9 +230,7 @@ function diym_wp_ajax_cropped_attachment_id( $attachment_id, $context ) {
 	return $attachment_id;
 }
 
-
-
-add_action( 'wp_ajax_cropped_attachment_id', 'diym_wp_ajax_cropped_attachment_id', 10, 3 );
+add_filter( 'wp_ajax_cropped_attachment_id', 'diym_wp_ajax_cropped_attachment_id', 10, 3 );
 
 //write_log( get_post_meta( 1000 ) );
 

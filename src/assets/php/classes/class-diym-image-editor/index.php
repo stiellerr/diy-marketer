@@ -368,6 +368,30 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             return $replace;
 
         }
+/*
+        function diym_has_edits( $haystack ) {
+
+            $return = false;
+
+            if ( preg_match( '/-edited/', $haystack ) ) {
+                $return = preg_replce( '/-edited/', '', $haystack )
+            }
+
+            if ( preg_match( '/cropped-/', $return ) ) {
+                $haystack = preg_replce( '/-edited/', '', $haystack )
+            }
+
+            if ( preg_match( '/cropped-/', $haystack ) ) {
+                $haystack = preg_replce( '/-edited/', '', $haystack )
+            }
+
+            if ( $return != $haystack ) {
+                $return
+            }
+
+        }
+
+*/
 
         function diym_save_image_filter( $image_meta, $image_id ) {
 
