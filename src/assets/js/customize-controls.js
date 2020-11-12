@@ -9,10 +9,65 @@
 
 import DIYM_Color from "./components/class-diym-color";
 
+// trigger refresh of media view on open...
+wp.media.view.Modal.prototype.bind("open", () => {
+    if (wp.media.frame.content.get() !== null) {
+        wp.media.frame.content.get().collection._requery(true);
+        wp.media.frame.content.get().options.selection.reset();
+    }
+});
+
+/*
+if (wp.media) {
+    wp.media.view.Modal.prototype.on("open", function (data) {
+        //console.log(wp.media.frame.modal.clickedOpenerEl);
+        wp.media.frame.content.get().collection._requery(true);
+    });
+}
+*/
+/*
+wp.media.frame.on(
+    "open",
+    function () {
+        //if (wp.media.frame.content.get() !== null) {
+        // this forces a refresh of the content
+        //parent.wp.media.frame.content.get().collection._requery(true);
+        //console.log(wp.media.frame.content.get().collection);
+        // optional: reset selection
+        //wp.media.frame.content.get().options.selection.reset();
+        //}
+        console.log("hello555");
+    },
+    this
+);
+*/
+/*
+wp.media.frame.bind("open", () => {
+    console.log("ttt");
+});
+*/
+
 // Wait until the customizer has finished loading.
 wp.customize.bind("ready", () => {
     // hide blog name.
     wp.customize.control("blogname").toggle();
+
+    //wp.customize.control("custom_logo").toggle();
+
+    //wp.customize("custom_logo", value => {
+    // Add a listener for accent-color changes.
+    //value.bind(to => {
+    //wp.media.frame.on('open', function() {
+    //if (wp.media.frame.content.get() !== null) {
+    // this forces a refresh of the content
+    //parent.wp.media.frame.content.get().collection._requery(true);
+    //console.log(wp.media.frame.content.get().collection);
+    // optional: reset selection
+    //wp.media.frame.content.get().options.selection.reset();
+    //}
+    //}, this);
+    //});
+    //});
 
     // Site Title Color Section.
     /*

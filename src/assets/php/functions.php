@@ -175,19 +175,22 @@ function diym_sanitize_file_name( $filename, $filename_raw ) {
 		write_log( pathinfo( $filename ) );
 	}
 
-	//write_log( $filename );
+	write_log( $filename );
 	//write_log( $filename_raw );
 
-	$filename = preg_replace( '/cropped-/', '', $filename );
+	$filename = preg_replace( '/^cropped-/', '', $filename );
+	$filename = preg_replace( '/-edited\./', '.', $filename );
+
+	write_log( $filename );
 
 	return $filename;
 }
 
-add_filter( 'sanitize_file_name', 'diym_sanitize_file_name', 10, 2 );
+//add_filter( 'sanitize_file_name', 'diym_sanitize_file_name', 10, 2 );
 
 
-write_log( get_post(433) );
-write_log( get_post(434) );
+//write_log( get_post(433) );
+//write_log( get_post(434) );
 
 
 //function diyn_wp_unique_filename( $filename, $ext, $dir, $unique_filename_callback ) {
@@ -715,7 +718,7 @@ add_action( 'after_setup_theme', 'diym_block_editor_settings' );
 function diym_customize_controls_enqueue_scripts() {
 
 	// Add script for controls.
-	wp_enqueue_script( 'diym-customize-controls', get_template_directory_uri() . '/assets/js/customize-controls.js', array( 'customize-controls', 'wp-color-picker', 'underscore' ), DIYM_VER, false );
+	wp_enqueue_script( 'diym-customize-controls', get_template_directory_uri() . '/assets/js/customize-controls.js', array( 'customize-controls', 'wp-color-picker', 'media-editor', 'underscore' ), DIYM_VER, false );
 	wp_localize_script( 'diym-customize-controls', 'diymBgColors', diym_get_customizer_color_vars() );
 
 }
