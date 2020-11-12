@@ -27,7 +27,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
                 // filter meta before it is sent to js
                 add_filter( 'wp_prepare_attachment_for_js', array( &$this, 'wp_prepare_attachment_for_js' ), 10, 3 );
             }
-            
+
             add_filter( 'update_post_metadata', array( &$this, 'update_post_metadata' ), 10, 5 );
             
             add_filter( 'wp_generate_attachment_metadata', array( &$this, 'wp_generate_attachment_metadata' ), 10, 3 );
@@ -45,6 +45,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             
         }
 
+        // as we are replace originals, we wont need wp to store backups
         function update_post_metadata( $check, $object_id, $meta_key, $meta_value, $prev_value ) {
 
             if ( '_wp_attachment_backup_sizes' == $meta_key ) {
@@ -54,6 +55,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             return $check;	
         }
 
+        // remove context, this prevents image from showing in media library
         function wp_ajax_cropped_attachment_id( $attachment_id, $context ) {
 
             write_log( 'wp_ajax_cropped_attachment_id' );
@@ -65,6 +67,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             return $attachment_id;
         }
         
+        // intercept all uploaded images and add exif data to them.
         function wp_handle_upload( $upload, $context ) {
 
             write_log( 'wp_handle_upload' );
@@ -92,7 +95,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             return $upload;
         }
 
-        //--> Use this when uploading a new image...
+        // used when new images is created. ie on upload, edit or crop
         function wp_generate_attachment_metadata( $metadata, $attachment_id, $context ) {
 
             write_log( 'wp_generate_attachment_metadata' );
@@ -291,6 +294,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             file_put_contents($output, $jpeg->getBytes());
         }
 
+        // this is where all the magic happens
         function diym_save_image_filter( $image_meta, $image_id ) {
 
             write_log( 'diym_save_image_filter' );
