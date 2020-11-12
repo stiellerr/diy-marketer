@@ -186,6 +186,7 @@ function diym_sanitize_file_name( $filename, $filename_raw ) {
 	return $filename;
 }
 
+
 //add_filter( 'sanitize_file_name', 'diym_sanitize_file_name', 10, 2 );
 
 
@@ -221,6 +222,7 @@ add_filter( 'wp_ajax_cropped_attachment_metadata', 'diym_wp_ajax_cropped_attachm
 
 */
 
+/*
 function diym_wp_ajax_cropped_attachment_id( $attachment_id, $context ) {
 
 	if ( 'custom-logo' == $context ) {
@@ -231,6 +233,7 @@ function diym_wp_ajax_cropped_attachment_id( $attachment_id, $context ) {
 }
 
 add_filter( 'wp_ajax_cropped_attachment_id', 'diym_wp_ajax_cropped_attachment_id', 10, 3 );
+*/
 
 //write_log( get_post_meta( 1000 ) );
 
