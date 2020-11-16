@@ -34,6 +34,8 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             
             add_filter( 'image_editor_save_pre', array( &$this, 'image_editor_save_pre' ), 10, 2 );
 
+            add_filter( 'upload_dir', array( &$this, 'upload_dir' ) );
+
             add_filter( 'wp_save_image_editor_file', array( &$this, 'wp_save_image_editor_file' ), 10, 5 );
            
             add_filter( 'wp_ajax_cropped_attachment_id', array( &$this, 'wp_ajax_cropped_attachment_id' ), 10, 2 );
@@ -42,10 +44,22 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             
             add_filter( 'wp_handle_upload', array( &$this, 'wp_handle_upload' ), 10, 2 );
             
-            
         }
 
-        // as we are replace originals, we wont need wp to store backups
+        // modify the uploads directory...
+        function upload_dir( $uploads ) {
+
+            write_log( 'upload_dir' );
+
+            $uploads[ 'basedir' ] = wp_normalize_path( ABSPATH . 'uploads' );
+            $uploads[ 'baseurl' ] = home_url( '/uploads' );
+            $uploads[ 'path' ]    = $uploads[ 'basedir' ];
+            $uploads[ 'url' ]     = $uploads[ 'baseurl' ];
+
+            return $uploads;
+        }
+
+        // as we are replacing originals, we wont need wp to store backups
         function update_post_metadata( $check, $object_id, $meta_key, $meta_value, $prev_value ) {
 
             if ( '_wp_attachment_backup_sizes' == $meta_key ) {
@@ -55,7 +69,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             return $check;	
         }
 
-        // remove context, this prevents image from showing in media library
+        // remove context for custom logo's, this prevents them showing in media library
         function wp_ajax_cropped_attachment_id( $attachment_id, $context ) {
 
             write_log( 'wp_ajax_cropped_attachment_id' );
@@ -95,7 +109,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             return $upload;
         }
 
-        // used when new images is created. ie on upload, edit or crop
+        // used when new images are created. ie on upload, edit or crop
         function wp_generate_attachment_metadata( $metadata, $attachment_id, $context ) {
 
             write_log( 'wp_generate_attachment_metadata' );
@@ -326,8 +340,6 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             if ( preg_match( '/-e[0-9]{13}/', $image_name ) ) {
                 $pattern = '/-e[0-9]{13}/';
             }
-
-            write_log( $pattern );
 
             /*
             $post = array(
