@@ -49,9 +49,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
         // modify the uploads directory...
         function upload_dir( $uploads ) {
 
-            write_log( 'upload_dir' );
-
-            $uploads[ 'basedir' ] = wp_normalize_path( ABSPATH . 'uploads' );
+            $uploads[ 'basedir' ] = path_join( ABSPATH, 'uploads' );
             $uploads[ 'baseurl' ] = home_url( '/uploads' );
             $uploads[ 'path' ]    = $uploads[ 'basedir' ];
             $uploads[ 'url' ]     = $uploads[ 'baseurl' ];
@@ -72,7 +70,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
         // remove context for custom logo's, this prevents them showing in media library
         function wp_ajax_cropped_attachment_id( $attachment_id, $context ) {
 
-            write_log( 'wp_ajax_cropped_attachment_id' );
+            //write_log( 'wp_ajax_cropped_attachment_id' );
 
             if ( 'custom-logo' == $context ) {
                 delete_post_meta( $attachment_id, '_wp_attachment_context' );
@@ -84,7 +82,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
         // intercept all uploaded images and add exif data to them.
         function wp_handle_upload( $upload, $context ) {
 
-            write_log( 'wp_handle_upload' );
+            //write_log( 'wp_handle_upload' );
 
             //--> if upload is a jpeg, intercept it and write exif data to it...
             if ( 'image/jpeg' == $upload[ 'type' ] ) {
@@ -112,7 +110,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
         // used when new images are created. ie on upload, edit or crop
         function wp_generate_attachment_metadata( $metadata, $attachment_id, $context ) {
 
-            write_log( 'wp_generate_attachment_metadata' );
+            //write_log( 'wp_generate_attachment_metadata' );
 
             $metadata = $this->diym_save_image_filter( $metadata, $attachment_id );
             
@@ -133,7 +131,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
          */
         function convertDecimalToDMS($degree) {
 
-            write_log( 'convertDecimalToDMS' );
+            //write_log( 'convertDecimalToDMS' );
             
             if ($degree > 180 || $degree < - 180) {
                 return null;
@@ -210,7 +208,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
          */
         public function addGpsInfo( $input, $output, $description, $comment, $model, $longitude = 0, $latitude = 0, $altitude = 0, $date_time ) {
 
-            write_log( 'addGpsInfo' );
+            //write_log( 'addGpsInfo' );
 
             /* Load the given image into a PelJpeg object */
             $jpeg = new PelJpeg($input);
@@ -311,18 +309,26 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
         // this is where all the magic happens
         function diym_save_image_filter( $image_meta, $image_id ) {
 
-            write_log( 'diym_save_image_filter' );
+            //write_log( 'diym_save_image_filter' );
+
+            if ( ! isset( $image_meta ) || ! get_post( $image_id ) ) {
+                return $image_meta;
+            }
 
             // get image name
-            $image_name = pathinfo( $image_meta[ 'file' ], PATHINFO_FILENAME );
+            $path = get_attached_file( $image_id );
 
+            $basename = pathinfo( $path, PATHINFO_BASENAME );
+            $dirname  = pathinfo( $path, PATHINFO_DIRNAME );
+            $filename = pathinfo( $path, PATHINFO_FILENAME );
+            
             $pattern = FALSE;
 
-            if ( preg_match( '/^cropped-/', $image_name ) ) {
+            if ( preg_match( '/^cropped-/', $filename ) ) {
                 $pattern = '/cropped-/';
             }
 
-            if ( preg_match( '/-edited$/', $image_name ) ) {
+            if ( preg_match( '/-edited$/', $filename ) ) {
                 $pattern = '/-edited/';
             }
 
@@ -337,162 +343,78 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
                 }
             }
 
-            if ( preg_match( '/-e[0-9]{13}/', $image_name ) ) {
+            if ( preg_match( '/-e[0-9]{13}/', $filename ) ) {
                 $pattern = '/-e[0-9]{13}/';
             }
 
-            /*
-            $post = array(
-                'ID' => $image_id,
-                'post_content' => 'This is dummy content...',
-                //'post_title' => wp_strip_all_tags($_POST['post_title'])
+            $image_meta[ 'sizes' ][ 'full' ] = array(
+                'file'      => $basename,
+                'width'     => $image_meta[ 'width' ],
+                'height'    => $image_meta[ 'height' ],
+                'mime-type' => get_post_mime_type( $image_id )
             );
-            $result = wp_update_post($post, true);
-            */
-
-
-            //_wp_attachment_image_alt
-
-
-
-
-
-            //edited will probably be the same as above '/-edited(-\d+)?$/'
-            
-            
-            
-            //write_log( $image_id );
-
-            
-
-            //$context = 'create';
-
-            //$haystack = wp_get_attachment_url( $image_id );
-
-            //if preg_match(  )
-            
-            
-            
-            //$haystack = wp_get_attachment_url( $image_id );
-
-            //$needle = '/(-edited(-\d+)?)|(cropped-)|(-e[0-9]{13})/';
-
-            //if ( preg_match( $needle, $haystack ) ) {
-                //
-                //$url = preg_replace( $needle, '', $haystack );
-
-                //write_log( $url );
-
-                //$original = attachment_url_to_postid( $url );
-
-                //wp_prepare_attachment_for_js( $image_id );
-
-                //wp_delete_post( $original, TRUE );
-                
-                //write_log( $original );
-
-                //$context = 'edit';
-                //write_log( 'match found...' );
-            //}
-
-            //return $image_meta;
-
-            //if ( preg_match( '/cropped-/', $filename  ) ) {
-                //$context = 'edit';
-                //write_log( 'crop found....' );
-            //}
-
-            $image = get_post( $image_id );
-
-            //write_log( $image );
-
-            if ( $image && isset( $image_meta['file'] ) ) {
-
-                $image_meta[ 'sizes' ][ 'full' ] = array(
-                    'file'      => wp_basename( $image_meta[ 'file' ] ),
-                    'width'     => $image_meta[ 'width' ],
-                    'height'    => $image_meta[ 'height' ],
-                    'mime-type' => $image->post_mime_type
-                );
-
-                $path = dirname( get_attached_file( $image->ID ) );
         
-                foreach( $image_meta[ 'sizes' ] as $size => &$data ) {
-        
-                    $base = basename( $data[ 'file' ] );
-                    $mimetype = (string) $data[ 'mime-type' ];
-                    // these need to be seperate, causes issues otherwise...
-
-                    $file = path_join( $path, $base );
-        
-                    if ( ! file_exists( $file ) ) {
-                        continue;
-                    }
-                    
-                    if ( 'image/jpeg' == $mimetype || 'image/png' == $mimetype ) {
-                        // if image is new, and size is full, open file and compress it. wp doesnt do the original by default...
-                        if ( 'full' == $size && FALSE == $pattern ) {
-                            $editor = wp_get_image_editor( $file );
-                            $editor->save( $file, $mimetype );
-                            unset( $editor );
-                        }
-                    }
-                    
-                    if ( 'image/jpeg' == $mimetype || 'image/gif' == $mimetype ) {
-                        if ( class_exists( 'Imagick' ) ) {
-                            $imagick = new Imagick( $file );
-
-                            // set interlacing if not set...
-                            if ( imagick::INTERLACE_PLANE !== $imagick->getInterlaceScheme() ) {
-                                $imagick->setInterlaceScheme( imagick::INTERLACE_PLANE );
-                                $imagick->writeImage();
-                            }
+            foreach( $image_meta[ 'sizes' ] as $size => &$data ) {
                             
-                            $imagick->clear();
-                            $imagick->destroy();
-                            unset( $imagick );
-
-                            //$temp = imagecreatefromjpeg( $inp );
-                            //imageinterlace($temp, 1);
-                            //imagejpeg( $temp, $inp, 82 ); //quality is set to 82 ( this is what wp was... )
-                            //imagedestroy( $temp );
-                        }
-                    }
-
-                    if ( $pattern ) {
-                        $data[ 'file' ] = preg_replace( $pattern, '', $data[ 'file' ] );
-
-                        $new_file = preg_replace( $pattern, '', $file );
-                        rename( $file, $new_file );
+                // these need to be seperate, causes issues otherwise...
+                $mimetype = (string) $data[ 'mime-type' ];
+                $child    = path_join( $dirname, wp_basename( $data[ 'file' ] ) );
+        
+                if ( ! file_exists( $child ) ) {
+                    continue;
+                }
+                    
+                if ( 'image/jpeg' == $mimetype || 'image/png' == $mimetype ) {
+                    // if image is new, and size is full, open file and compress it. wp doesnt do the original by default...
+                    if ( 'full' == $size && FALSE == $pattern ) {
+                        $editor = wp_get_image_editor( $child );
+                        $editor->save( $child, $mimetype );
+                        unset( $editor );
                     }
                 }
-    
-                    unset( $image_meta[ 'sizes' ][ 'full' ] );
+                    
+                if ( 'image/jpeg' == $mimetype || 'image/gif' == $mimetype ) {
+                    if ( class_exists( 'Imagick' ) ) {
+                        $imagick = new Imagick( $child );
 
-                    if ( $pattern ) {
-                        //$image_meta[ 'file' ] = $this->diym_strip_junk( $image_meta[ 'file' ] );
-                        $image_meta[ 'file' ] = preg_replace( $pattern, '', $image_meta[ 'file' ] );
-                        update_attached_file( $image_id, $new_file );
+                        // set interlacing if not set...
+                        if ( imagick::INTERLACE_PLANE !== $imagick->getInterlaceScheme() ) {
+                            $imagick->setInterlaceScheme( imagick::INTERLACE_PLANE );
+                            $imagick->writeImage();
+                        }
+                        
+                        $imagick->clear();
+                        $imagick->destroy();
+                        unset( $imagick );
 
+                        /*
+                        $temp = imagecreatefromjpeg( $inp );
+                        imageinterlace($temp, 1);
+                        imagejpeg( $temp, $inp, 82 ); //quality is set to 82 ( this is what wp was... )
+                        imagedestroy( $temp );
+                        */
                     }
-    
-                    //$image_meta[ 'file' ] = $this->diym_strip_junk( $image_meta[ 'file' ] );
+                }
 
-                    //update_post_meta( $image_id, '_wp_attachment_metadata', $image_meta );
-                    
-                    
+                if ( $pattern ) {
+                    $data[ 'file' ] = preg_replace( $pattern, '', $data[ 'file' ] );
 
-                    // tasks that need to be done on all files...
-                    update_post_meta( $image_id, '_wp_attachment_image_alt', 'This is a test for the alt text' );
-
-
-
-                    
-                    
+                    $new_file = preg_replace( $pattern, '', $child );
+                    rename( $child, $new_file );
+                }
             }
-            // return image meta -->
+    
+            unset( $image_meta[ 'sizes' ][ 'full' ] );
 
-            
+            if ( $pattern ) {
+
+                $image_meta[ 'file' ] = preg_replace( $pattern, '', $image_meta[ 'file' ] );
+                update_attached_file( $image_id, $new_file );
+            }
+
+            // tasks that need to be done on all files...
+            //$description = ucwords( str_replace( '-', ' ', $filename ) );
+            //update_post_meta( $image_id, '_wp_attachment_image_alt', $description );
 
             return $image_meta;
         }
@@ -512,7 +434,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
         function updated_post_meta( $meta_id, $object_id, $meta_key, $_meta_value ) {
 
-            write_log( 'updated_post_meta' );
+            //write_log( 'updated_post_meta' );
             
             if ( '_wp_attachment_metadata' !== $meta_key ) {
                 return;
@@ -527,7 +449,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
         function wp_get_attachment_image_src( $image, $attachment_id, $size, $icon ) {
 	
-            write_log( 'wp_get_attachment_image_src' );
+            //write_log( 'wp_get_attachment_image_src' );
         
             $image[0] .= '?v=' . time();
             
@@ -536,7 +458,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
         function image_editor_save_pre( $image, $attachment_id ) {
 
-            write_log( 'image_editor_save_pre' );
+            //write_log( 'image_editor_save_pre' );
 
             add_filter( 'wp_get_attachment_image_src', array( &$this, 'wp_get_attachment_image_src' ), 10, 4 );
         
@@ -545,18 +467,20 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
         function wp_save_image_editor_file( $override, $filename, $image, $mime_type, $post_id ) {
 
-            write_log( 'wp_save_image_editor_file' );
+            //write_log( 'wp_save_image_editor_file' );
 
             if ( 'image/jpeg' !== $mime_type && 'image/png' !== $mime_type && 'image/gif' !== $mime_type ) {
                 return $override;
             }
 
-            // delete all the original attatchment files...
+            $original = get_attached_file( $post_id );
+
+            //  delete intermediate sizes
             $deleted = wp_delete_attachment_files(
                 $post_id,
                 wp_get_attachment_metadata( $post_id ),
                 get_post_meta( $post_id, '_wp_attachment_backup_sizes', true ),
-                $filename
+                $original
             );
             
             add_action( 'updated_post_meta', array( &$this, 'updated_post_meta' ), 10, 4 );
