@@ -28,7 +28,29 @@ class DIYM_Options_Page {
 			//add_filter( 'pre_set_site_transient_update_themes', array( $this, 'diym_check_updates' ) );
             //add_action('wp_ajax_sync_data', array( $this, 'sync_data' ) ); // This is for authenticated users
             //add_action('wp_ajax_nopriv_sync_data', array( $this, 'sync_data') ); // This is for unauthenticated users.
-		}
+        }
+        
+        // google tag manager...
+        add_action( 'wp_head', array( &$this, 'wp_head' ), 0 );
+        add_action( 'wp_body_open', array( &$this, 'wp_body_open' ) );
+    }
+
+    // print google tag manager code in head...
+    function wp_head() {
+
+        $google_tag = get_option( 'diym_tag_manager' ) [ 'head_code' ];
+
+        echo $google_tag ? $google_tag . "\n" : '';
+
+    }
+
+    // print google tag manager code in body...
+    function wp_body_open() {
+
+        $google_tag = get_option( 'diym_tag_manager' ) [ 'body_code' ];
+
+        echo $google_tag ? $google_tag : '';
+
     }
 
 	public function enqueue() {

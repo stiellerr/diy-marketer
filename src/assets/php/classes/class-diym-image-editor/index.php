@@ -367,6 +367,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
                 if ( 'image/jpeg' == $mimetype || 'image/png' == $mimetype ) {
                     // if image is new, and size is full, open file and compress it. wp doesnt do the original by default...
                     if ( 'full' == $size && FALSE == $pattern ) {
+                        write_log( 'create' );
                         $editor = wp_get_image_editor( $child );
                         $editor->save( $child, $mimetype );
                         unset( $editor );
@@ -439,6 +440,9 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             if ( '_wp_attachment_metadata' !== $meta_key ) {
                 return;
             }
+
+            // remove action to prevent infinite loops
+            remove_action( 'updated_post_meta', array( &$this, 'updated_post_meta' ) );
 
             $updated = wp_update_attachment_metadata(
                 $object_id,

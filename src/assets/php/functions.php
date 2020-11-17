@@ -72,16 +72,6 @@ function diym_print_meta_description() {
 
 add_action ( 'wp_head', 'diym_print_meta_description', 1 );
 
-// print meta description for seo
-function diym_print_google_tag_manager_head() {
-
-	//$post_meta = get_post_meta( get_the_ID(), '_diym_post_meta', true );
-
-	//echo $post_meta['description'] ? "<meta name='description' content='" . $post_meta['description'] . "' />" . "\n" : '';
-
-}
-
-add_action ( 'wp_head', 'diym_print_google_tag_manager_head', 1 );
 
 //function diym_print_page_meta() {
     //if ( is_single() ) {
