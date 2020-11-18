@@ -49,8 +49,15 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
         // modify the uploads directory...
         function upload_dir( $uploads ) {
 
-            $uploads[ 'basedir' ] = path_join( ABSPATH, 'uploads' );
-            $uploads[ 'baseurl' ] = home_url( '/uploads' );
+            $basedir = path_join( ABSPATH, 'upload' );
+
+            // create dir with permissions...
+            if ( ! is_dir( $basedir ) ) {
+                mkdir( $basedir, 0755 );
+            }
+
+            $uploads[ 'basedir' ] = $basedir;
+            $uploads[ 'baseurl' ] = home_url( '/upload' );
             $uploads[ 'path' ]    = $uploads[ 'basedir' ];
             $uploads[ 'url' ]     = $uploads[ 'baseurl' ];
 
