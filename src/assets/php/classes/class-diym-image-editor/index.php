@@ -385,7 +385,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
                     if ( class_exists( 'Imagick' ) ) {
                         $imagick = new Imagick( $child );
 
-                        // set interlacing if not set...
+                        // set interlacing if not set...  
                         if ( imagick::INTERLACE_PLANE !== $imagick->getInterlaceScheme() ) {
                             $imagick->setInterlaceScheme( imagick::INTERLACE_PLANE );
                             $imagick->writeImage();
@@ -420,9 +420,12 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
                 update_attached_file( $image_id, $new_file );
             }
 
-            // tasks that need to be done on all files...
-            //$description = ucwords( str_replace( '-', ' ', $filename ) );
-            //update_post_meta( $image_id, '_wp_attachment_image_alt', $description );
+            $alt_text = get_post_meta( $image_id, '_wp_attachment_image_alt' );
+
+            if ( empty( $alt_text ) ) {
+                $description = ucwords( str_replace( '-', ' ', $filename ) );
+                update_post_meta( $image_id, '_wp_attachment_image_alt', $description );
+            }
 
             return $image_meta;
         }
