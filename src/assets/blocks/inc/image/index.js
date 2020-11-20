@@ -11,6 +11,39 @@ registerBlockType("diym/image", {
         "Introduce the page with a main headline to help visitors (and search engines) understand what your page is about.",
         "diy-marketer"
     ),
+
+    styles: [
+        {
+            name: "rounded",
+            label: __("rounded", "diy-marketer")
+        }
+    ],
+    /*
+    variations: [
+        {
+            name: 'wordpress',
+            isDefault: true,
+            title: __( 'WordPress' ),
+            description: __( 'Code is poetry!' ),
+            icon: WordPressIcon,
+            attributes: { service: 'wordpress' },
+        },
+        {
+            name: 'google',
+            title: __( 'Google' ),
+            icon: GoogleIcon,
+            attributes: { service: 'google' },
+        },
+        {
+            name: 'twitter',
+            title: __( 'Twitter' ),
+            icon: TwitterIcon,
+            attributes: { service: 'twitter' },
+            keywords: [ __('tweet') ],
+        },
+    ],
+    */
+
     attributes: {
         id: {
             type: "number"
@@ -61,7 +94,11 @@ registerBlockType("diym/image", {
 
         return (
             <>
-                {url && <img src={url} />}
+                {url && (
+                    <figure>
+                        <img src={url} />
+                    </figure>
+                )}
                 {
                     <MediaPlaceholder
                         icon="format-image"

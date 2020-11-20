@@ -30,6 +30,38 @@ import image from "./inc/image";
 //import "./inc/meta";
 import "./plugins/sidebar";
 
+/*
+import { addFilter } from "@wordpress/hooks";
+
+function addBlockClassName(element, block, attributes) {
+    if ("diym/image" == block.name) {
+        //
+        if (element.props.className) {
+            element.props.className = element.props.className.replace("is-style-", "");
+
+            //console.log(element.props.className);
+        }
+        //if( element.props )
+        //console.log(element.props);
+        //console.log(block);
+        //console.log(attributes);
+    }
+    
+    if (blockType.name === "core/list") {
+        return Object.assign(props, { class: "wp-block-list" });
+    }
+    
+    return element;
+}
+
+addFilter(
+    //"blocks.getBlockDefaultClassName",
+    "blocks.getSaveElement",
+    "diym/add-block-class-name",
+    addBlockClassName
+);
+*/
+
 // prevent user from deleting meta block...
 /*
 const getBlockList = () => wp.data.select("core/block-editor").getBlocks();

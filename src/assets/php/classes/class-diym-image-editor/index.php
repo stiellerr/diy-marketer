@@ -423,7 +423,8 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             $alt_text = get_post_meta( $image_id, '_wp_attachment_image_alt' );
 
             if ( empty( $alt_text ) ) {
-                $description = ucwords( str_replace( '-', ' ', $filename ) );
+                //$description = ucwords( str_replace( '-', ' ', $filename ) );
+                $description = str_replace( '-', ' ', $filename );
                 update_post_meta( $image_id, '_wp_attachment_image_alt', $description );
             }
 

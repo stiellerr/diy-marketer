@@ -158,6 +158,7 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
                     : '//widgets.wp.com/wpcom-block-editor/default.editor.min.js',
                 */
                 array(
+                    //'wp-hooks',
                     'wp-data',
                     'wp-block-editor',
                     'wp-rich-text',

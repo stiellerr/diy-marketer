@@ -293,6 +293,7 @@ export const blocks = () => {
                 externals: {
                     jquery: "jQuery",
                     lodash: "lodash",
+                    //"@wordpress/hooks": ["wp", "hooks"],
                     "@wordpress/blocks": ["wp", "blocks"],
                     "@wordpress/i18n": ["wp", "i18n"],
                     "@wordpress/block-editor": ["wp", "blockEditor"],
