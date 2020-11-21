@@ -23,11 +23,12 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
 
         function __construct() {
 
+            
             if ( isset( $_REQUEST[ 'action' ] ) && 'get-attachment' == $_REQUEST[ 'action' ] ) {
                 // filter meta before it is sent to js
                 add_filter( 'wp_prepare_attachment_for_js', array( &$this, 'wp_prepare_attachment_for_js' ), 10, 3 );
             }
-
+            
             add_filter( 'update_post_metadata', array( &$this, 'update_post_metadata' ), 10, 5 );
             
             add_filter( 'wp_generate_attachment_metadata', array( &$this, 'wp_generate_attachment_metadata' ), 10, 3 );
@@ -35,14 +36,16 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             add_filter( 'image_editor_save_pre', array( &$this, 'image_editor_save_pre' ), 10, 2 );
 
             add_filter( 'upload_dir', array( &$this, 'upload_dir' ) );
-
+            
             add_filter( 'wp_save_image_editor_file', array( &$this, 'wp_save_image_editor_file' ), 10, 5 );
-           
+            
             add_filter( 'wp_ajax_cropped_attachment_id', array( &$this, 'wp_ajax_cropped_attachment_id' ), 10, 2 );
             
             require_once( dirname( __FILE__ ) . '/pel/autoload.php' );
             
             add_filter( 'wp_handle_upload', array( &$this, 'wp_handle_upload' ), 10, 2 );
+            
+            
             
         }
 
@@ -434,7 +437,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
         // add version numbers to edit image preview to prevent browser caching them
         function wp_prepare_attachment_for_js( $response, $attachment, $meta ) {
 
-            write_log( 'wp_prepare_attachment_for_js' );
+            //write_log( 'wp_prepare_attachment_for_js' );
 
             foreach( $response[ 'sizes' ] as &$size ) {
                 $size[ 'url' ] .= '?v=' . time();
@@ -455,6 +458,14 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             // remove action to prevent infinite loops
             remove_action( 'updated_post_meta', array( &$this, 'updated_post_meta' ) );
 
+            if ( 'scale' == $_REQUEST[ 'do' ] ) {
+                // if image has been scaled, re generate new sizes
+                $_meta_value = wp_create_image_subsizes(
+                    get_attached_file( $object_id ),
+                    $object_id
+                );
+            }
+            
             $updated = wp_update_attachment_metadata(
                 $object_id,
                 $this->diym_save_image_filter( $_meta_value, $object_id )
@@ -489,7 +500,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
             }
 
             $original = get_attached_file( $post_id );
-
+            
             //  delete intermediate sizes
             $deleted = wp_delete_attachment_files(
                 $post_id,
@@ -497,7 +508,7 @@ if ( ! class_exists( 'DIYM_Image_Editor' ) ) {
                 get_post_meta( $post_id, '_wp_attachment_backup_sizes', true ),
                 $original
             );
-            
+
             add_action( 'updated_post_meta', array( &$this, 'updated_post_meta' ), 10, 4 );
 
             return $override;
