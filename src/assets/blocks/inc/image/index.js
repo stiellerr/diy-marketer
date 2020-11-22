@@ -1,3 +1,5 @@
+import "./editor.scss";
+
 import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
 import { image } from "@wordpress/icons";
@@ -14,36 +16,10 @@ registerBlockType("diym/image", {
 
     styles: [
         {
-            name: "rounded",
-            label: __("rounded", "diy-marketer")
+            name: "border",
+            label: __("Border", "diy-marketer")
         }
     ],
-    /*
-    variations: [
-        {
-            name: 'wordpress',
-            isDefault: true,
-            title: __( 'WordPress' ),
-            description: __( 'Code is poetry!' ),
-            icon: WordPressIcon,
-            attributes: { service: 'wordpress' },
-        },
-        {
-            name: 'google',
-            title: __( 'Google' ),
-            icon: GoogleIcon,
-            attributes: { service: 'google' },
-        },
-        {
-            name: 'twitter',
-            title: __( 'Twitter' ),
-            icon: TwitterIcon,
-            attributes: { service: 'twitter' },
-            keywords: [ __('tweet') ],
-        },
-    ],
-    */
-
     attributes: {
         id: {
             type: "number"
@@ -77,7 +53,9 @@ registerBlockType("diym/image", {
         __("photo", "diymarketer"),
         __("picture", "diymarketer")
     ],
-    edit: ({ attributes, setAttributes }) => {
+    edit: ({ attributes, setAttributes, className }) => {
+        //console.log(className);
+
         const { url } = attributes;
         // on select image.
         /*
@@ -95,7 +73,7 @@ registerBlockType("diym/image", {
         return (
             <>
                 {url && (
-                    <figure>
+                    <figure className={className}>
                         <img src={url} />
                     </figure>
                 )}

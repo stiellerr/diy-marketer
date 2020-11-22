@@ -23,7 +23,7 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
             //add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
 
             // 
-            //add_action( 'enqueue_block_assets',   )
+            //add_action( 'enqueue_block_assets', array( $this, 'enqueue_block_assets' ) );
 
 
             add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ), 9 );

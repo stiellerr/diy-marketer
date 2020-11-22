@@ -24,8 +24,8 @@ import underline from "./inc/underline";
 import heading from "./inc/heading";
 import subhead from "./inc/subhead";
 import paragraph from "./inc/paragraph";
-
 import image from "./inc/image";
+import benefits from "./inc/benefits";
 
 //import "./inc/meta";
 import "./plugins/sidebar";
