@@ -80,7 +80,8 @@ registerBlockType("diym/benefits", {
                         "core/link",
                         "core/strikethrough",
                         "core/subscript",
-                        "core/superscript"
+                        "core/superscript",
+                        "core/image"
                     ]}
                     placeholder={__("Start writing or type / to choose a block", "diy-marketer")}
                 />

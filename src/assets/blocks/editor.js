@@ -26,6 +26,7 @@ import subhead from "./inc/subhead";
 import paragraph from "./inc/paragraph";
 import image from "./inc/image";
 import benefits from "./inc/benefits";
+import font_awesome_picker from "./inc/font-awesome-picker";
 
 //import "./inc/meta";
 import "./plugins/sidebar";

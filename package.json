@@ -79,6 +79,7 @@
         "@wordpress/blocks": "^6.20.3",
         "@wordpress/components": "^10.0.6",
         "@wordpress/data": "^4.22.3",
+        "@wordpress/dom-ready": "^2.11.0",
         "@wordpress/edit-post": "^3.25.0",
         "@wordpress/hooks": "^2.10.0",
         "@wordpress/i18n": "^3.14.0",
@@ -95,6 +96,7 @@
         "popper.js": "^1.16.1",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
+        "react-select": "^3.1.0",
         "select2": "^4.0.13",
         "timepicker": "^1.13.15"
     },
