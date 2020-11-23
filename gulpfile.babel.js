@@ -256,6 +256,7 @@ export const blocks = () => {
                                 {
                                     loader: "babel-loader",
                                     options: {
+                                        plugins: ["@babel/plugin-proposal-class-properties"],
                                         presets: [
                                             "@babel/preset-env",
                                             [
@@ -295,6 +296,7 @@ export const blocks = () => {
                     lodash: "lodash",
                     //"@wordpress/hooks": ["wp", "hooks"],
                     "@wordpress/blocks": ["wp", "blocks"],
+                    "@wordpress/element": ["wp", "element"],
                     "@wordpress/i18n": ["wp", "i18n"],
                     "@wordpress/block-editor": ["wp", "blockEditor"],
                     //"@wordpress/editor": ["wp", "editor"],

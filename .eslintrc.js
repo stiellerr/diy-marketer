@@ -10,6 +10,9 @@ module.exports = {
         SharedArrayBuffer: "readonly",
         wp: "readonly"
     },
+    // new 23/11/2020
+    parser: "babel-eslint",
+    //
     parserOptions: {
         ecmaFeatures: {
             jsx: true

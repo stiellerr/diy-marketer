@@ -2,55 +2,9 @@ import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
 //import { RichText } from "@wordpress/block-editor";
 
-//import domReady from "@wordpress/dom-ready";
+//import { Component } from "@wordpress/element";
 
-import { Component } from "@wordpress/element";
-
-// jquery
-import $ from "jquery";
-
-// select2
-import "select2";
-import "select2/src/scss/core.scss";
-
-var data = [
-    {
-        id: 0,
-        text: "enhancement"
-    },
-    {
-        id: 1,
-        text: "bug"
-    },
-    {
-        id: 2,
-        text: "duplicate"
-    },
-    {
-        id: 3,
-        text: "invalid"
-    },
-    {
-        id: 4,
-        text: "wontfix"
-    }
-];
-
-/*
-domReady(() => {
-    console.log("hello");
-});
-*/
-
-/*
-import Select from "react-select";
-
-const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" }
-];
-*/
+import Edit from "./edit";
 
 registerBlockType("diym/font-awesome-picker", {
     title: __("Icon Picker", "diy-marketer"),
@@ -76,36 +30,39 @@ registerBlockType("diym/font-awesome-picker", {
         //__unstablePasteTextInline: true
     },
 
-    /*
     attributes: {
-        heading: {
-            type: "string",
-            source: "html",
-            selector: "h4"
-        },
+        value: {
+            type: "string"
+            //source: "html",
+            //selector: "h4"
+        }
+        /*
         content: {
             type: "string",
             source: "html",
             selector: "p"
         }
+        */
     },
-    */
-    edit: class extends Component {
-        /*
+
+    edit: Edit,
+    //class extends Component {
+    /*
         onChangeSelect = val => {
             this.props.setAttributes({ val });
         };
         */
 
-        //onChangeSelect(value) {
-        //console.log(value);
-        //this.props.setAttributes({ content });
-        //}
-
+    //onChangeSelect(value) {
+    //console.log(value);
+    //this.props.setAttributes({ content });
+    //}
+    /*
         handleChange = event => {
             this.setState({ value: event.target.value });
         };
-
+        */
+    /*
         render() {
             return (
                 <select
@@ -118,7 +75,7 @@ registerBlockType("diym/font-awesome-picker", {
         componentDidMount() {
             $(".test-select").select2({ placeholder: "Select an option", data: data });
         }
-    },
+    },*/
 
     /*
     edit: ({ attributes, setAttributes }) => {

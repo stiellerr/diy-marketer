@@ -31,12 +31,14 @@
     "license": "ISC",
     "devDependencies": {
         "@babel/core": "^7.9.6",
+        "@babel/plugin-proposal-class-properties": "^7.12.1",
         "@babel/preset-env": "^7.9.6",
         "@babel/preset-react": "^7.9.4",
         "@babel/register": "^7.9.0",
         "@prettier/plugin-php": "^0.14.2",
         "@wordpress/browserslist-config": "^2.6.0",
         "autoprefixer": "^9.8.0",
+        "babel-eslint": "^10.1.0",
         "babel-loader": "^8.1.0",
         "browser-sync": "^2.26.7",
         "clean-webpack-plugin": "^3.0.0",
@@ -96,7 +98,6 @@
         "popper.js": "^1.16.1",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
-        "react-select": "^3.1.0",
         "select2": "^4.0.13",
         "timepicker": "^1.13.15"
     },

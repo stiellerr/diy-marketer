@@ -159,6 +159,7 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
                 */
                 array(
                     //'wp-hooks',
+                    'wp-element',
                     'wp-data',
                     'wp-block-editor',
                     'wp-rich-text',
