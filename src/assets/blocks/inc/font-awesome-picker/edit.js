@@ -12,6 +12,12 @@ import "select2/src/scss/core.scss";
 class Edit extends Component {
     //
     dropdownData = () => {
+        /*
+        if (localStorage.getItem("icons") != null) {
+            let retrievedIcons = JSON.parse(localStorage.getItem("icons"));
+        }
+        */
+
         return _.map(_.range(1, 200000), i => {
             return {
                 id: i,
@@ -38,7 +44,7 @@ class Edit extends Component {
     self = createRef();
 
     render() {
-        return <select ref={this.self} className="test-select" style={{ width: "250px" }}></select>;
+        return <select ref={this.self} style={{ width: "250px" }}></select>;
     }
 
     componentDidMount() {
