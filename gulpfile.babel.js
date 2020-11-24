@@ -76,7 +76,7 @@ const paths = {
         src: [
             //"src/assets/**/*",
             "src/assets/lib/{js,css}/**/*min*",
-            "src/assets/lib/{img,webfonts,!js,!css}/**/*"
+            "src/assets/lib/{img,webfonts,data,!js,!css}/**/*"
             //"src/assets//ib/webfonts/**/*"
             //"!src/assets/{images,js,scss,php,blocks}",
             //"!src/assets/{images,js,scss,php,blocks}/**/*"

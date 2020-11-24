@@ -185,6 +185,15 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
                 true
             );
 
+            // load font awesome data to browser...
+            wp_localize_script(
+                'diym-block-editor-script',
+                'js_data',
+                array(
+                    'icons_json' => get_template_directory_uri() . '/assets/data/icons.json'
+                )
+            );
+
 
 
             wp_enqueue_style(

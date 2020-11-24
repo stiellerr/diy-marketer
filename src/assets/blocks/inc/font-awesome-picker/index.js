@@ -20,7 +20,7 @@ registerBlockType("diym/font-awesome-picker", {
         reusable: false,
         //
         //anchor: true,
-        className: false,
+        className: true,
         __experimentalColor: {
             linkColor: true
         },
