@@ -288,6 +288,14 @@ export const blocks = () => {
                                 },
                                 "sass-loader"
                             ]
+                        },
+                        {
+                            test: /\.(woff|woff2|eot|ttf|otf|svg)$/,
+                            loader: "file-loader",
+                            options: {
+                                name: "[name].[ext]",
+                                outputPath: "../webfonts"
+                            }
                         }
                     ]
                 },
