@@ -1,10 +1,14 @@
 import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
+import IconPicker from "../icon-picker";
+import { InspectorControls } from "@wordpress/block-editor";
+import { PanelBody } from "@wordpress/components";
+
 //import { RichText } from "@wordpress/block-editor";
 
 //import { Component } from "@wordpress/element";
 
-import Edit from "./edit";
+//import Edit from "./edit";
 
 registerBlockType("diym/font-awesome-picker", {
     title: __("Icon Picker", "diy-marketer"),
@@ -45,7 +49,23 @@ registerBlockType("diym/font-awesome-picker", {
         */
     },
 
-    edit: Edit,
+    //edit: Edit,
+
+    edit: () => {
+        const onChangeIcon = e => {
+            console.log(e);
+        };
+        return (
+            <>
+                <InspectorControls>
+                    <PanelBody title={__("Icon Picker", "diy-marketer")}>
+                        <IconPicker onChange={onChangeIcon}></IconPicker>
+                    </PanelBody>
+                </InspectorControls>
+                <div>Hello World!</div>
+            </>
+        );
+    },
     //class extends Component {
     /*
         onChangeSelect = val => {
