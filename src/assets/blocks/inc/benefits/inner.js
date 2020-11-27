@@ -2,8 +2,10 @@ import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
 import { RichText } from "@wordpress/block-editor";
 import IconPicker from "../icon-picker";
-import { InspectorControls } from "@wordpress/block-editor";
+import { withColors, InspectorControls, PanelColorSettings } from "@wordpress/block-editor";
 import { PanelBody } from "@wordpress/components";
+
+import classnames from "classnames";
 
 registerBlockType("diym/benefit", {
     title: __("Benefit", "diy-marketer"),
@@ -21,9 +23,9 @@ registerBlockType("diym/benefit", {
         //
         //anchor: true,
         className: false,
-        __experimentalColor: {
-            linkColor: true
-        },
+        //__experimentalColor: {
+        //    linkColor: true
+        //},
         __experimentalFontSize: true
         //__experimentalLineHeight: true,
         //__experimentalSelector: "p",
@@ -32,6 +34,13 @@ registerBlockType("diym/benefit", {
 
     attributes: {
         icon: {
+            type: "string",
+            default: "fas fa-check" // Added default value
+        },
+        iconColor: {
+            type: "string"
+        },
+        textColor: {
             type: "string"
         },
         content: {
@@ -41,7 +50,14 @@ registerBlockType("diym/benefit", {
         }
     },
 
-    edit: ({ attributes, setAttributes }) => {
+    edit: withColors(
+        "iconColor",
+        "textColor"
+    )(({ attributes, setAttributes, iconColor, textColor }) => {
+        //edit: ({ attributes, setAttributes }) => {
+
+        console.log(iconColor);
+
         const { icon, content } = attributes;
 
         const onChangeIcon = icon => {
@@ -52,15 +68,38 @@ registerBlockType("diym/benefit", {
             setAttributes({ content });
         };
 
+        const onChangeIconColor = iconColor => {
+            setAttributes({ iconColor });
+        };
+
+        const onChangeTextColor = textColor => {
+            setAttributes({ textColor });
+        };
+
         return (
             <>
                 <InspectorControls>
+                    <PanelColorSettings
+                        title={__("Color settings", "diy-marketer")}
+                        colorSettings={[
+                            {
+                                value: iconColor,
+                                onChange: onChangeIconColor,
+                                label: __("Icon Color", "diy-marketer")
+                            },
+                            {
+                                value: textColor,
+                                onChange: onChangeTextColor,
+                                label: __("Text Color", "diy-marketer")
+                            }
+                        ]}
+                    />
                     <PanelBody title={__("Icon Picker", "diy-marketer")}>
                         <IconPicker onChange={onChangeIcon} value={icon}></IconPicker>
                     </PanelBody>
                 </InspectorControls>
                 <li>
-                    <i className="fas fa-check fa-2x"></i>
+                    <i className={classnames(icon, "fa-2x")}></i>
                     <RichText
                         tagName="p"
                         onChange={onChangeContent}
@@ -83,7 +122,7 @@ registerBlockType("diym/benefit", {
                 </li>
             </>
         );
-    },
+    }),
     save: ({ attributes }) => {
         const { heading, content } = attributes;
 

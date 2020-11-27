@@ -59,6 +59,13 @@ export default class IconPicker extends Component {
     };
 
     select2Init = element => {
+        //
+        if (element == null) {
+            return;
+        }
+
+        console.log(element);
+
         this.select = $(element);
 
         // init select2
@@ -95,6 +102,11 @@ export default class IconPicker extends Component {
             templateResult: this.formatOption,
             templateSelection: this.formatOption
         });
+
+        // set default value
+        let value = this.props.value;
+        let newOption = new Option(value, value, false, false);
+        this.select.append(newOption).trigger("change");
 
         // attach on change event
         this.select.on("change", this.onChangeSelect2);
