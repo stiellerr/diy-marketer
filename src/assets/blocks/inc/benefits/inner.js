@@ -1,11 +1,34 @@
 import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
-import { RichText } from "@wordpress/block-editor";
+import { RichText, BlockControls, AlignmentToolbar } from "@wordpress/block-editor";
 import IconPicker from "../icon-picker";
 import { withColors, InspectorControls, PanelColorSettings } from "@wordpress/block-editor";
 import { PanelBody } from "@wordpress/components";
 
 import classnames from "classnames";
+
+const DEFAULT_ALIGNMENT_CONTROLS = [
+    {
+        icon: "editor-alignleft",
+        title: __("Align text left"),
+        align: "left"
+    },
+    {
+        icon: "editor-aligncenter",
+        title: __("Align text center"),
+        align: "center"
+    },
+    {
+        icon: "editor-alignright",
+        title: __("Align text right"),
+        align: "right"
+    },
+    {
+        icon: "editor-justify",
+        title: __("Align text justify"),
+        align: "justify"
+    }
+];
 
 registerBlockType("diym/benefit", {
     title: __("Benefit", "diy-marketer"),
@@ -51,14 +74,24 @@ registerBlockType("diym/benefit", {
     },
 
     edit: withColors(
-        "iconColor",
-        "textColor"
-    )(({ attributes, setAttributes, iconColor, textColor }) => {
+        { iconColor: "color" },
+        { textColor: "color" }
+    )(props => {
+        console.log(props);
+        const {
+            attributes,
+            setAttributes,
+            iconColor,
+            textColor,
+            setIconColor,
+            setTextColor
+        } = props;
+
         //edit: ({ attributes, setAttributes }) => {
 
-        console.log(iconColor);
+        //console.log(props);
 
-        const { icon, content } = attributes;
+        const { icon, content, align } = attributes;
 
         const onChangeIcon = icon => {
             setAttributes({ icon });
@@ -68,6 +101,10 @@ registerBlockType("diym/benefit", {
             setAttributes({ content });
         };
 
+        const onChangeAlign = align => {
+            setAttributes({ align });
+        };
+        /*
         const onChangeIconColor = iconColor => {
             setAttributes({ iconColor });
         };
@@ -75,6 +112,7 @@ registerBlockType("diym/benefit", {
         const onChangeTextColor = textColor => {
             setAttributes({ textColor });
         };
+        */
 
         return (
             <>
@@ -83,13 +121,13 @@ registerBlockType("diym/benefit", {
                         title={__("Color settings", "diy-marketer")}
                         colorSettings={[
                             {
-                                value: iconColor,
-                                onChange: onChangeIconColor,
+                                value: iconColor.color,
+                                onChange: setIconColor,
                                 label: __("Icon Color", "diy-marketer")
                             },
                             {
-                                value: textColor,
-                                onChange: onChangeTextColor,
+                                value: textColor.color,
+                                onChange: setTextColor,
                                 label: __("Text Color", "diy-marketer")
                             }
                         ]}
@@ -99,9 +137,17 @@ registerBlockType("diym/benefit", {
                     </PanelBody>
                 </InspectorControls>
                 <li>
-                    <i className={classnames(icon, "fa-2x")}></i>
+                    <i className={classnames(icon, "fa-2x")} style={{ color: iconColor.color }}></i>
+                    <BlockControls>
+                        <AlignmentToolbar
+                            value={align}
+                            alignmentControls={DEFAULT_ALIGNMENT_CONTROLS}
+                            onChange={onChangeAlign}
+                        />
+                    </BlockControls>
                     <RichText
                         tagName="p"
+                        className={`has-text-align-${align}`}
                         onChange={onChangeContent}
                         value={content}
                         allowedFormats={[
@@ -115,7 +161,7 @@ registerBlockType("diym/benefit", {
                             "core/superscript"
                         ]}
                         placeholder={__(
-                            "Start writing or type / to choose a block",
+                            "list a feature, benefit or unique selling proposition",
                             "diy-marketer"
                         )}
                     />
