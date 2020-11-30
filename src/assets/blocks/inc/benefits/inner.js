@@ -45,11 +45,11 @@ registerBlockType("diym/benefit", {
         reusable: false,
         //
         //anchor: true,
-        className: false,
+        className: false
         //__experimentalColor: {
         //    linkColor: true
         //},
-        __experimentalFontSize: true
+        //__experimentalFontSize: true
         //__experimentalLineHeight: true,
         //__experimentalSelector: "p",
         //__unstablePasteTextInline: true
@@ -104,15 +104,6 @@ registerBlockType("diym/benefit", {
         const onChangeAlign = align => {
             setAttributes({ align });
         };
-        /*
-        const onChangeIconColor = iconColor => {
-            setAttributes({ iconColor });
-        };
-
-        const onChangeTextColor = textColor => {
-            setAttributes({ textColor });
-        };
-        */
 
         return (
             <>

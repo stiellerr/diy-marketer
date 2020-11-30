@@ -1,3 +1,5 @@
+import "./editor.scss";
+
 import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
 //import { InnerBiocks } from "@wordpress/block-editor";
@@ -15,13 +17,13 @@ registerBlockType("diym/benefits", {
     keywords: [__("benefit", "diy-marketer")],
     supports: {
         html: false,
-        reusable: false,
-        className: false
+        reusable: false
+        //className: false
     },
 
-    edit: () => {
+    edit: ({ className }) => {
         return (
-            <ul className="media">
+            <ul className={className}>
                 <InnerBlocks allowedBlocks={["diym/benefit"]} />
             </ul>
         );
