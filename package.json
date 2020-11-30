@@ -89,7 +89,7 @@
         "@wordpress/icons": "^2.4.0",
         "@wordpress/plugins": "^2.23.0",
         "@wordpress/rich-text": "^3.20.4",
-        "bootstrap": "^4.5.3",
+        "bootstrap": "^5.0.0-alpha3",
         "classnames": "^2.2.6",
         "jquery": "^3.5.1",
         "jquery-ui-timepicker-addon": "^1.6.3",

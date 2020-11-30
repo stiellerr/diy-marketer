@@ -26,12 +26,12 @@
 <?php wp_body_open(); ?>
 
 <div class="container shadow bg-white">
-	<a class="sr-only sr-only-focusable" href="#primary"><?php esc_html_e('Skip to content', 'diy-marketer'); ?></a>
-
+	
 	<!-- HEADER
 	================================================== -->
 	<header role="banner">
 		<div class="row site-banner border-bottom border-thick border-primary py-1">
+			<a class="visually-hidden-focusable" href="#primary"><?php esc_html_e('Skip to content', 'diy-marketer'); ?></a>
 			<div class="col-md-auto text-center align-self-center">
 				<?php
 					// unsure what the display argument does exactly, further investigation required.
@@ -43,13 +43,13 @@
 					<?php endif; ?>
 			</div>
 			<div class="col-md text-center text-md-right">
-				<?php
+				<?php /* phone-number */
 					$details  = get_option( 'diym_details', null );
 
 					if ( $details ) {
 						$phone = $details[ 'phone' ] ? $details[ 'phone' ] : null;
 						if ( $phone ) {
-							echo "Call Now. <a class='font-weight-bold phone-number text-nowrap' href='tel:{$phone}'>{$phone}</a>";
+							echo "Call Now. <a class='fw-bold text-nowrap' href='tel:{$phone}'>{$phone}</a>";
 						}
 					}
 					get_template_part( 'template-parts/socials' );

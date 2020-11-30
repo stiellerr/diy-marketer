@@ -368,7 +368,7 @@ function diym_enqueue_scripts() {
 		wp_enqueue_script( 'bootstrap', 'https://ajax.aspnetcdn.com/ajax/bootstrap/4.5.2/bootstrap.bundle.min.js', array( 'jquery' ), '4.5.2', false );
 		wp_enqueue_script( 'diym', get_template_directory_uri() . '/assets/js/slim.js', array( 'bootstrap' ), false, false );
 	} else {
-		wp_deregister_script('jquery');
+		//wp_deregister_script('jquery');
 
 		wp_enqueue_script( 'diym', get_template_directory_uri() . '/assets/js/bundle.js', array(), false, false );
 	}

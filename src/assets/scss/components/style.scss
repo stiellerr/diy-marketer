@@ -451,6 +451,28 @@ nav button:focus {
     z-index: 100000;
 }
 */
+/*
+.screen-reader-shortcut {
+    position: absolute;
+    top: -1000em;
+}
+.screen-reader-shortcut:focus {
+    left: 6px;
+    top: 7px;
+    height: auto;
+    width: auto;
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 15px 23px 14px;
+    background: #f1f1f1;
+    color: #0073aa;
+    z-index: 100000;
+    line-height: normal;
+    text-decoration: none;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+}
+*/
 .sr-only {
     border: 0;
     clip: rect(1px, 1px, 1px, 1px);
