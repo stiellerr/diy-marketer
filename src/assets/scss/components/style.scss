@@ -26,9 +26,17 @@
 
 --------------------------------------------------------------*/
 
+/*
 @media (min-width: 576px) {
-    .bg-md-none {
+    .bg-sm-none {
         background-color: transparent !important;
+    }
+}
+*/
+
+@media (min-width: 768px) {
+    .w-md-auto {
+        width: auto !important;
     }
 }
 
@@ -134,9 +142,11 @@ figure {
     //background-color: white;
     //color: black;
     //border: 1px solid #dee2e6 !important;
+    /*
     .form-group {
         margin-bottom: 0.5rem;
     }
+    */
     textarea {
         height: 4em;
     }
@@ -182,11 +192,13 @@ figure {
     }
 }
 
+/*
 .custom-logo {
     max-width: 100%;
     height: auto;
     padding-bottom: 0.25rem;
 }
+*/
 
 #menu-footer {
     .menu-item {
@@ -216,15 +228,21 @@ figure {
     border: 1px solid transparent;
 }
 
+.text-justify {
+    text-align: justify !important;
+}
+
 /* Small menu. */
 nav button:focus {
     outline: thin none white;
 }
 
+/*
 .custom-logo-link {
     margin-right: auto;
     margin-left: auto;
 }
+*/
 
 .navbar-toggler-icon {
     background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(0, 0, 0, 1.0)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;

@@ -47,6 +47,8 @@ if ( ! class_exists( 'DIYM_Send_Mail' ) ) {
 		 */
 		public function send_form() {
 
+            write_log($_POST);
+
             // check form submit has been done from a valid source.
             check_ajax_referer( 'secure_nonce_name', 'security' );
 

@@ -14,7 +14,7 @@
 
 get_header(); ?>
     <!--<main id="primary" class="site-main">-->
-    <div class="row py-3">
+    <div class="row py-3 border-top">
         <main id="primary" class="col">
             <?php
                 if ( have_posts() ) {

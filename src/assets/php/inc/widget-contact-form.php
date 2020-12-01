@@ -41,35 +41,37 @@ class DIYM_Contact_Form_Widget extends WP_Widget {
 
         ?>
 
-        <form class="contact-form" novalidate>
+        <form class="contact-form needs-validation" novalidate>
             <?php /* echo $title ? $args['before_title'] . $title . $args['after_title'] : ''; */ ?>
             <!--<input type="hidden" name="action" value="send_form" />-->
             <?php if ( $message ) { ?>            
-                <div class="form-group"><!-- message -->
+                <div class="mb-2"><!-- message -->
                     <textarea class="form-control form-control-sm" name="message" id="message" placeholder="How can we help?" required></textarea>
                     <div class="invalid-feedback"><?php esc_html_e("message required", 'diy-marketer'); ?></div>
                 </div>
             <?php } ?>
             <?php if ( $name ) { ?>
-                <div class="form-group"><!-- name -->
+                <div class="mb-2"><!-- name -->
                     <input type="text" class="form-control form-control-sm" name="name" id="name" placeholder="Your name." required />
                     <div class="invalid-feedback"><?php esc_html_e("name required", 'diy-marketer'); ?></div>
                 </div>
             <?php } ?>
             <?php if ( $phone ) { ?>   
-                <div class="form-group"><!-- Phone -->
+                <div class="mb-2"><!-- Phone -->
                     <input type="text" class="form-control form-control-sm" name="phone" id="phone" placeholder="Phone number." required />
                     <div class="invalid-feedback"><?php esc_html_e("phone number required", 'diy-marketer'); ?></div>
                 </div>
             <?php } ?>
             <?php if ( $email ) { ?>
-                <div class="form-group"><!-- Email -->
+                <div class="mb-2"><!-- Email -->
                     <input type="email" class="form-control form-control-sm" name="email" id="email" placeholder="Email." required />
                     <div class="invalid-feedback"><?php esc_html_e("valid email required", 'diy-marketer'); ?></div>
                 </div>
             <?php } ?>
-            <div class="form-group">
-                <button type="submit" class="btn btn-block btn-primary"><?php esc_html_e("Submit.", 'diy-marketer'); ?></button>
+            <div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary"><?php esc_html_e("Submit.", 'diy-marketer'); ?></button>
+                </div>
             </div>
             <small>
                 <i class="fas fa-lock"></i>&nbsp;<?php esc_html_e("we'll never share your information with anyone.", 'diy-marketer'); ?>
