@@ -66,7 +66,7 @@
 						if ( has_custom_logo() ) {
 							the_custom_logo();
 						} else {
-							echo '<h2 class="my-2 my-md-3">'. get_bloginfo( 'name' ) .'</h2>';
+							echo '<h2 class="my-3">'. get_bloginfo( 'name' ) .'</h2>';
 						}
 					?>
 				</div>
@@ -83,7 +83,7 @@
 						'container_class'	=> 'collapse navbar-collapse w-md-auto',
 						//'menu_id'			=> 'main-nav',  mr-auto justify-content-end
 						//'menu_class'		=> 'navbar-nav nav-pills text-center bg-light bg-md-none',
-						'menu_class'		=> 'navbar-nav nav-pills', //text-center',
+						'menu_class'		=> 'navbar-nav nav-pills text-center',
 						'fallback_cb'		=> false
 					)
 				);

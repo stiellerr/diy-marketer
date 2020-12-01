@@ -1,76 +1,87 @@
 /* global diymMailVars */
+document.addEventListener("DOMContentLoaded", () => {
+    let forms = document.querySelectorAll(".needs-validation");
 
-import $ from "jquery";
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms).forEach(form => {
+        form.addEventListener(
+            "submit",
+            event => {
+                // prevent form submit
+                event.preventDefault();
+                event.stopPropagation();
 
-$(document).ready(() => {
-    // from submit event
-    // to do... datalayer.push google tag manager, deferentiate between footer and side bar forms...
-    $(".contact-form").submit(evt => {
-        // prevent page refresh
-        evt.preventDefault();
+                // find any alerts and remove them from the dom
+                let div = form.parentNode.querySelector(".alert");
 
-        let self = $(evt.currentTarget);
-
-        // remove any alerts that exist...
-        self.children(".alert").remove();
-
-        if (self[0].checkValidity()) {
-            let form_data = self.serializeArray();
-
-            // add action + nonce to form data
-            form_data.push(
-                {
-                    name: "action",
-                    value: "send_form"
-                },
-                {
-                    name: "security",
-                    value: diymMailVars.ajax_nonce
+                if (div) {
+                    form.parentNode.removeChild(div);
                 }
-            );
 
-            $.ajax({
-                url: diymMailVars.ajax_url,
-                type: "post",
-                dataType: "JSON", // Set this so we don't need to decode the response...
-                data: form_data,
-                beforeSend: () => {
-                    // disable btn to prevent multiple submits
-                    self.find(".btn").prop("disabled", true);
-                },
-                error: ({ responseJSON, status, statusText }) => {
-                    if (!responseJSON.success) {
-                        self.prepend(
-                            "<div class='alert alert-danger'>Error: " +
-                                status +
-                                " " +
-                                statusText +
-                                "</div>"
-                        );
-                    }
-                },
-                success: response => {
-                    if (response.success) {
-                        self.prepend(
-                            "<div class='alert alert-success'>" + response.data + "</div>"
-                        );
-                        // drop focus on click
-                        //self.find("button").blur();
-                    }
-                },
-                complete: () => {
-                    // re enable btn
-                    self.find(".btn").prop("disabled", false);
+                // check if form is valid
+                if (form.checkValidity()) {
+                    const XHR = new XMLHttpRequest();
+                    let formData = new FormData(event.target);
 
-                    // reset the form...
-                    self[0].reset();
+                    formData.append("action", "send_form");
+                    formData.append("security", diymMailVars.ajax_nonce);
 
-                    // remove invalid class
-                    self.removeClass("was-validated");
+                    // create a new alert
+                    div = document.createElement("div");
+                    div.classList.add("alert");
+
+                    // before send...
+                    XHR.onloadstart = () => {
+                        // disable but to prevent multiple submits
+                        form.querySelector(".btn").setAttribute("disabled", true);
+                    };
+
+                    // on success...
+                    XHR.onload = ({ currentTarget }) => {
+                        // zzz
+                        console.log(currentTarget);
+
+                        if (currentTarget.responseText == 200) {
+                            // success
+                            div.innerHTML = "Success: Hello World!";
+                            div.classList.add("alert-success");
+                        } else {
+                            // failure
+                            div.innerHTML = `Error: ${currentTarget.status} ${currentTarget.statusText}`;
+                            div.classList.add("alert-danger");
+                        }
+                    };
+
+                    XHR.onerror = ({ currentTarget }) => {
+                        // failure
+                        div.innerHTML = `Error: ${currentTarget.status} ${currentTarget.statusText}`;
+                        div.classList.add("alert-danger");
+                    };
+
+                    XHR.onloadend = () => {
+                        // re enable button
+                        form.querySelector(".btn").removeAttribute("disabled");
+
+                        // reset the form...
+                        form.reset();
+
+                        // remove invalid class
+                        form.classList.remove("was-validated");
+
+                        // add the alert
+                        form.parentNode.insertBefore(div, form);
+                    };
+
+                    // Set up our request
+                    XHR.open("POST", diymMailVars.ajax_url, true);
+
+                    // Send our FormData object; HTTP headers are set automatically
+                    XHR.send(formData);
+                } else {
+                    form.classList.add("was-validated");
                 }
-            });
-        } else {
-            self.addClass("was-validated");
-        }
+            },
+            false
+        );
     });
 });
