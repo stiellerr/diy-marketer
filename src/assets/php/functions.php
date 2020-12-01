@@ -122,7 +122,7 @@ function diym_clean_up() {
 add_action( 'init', 'diym_clean_up' );
 
 
-define( "DIYM_USE_CDN", false );
+//define( "DIYM_USE_CDN", false );
 
 //$DIYM_USE_CDN = false;
 
@@ -309,12 +309,14 @@ require get_template_directory() . '/inc/custom-css.php';
  */
 function diym_register_styles() {
 
+	/*
 	if ( DIYM_USE_CDN ) {
 		wp_enqueue_style( 'bootstrap', 'https://ajax.aspnetcdn.com/ajax/bootstrap/4.5.2/css/bootstrap.min.css', array(), '4.5.2', 'all'  );
 		wp_enqueue_style( 'diym', get_template_directory_uri() . '/assets/css/slim.css', array( 'bootstrap' ), false, 'all' );
 	} else {
+		*/
 		wp_enqueue_style( 'diym', get_template_directory_uri() . '/assets/css/bundle.css', array(), false, 'all' );
-	}
+	//}
 
 	wp_add_inline_style( 'diym', diym_get_customizer_css( 'front-end' ) );
 
@@ -350,7 +352,7 @@ add_action( 'wp_enqueue_scripts', 'diym_register_styles' );
  * Register and Enqueue Scripts.
  */
 function diym_enqueue_scripts() {
-
+/*
 	if ( DIYM_USE_CDN || is_customize_preview() ) {
 
 		global $wp_scripts;
@@ -369,9 +371,9 @@ function diym_enqueue_scripts() {
 		wp_enqueue_script( 'diym', get_template_directory_uri() . '/assets/js/slim.js', array( 'bootstrap' ), false, false );
 	} else {
 		//wp_deregister_script('jquery');
-
+		*/
 		wp_enqueue_script( 'diym', get_template_directory_uri() . '/assets/js/bundle.js', array(), false, false );
-	}
+	//}
 
 	wp_localize_script( 'diym', 'diymMailVars',
 		array( 
@@ -977,8 +979,8 @@ function diym_defer_scripts( $tag, $handle, $src ) {
 	}
 	
 	$defer = array( 
-		'jquery',
-		'bootstrap',
+		//'jquery',
+		//'bootstrap',
 		'diym'
 	);
 	

@@ -1,5 +1,8 @@
 /* global diymMailVars */
+
+// attach document on ready event
 document.addEventListener("DOMContentLoaded", () => {
+    // grab all the forms
     let forms = document.querySelectorAll(".needs-validation");
 
     // Loop over them and prevent submission
@@ -38,12 +41,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     // on success...
                     XHR.onload = ({ currentTarget }) => {
-                        // zzz
-                        console.log(currentTarget);
-
-                        if (currentTarget.responseText == 200) {
+                        if (currentTarget.status == 200) {
+                            const response = JSON.parse(currentTarget.response);
                             // success
-                            div.innerHTML = "Success: Hello World!";
+                            div.innerHTML = response.data;
                             div.classList.add("alert-success");
                         } else {
                             // failure

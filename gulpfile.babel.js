@@ -40,7 +40,7 @@ const paths = {
     styles: {
         src: [
             "src/assets/scss/bundle.scss",
-            "src/assets/scss/slim.scss",
+            //"src/assets/scss/slim.scss",
             "src/assets/scss/admin.scss",
             "src/assets/scss/editor.scss",
             "src/assets/scss/custom-controls.scss",
@@ -54,8 +54,9 @@ const paths = {
     },
     scripts: {
         src: [
-            "src/assets/js/slim.js",
+            //"src/assets/js/slim.js",
             "src/assets/js/admin.js",
+            "src/assets/js/bundle.js",
             //"src/assets/js/mail.js",
             "src/assets/js/customize-preview.js", //new
             "src/assets/js/customize-controls.js",
@@ -356,6 +357,7 @@ export const script = () => {
         .pipe(gulp.dest(paths.scripts.dest));
 };
 
+/*
 export const bundlejs = () => {
     return gulp
         .src(["src/assets/js/bundle.js"])
@@ -376,8 +378,7 @@ export const bundlejs = () => {
                                 },
                                 "eslint-loader"
                             ]
-                        }
-                        /*
+                        },
                         {
                             test: require.resolve("jquery"),
                             loader: "expose-loader",
@@ -385,7 +386,6 @@ export const bundlejs = () => {
                                 exposes: ["$", "jQuery"]
                             }
                         }
-                        */
                     ]
                 },
                 output: {
@@ -397,8 +397,9 @@ export const bundlejs = () => {
         )
         .pipe(gulp.dest(paths.scripts.dest));
 };
+*/
 
-export const scripts = gulp.series(script, bundlejs);
+export const scripts = gulp.series(script);
 export const php = gulp.series(prettify_php, minify_php);
 export const build = gulp.series(
     clean,
