@@ -244,6 +244,10 @@ nav button:focus {
 }
 */
 
+.mw-1 {
+    min-width: 2rem;
+}
+
 .navbar-toggler:focus {
     box-shadow: none;
 }

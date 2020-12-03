@@ -176,15 +176,14 @@ registerBlockType("diym/benefit", {
         const { content, icon, align } = attributes;
 
         const contentClass = classnames("mb-0", "flex-grow-1", align ? `text-${align}` : null);
-
-        //const test = () '<div>' . content . '</div>';
+        const iconClass = classnames(icon, "mw-1", "align-self-center", "text-center");
 
         //const test = <div>{content}</div>;style={{ color: iconColor.color }
 
         return (
             <>
                 <div className="d-flex pb-3">
-                    <i className={classnames(icon, "align-self-center", "text-center")}></i>
+                    <i className={classnames(iconClass)}></i>
                     <RichText.Content tagName="p" className={contentClass} value={content} />
                 </div>
             </>
