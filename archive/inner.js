@@ -160,17 +160,19 @@ registerBlockType("diym/benefit", {
             </>
         );
     }),
-    save: ({ attributes }) => {
-        const { heading, content } = attributes;
+    save: ({ attributes, iconColor }) => {
+        const { content, icon } = attributes;
 
         //const test = () '<div>' . content . '</div>';
 
-        //const test = <div>{content}</div>;
+        //const test = <div>{content}</div>;style={{ color: iconColor.color }
 
         return (
             <>
-                <RichText.Content tagName="h4" value={heading} />
-                <RichText.Content tagName="p" value={content} />
+                <div className="d-flex pb-3">
+                    <i className={classnames(icon, "align-self-center")}></i>
+                    <RichText.Content tagName="p" className="mb-0" value={content} />
+                </div>
             </>
         );
     }

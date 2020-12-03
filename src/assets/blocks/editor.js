@@ -25,7 +25,7 @@ import heading from "./inc/heading";
 import subhead from "./inc/subhead";
 import paragraph from "./inc/paragraph";
 import image from "./inc/image";
-import benefits from "./inc/benefits/outer.js";
+import benefit from "./inc/benefit";
 //import font_awesome_picker from "./inc/font-awesome-picker";
 
 //import "./inc/meta";
