@@ -70,7 +70,8 @@ registerBlockType("diym/benefit", {
             default: "fas fa-check" // Added default value
         },
         iconColor: {
-            type: "string"
+            type: "string",
+            default: "accent"
         },
         contentColor: {
             type: "string"
@@ -92,8 +93,8 @@ registerBlockType("diym/benefit", {
     },
 
     edit: withColors(
-        { iconColor: "color" },
-        { contentColor: "color" }
+        "iconColor",
+        "contentColor"
     )(props => {
         const {
             className,
@@ -104,6 +105,8 @@ registerBlockType("diym/benefit", {
             setIconColor,
             setContentColor
         } = props;
+
+        console.log(props);
 
         const { icon, content, align } = attributes;
 
@@ -195,16 +198,17 @@ registerBlockType("diym/benefit", {
         const iconClass = classnames(
             icon,
             "mw-1",
+            "fa-lg",
             "align-self-center",
             "text-center",
-            iconColor ? `text-${iconColor}` : undefined
+            iconColor ? `text-bd-${iconColor}` : undefined
         );
 
         const contentClass = classnames(
             "mb-0",
             "flex-grow-1",
             align ? `text-${align}` : undefined,
-            contentColor ? `text-${contentColor}` : undefined
+            contentColor ? `text-bd-${contentColor}` : undefined
         );
 
         return (

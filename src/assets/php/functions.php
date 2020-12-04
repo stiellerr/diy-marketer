@@ -810,7 +810,7 @@ function diym_get_elements_array() {
 				),
 				array(
 					'color' => array(
-						'selector' => array( '.nav-link', '.nav-link:hover' )
+						'selector' => array( '.nav-link', '.nav-link:hover', '.text-bd-accent' )
 						//'selector' => array( 'a', '.nav-link:hover', '#menu-widget .current-menu-item a', '#menu-footer .current-menu-item a' ),
 					)
 				),
@@ -822,6 +822,13 @@ function diym_get_elements_array() {
 				),
 				*/
 			),
+			'content' => array(
+				array(
+					'color' => array(
+						'selector' => array( '.text-bd-content' )
+					)
+				)
+			)
 		),
 		'banner-footer' => array(
 			'accent' => array(
