@@ -2,7 +2,12 @@ import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
 import { RichText, BlockControls, AlignmentToolbar } from "@wordpress/block-editor";
 import IconPicker from "../icon-picker";
-import { withColors, InspectorControls, PanelColorSettings } from "@wordpress/block-editor";
+import {
+    withColors,
+    InspectorControls,
+    PanelColorSettings,
+    ContrastChecker
+} from "@wordpress/block-editor";
 import { PanelBody } from "@wordpress/components";
 
 import "./editor.scss";
@@ -39,7 +44,6 @@ registerBlockType("diym/benefit", {
         "diy-marketer"
     ),
     category: "diy-marketer",
-    //parent: ["diym/benefits"],
     icon: {
         foreground: "#007bff",
         src: "saved"
@@ -68,7 +72,13 @@ registerBlockType("diym/benefit", {
         iconColor: {
             type: "string"
         },
-        textColor: {
+        contentColor: {
+            type: "string"
+        },
+        customIconColor: {
+            type: "string"
+        },
+        customContentColor: {
             type: "string"
         },
         align: {
@@ -83,24 +93,17 @@ registerBlockType("diym/benefit", {
 
     edit: withColors(
         { iconColor: "color" },
-        { textColor: "color" }
+        { contentColor: "color" }
     )(props => {
-        console.log(props);
         const {
+            className,
             attributes,
             setAttributes,
             iconColor,
-            textColor,
+            contentColor,
             setIconColor,
-            setTextColor,
-            className
+            setContentColor
         } = props;
-
-        console.log(className);
-
-        //edit: ({ attributes, setAttributes }) => {
-
-        //console.log(props);
 
         const { icon, content, align } = attributes;
 
@@ -115,7 +118,7 @@ registerBlockType("diym/benefit", {
         const onChangeAlign = align => {
             setAttributes({ align });
         };
-        // classnames(icon, "fa-2x")
+
         return (
             <>
                 <InspectorControls>
@@ -128,12 +131,15 @@ registerBlockType("diym/benefit", {
                                 label: __("Icon Color", "diy-marketer")
                             },
                             {
-                                value: textColor.color,
-                                onChange: setTextColor,
-                                label: __("Text Color", "diy-marketer")
+                                value: contentColor.color,
+                                onChange: setContentColor,
+                                label: __("Content Color", "diy-marketer")
                             }
                         ]}
-                    />
+                    >
+                        <ContrastChecker textColor={iconColor.color} backgroundColor="#FFF" />
+                        <ContrastChecker textColor={contentColor.color} backgroundColor="#FFF" />
+                    </PanelColorSettings>
                     <PanelBody title={__("Icon Picker", "diy-marketer")}>
                         <IconPicker onChange={onChangeIcon} value={icon}></IconPicker>
                     </PanelBody>
@@ -145,12 +151,11 @@ registerBlockType("diym/benefit", {
                         onChange={onChangeAlign}
                     />
                 </BlockControls>
-
                 <div className={className}>
                     <i className={classnames(icon, "fa-lg")} style={{ color: iconColor.color }}></i>
                     <RichText
                         tagName="p"
-                        className={`has-text-align-${align}`}
+                        //className={`has-text-align-${align}`}
                         onChange={onChangeContent}
                         value={content}
                         allowedFormats={[
@@ -163,8 +168,9 @@ registerBlockType("diym/benefit", {
                             "core/subscript",
                             "core/superscript"
                         ]}
+                        style={{ textAlign: align, color: contentColor.color }}
                         placeholder={__(
-                            "list a feature, benefit or unique selling proposition",
+                            "List a feature, benefit or unique selling proposition",
                             "diy-marketer"
                         )}
                     />
@@ -172,19 +178,48 @@ registerBlockType("diym/benefit", {
             </>
         );
     }),
-    save: ({ attributes, iconColor }) => {
-        const { content, icon, align } = attributes;
+    // save
+    save: props => {
+        const { attributes } = props;
 
-        const contentClass = classnames("mb-0", "flex-grow-1", align ? `text-${align}` : null);
-        const iconClass = classnames(icon, "mw-1", "align-self-center", "text-center");
+        const {
+            content,
+            icon,
+            align,
+            contentColor,
+            customContentColor,
+            iconColor,
+            customIconColor
+        } = attributes;
 
-        //const test = <div>{content}</div>;style={{ color: iconColor.color }
+        const iconClass = classnames(
+            icon,
+            "mw-1",
+            "align-self-center",
+            "text-center",
+            iconColor ? `text-${iconColor}` : undefined
+        );
+
+        const contentClass = classnames(
+            "mb-0",
+            "flex-grow-1",
+            align ? `text-${align}` : undefined,
+            contentColor ? `text-${contentColor}` : undefined
+        );
 
         return (
             <>
                 <div className="d-flex pb-3">
-                    <i className={classnames(iconClass)}></i>
-                    <RichText.Content tagName="p" className={contentClass} value={content} />
+                    <i
+                        className={classnames(iconClass)}
+                        style={{ color: iconColor ? undefined : customIconColor }}
+                    ></i>
+                    <RichText.Content
+                        tagName="p"
+                        className={contentClass}
+                        value={content}
+                        style={{ color: contentColor ? undefined : customContentColor }}
+                    />
                 </div>
             </>
         );

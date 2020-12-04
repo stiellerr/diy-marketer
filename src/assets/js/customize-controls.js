@@ -248,7 +248,7 @@ const diymCustomColors = (context, background, accent) => {
     if (_.isFunction(colors.getAccentColor) && colors.getAccentColor) {
         // Update the values for this context.
         settings[context] = {
-            text: colors.getTextColor(),
+            content: colors.getContentColor(),
             accent: {
                 0: colors.getAccentColor(4.5),
                 40: colors.getAccentDarken(10),

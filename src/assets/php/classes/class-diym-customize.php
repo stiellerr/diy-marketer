@@ -230,12 +230,12 @@ if ( ! class_exists( 'DIYM_Customize' ) ) {
 				'custom_colors',
 				array(
 					'default'           => array(
-						'content'       => array(
-							'text'      => '#000000',
+						'body'       => array(
+							'content'      => '#000000',
 							'accent'    => '#cd2653'
 						),
 						'banner-footer' => array(
-							'text'      => '#000000',
+							'content'      => '#000000',
 							'accent'    => '#cd2653'
 						),
 					),

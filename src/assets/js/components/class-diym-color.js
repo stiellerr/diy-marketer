@@ -15,13 +15,13 @@ export default class DIYM_Color {
         //
         this.background = new Color(background);
         this.accent = new Color(accent);
-        this.text = this.background.getMaxContrastColor();
+        this.content = this.background.getMaxContrastColor();
     }
     getBackgroundColor() {
         return this.background.toCSS();
     }
-    getTextColor() {
-        return this.text.toCSS();
+    getContentColor() {
+        return this.content.toCSS();
     }
     getAccentColor(minContrast) {
         return this.accent.getReadableContrastingColor(this.background, minContrast).toCSS();

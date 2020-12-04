@@ -535,12 +535,12 @@ function diym_block_editor_settings() {
 		array(
 			'name'  => __( 'Accent Color', 'diy-marketer' ),
 			'slug'  => 'accent',
-			'color' => diym_get_color_for_area( 'content', 'accent' ),
+			'color' => diym_get_color_for_area( 'body', 'accent' ),
 		),
 		array(
-			'name'  => __( 'Primary', 'diy-marketer' ),
-			'slug'  => 'primary',
-			'color' => diym_get_color_for_area( 'content', 'text' ),
+			'name'  => __( 'Content Color', 'diy-marketer' ),
+			'slug'  => 'content',
+			'color' => diym_get_color_for_area( 'body', 'content' ),
 		)
 		/*
 		array(
@@ -572,6 +572,7 @@ function diym_block_editor_settings() {
 	);
 	*/
 
+	write_log( $editor_color_palette );
 	// If we have accent colors, add them to the block editor palette.
 	if ( $editor_color_palette ) {
 		add_theme_support( 'editor-color-palette', $editor_color_palette );
@@ -677,7 +678,7 @@ add_filter( 'excerpt_allowed_blocks', 'diym_excerpt_allowed_blocks' );
  */
 function diym_get_customizer_color_vars() {
 	$colors = array(
-		'content'       => array(
+		'body'       => array(
 			//'setting' => 'background_color',
 			// hard code background color to white...
 			'color' => '#ffffff'
@@ -698,18 +699,18 @@ function diym_get_customizer_color_vars() {
  * @param string $context Can be 'text' or 'accent'.
  * @return string Returns a HEX color.
  */
-function diym_get_color_for_area( $area = 'content', $context = 'text', $shade = 0 ) {
+function diym_get_color_for_area( $area = 'body', $context = 'content', $shade = 0 ) {
 
 	// Get the value from the theme-mod.
 	$settings = get_theme_mod(
 		'custom_colors',
 		array(
-			'content'       => array(
-				'text'      => '#000000',
+			'body'       => array(
+				'content'      => '#000000',
 				//'accent'    => '#cd2653',
 			),
 			'banner-footer' => array(
-				'text'      => '#000000',
+				'content'      => '#000000',
 				'accent'    => '#cd2653',
 			),
 		)
@@ -746,7 +747,7 @@ function diym_get_elements_array() {
 	// The array is formatted like this:
 	// [key-in-saved-setting][sub-key-in-setting][index][css-property][selector] = [elements].
 	$elements = array(
-		'content' => array(
+		'body' => array(
 			'accent' => array(
 				array(
 					'background-color' => array(
@@ -901,7 +902,7 @@ function diym_get_elements_array() {
 					)
 				)
 			),
-			'text' => array(
+			'content' => array(
 				array(
                     'color' => array(
 						'selector' => array( '.site-banner', '#site-footer' )

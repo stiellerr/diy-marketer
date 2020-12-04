@@ -118,12 +118,14 @@ for (let context of Object.keys(diymBgColors)) {
 function diymGenerateColorPreviewStyles(context) {
     // Get the accessible colors option.
 
-    console.log("hello world!");
+    //console.log("hello world!");
 
     let a11yColors = window.parent.wp.customize.get().custom_colors,
         stylesheedID = "diym-customizer-styles-" + context,
         stylesheet = $("#" + stylesheedID),
         styles = "";
+
+    console.log(a11yColors);
 
     // If the stylesheet doesn't exist, create it and append it to <head>.
     if (!stylesheet.length) {
