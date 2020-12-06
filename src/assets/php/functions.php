@@ -931,9 +931,11 @@ function diym_calculate_image_sizes( $sizes, $size, $image_src, $image_meta, $at
 
 	if ( is_active_sidebar( 'sidebar-1' ) ) {
 		// sidebar sizes...
-		$sizes = "(max-width: 575px) calc(100vw - 30px), (max-width: 767px) 510px, (max-width: 991px) 450px, (max-width: 1199px) 690px, 825px";
+		//$sizes = "(max-width: 575px) calc(100vw - 30px), (max-width: 767px) 510px, (max-width: 991px) 450px, (max-width: 1199px) 690px, 825px";
+		$sizes = "(max-width: 575px) calc(100vw - 24px), (max-width: 767px) 516px, (max-width: 991px) 456px, (max-width: 1199px) 696px, (max-width: 1399px) 831px, 966px";
 	} else {
-		$sizes = "(max-width: 575px) calc(100vw - 30px), (max-width: 767px) 510px, (max-width: 991px) 690px, (max-width: 1199px) 930px, 1110px";
+		//$sizes = "(max-width: 575px) calc(100vw - 30px), (max-width: 767px) 510px, (max-width: 991px) 690px, (max-width: 1199px) 930px, 1110px";
+		$sizes = "(max-width: 575px) calc(100vw - 24px), (max-width: 767px) 516px, (max-width: 991px) 696px, (max-width: 1199px) 936px, (max-width: 1399px) 1116px, 1296px";
 	}
 
 	return $sizes;
