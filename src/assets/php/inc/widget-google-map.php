@@ -39,7 +39,8 @@ class DIYM_Google_Map_Widget extends WP_Widget {
             extract( $map );
             if ( !empty( $lat ) && !empty( $lng ) ) {
                 //
-                $key = get_theme_mod('google')['key'];
+                $key = get_option( 'diym_google' )[ 'key' ];
+
                 if ( !empty( $key ) ) {
                     //
                     $params = array(

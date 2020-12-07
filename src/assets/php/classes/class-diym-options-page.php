@@ -692,6 +692,7 @@ class DIYM_Options_Page {
 
     public function sanitize_tag( $data ) {
 
+        /*
         $allowed = array(
             'script' => array(
                 'async' => array(),
@@ -699,6 +700,10 @@ class DIYM_Options_Page {
                 'src' => array()
             )
         );
+        */
+        // allowed
+        //$allowed = array( '<script>', '<noscript>', '<iframe>' );
+        $allowed = '<script><noscript><iframe>';
 
         // sanitize tag...
         //wp_kses( string $custom_content, array $allowed_HTML, array $allowed_protocols = array() )
@@ -706,7 +711,7 @@ class DIYM_Options_Page {
             //$data[ $key ] = sanitize_text_field( $value );
             //$data[ $key ] = wp_kses( $value, $allowed );
             //$data[ $key ] = trim( strip_tags( $value, '<script>' ), '\n' );
-            $data[ $key ] = strip_tags( $value, '<script>' );
+            $data[ $key ] = trim( strip_tags( $value, $allowed ) );
         }
 
         return $data;

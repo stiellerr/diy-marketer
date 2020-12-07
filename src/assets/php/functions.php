@@ -572,7 +572,7 @@ function diym_block_editor_settings() {
 	);
 	*/
 
-	write_log( $editor_color_palette );
+	//write_log( $editor_color_palette );
 	// If we have accent colors, add them to the block editor palette.
 	if ( $editor_color_palette ) {
 		add_theme_support( 'editor-color-palette', $editor_color_palette );

@@ -15,6 +15,8 @@ class DIYM_Contact_Form_Widget extends WP_Widget {
             esc_html__('Contact Form', 'diy-marketer'),
             array(
                 'description' => esc_html__("Displays a contact form", 'diy-marketer'),
+                // append sticky top class name...
+                'classname' => 'widget_diym_contact_form sticky-md-top',
                 'customize_selective_refresh' => true
             )
         );
