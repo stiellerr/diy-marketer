@@ -67,7 +67,9 @@ registerBlockType("diym/benefit", {
     attributes: {
         icon: {
             type: "string",
-            default: "fas fa-check" // Added default value
+            default: "fas fa-check" //Added default value
+            //source: "meta",
+            //meta: "_diym_fa"
         },
         iconColor: {
             type: "string",
@@ -106,8 +108,6 @@ registerBlockType("diym/benefit", {
             setContentColor
         } = props;
 
-        console.log(props);
-
         const { icon, content, align } = attributes;
 
         const onChangeIcon = icon => {
@@ -121,6 +121,11 @@ registerBlockType("diym/benefit", {
         const onChangeAlign = align => {
             setAttributes({ align });
         };
+
+        // set default icon value to be a check
+        //if (undefined == attributes.icon) {
+        //onChangeIcon("fas fa-check");
+        //}
 
         return (
             <>

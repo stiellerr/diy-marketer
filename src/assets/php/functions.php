@@ -320,6 +320,14 @@ function diym_register_styles() {
 
 	wp_add_inline_style( 'diym', diym_get_customizer_css( 'front-end' ) );
 
+	//$block = WP_Block_Type_Registry::get_instance()->get_registered( 'diym/benefit' );
+	//write_log( $block->attributes );
+	
+	//$attrs = $block ? $block->get_attributes() : [];
+	//write_log( $attrs );
+
+	//write_log('wp_add_inline_style');
+
 
 /*
 	$production = true;
@@ -391,7 +399,7 @@ function diym_enqueue_scripts() {
 	
 	//<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 	//<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-	//wp_enqueue_script( 'diym-fa', 'https://kit.fontawesome.com/e2e75b056d.js', array(), false, true );
+	//wp_enqueue_script( 'diym-fa', 'https://kit.fontawesome.com/e2e75b056d.js', array(), false, false );
 	//wp_enqueue_script( 'diym-popper', 'https://cdn.jsdelivr.net/npm/popper.js@1.16.1/umd/popper.min.js', array( 'jquery' ), false, true );
 	//wp_enqueue_script( 'diym-bs', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js', array( 'diym-popper' ), false, true );
 	//wp_enqueue_script( 'diym', get_template_directory_uri() . '/assets/js/bundle.js', array( 'jquery' ), filemtime( get_template_directory() . '/assets/js/bundle.js'), true );
@@ -991,7 +999,8 @@ function diym_defer_scripts( $tag, $handle, $src ) {
 	$defer = array( 
 		//'jquery',
 		//'bootstrap',
-		'diym'
+		'diym',
+		//'diym-fa'
 	);
 	
 	if ( in_array( $handle, $defer ) ) {

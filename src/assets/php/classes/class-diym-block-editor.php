@@ -30,11 +30,36 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
 
             add_filter( 'block_categories', array( $this, 'diym_block_categories' ), 10, 2 );
 
-            add_filter( 'init', array( &$this, 'register_meta' ) );
+            add_action( 'init', array( &$this, 'register_meta' ) );
+
+            //add_action( 'init', array( &$this, 'diym_register_blocks' ) );
+
             //add_filter( 'init', array( &$this, 'register_page_template' ) );
 
             //add_action('wp_ajax_send_form', array( $this, 'send_form' ) ); // This is for authenticated users
             //add_action('wp_ajax_nopriv_send_form', array( $this, 'send_form') ); // This is for unauthenticated users.
+        }
+
+        function zzz_func( $attributes, $content ) {
+            //write_log($attributes);
+            //write_log($content);
+
+            return $content;
+
+            //wp_add_inline_style( 'diym', '.fab { color: red; }' );
+        }
+
+
+        function diym_register_blocks() {
+            //wp_register_script('diym_benefit_editor_js', $src, $deps, $in_footer)
+
+            register_block_type(
+                'diym/benefit',
+                array(
+                    'editor_script' => 'diym-block-editor-script',
+                    //'render_callback' => array( &$this, 'zzz_func' )
+                )
+            );
         }
 
         function register_meta() {
