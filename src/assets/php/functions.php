@@ -380,6 +380,7 @@ function diym_enqueue_scripts() {
 	} else {
 		//wp_deregister_script('jquery');
 		*/
+		//wp_enqueue_script( 'ga', 'https://www.google-analytics.com/analytics.js', array(), false, false );
 		wp_enqueue_script( 'diym', get_template_directory_uri() . '/assets/js/bundle.js', array(), false, false );
 	//}
 

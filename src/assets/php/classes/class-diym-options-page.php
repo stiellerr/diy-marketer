@@ -13,8 +13,8 @@ class DIYM_Options_Page {
             // enqueue admin scripts
             add_action( 'admin_enqueue_scripts', array( &$this, 'enqueue' ) );
 
-            add_action('wp_ajax_sync_data', array( &$this, 'sync_data' ) ); // This is for authenticated users
-            add_action('wp_ajax_nopriv_sync_data', array( &$this, 'sync_data') ); // This is for unauthenticated users.
+            add_action( 'wp_ajax_sync_data', array( &$this, 'sync_data' ) ); // This is for authenticated users
+            add_action( 'wp_ajax_nopriv_sync_data', array( &$this, 'sync_data') ); // This is for unauthenticated users.
 
             //add_action('admin_menu', array(&$this, 'add_menu'));
 

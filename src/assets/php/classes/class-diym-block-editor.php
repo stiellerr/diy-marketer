@@ -42,7 +42,7 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
 
         function zzz_func( $attributes, $content ) {
             //write_log($attributes);
-            //write_log($content);
+            write_log($content);
 
             return $content;
 
@@ -54,10 +54,10 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
             //wp_register_script('diym_benefit_editor_js', $src, $deps, $in_footer)
 
             register_block_type(
-                'diym/benefit',
+                'diym/image',
                 array(
-                    'editor_script' => 'diym-block-editor-script',
-                    //'render_callback' => array( &$this, 'zzz_func' )
+                    //'editor_script' => 'diym-block-editor-script',
+                    'render_callback' => array( &$this, 'zzz_func' )
                 )
             );
         }
