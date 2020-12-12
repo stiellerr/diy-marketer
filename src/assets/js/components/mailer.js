@@ -5,20 +5,32 @@ document.addEventListener("DOMContentLoaded", () => {
     // grab all tel & mailto link tags
     let hrefs = document.querySelectorAll('a[href^="tel:"],a[href^="mailto:"]');
     Array.prototype.slice.call(hrefs).forEach(href => {
-        href.addEventListener("click", event => {
+        href.addEventListener("click", ({ target }) => {
             // get event location
-            if (event.target.closest("header")) {
-                console.log("header");
+            let location = "";
+
+            if (target.closest("header")) {
+                //console.log("header");
+                location = "header";
             }
-            if (event.target.closest("main")) {
-                console.log("main");
+            if (target.closest("main")) {
+                //console.log("main");
+                location = "main";
             }
-            if (event.target.closest("aside")) {
-                console.log("aside");
+            if (target.closest("aside")) {
+                //console.log("aside");
+                location = "aside";
             }
-            if (event.target.closest("footer")) {
-                console.log("footer");
+            if (target.closest("footer")) {
+                //console.log("footer");
+                location = "footer";
             }
+
+            const data = target.href.split(":");
+
+            ga("send", "event", data[0], data[1], location);
+
+            //console.log(data[0]);
         });
     });
 
@@ -46,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     let formData = new FormData(event.target);
                     // Sends the event to Google Analytics and
                     // resubmits the form once the hit is done.
-                    ga("send", "event", "Contact Form", "submit", formData.get("email"), {
+                    ga("send", "event", "form", "submit", formData.get("email"), {
                         hitCallback: () => {
                             //form.submit();
 
@@ -73,6 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     // success
                                     div.innerHTML = response.data;
                                     div.classList.add("alert-success");
+                                    // ga("send", "event", "form", "submit", formData.get("email")
                                 } else {
                                     // failure
                                     div.innerHTML = `Error: ${currentTarget.status} ${currentTarget.statusText}`;
