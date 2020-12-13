@@ -1,8 +1,11 @@
 /* global diymMailVars, ga */
 
-// attach document on ready event
-
+// retrive location on page where link was clicked
 const getLocation = target => {
+    if (typeof target.closest !== "function") {
+        return null;
+    }
+
     if (target.closest("header")) {
         return "header";
     }
@@ -15,49 +18,24 @@ const getLocation = target => {
     if (target.closest("footer")) {
         return "footer";
     }
+    // default
     return null;
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-    // grab all tel & mailto link tags
-    let hrefs = document.querySelectorAll('a[href^="tel:"],a[href^="mailto:"]');
-    Array.prototype.slice.call(hrefs).forEach(href => {
-        href.addEventListener("click", ({ target }) => {
-            // get event location
-            /*
-            let location = "";
-
-            if (target.closest("header")) {
-                //console.log("header");
-                location = "header";
-            }
-            if (target.closest("main")) {
-                //console.log("main");
-                location = "main";
-            }
-            if (target.closest("aside")) {
-                //console.log("aside");
-                location = "aside";
-            }
-            if (target.closest("footer")) {
-                //console.log("footer");
-                location = "footer";
-            }
-            */
-            //console.log(getLocation(target));
-
-            const data = target.href.split(":");
-
-            ga("send", "event", data[0], data[1], getLocation(target));
-
-            //console.log(data[0]);
+    // if google analytics exists, attach an event listener to all tel & mailto link clicks
+    if (typeof ga !== "undefined") {
+        let hrefs = document.querySelectorAll('a[href^="tel:"],a[href^="mailto:"]');
+        Array.prototype.slice.call(hrefs).forEach(href => {
+            href.addEventListener("click", ({ target }) => {
+                const data = target.href.split(":");
+                ga("send", "event", data[0], data[1], getLocation(target));
+            });
         });
-    });
+    }
 
     // grab all the forms
     let forms = document.querySelectorAll(".needs-validation");
-
-    // Loop over them and prevent submission
     Array.prototype.slice.call(forms).forEach(form => {
         form.addEventListener(
             "submit",
@@ -65,25 +43,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 // prevent form submit
                 event.preventDefault();
                 event.stopPropagation();
-
                 // find any alerts and remove them from the dom
                 let div = form.parentNode.querySelector(".alert");
 
-                if (div) {
+                if (div !== "null") {
                     form.parentNode.removeChild(div);
                 }
 
                 // check if form is valid
                 if (form.checkValidity()) {
                     let formData = new FormData(event.target);
-                    // Sends the event to Google Analytics and
-                    // resubmits the form once the hit is done.
-                    //ga("send", "event", "form", "submit", formData.get("email"), {
-                    //hitCallback: () => {
-                    //form.submit();
-
                     const XHR = new XMLHttpRequest();
-                    //let formData = new FormData(event.target);
 
                     formData.append("action", "send_form");
                     formData.append("security", diymMailVars.ajax_nonce);
@@ -94,35 +64,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     // before send...
                     XHR.onloadstart = () => {
-                        // disable but to prevent multiple submits
+                        // disable btn to prevent multiple submits
                         form.querySelector(".btn").setAttribute("disabled", true);
                     };
 
                     // on success...
                     XHR.onload = ({ currentTarget }) => {
-                        //console.log(form);
-
-                        //console.log(event);
-
-                        //console.log(getLocation(form));
-                        /*
-                        if (form.closest("aside")) {
-                            console.log("aside");
-                        }
-
-                        if (form.closest("footer")) {
-                            console.log("footer");
-                        }*/
-
-                        //console("footer");
-
                         if (currentTarget.status == 200) {
                             const response = JSON.parse(currentTarget.response);
                             // success
                             div.innerHTML = response.data;
                             div.classList.add("alert-success");
-
-                            ga("send", "event", "form", formData.get("email"), getLocation(form));
+                            // if google analytics exists, send the event
+                            if (typeof ga !== "undefined") {
+                                ga(
+                                    "send",
+                                    "event",
+                                    "form",
+                                    formData.get("email"),
+                                    getLocation(form)
+                                );
+                            }
                         } else {
                             // failure
                             div.innerHTML = `Error: ${currentTarget.status} ${currentTarget.statusText}`;
@@ -155,8 +117,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     // Send our FormData object; HTTP headers are set automatically
                     XHR.send(formData);
-                    //}
-                    //});
                 } else {
                     form.classList.add("was-validated");
                 }
