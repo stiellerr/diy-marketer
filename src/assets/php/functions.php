@@ -68,6 +68,7 @@ function diym_print_meta_description() {
 		echo $post_meta['description'] ? "<meta name='description' content='" . $post_meta['description'] . "' />" . "\n" : '';
 	}
 
+
 }
 
 add_action ( 'wp_head', 'diym_print_meta_description', 1 );
@@ -360,6 +361,9 @@ add_action( 'wp_enqueue_scripts', 'diym_register_styles' );
  * Register and Enqueue Scripts.
  */
 function diym_enqueue_scripts() {
+
+
+
 /*
 	if ( DIYM_USE_CDN || is_customize_preview() ) {
 

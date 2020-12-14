@@ -12,6 +12,21 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<?php the_content(); ?>
 
+	<?php
+		//
+		$blocks = parse_blocks( get_the_content() );
+		
+		foreach ( $blocks as $block ) {
+			//write_log( 'attrs' );
+			write_log( $block[ 'attrs' ] );
+		}
+
+		//write_log( 'blocks' );
+		//write_log( $blocks );
+		
+	?>
+
+
 <!--
 	<img
 		width="825"

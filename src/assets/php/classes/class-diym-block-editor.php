@@ -41,10 +41,12 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
         }
 
         function zzz_func( $attributes, $content ) {
-            //write_log($attributes);
+            write_log($attributes);
             write_log($content);
 
             return $content;
+
+            //wp_register_style( 'maxslider-footer', false );
 
             //wp_add_inline_style( 'diym', '.fab { color: red; }' );
         }
@@ -54,7 +56,7 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
             //wp_register_script('diym_benefit_editor_js', $src, $deps, $in_footer)
 
             register_block_type(
-                'diym/image',
+                'diym/benefit',
                 array(
                     //'editor_script' => 'diym-block-editor-script',
                     'render_callback' => array( &$this, 'zzz_func' )
@@ -85,6 +87,18 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
             type: 'integer'
         }
     }
+            */
+
+            // fa meta data
+            /*
+            register_meta( 'post', '_diym_fa', array(
+                'show_in_rest' => true,
+                'type' => 'string',
+                'single' => true,
+                'auth_callback' => function() {
+                    return current_user_can( 'edit_posts' );
+                }
+            ));
             */
             register_meta('post',
                 '_diym_post_meta',

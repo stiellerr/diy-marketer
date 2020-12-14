@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 // find any alerts and remove them from the dom
                 let div = form.parentNode.querySelector(".alert");
 
-                if (div !== "null") {
+                if (div !== null) {
                     form.parentNode.removeChild(div);
                 }
 
