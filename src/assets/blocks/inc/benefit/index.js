@@ -66,11 +66,19 @@ registerBlockType("diym/benefit", {
 
     attributes: {
         icon: {
-            type: "string",
-            default: "fas fa-check" //Added default value
-            //source: "meta",
-            //meta: "_diym_fa"
+            type: "object",
+            default: {
+                name: "fas fa-check",
+                unicode: "f00c"
+            }
         },
+
+        //icon: {
+        //type: "string",
+        //default: "fas fa-check" //Added default value
+        //source: "meta",
+        //meta: "_diym_fa"
+        //},
         iconColor: {
             type: "string",
             default: "accent"
@@ -111,8 +119,8 @@ registerBlockType("diym/benefit", {
         const { icon, content, align } = attributes;
 
         const onChangeIcon = icon => {
-            console.log(icon);
-            //setAttributes({ icon });
+            //console.log(icon);
+            setAttributes({ icon });
         };
 
         const onChangeContent = content => {
@@ -161,7 +169,10 @@ registerBlockType("diym/benefit", {
                     />
                 </BlockControls>
                 <div className={className}>
-                    <i className={classnames(icon, "fa-lg")} style={{ color: iconColor.color }}></i>
+                    <i
+                        className={classnames(icon.name, "fa-lg")}
+                        style={{ color: iconColor.color }}
+                    ></i>
                     <RichText
                         tagName="p"
                         //className={`has-text-align-${align}`}
@@ -202,7 +213,7 @@ registerBlockType("diym/benefit", {
         } = attributes;
 
         const iconClass = classnames(
-            icon,
+            icon.name,
             "mw-1",
             "fa-lg",
             "align-self-center",

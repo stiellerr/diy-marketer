@@ -126,7 +126,7 @@ export default class IconPicker extends Component {
 
         // set default value
         let value = this.props.value;
-        //console.log(value);
+        console.log(value);
         //let zzz =
         //let zzz = this.dropDownData.filter(f => {
         //return f.id.toLowerCase().includes("fa");
@@ -134,10 +134,10 @@ export default class IconPicker extends Component {
 
         //console.log(zzz);
 
-        let newOption = new Option(value.name, value.unicode, false, false);
+        let newOption = new Option(value.unicode, value.name, false, false);
         //let newOption = new Option("fa fa-b", "f307", false, false);
-        //this.select.append(newOption).trigger("change");
-
+        this.select.append(newOption).trigger("change");
+        //$('#mySelect2').val(data.id).trigger('change');
         // attach on change event
         this.select.on("change", this.onChangeSelect2);
     };
