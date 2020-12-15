@@ -111,7 +111,8 @@ registerBlockType("diym/benefit", {
         const { icon, content, align } = attributes;
 
         const onChangeIcon = icon => {
-            setAttributes({ icon });
+            console.log(icon);
+            //setAttributes({ icon });
         };
 
         const onChangeContent = content => {

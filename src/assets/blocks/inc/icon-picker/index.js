@@ -24,11 +24,20 @@ export default class IconPicker extends Component {
             const icons = JSON.parse(JSON.stringify(data));
 
             _.each(icons, (data, name) => {
+                //console.log(data.unicode);
+                //console.log(name);
                 _.each(data.free, suffix => {
-                    this.dropDownData.push(`fa${suffix[0]} fa-${name}`);
+                    //this.dropDownData.push(`fa${suffix[0]} fa-${name}`);
+                    //{ id: f, text: f }
+                    this.dropDownData.push({
+                        id: `fa${suffix[0]} fa-${name}`,
+                        text: data.unicode
+                    });
+                    //this.dropDownData.push(`fa${suffix[0]} fa-${name}`);
                 });
             });
         });
+        //console.log(this.dropDownData);
     }
 
     componentWillUnmount() {
@@ -38,24 +47,35 @@ export default class IconPicker extends Component {
         this.dropDownData = [];
     }
 
-    onChangeSelect2 = e => {
+    onChangeSelect2 = ({ target }) => {
+        this.props.onChange({
+            name: target.value,
+            unicode: target.options[target.selectedIndex].text
+        });
+        //console.log(target.value);
+        //console.log(target.options[target.selectedIndex].text);
+        //console.log(target.options[target.selectedIndex].value);
+        //this.select.val(null).trigger("change");
         // return filtered event to react components onchange event...
+        /*
+        console.log("ttt");
+        let zzz = this.dropDownData.filter(f => {
+            return f.id.toLowerCase().includes(e.target.value);
+        });
+
+        console.log(zzz);
+
         this.props.onChange(e.target.value);
+        */
     };
 
-    formatOption = option => {
+    formatOption = ({ id }) => {
         //
-        if (option.id) {
+        if (id) {
             //return $('<span><i class="' + option.id + ' fa-fw"></i>' + option.text + "</span>");
-            return $(
-                '<span><i class="' +
-                    option.id +
-                    '" style="width:20px;"></i>' +
-                    option.text +
-                    "</span>"
-            );
+            return $('<span><i class="' + id + '" style="width:20px;"></i>' + id + "</span>");
         }
-        return $("<span>" + option.text + "</span>");
+        return $("<span>" + id + "</span>");
     };
 
     select2Init = element => {
@@ -80,13 +100,14 @@ export default class IconPicker extends Component {
                     let term = (params.data.term || "").toLowerCase();
                     let page = params.data.page || 1;
 
-                    let results = this.dropDownData
-                        .filter(f => {
-                            return f.toLowerCase().includes(term);
-                        })
-                        .map(f => {
-                            return { id: f, text: f };
+                    let results = this.dropDownData.filter(f => {
+                        return f.id.toLowerCase().includes(term);
+                    });
+                    /*
+                        .map((f, i) => {
+                            return { id: i, text: f.label };
                         });
+                        */
 
                     let paged = results.slice((page - 1) * pageSize, page * pageSize);
 
@@ -105,8 +126,17 @@ export default class IconPicker extends Component {
 
         // set default value
         let value = this.props.value;
-        let newOption = new Option(value, value, false, false);
-        this.select.append(newOption).trigger("change");
+        //console.log(value);
+        //let zzz =
+        //let zzz = this.dropDownData.filter(f => {
+        //return f.id.toLowerCase().includes("fa");
+        //});
+
+        //console.log(zzz);
+
+        let newOption = new Option(value.name, value.unicode, false, false);
+        //let newOption = new Option("fa fa-b", "f307", false, false);
+        //this.select.append(newOption).trigger("change");
 
         // attach on change event
         this.select.on("change", this.onChangeSelect2);

@@ -78,3 +78,31 @@ wp.data.subscribe(() => {
     blockList = newBlockList;
 });
 */
+
+import { select, subscribe } from "@wordpress/data";
+const { isSavingPost } = select("core/editor");
+
+var checked = true; // Start in a checked state.
+subscribe(() => {
+    if (isSavingPost()) {
+        checked = false;
+    } else {
+        if (!checked) {
+            // grab all blocks
+            const blockList = wp.data.select("core/block-editor").getBlocks();
+
+            let icons = [];
+
+            blockList.forEach(({ name, attributes }) => {
+                //console.log(block);
+                if ("diym/benefit" === name) {
+                    icons[attributes.icon] = 33;
+                    //console.log(block.attributes);
+                }
+            });
+
+            console.log(icons);
+            checked = true;
+        }
+    }
+});

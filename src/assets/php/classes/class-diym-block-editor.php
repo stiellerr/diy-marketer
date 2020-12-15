@@ -93,13 +93,14 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
             /*
             register_meta( 'post', '_diym_fa', array(
                 'show_in_rest' => true,
-                'type' => 'string',
-                'single' => true,
+                'type' => 'array',
+                'single' => false,
                 'auth_callback' => function() {
                     return current_user_can( 'edit_posts' );
                 }
             ));
             */
+            
             register_meta('post',
                 '_diym_post_meta',
                 array(
