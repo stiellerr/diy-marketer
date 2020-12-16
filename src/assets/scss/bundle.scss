@@ -54,10 +54,12 @@ $enable-responsive-font-sizes: true;
 // Font Awesome
 //$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 //@import "../../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss";
+
 @import "../../../node_modules/@fortawesome/fontawesome-free/scss/_variables.scss";
 @import "../../../node_modules/@fortawesome/fontawesome-free/scss/_mixins.scss";
 @import "../../../node_modules/@fortawesome/fontawesome-free/scss/_core.scss";
 @import "../../../node_modules/@fortawesome/fontawesome-free/scss/_larger.scss";
+
 //@import "../../../node_modules/@fortawesome/fontawesome-free/scss/_fixed-width";
 //@import "../../../node_modules/@fortawesome/fontawesome-free/scss/_list";
 //@import "../../../node_modules/@fortawesome/fontawesome-free/scss/_bordered-pulled";
