@@ -90,16 +90,42 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
             */
 
             // fa meta data
-            /*
             register_meta( 'post', '_diym_fa', array(
-                'show_in_rest' => true,
                 'type' => 'array',
-                'single' => false,
+                'single' => true,
+                'show_in_rest' => array(
+                    'schema' => array(
+                        'items' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'name' => array(
+                                    'type' => 'string',
+                                ),
+                                'unicode'  => array(
+                                    'type' => 'string',
+                                ),
+                            )
+                        )
+                        
+                        /*
+                        'properties' => array(
+                            'name' => array(
+                                'type' => 'string',
+                            ),
+                            'unicode'  => array(
+                                'type' => 'string',
+                            ),
+                        )
+                        */
+                    )
+                ),
+
+                //'default' => array(
+                //),
                 'auth_callback' => function() {
                     return current_user_can( 'edit_posts' );
                 }
             ));
-            */
             
             register_meta('post',
                 '_diym_post_meta',

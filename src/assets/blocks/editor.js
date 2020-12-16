@@ -1,4 +1,5 @@
 /* eslint no-unused-vars: off */
+/* global _ */
 
 /*
 import React from "react";
@@ -78,31 +79,62 @@ wp.data.subscribe(() => {
     blockList = newBlockList;
 });
 */
-
-import { select, subscribe } from "@wordpress/data";
+/*
+import { select, dispatch, withDispatch, subscribe } from "@wordpress/data";
 const { isSavingPost } = select("core/editor");
 
 var checked = true; // Start in a checked state.
 subscribe(() => {
     if (isSavingPost()) {
+        //console.log("hi");
         checked = false;
     } else {
         if (!checked) {
-            // grab all blocks
-            const blockList = wp.data.select("core/block-editor").getBlocks();
+            */
+// grab all blocks
+/*
+            const blockList = select("core/block-editor").getBlocks();
 
-            let icons = [];
+            let iconsNew = [];
 
             blockList.forEach(({ name, attributes }) => {
-                //console.log(block);
                 if ("diym/benefit" === name) {
-                    icons[attributes.icon] = 33;
-                    //console.log(block.attributes);
+                    // only add items with unique names...
+                    if (!_.findWhere(iconsNew, { name: attributes.icon.name })) {
+                        iconsNew.push({
+                            name: attributes.icon.name,
+                            unicode: attributes.icon.unicode
+                        });
+                    }
                 }
             });
 
+            const icons = select("core/editor").getEditedPostAttribute("meta")["_diym_fa"];
+
             console.log(icons);
+
+            if (JSON.stringify(iconsNew) !== JSON.stringify(icons)) {
+                dispatch("core/editor").editPost({ meta: { _diym_fa: iconsNew } });
+                console.log("dispatch");
+            }
+            */
+
+//zzzz("gggg");
+
+/*
+            withDispatch(dispatch => {
+                console.log("aaaa");
+                //dispatch("core/editor").editPost({ meta: { _diym_fa: icons } });
+                dispatch("core/editor").editPost({ meta: { _diym_fa: "hello world!!!" } });
+            });
+            */
+
+//dispatch('core/editor').editPost({meta: {_diym_fa: ['hello':'1']}})
+
+//console.log(icons);
+/*
             checked = true;
         }
     }
 });
+*/

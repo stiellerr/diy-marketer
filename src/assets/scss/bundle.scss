@@ -1,5 +1,4 @@
 $enable-responsive-font-sizes: true;
-
 @import "../../../node_modules/bootstrap/scss/bootstrap.scss";
 
 // Bootstrap 5 as individual components
@@ -54,9 +53,19 @@ $enable-responsive-font-sizes: true;
 
 // Font Awesome
 //$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
-
-// in your main SCSS file
-@import "../../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss";
+//@import "../../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "../../../node_modules/@fortawesome/fontawesome-free/scss/_variables.scss";
+@import "../../../node_modules/@fortawesome/fontawesome-free/scss/_mixins.scss";
+@import "../../../node_modules/@fortawesome/fontawesome-free/scss/_core.scss";
+@import "../../../node_modules/@fortawesome/fontawesome-free/scss/_larger.scss";
+//@import "../../../node_modules/@fortawesome/fontawesome-free/scss/_fixed-width";
+//@import "../../../node_modules/@fortawesome/fontawesome-free/scss/_list";
+//@import "../../../node_modules/@fortawesome/fontawesome-free/scss/_bordered-pulled";
+//@import "../../../node_modules/@fortawesome/fontawesome-free/scss/_animated";
+//@import "../../../node_modules/@fortawesome/fontawesome-free/scss/_rotated-flipped";
+//@import "../../../node_modules/@fortawesome/fontawesome-free/scss/_stacked";
+//@import "../../../node_modules/@fortawesome/fontawesome-free/scss/_icons";
+//@import "../../../node_modules/@fortawesome/fontawesome-free/scss/_screen-reader";
 
 // import one or more styles
 @import "../../../node_modules/@fortawesome/fontawesome-free/scss/regular.scss";

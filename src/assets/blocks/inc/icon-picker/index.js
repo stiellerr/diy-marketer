@@ -1,6 +1,7 @@
 /* global _, js_data */
 
 import { Component } from "@wordpress/element";
+import { select, dispatch } from "@wordpress/data";
 
 // jquery
 import $ from "jquery";
@@ -45,13 +46,43 @@ export default class IconPicker extends Component {
         this.select.select2("destroy");
         this.select = null;
         this.dropDownData = [];
+        this.updatePostMeta("unmount");
     }
 
+    updatePostMeta = msg => {
+        console.log(msg);
+
+        const blockList = select("core/block-editor").getBlocks();
+        //console.log(blockList);
+        let icons = [];
+        let icons2 = [];
+
+        blockList.forEach(({ name, attributes }) => {
+            if ("diym/benefit" === name) {
+                // only add items with unique names...
+                if (!_.findWhere(icons, { name: attributes.icon.name })) {
+                    icons.push({
+                        name: attributes.icon.name,
+                        unicode: attributes.icon.unicode
+                    });
+                    icons2[attributes.icon.name] = attributes.icon.unicode;
+                }
+            }
+        });
+
+        dispatch("core/editor").editPost({ meta: { _diym_fa: icons } });
+    };
+
     onChangeSelect2 = ({ target }) => {
+        //console.log("onChange");
         this.props.onChange({
             name: target.value,
             unicode: target.options[target.selectedIndex].text
         });
+
+        // update post meta
+        this.updatePostMeta("onchange");
+
         //console.log(target.value);
         //console.log(target.options[target.selectedIndex].text);
         //console.log(target.options[target.selectedIndex].value);
@@ -133,13 +164,13 @@ export default class IconPicker extends Component {
         //});
 
         //console.log(zzz);
+        // attach on change event
+        this.select.on("change", this.onChangeSelect2);
 
         let newOption = new Option(value.unicode, value.name, false, false);
         //let newOption = new Option("fa fa-b", "f307", false, false);
-        this.select.append(newOption).trigger("change");
+        this.select.append(newOption).trigger("change"); //.trigger("select2:select");
         //$('#mySelect2').val(data.id).trigger('change');
-        // attach on change event
-        this.select.on("change", this.onChangeSelect2);
     };
 
     render = () => {
