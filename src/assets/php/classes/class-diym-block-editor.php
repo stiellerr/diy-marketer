@@ -88,8 +88,29 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
         }
     }
             */
+            // fa meta data
+            
+            register_meta( 'post', '_diym_fa', array(
+                'type' => 'array',
+                'single' => true,
+                'show_in_rest' => array(
+                    'schema' => array(
+                        'items' => array (
+                            'type' => 'object',
+                            'additionalProperties' => array(
+                                'type' => 'object'
+                            )
+                        )
+                    )
+                ),
+                'auth_callback' => function() {
+                    return current_user_can( 'edit_posts' );
+                }
+            ));
+            
 
             // fa meta data
+            /*
             register_meta( 'post', '_diym_fa', array(
                 'type' => 'array',
                 'single' => true,
@@ -105,7 +126,7 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
                                     'type' => 'string',
                                 ),
                             )
-                        )
+                        )*/
                         
                         /*
                         'properties' => array(
@@ -116,7 +137,7 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
                                 'type' => 'string',
                             ),
                         )
-                        */
+                        *//*
                     )
                 ),
 
@@ -126,6 +147,7 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
                     return current_user_can( 'edit_posts' );
                 }
             ));
+            */
             
             register_meta('post',
                 '_diym_post_meta',

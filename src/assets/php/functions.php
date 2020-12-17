@@ -35,6 +35,10 @@ function diym_print_title( $title ) {
 
 	//$title = get_post_meta( get_the_ID(), '_diym_seo_page_title', true );
 	$post_meta = get_post_meta( get_the_ID(), '_diym_post_meta', true );
+
+	$post_meta3 = get_post_meta( get_the_ID(), '_diym_fa', true );
+
+	write_log($post_meta3);
 	
 	if ( $post_meta ) {
 		$title = $post_meta['title'] ? $post_meta['title'] : '';
