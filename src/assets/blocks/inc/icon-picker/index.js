@@ -46,36 +46,28 @@ export default class IconPicker extends Component {
         this.select.select2("destroy");
         this.select = null;
         this.dropDownData = [];
-        this.updatePostMeta("unmount");
+        //this.updatePostMeta("unmount");
     }
 
     updatePostMeta = msg => {
         console.log(msg);
 
         const blockList = select("core/block-editor").getBlocks();
-        //console.log(blockList);
-        //let icons = [];
+
         let icons = [];
 
         blockList.forEach(({ name, attributes }) => {
             if ("diym/benefit" === name) {
-                icons[attributes.icon.name] = attributes.icon.unicode;
                 // only add items with unique names...
-                /*
                 if (!_.findWhere(icons, { name: attributes.icon.name })) {
                     icons.push({
                         name: attributes.icon.name,
                         unicode: attributes.icon.unicode
                     });
                 }
-                */
             }
         });
-
-        console.log(icons);
-
         dispatch("core/editor").editPost({ meta: { _diym_fa: icons } });
-        //dispatch("core/editor").editPost({ meta: { _diym_fa2: icons2 } });
     };
 
     onChangeSelect2 = ({ target }) => {

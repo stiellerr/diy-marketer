@@ -141,6 +141,26 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 				diym_generate_css( 'body', 'font-family', $font );
 			}
 
+			// font awesome
+			$post_meta_fa = get_post_meta( get_the_ID(), '_diym_fa', true );
+
+			if ( $post_meta_fa ) {
+				foreach( $post_meta_fa as $icon_fa ) {
+					$selector = "." . explode( " ", $icon_fa[ 'name' ] ) [ 1 ] . ":before";
+					$val = '"\\' . $icon_fa[ 'unicode' ] . '"';
+					diym_generate_css( $selector, 'content', $val );
+				}
+			}
+
+			if ( is_active_widget( false, false, 'diym_contact_details', true ) ) {
+				diym_generate_css( '.fa-user:before', 'content', '"\f007"' );
+			}
+
+			if ( is_active_widget( false, false, 'diym_contact_form', true ) ) {
+				diym_generate_css( '.fa-lock:before', 'content', '"\f023"' );
+			}
+
+
 			// Block Editor Styles.
 		} elseif ( 'block-editor' === $type ) {
 

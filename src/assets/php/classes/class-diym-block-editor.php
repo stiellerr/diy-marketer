@@ -41,8 +41,8 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
         }
 
         function zzz_func( $attributes, $content ) {
-            write_log($attributes);
-            write_log($content);
+            //write_log($attributes);
+            //write_log($content);
 
             return $content;
 
@@ -89,7 +89,7 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
     }
             */
             // fa meta data
-            
+            /*
             register_meta( 'post', '_diym_fa', array(
                 'type' => 'array',
                 'single' => true,
@@ -107,10 +107,9 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
                     return current_user_can( 'edit_posts' );
                 }
             ));
-            
+            */
 
             // fa meta data
-            /*
             register_meta( 'post', '_diym_fa', array(
                 'type' => 'array',
                 'single' => true,
@@ -120,34 +119,19 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
                             'type' => 'object',
                             'properties' => array(
                                 'name' => array(
-                                    'type' => 'string',
+                                    'type' => 'string'
                                 ),
                                 'unicode'  => array(
-                                    'type' => 'string',
-                                ),
+                                    'type' => 'string'
+                                )
                             )
-                        )*/
-                        
-                        /*
-                        'properties' => array(
-                            'name' => array(
-                                'type' => 'string',
-                            ),
-                            'unicode'  => array(
-                                'type' => 'string',
-                            ),
                         )
-                        *//*
                     )
                 ),
-
-                //'default' => array(
-                //),
                 'auth_callback' => function() {
                     return current_user_can( 'edit_posts' );
                 }
             ));
-            */
             
             register_meta('post',
                 '_diym_post_meta',

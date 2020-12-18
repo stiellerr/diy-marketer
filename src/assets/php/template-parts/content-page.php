@@ -14,12 +14,12 @@
 
 	<?php
 		//
-		$blocks = parse_blocks( get_the_content() );
+		//$blocks = parse_blocks( get_the_content() );
 		
-		foreach ( $blocks as $block ) {
+		//foreach ( $blocks as $block ) {
 			//write_log( 'attrs' );
-			write_log( $block[ 'attrs' ] );
-		}
+			//write_log( $block[ 'attrs' ] );
+		//}
 
 		//write_log( 'blocks' );
 		//write_log( $blocks );

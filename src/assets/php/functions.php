@@ -35,10 +35,15 @@ function diym_print_title( $title ) {
 
 	//$title = get_post_meta( get_the_ID(), '_diym_seo_page_title', true );
 	$post_meta = get_post_meta( get_the_ID(), '_diym_post_meta', true );
+write_log( wp_get_sidebars_widgets() );
+	//$post_meta3 = get_post_meta( get_the_ID(), '_diym_fa', true );
+	if ( is_active_widget( false, false, 'diym_contact_details', true ) ) {
+		write_log( 'widget active' );
+	} else {
+		write_log( 'widget inactive' );
+	}
 
-	$post_meta3 = get_post_meta( get_the_ID(), '_diym_fa', true );
-
-	write_log($post_meta3);
+	//write_log($post_meta3);
 	
 	if ( $post_meta ) {
 		$title = $post_meta['title'] ? $post_meta['title'] : '';
