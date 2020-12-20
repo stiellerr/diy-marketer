@@ -80,6 +80,15 @@ function diym_print_meta_description() {
 
 
 	write_log( 'wp_head' );
+
+	global $diym_fa;
+
+	//foreach() {
+
+	//}
+
+	write_log( $diym_fa[ 'fonts' ] );
+
 	//v $GLOBALS );
 	//write_log( $GLOBALS[ 'diym_fa' ] );
 }
@@ -132,7 +141,7 @@ function diym_clean_up() {
 
 	remove_action('wp_head', 'rest_output_link_wp_head', 10);
 
-	write_log( 'init' );
+	//write_log( 'init' );
 }
 
 add_action( 'init', 'diym_clean_up' );
