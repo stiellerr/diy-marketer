@@ -144,22 +144,55 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 			// font awesome
 			$post_meta_fa = get_post_meta( get_the_ID(), '_diym_fa', true );
 
+			//$arr =[];
+
+			global $diym_fa;
+
 			if ( $post_meta_fa ) {
 				foreach( $post_meta_fa as $icon_fa ) {
-					$selector = "." . explode( " ", $icon_fa[ 'name' ] ) [ 1 ] . ":before";
-					$val = '"\\' . $icon_fa[ 'unicode' ] . '"';
-					diym_generate_css( $selector, 'content', $val );
+					$temp = explode( " ", $icon_fa[ 'name' ] );
+
+					$diym_fa[ 'icons' ][ $temp[1] ] = $icon_fa[ 'unicode' ];
+
+					if ( !in_array( $temp[0] , $diym_fa[ 'fonts' ] ) ) {
+						$diym_fa[ 'fonts' ][] = $temp[0];
+					}
 				}
 			}
 
-			if ( is_active_widget( false, false, 'diym_contact_details', true ) ) {
-				diym_generate_css( '.fa-user:before', 'content', '"\f007"' );
+			//write_log( 'custom-css' );
+			//write_log( $diym_fa );
+			
+			$socials = get_option( 'diym_socials', null );
+
+			if ( $socials ) {
+				if ( $socials[ 'facebook' ] ) {
+					$diym_fa[ 'icons' ][ 'fa-facebook-f' ] = "f39e";
+				}
+	
+				if ( $socials[ 'instagram' ] ) {
+					$diym_fa[ 'icons' ][ 'fa-instagram' ] = "f16d";
+				}
+	
+				if ( $socials[ 'youtube' ] ) {
+					$diym_fa[ 'icons' ][ 'fa-youtube' ] = "f167";
+				}
+	
+				if ( $socials[ 'twitter' ] ) {
+					$diym_fa[ 'icons' ][ 'fa-twitter' ] = "f099";
+				}
+
+				if ( !in_array( 'fab' , $diym_fa[ 'fonts' ] ) ) {
+					$diym_fa[ 'fonts' ][] = 'fab';
+				}
 			}
 
-			if ( is_active_widget( false, false, 'diym_contact_form', true ) ) {
-				diym_generate_css( '.fa-lock:before', 'content', '"\f023"' );
+			foreach( $diym_fa[ 'icons' ] as $key => $val ) {
+				diym_generate_css( "." . $key . ":before", 'content', '"\\' . $val . '"' );
 			}
 
+			write_log( 'custom-css' );
+			write_log( $diym_fa );
 
 			// Block Editor Styles.
 		} elseif ( 'block-editor' === $type ) {

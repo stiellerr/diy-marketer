@@ -18,6 +18,24 @@ class DIYM_Contact_Details_Widget extends WP_Widget {
                 'customize_selective_refresh' => true
             )
         );
+
+        // add fa icons
+        if ( is_active_widget( false, false, $this->id_base ) ) {
+            global $diym_fa;
+            //
+            $diym_fa[ 'icons' ][ 'fa-user' ] = "f007";
+            $diym_fa[ 'icons' ][ 'fa-map-marker-alt' ] = "f3c5";
+            $diym_fa[ 'icons' ][ 'fa-phone' ] =  "f095";
+            $diym_fa[ 'icons' ][ 'fa-envelope' ] = "f0e0";
+            $diym_fa[ 'icons' ][ 'fa-globe' ] = "f0ac";
+            
+            if ( !in_array( 'fas' , $diym_fa[ 'fonts' ] ) ) {
+                $diym_fa[ 'fonts' ][] = 'fas';
+            }
+
+            write_log( 'widget contact details' );
+
+        }
     }
 
     public function form( $instance ) {

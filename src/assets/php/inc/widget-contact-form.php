@@ -7,6 +7,8 @@
  * @package DIY_Marketer
  */
 
+if ( ! class_exists( 'DIYM_Contact_Form_Widget' ) ) {
+
 class DIYM_Contact_Form_Widget extends WP_Widget {
 
     public function __construct() {
@@ -20,6 +22,19 @@ class DIYM_Contact_Form_Widget extends WP_Widget {
                 'customize_selective_refresh' => true
             )
         );
+        //write_log( is_admin() );
+        if ( is_active_widget( false, false, $this->id_base ) ) {     
+            global $diym_fa;
+            //
+            $diym_fa[ 'icons' ][ 'fa-lock' ] = "f023";
+            if ( !in_array( 'fas' , $diym_fa[ 'fonts' ] ) ) {
+                $diym_fa[ 'fonts' ][] = 'fas';
+            }
+
+            //write_log( wp_debug_backtrace_summary() ); 
+            write_log( 'widget contact form' );
+        }
+
     }
 
     public function widget($args, $instance) {
@@ -157,8 +172,10 @@ class DIYM_Contact_Form_Widget extends WP_Widget {
         return $instance;
     }
 }
+}
 
 function diym_register_contact_form_widget() {
+    //write_log('ddddd');
     register_widget('DIYM_Contact_Form_Widget');
 }
 

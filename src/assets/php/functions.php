@@ -7,6 +7,12 @@
  * @package DIY_Marketer
  */
 
+// globals
+$diym_fa = array(
+	'icons' => array(),
+    'fonts' => array()
+);
+
 // useful function for witing to the log
 if ( ! function_exists( 'write_log ') ) {
 	function write_log ( $log )  {
@@ -35,19 +41,12 @@ function diym_print_title( $title ) {
 
 	//$title = get_post_meta( get_the_ID(), '_diym_seo_page_title', true );
 	$post_meta = get_post_meta( get_the_ID(), '_diym_post_meta', true );
-write_log( wp_get_sidebars_widgets() );
-	//$post_meta3 = get_post_meta( get_the_ID(), '_diym_fa', true );
-	if ( is_active_widget( false, false, 'diym_contact_details', true ) ) {
-		write_log( 'widget active' );
-	} else {
-		write_log( 'widget inactive' );
-	}
-
-	//write_log($post_meta3);
 	
 	if ( $post_meta ) {
 		$title = $post_meta['title'] ? $post_meta['title'] : '';
 	}
+
+	
 
 	
 
@@ -67,6 +66,8 @@ write_log( wp_get_sidebars_widgets() );
 
 add_filter( 'pre_get_document_title', 'diym_print_title' );
 
+//define( test_arr, array( "hello", "world" ) );
+//$GLOBALS['zzz_test'] = 223;
 
 // print meta description for seo
 function diym_print_meta_description() {
@@ -78,6 +79,9 @@ function diym_print_meta_description() {
 	}
 
 
+	write_log( 'wp_head' );
+	//v $GLOBALS );
+	//write_log( $GLOBALS[ 'diym_fa' ] );
 }
 
 add_action ( 'wp_head', 'diym_print_meta_description', 1 );
@@ -127,6 +131,8 @@ function diym_clean_up() {
 	remove_action('wp_head', 'rsd_link');
 
 	remove_action('wp_head', 'rest_output_link_wp_head', 10);
+
+	write_log( 'init' );
 }
 
 add_action( 'init', 'diym_clean_up' );
@@ -318,6 +324,8 @@ require get_template_directory() . '/inc/custom-css.php';
  * Register and Enqueue Styles.
  */
 function diym_register_styles() {
+
+	//write_log('diym_register_styles' );
 
 	/*
 	if ( DIYM_USE_CDN ) {
@@ -971,7 +979,7 @@ add_filter( 'wp_calculate_image_sizes', 'diym_calculate_image_sizes', 10, 5 );
 /**
  * Contact Details Widget
  */
-require get_template_directory() . '/inc/widget-contact-details.php';
+require_once get_template_directory() . '/inc/widget-contact-details.php';
 
 /**
  * Business Hours Widget
