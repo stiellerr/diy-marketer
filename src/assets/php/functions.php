@@ -73,8 +73,8 @@ add_filter( 'pre_get_document_title', 'diym_print_title' );
 
 
 
-//apply_filters( 'wp_resource_hints', array $urls, string $relation_type )
 
+// dns prefetch filter
 function diym_wp_resource_hints( $urls, $relation_type ) {
 
 	if ( 'dns-prefetch' === $relation_type ) {
@@ -82,15 +82,18 @@ function diym_wp_resource_hints( $urls, $relation_type ) {
 		if ( is_active_widget( false, false, 'diym_google_map' ) ) {
 			$urls[] = 'https://maps.googleapis.com/';
 		}
-		//
-		//$urls[] = 'https://www.google-analytics.com/';
+
+		$ga_code = get_option( 'diym_google_analytics' )[ 'js_code' ];
 		
+		if ( $ga_code ) {
+			$urls[] = 'https://www.google-analytics.com/';
+		}
+
+		$urls = array_filter( $urls, function( string $url ) {
+			return (bool) strpos( $url, 's.w.org' ) === false;
+		});	
 	}
-
-	write_log( 'diym_wp_resource_hints' );
-	write_log( $urls );
-	write_log( $relation_type );
-
+	
 	return $urls;
 }
 

@@ -117,11 +117,21 @@ class DIYM_Options_Page {
 
         register_setting(
             'diym-options',
+            "diym_google_analytics",
+            array(
+                'sanitize_callback' => array( &$this, 'sanitize_tag' )
+            )
+        );
+
+        /*
+        register_setting(
+            'diym-options',
             "diym_tag_manager",
             array(
                 'sanitize_callback' => array( &$this, 'sanitize_tag' )
             )
         );
+        */
 
         register_setting(
             'diym-options',
@@ -162,7 +172,28 @@ class DIYM_Options_Page {
                 'sanitize_callback' => array( &$this, 'sanitize_url' )
             )
         );
+        
+        add_settings_section(
+            'diym_google_analytics',
+            __( 'Google Analytics', 'diy-marketer' ),
+            array( &$this, 'render_void' ),
+            'diym-options'
+        );
 
+        add_settings_field( 
+            'js_code',
+            __( 'Javascript Code', 'diy-marketer' ),
+            array( &$this, 'render_textarea' ),
+            'diym-options',
+            'diym_google_analytics',
+            array(
+                'label_for' => "diym_google_analytics[js_code]",
+                'section' => 'diym_google_analytics',
+                'id' => 'js_code'
+            )
+        );
+
+        /*
         add_settings_section(
             'diym_tag_manager',
             __( 'Google Tag Manager', 'diy-marketer' ),
@@ -170,6 +201,7 @@ class DIYM_Options_Page {
             'diym-options'
         );
 
+        
         add_settings_field( 
             'head_code',
             __( 'Head Code', 'diy-marketer' ),
@@ -195,6 +227,7 @@ class DIYM_Options_Page {
                 'id' => 'body_code'
             )
         );
+        */
 
         add_settings_section(
             'diym_socials',
