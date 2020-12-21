@@ -32,7 +32,7 @@ class DIYM_Contact_Form_Widget extends WP_Widget {
             }
 
             //write_log( wp_debug_backtrace_summary() ); 
-            write_log( 'widget contact form' );
+            //write_log( 'widget contact form' );
         }
 
     }

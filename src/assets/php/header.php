@@ -15,23 +15,15 @@
 <head>
 	<meta charset="<?php bloginfo('charset'); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="preload" href="/wp-content/themes/diy-marketer/assets/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-	<link rel="preload" href="/wp-content/themes/diy-marketer/assets/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-	<link rel='dns-prefetch' href='//www.google-analytics.com' />
-	<link rel='dns-prefetch' href='//maps.googleapis.com' />
 	<!--
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<link rel="profile" href="https://gmpg.org/xfn/11">;
 	-->
-
 	<?php wp_head(); ?>
 </head>
-
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
-
 <div class="container shadow bg-white">
-	
 	<!-- HEADER
 	================================================== -->
 	<header role="banner">
@@ -61,7 +53,6 @@
 				?>
 			</div>
 		</div>
-
 		<!-- NAVBAR
 		================================================== -->
 		<nav class="navbar navbar-expand-sm flex-sm-column flex-md-row px-0" role="navigation">
@@ -94,5 +85,4 @@
 				);
 			?>
 		</nav>
-
 	</header>

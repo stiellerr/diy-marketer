@@ -46,7 +46,7 @@ function diym_print_title( $title ) {
 		$title = $post_meta['title'] ? $post_meta['title'] : '';
 	}
 
-	
+
 
 	
 
@@ -69,6 +69,44 @@ add_filter( 'pre_get_document_title', 'diym_print_title' );
 //define( test_arr, array( "hello", "world" ) );
 //$GLOBALS['zzz_test'] = 223;
 
+
+
+
+
+//apply_filters( 'wp_resource_hints', array $urls, string $relation_type )
+
+function diym_wp_resource_hints( $urls, $relation_type ) {
+
+	if ( 'dns-prefetch' === $relation_type ) {
+		// pre fetch google maps if active.
+		if ( is_active_widget( false, false, 'diym_google_map' ) ) {
+			$urls[] = 'https://maps.googleapis.com/';
+		}
+		//
+		//$urls[] = 'https://www.google-analytics.com/';
+		
+	}
+
+	write_log( 'diym_wp_resource_hints' );
+	write_log( $urls );
+	write_log( $relation_type );
+
+	return $urls;
+}
+
+add_filter( 'wp_resource_hints', 'diym_wp_resource_hints', 10, 2 );
+
+
+
+
+
+
+
+
+
+
+
+
 // print meta description for seo
 function diym_print_meta_description() {
 
@@ -78,19 +116,23 @@ function diym_print_meta_description() {
 		echo $post_meta['description'] ? "<meta name='description' content='" . $post_meta['description'] . "' />" . "\n" : '';
 	}
 
+	define( 'DIYM_URL', get_template_directory_uri() );
 
-	write_log( 'wp_head' );
-
+	// pre load fonts
 	global $diym_fa;
 
-	//foreach() {
+	foreach( $diym_fa[ 'fonts' ] as $font ) {
+		if ( 'far' === $font ) {
+			$file = 'fa-regular-400';
+		} elseif ( 'fas' === $font ) {
+			$file = 'fa-solid-900';
+		} elseif ( 'fab' === $font ) {
+			$file = 'fa-brands-400';
+		}
+		echo "<link rel='preload' href='" . trailingslashit( DIYM_URL ) . "assets/webfonts/$file.woff2' as='font' type='font/woff2' crossorigin='anonymous'>\n";
+	}
 
-	//}
-
-	write_log( $diym_fa[ 'fonts' ] );
-
-	//v $GLOBALS );
-	//write_log( $GLOBALS[ 'diym_fa' ] );
+	//if get_option
 }
 
 add_action ( 'wp_head', 'diym_print_meta_description', 1 );

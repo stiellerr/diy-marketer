@@ -33,7 +33,7 @@ class DIYM_Contact_Details_Widget extends WP_Widget {
                 $diym_fa[ 'fonts' ][] = 'fas';
             }
 
-            write_log( 'widget contact details' );
+            //write_log( 'widget contact details' );
 
         }
     }

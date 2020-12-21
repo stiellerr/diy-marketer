@@ -191,8 +191,8 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 				diym_generate_css( "." . $key . ":before", 'content', '"\\' . $val . '"' );
 			}
 
-			write_log( 'custom-css' );
-			write_log( $diym_fa );
+			//write_log( 'custom-css' );
+			//write_log( $diym_fa );
 
 			// Block Editor Styles.
 		} elseif ( 'block-editor' === $type ) {
