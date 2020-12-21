@@ -32,19 +32,20 @@ class DIYM_Options_Page {
         
         // google tag manager...
         add_action( 'wp_head', array( &$this, 'wp_head' ), 0 );
-        add_action( 'wp_body_open', array( &$this, 'wp_body_open' ) );
+        //add_action( 'wp_body_open', array( &$this, 'wp_body_open' ) );
     }
 
     // print google tag manager code in head...
     function wp_head() {
 
-        $google_tag = get_option( 'diym_tag_manager' ) [ 'head_code' ];
+        $ga_code = get_option( 'diym_google_analytics' ) [ 'js_code' ];
 
-        echo $google_tag ? $google_tag . "\n" : '';
+        echo $ga_code ? $ga_code . "\n" : '';
 
     }
 
     // print google tag manager code in body...
+    /*
     function wp_body_open() {
 
         $google_tag = get_option( 'diym_tag_manager' ) [ 'body_code' ];
@@ -52,6 +53,7 @@ class DIYM_Options_Page {
         echo $google_tag ? $google_tag : '';
 
     }
+    */
 
 	public function enqueue() {
         // css
