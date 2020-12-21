@@ -46,11 +46,6 @@ function diym_print_title( $title ) {
 		$title = $post_meta['title'] ? $post_meta['title'] : '';
 	}
 
-
-
-	
-
-
         /* Or, globalize $post so that we're accessing the global $post variable: */
         //global $post;
         //echo get_post_meta( $post->ID, 'meta-head', true );
@@ -68,10 +63,6 @@ add_filter( 'pre_get_document_title', 'diym_print_title' );
 
 //define( test_arr, array( "hello", "world" ) );
 //$GLOBALS['zzz_test'] = 223;
-
-
-
-
 
 
 // dns prefetch filter
@@ -93,22 +84,11 @@ function diym_wp_resource_hints( $urls, $relation_type ) {
 			return (bool) strpos( $url, 's.w.org' ) === false;
 		});	
 	}
-	
+
 	return $urls;
 }
 
 add_filter( 'wp_resource_hints', 'diym_wp_resource_hints', 10, 2 );
-
-
-
-
-
-
-
-
-
-
-
 
 // print meta description for seo
 function diym_print_meta_description() {
