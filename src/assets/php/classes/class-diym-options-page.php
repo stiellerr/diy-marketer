@@ -738,7 +738,8 @@ class DIYM_Options_Page {
         */
         // allowed
         //$allowed = array( '<script>', '<noscript>', '<iframe>' );
-        $allowed = '<script><noscript><iframe>';
+        //$allowed = '<script><noscript><iframe>';
+        $allowed = '<script>';
 
         // sanitize tag...
         //wp_kses( string $custom_content, array $allowed_HTML, array $allowed_protocols = array() )
