@@ -13,9 +13,11 @@
  */
 
 get_header(); ?>
-
-error
-<?php
-get_footer();
-?>
-
+    <div class="row flex-grow-1 py-3 border-top">
+        <div class="text-center align-self-center">
+            <i class="fas fa-exclamation-triangle" style="font-size: 2em;"></i>
+            <h1>Error 404</h1>
+            <h2>Opps! that page could not be found.</h2>
+        </div>
+    </div>
+<?php get_footer(); ?>

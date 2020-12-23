@@ -187,6 +187,13 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 				}
 			}
 
+			if ( is_404() ) {
+				$diym_fa[ 'icons' ][ 'fa-exclamation-triangle' ] = "f071";
+				if ( !in_array( 'fas' , $diym_fa[ 'fonts' ] ) ) {
+					$diym_fa[ 'fonts' ][] = 'fas';
+				}
+			}
+
 			foreach( $diym_fa[ 'icons' ] as $key => $val ) {
 				diym_generate_css( "." . $key . ":before", 'content', '"\\' . $val . '"' );
 			}

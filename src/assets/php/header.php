@@ -23,7 +23,7 @@
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
-<div class="container shadow bg-white">
+<div class="container shadow bg-white d-flex flex-column min-vh-100">
 	<!-- HEADER
 	================================================== -->
 	<header role="banner">
