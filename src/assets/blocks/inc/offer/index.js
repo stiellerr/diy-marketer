@@ -73,7 +73,7 @@ registerBlockType("diym/offer", {
                             allowedBlocks={["diym/subhead", "diym/paragraph", "diym/countdown"]}
                         />
                     </div>
-                    <i className="fas fa-reply fa-flip-vertical fa-4x"></i>
+                    <i className="fas fa-reply fa-flip-vertical fa-4x" data-content="f112"></i>
                 </div>
             </>
         );
@@ -81,7 +81,7 @@ registerBlockType("diym/offer", {
     save: ({ attributes }) => {
         const { content, align } = attributes;
 
-        //const className = align ? `text-${align}` : false;
+        //const className = align ? `text-${align}` : false;fa-rotate-90
 
         //const className = classnames(   )
 
@@ -94,7 +94,7 @@ registerBlockType("diym/offer", {
                     <div>
                         <InnerBlocks.Content />
                     </div>
-                    <i className="fas fa-share fa-4x fa-rotate-90 m-1"></i>
+                    <i className="fas fa-reply fa-flip-vertical fa-4x m-1" data-content="f3e5"></i>
                 </div>
             </>
         );

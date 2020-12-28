@@ -22,6 +22,39 @@ const getLocation = target => {
     return null;
 };
 
+// grab inline css tag
+let css = document.getElementById("diym-inline-css");
+
+//let fa = "i[data-content]"console.log(paragraph.search(regex));
+let fa = document.querySelectorAll("i[data-content]");
+
+Array.prototype.forEach.call(fa, i => {
+    const content = i.dataset.content;
+
+    // bail early if icon already exist.
+    if (css.innerText.indexOf(content) !== -1) {
+        return;
+    }
+
+    // grab icon
+    const icon = i.className.match(/fa-[a-z]+/)[0];
+
+    css.innerText += `.${icon}:before { content: "\\${content}"; }`;
+
+    console.log(css.innerText);
+    //console.log(icon);
+    //console.log(content);
+    //let icon = i.className.match(/fa-[a-z]+/);
+    //console.log(css.innerText.indexOf(i.dataset.content));
+
+    //let content
+    //if ( icon.innerText.ind )x.innerText.indexOf("bar")
+
+    //console.log(i.dataset.content);
+});
+
+//console.log(fa.classList);
+
 document.addEventListener("DOMContentLoaded", () => {
     // zzz
     let counters = document.getElementsByClassName("countdown");
