@@ -1,0 +1,21 @@
+.editor-styles-wrapper {
+    .wp-block-diym-offer {
+        display: flex;
+        > div {
+            flex-grow: 1;
+            border-style: dashed;
+            position: relative;
+            padding: 0.25rem;
+            > i.fa-cut {
+                position: absolute;
+                top: 0;
+                left: 10%;
+                transform: translate(-50%, -50%);
+            }
+        }
+        > i {
+            margin: 0px 0.25rem;
+            align-self: center;
+        }
+    }
+}

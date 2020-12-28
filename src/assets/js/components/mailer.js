@@ -23,6 +23,56 @@ const getLocation = target => {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+    // zzz
+    let counters = document.getElementsByClassName("countdown");
+
+    Array.prototype.forEach.call(counters, c => {
+        if (undefined !== c.dataset.endTime) {
+            //console.log("defined");
+            const ENDTIME = new Date(c.dataset.endTime);
+            let now = new Date();
+
+            if (ENDTIME > now) {
+                //console.log("future");
+                // countdown timer...
+                const SECOND = 1000;
+                const MINUTE = 60000;
+                const HOUR = 3600000;
+                const DAY = 86400000;
+
+                const countdown = setInterval(() => {
+                    now = new Date();
+                    const REMAINING = ENDTIME - now;
+
+                    if (REMAINING < 0) {
+                        clearInterval(countdown);
+                        return;
+                    }
+
+                    const DAYS = Math.floor(REMAINING / DAY);
+                    const HOURS = Math.floor((REMAINING % DAY) / HOUR);
+                    const MINUTES = Math.floor((REMAINING % HOUR) / MINUTE);
+                    const SECONDS = Math.floor((REMAINING % MINUTE) / SECOND);
+
+                    console.log(DAYS);
+                    console.log(HOURS);
+                    console.log(MINUTES);
+                    console.log(SECONDS);
+                }, 1000);
+            } else {
+                //clearInterval(countdown);
+                console.log("past");
+            }
+
+            //console.log(endTime);
+        }
+    });
+
+    //fff.forEach(element => {s
+    //console.log(element);
+    //});
+    //console.log(fff);
+
     // if google analytics exists, attach an event listener to all tel & mailto link clicks
     if (typeof ga !== "undefined") {
         let hrefs = document.querySelectorAll('a[href^="tel:"],a[href^="mailto:"]');

@@ -27,6 +27,8 @@ import subhead from "./inc/subhead";
 import paragraph from "./inc/paragraph";
 import image from "./inc/image";
 import benefit from "./inc/benefit";
+import offer from "./inc/offer";
+import countdown from "./inc/countdown";
 //import font_awesome_picker from "./inc/font-awesome-picker";
 
 //import "./inc/meta";
