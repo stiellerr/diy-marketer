@@ -20,6 +20,7 @@ class DIYM_Contact_Details_Widget extends WP_Widget {
         );
 
         // add fa icons
+        /*
         if ( is_active_widget( false, false, $this->id_base ) ) {
             global $diym_fa;
             //
@@ -36,6 +37,7 @@ class DIYM_Contact_Details_Widget extends WP_Widget {
             //write_log( 'widget contact details' );
 
         }
+        */
     }
 
     public function form( $instance ) {

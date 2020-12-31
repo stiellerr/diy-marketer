@@ -141,6 +141,7 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 				diym_generate_css( 'body', 'font-family', $font );
 			}
 
+			/*
 			// font awesome
 			$post_meta_fa = get_post_meta( get_the_ID(), '_diym_fa', true );
 
@@ -197,6 +198,7 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 			foreach( $diym_fa[ 'icons' ] as $key => $val ) {
 				diym_generate_css( "." . $key . ":before", 'content', '"\\' . $val . '"' );
 			}
+			*/
 
 			//write_log( 'custom-css' );
 			//write_log( $diym_fa );

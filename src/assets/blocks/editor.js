@@ -140,3 +140,28 @@ subscribe(() => {
     }
 });
 */
+
+import { select, withDispatch, dispatch, subscribe } from "@wordpress/data";
+const { isSavingPost } = select("core/editor");
+
+let checked = false;
+
+subscribe(() => {
+    if (isSavingPost()) {
+        if (checked === false) {
+            checked = true;
+            console.log("saving post...");
+            dispatch("core/editor").editPost({ meta: { _diym_fa: [{ name: "fas fa-reece" }] } });
+        }
+
+        //console.log("saving post...");
+        //dispatch("core/editor").editPost({ meta: [{ _diym_fa: { hello: "1" } }] });
+        //withDispatch(dispatch => {
+        //console.log("aaaa");
+        //dispatch("core/editor").editPost({ meta: { _diym_fa: icons } });
+        //dispatch("core/editor").editPost({ meta: { _diym_fa: "hello world!!!" } });
+        //});
+
+        //checked = false;
+    }
+});

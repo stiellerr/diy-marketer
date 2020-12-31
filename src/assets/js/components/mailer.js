@@ -39,9 +39,9 @@ Array.prototype.forEach.call(fa, i => {
     // grab icon
     const icon = i.className.match(/fa-[a-z]+/)[0];
 
-    css.innerText += `.${icon}:before { content: "\\${content}"; }`;
+    //css.innerText = css.innerText + `.${icon}:before { content: "\\${content}"; }`;
 
-    console.log(css.innerText);
+    //console.log(css.innerText);
     //console.log(icon);
     //console.log(content);
     //let icon = i.className.match(/fa-[a-z]+/);

@@ -36,7 +36,7 @@ if ( $name || $temp || $phone || $email || $url ) {
         if ( $name ) {
             $html .= "<tr>";
                 $html .= "<td>";
-                    $html .= "<i class='fas fa-user'></i>";
+                    $html .= "<i class='fas fa-user' data-content='f007'></i>";
                 $html .= "</td>";
                 $html .= "<td>{$name}</td>";
             $html .= "</tr>";
@@ -44,7 +44,7 @@ if ( $name || $temp || $phone || $email || $url ) {
         if ( $temp ) {
             $html .= "<tr>";
                 $html .= "<td>";
-                    $html .= "<i class='fas fa-map-marker-alt'></i>";
+                    $html .= "<i class='fas fa-map-marker-alt' data-content='f3c5'></i>";
                 $html .= "</td>";
                 $html .= "<td>{$temp}</td>";
             $html .= "</tr>";
@@ -52,7 +52,7 @@ if ( $name || $temp || $phone || $email || $url ) {
         if ( $phone ) {
             $html .= "<tr>";
                 $html .= "<td>";
-                    $html .= "<i class='fas fa-phone'></i>";
+                    $html .= "<i class='fas fa-phone' data-content='f095'></i>";
                 $html .= "</td>";
                 $html .= "<td><a href='tel:{$phone}'>{$phone}</a></td>";
             $html .= "</tr>";
@@ -60,7 +60,7 @@ if ( $name || $temp || $phone || $email || $url ) {
         if ( $email ) {
             $html .= "<tr>";
                 $html .= "<td>";
-                    $html .= "<i class='fas fa-envelope'></i>";
+                    $html .= "<i class='fas fa-envelope' data-content='f0e0'></i>";
                 $html .= "</td>";
                 $html .= "<td><a href='mailto:{$email}'>{$email}</a></td>";
             $html .= "</tr>";
@@ -68,7 +68,7 @@ if ( $name || $temp || $phone || $email || $url ) {
         if ( $url ) {
             $html .= "<tr>";
                 $html .= "<td>";
-                    $html .= "<i class='fas fa-globe'></i>";
+                    $html .= "<i class='fas fa-globe' data-content='f0ac'></i>";
                 $html .= "</td>";
                 $html .= "<td><a href='{$url}' target='_blank'>{$url}</a></td>";
             $html .= "</tr>";

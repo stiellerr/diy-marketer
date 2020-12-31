@@ -67,6 +67,8 @@ export default class IconPicker extends Component {
                 }
             }
         });
+
+        console.log(icons);
         dispatch("core/editor").editPost({ meta: { _diym_fa: icons } });
     };
 

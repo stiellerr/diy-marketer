@@ -456,7 +456,7 @@ function diym_enqueue_scripts() {
 	//<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 	//<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 	//wp_enqueue_script( 'diym-fa', 'https://kit.fontawesome.com/e2e75b056d.js', array(), false, false );
-	//wp_enqueue_script( 'diym-popper', 'https://cdn.jsdelivr.net/npm/popper.js@1.16.1/umd/popper.min.js', array( 'jquery' ), false, true );
+	//wp_enqueue_script( 'diym-popper', 'https://cdn.jsdelivr.net/npm/popper.js@1.16.1/umd/popper.min.js', array( 'jquery' ), false, true ); }
 	//wp_enqueue_script( 'diym-bs', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js', array( 'diym-popper' ), false, true );
 	//wp_enqueue_script( 'diym', get_template_directory_uri() . '/assets/js/bundle.js', array( 'jquery' ), filemtime( get_template_directory() . '/assets/js/bundle.js'), true );
 	//wp_enqueue_script( 'diym', get_template_directory_uri() . '/assets/js/bundle.js', array( 'jquery' ), false, true );
@@ -464,7 +464,10 @@ function diym_enqueue_scripts() {
 	
 	//wp_enqueue_script( 'diym-js', get_template_directory_uri() . '/assets/js/bundle.js', array( 'jquery' ), DIYM_VER, true );
 	//wp_enqueue_script( 'diym-js', get_template_directory_uri() . '/assets/js/bundle.js', array( 'jquery' ), filemtime( get_template_directory() . '/assets/js/bundle.js'), true );
-    //wp_script_add_data( 'diym-js', 'async/defer', true );
+	//wp_script_add_data( 'diym-js', 'async/defer', true );
+	wp_register_script( 'dummy-handle-footer', '', [], '', true );
+	wp_enqueue_script( 'dummy-handle-footer'  );
+	wp_add_inline_script( 'dummy-handle-footer', 'let css = document.getElementById("diym-inline-css"); let fa = document.querySelectorAll("i[data-content]"); Array.prototype.forEach.call(fa, i => { let content = i.dataset.content; console.log(content); if (css.innerText.indexOf(content) !== -1) { return; } const icon = i.className.match(/fa-[a-z-]+/)[0]; css.innerText = css.innerText + `.${icon}:before { content: "\\\${content}"; }`; });' );
 }
 
 add_action( 'wp_enqueue_scripts', 'diym_enqueue_scripts' );
