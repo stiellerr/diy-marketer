@@ -23,35 +23,35 @@ const getLocation = target => {
 };
 
 // grab inline css tag
-let css = document.getElementById("diym-inline-css");
+//let css = document.getElementById("diym-inline-css");
 
 //let fa = "i[data-content]"console.log(paragraph.search(regex));
-let fa = document.querySelectorAll("i[data-content]");
+//let fa = document.querySelectorAll("i[data-content]");
 
-Array.prototype.forEach.call(fa, i => {
-    const content = i.dataset.content;
+//Array.prototype.forEach.call(fa, i => {
+//const content = i.dataset.content;
 
-    // bail early if icon already exist.
-    if (css.innerText.indexOf(content) !== -1) {
-        return;
-    }
+// bail early if icon already exist.
+//if (css.innerText.indexOf(content) !== -1) {
+//return;
+//}
 
-    // grab icon
-    const icon = i.className.match(/fa-[a-z]+/)[0];
+// grab icon
+//const icon = i.className.match(/fa-[a-z]+/)[0];
 
-    //css.innerText = css.innerText + `.${icon}:before { content: "\\${content}"; }`;
+//css.innerText = css.innerText + `.${icon}:before { content: "\\${content}"; }`;
 
-    //console.log(css.innerText);
-    //console.log(icon);
-    //console.log(content);
-    //let icon = i.className.match(/fa-[a-z]+/);
-    //console.log(css.innerText.indexOf(i.dataset.content));
+//console.log(css.innerText);
+//console.log(icon);
+//console.log(content);
+//let icon = i.className.match(/fa-[a-z]+/);
+//console.log(css.innerText.indexOf(i.dataset.content));
 
-    //let content
-    //if ( icon.innerText.ind )x.innerText.indexOf("bar")
+//let content
+//if ( icon.innerText.ind )x.innerText.indexOf("bar")
 
-    //console.log(i.dataset.content);
-});
+//console.log(i.dataset.content);
+//});
 
 //console.log(fa.classList);
 

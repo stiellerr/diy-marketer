@@ -23,6 +23,7 @@ class DIYM_Contact_Form_Widget extends WP_Widget {
             )
         );
         //write_log( is_admin() );
+        /*
         if ( is_active_widget( false, false, $this->id_base ) ) {     
             global $diym_fa;
             //
@@ -34,6 +35,7 @@ class DIYM_Contact_Form_Widget extends WP_Widget {
             //write_log( wp_debug_backtrace_summary() ); 
             //write_log( 'widget contact form' );
         }
+        */
 
     }
 
@@ -91,7 +93,7 @@ class DIYM_Contact_Form_Widget extends WP_Widget {
                 </div>
             </div>
             <small>
-                <i class="fas fa-lock"></i>&nbsp;<?php esc_html_e("we'll never share your information with anyone.", 'diy-marketer'); ?>
+                <i class="fas fa-lock" data-content="f023"></i>&nbsp;<?php esc_html_e("we'll never share your information with anyone.", 'diy-marketer'); ?>
             </small>
 
         </form>

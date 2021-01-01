@@ -102,6 +102,7 @@ function diym_print_meta_description() {
 	define( 'DIYM_URL', get_template_directory_uri() );
 
 	// pre load fonts
+	/*
 	global $diym_fa;
 
 	foreach( $diym_fa[ 'fonts' ] as $font ) {
@@ -112,6 +113,14 @@ function diym_print_meta_description() {
 		} elseif ( 'fab' === $font ) {
 			$file = 'fa-brands-400';
 		}
+		echo "<link rel='preload' href='" . trailingslashit( DIYM_URL ) . "assets/webfonts/$file.woff2' as='font' type='font/woff2' crossorigin='anonymous'>\n";
+	}
+	*/
+
+	// add font awesome preloads
+	$fa_font = array( 'fa-regular-400', 'fa-solid-900', 'fa-brands-400' );
+
+	foreach( $fa_font as $file ) {
 		echo "<link rel='preload' href='" . trailingslashit( DIYM_URL ) . "assets/webfonts/$file.woff2' as='font' type='font/woff2' crossorigin='anonymous'>\n";
 	}
 
@@ -465,9 +474,12 @@ function diym_enqueue_scripts() {
 	//wp_enqueue_script( 'diym-js', get_template_directory_uri() . '/assets/js/bundle.js', array( 'jquery' ), DIYM_VER, true );
 	//wp_enqueue_script( 'diym-js', get_template_directory_uri() . '/assets/js/bundle.js', array( 'jquery' ), filemtime( get_template_directory() . '/assets/js/bundle.js'), true );
 	//wp_script_add_data( 'diym-js', 'async/defer', true );
-	wp_register_script( 'dummy-handle-footer', '', [], '', true );
-	wp_enqueue_script( 'dummy-handle-footer'  );
-	wp_add_inline_script( 'dummy-handle-footer', 'let css = document.getElementById("diym-inline-css"); let fa = document.querySelectorAll("i[data-content]"); Array.prototype.forEach.call(fa, i => { let content = i.dataset.content; console.log(content); if (css.innerText.indexOf(content) !== -1) { return; } const icon = i.className.match(/fa-[a-z-]+/)[0]; css.innerText = css.innerText + `.${icon}:before { content: "\\\${content}"; }`; });' );
+	//wp_register_script( 'diym-fa', '', [], '', true );
+	//wp_enqueue_script( 'diym-fa' );
+	//wp_enqueue_script( '', )
+	wp_register_script( 'diym-fa', '', [], false, true );
+	wp_enqueue_script( 'diym-fa' );
+	wp_add_inline_script( 'diym-fa', 'let s=document.getElementById("diym-inline-css");let f=document.querySelectorAll("i[data-content]");Array.prototype.forEach.call(f,i=>{let c=i.dataset.content;if(s.innerText.indexOf(c)!==-1){return;}const m=i.className.match(/fa(-[a-z]+)+/)[0];s.innerText=s.innerText+`.${m}:before { content: "\\\${c}"; }`;});' );
 }
 
 add_action( 'wp_enqueue_scripts', 'diym_enqueue_scripts' );

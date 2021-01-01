@@ -90,11 +90,21 @@ registerBlockType("diym/offer", {
         return (
             <>
                 <div className="d-md-flex">
-                    <i className="fas fa-share fa-4x fa-rotate-90 m-1"></i>
-                    <div>
+                    <i
+                        className="fas fa-share fa-4x fa-rotate-90 align-self-center m-1"
+                        data-content="f064"
+                    ></i>
+                    <div className="flex-grow-1 position-relative border-dashed">
+                        <i
+                            className="fas fa-cut fa-2x position-absolute translate-middle left-10"
+                            data-content="f0c4"
+                        ></i>
                         <InnerBlocks.Content />
                     </div>
-                    <i className="fas fa-reply fa-flip-vertical fa-4x m-1" data-content="f3e5"></i>
+                    <i
+                        className="fas fa-reply fa-4x fa-flip-vertical align-self-center m-1"
+                        data-content="f3e5"
+                    ></i>
                 </div>
             </>
         );

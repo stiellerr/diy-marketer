@@ -15,7 +15,7 @@
 get_header(); ?>
     <div class="row flex-grow-1 py-3 border-top">
         <div class="text-center align-self-center">
-            <i class="fas fa-exclamation-triangle" style="font-size: 2em;"></i>
+            <i class="fas fa-exclamation-triangle fa-3x" data-content="f071"></i>
             <h1>Error 404</h1>
             <h2>Opps! that page could not be found.</h2>
         </div>
