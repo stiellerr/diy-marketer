@@ -89,7 +89,7 @@ registerBlockType("diym/offer", {
 
         return (
             <>
-                <div className="d-md-flex">
+                <div className="d-flex flex-column flex-lg-row">
                     <i
                         className="fas fa-share fa-4x fa-rotate-90 align-self-center m-1"
                         data-content="f064"
@@ -99,7 +99,9 @@ registerBlockType("diym/offer", {
                             className="fas fa-cut fa-2x position-absolute translate-middle left-10"
                             data-content="f0c4"
                         ></i>
-                        <InnerBlocks.Content />
+                        <div className="p-2">
+                            <InnerBlocks.Content />
+                        </div>
                     </div>
                     <i
                         className="fas fa-reply fa-4x fa-flip-vertical align-self-center m-1"
