@@ -1,0 +1,44 @@
+// the wrapper increases the specificity of the css rule
+/*
+.editor-styles-wrapper {
+    ul.wp-block-diym-benefits {
+        margin-left: 0;
+        padding-left: 0;
+        list-style: none;
+        li {
+            display: flex;
+            align-items: flex-start;
+            padding: 0.5em 0;
+            i {
+                align-self: center;
+                width: 1.5em;
+                text-align: center;
+            }
+            p {
+                flex: 1;
+                margin: 0;
+            }
+        }
+        .block-editor-block-list__block {
+            margin: 0;
+            &:focus-within {
+                box-shadow: 0 0 0 1.5px #007cba;
+            }
+        }
+    }
+}
+*/
+.editor-styles-wrapper {
+    .wp-block-diym-benefit {
+        display: flex;
+        > i {
+            align-self: center;
+            text-align: center;
+            min-width: 2em;
+        }
+        > p {
+            flex-grow: 1;
+            margin: 0;
+        }
+    }
+}

@@ -96,8 +96,27 @@ registerBlockType("diym/countdown", {
 
         return (
             <>
-                <div className="countdown" data-end-time={endTime} data-frequency={frequency}>
-                    Countdown
+                <div
+                    className="countdown row justify-content-xl-center text-center"
+                    data-end-time={endTime}
+                    data-frequency={frequency}
+                >
+                    <div className="col-6 col-sm-3 col-xl-2">
+                        <div className="display-4">0</div>
+                        Days
+                    </div>
+                    <div className="col-6 col-sm-3 col-xl-2">
+                        <div className="display-4">0</div>
+                        Hours
+                    </div>
+                    <div className="col-6 col-sm-3 col-xl-2">
+                        <div className="display-4">0</div>
+                        Minutes
+                    </div>
+                    <div className="col-6 col-sm-3 col-xl-2">
+                        <div className="display-4">0</div>
+                        Seconds
+                    </div>
                 </div>
             </>
         );

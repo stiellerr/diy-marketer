@@ -57,9 +57,10 @@ const getLocation = target => {
 
 document.addEventListener("DOMContentLoaded", () => {
     // zzz
-    let counters = document.getElementsByClassName("countdown");
+    let countdown = document.getElementsByClassName("countdown");
 
-    Array.prototype.forEach.call(counters, c => {
+    Array.prototype.forEach.call(countdown, c => {
+        //console.log(c);
         if (undefined !== c.dataset.endTime) {
             //console.log("defined");
             const ENDTIME = new Date(c.dataset.endTime);
@@ -73,24 +74,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 const HOUR = 3600000;
                 const DAY = 86400000;
 
-                const countdown = setInterval(() => {
+                const timer = setInterval(() => {
                     now = new Date();
                     const REMAINING = ENDTIME - now;
 
                     if (REMAINING < 0) {
-                        clearInterval(countdown);
+                        clearInterval(timer);
                         return;
                     }
 
-                    const DAYS = Math.floor(REMAINING / DAY);
-                    const HOURS = Math.floor((REMAINING % DAY) / HOUR);
-                    const MINUTES = Math.floor((REMAINING % HOUR) / MINUTE);
-                    const SECONDS = Math.floor((REMAINING % MINUTE) / SECOND);
+                    var data = [];
 
-                    console.log(DAYS);
-                    console.log(HOURS);
-                    console.log(MINUTES);
-                    console.log(SECONDS);
+                    data[0] = Math.floor(REMAINING / DAY);
+                    data[1] = Math.floor((REMAINING % DAY) / HOUR);
+                    data[2] = Math.floor((REMAINING % HOUR) / MINUTE);
+                    data[3] = Math.floor((REMAINING % MINUTE) / SECOND);
+
+                    data.forEach((d, i) => {
+                        c.children[i].children[0].innerText = d;
+                    });
                 }, 1000);
             } else {
                 //clearInterval(countdown);
