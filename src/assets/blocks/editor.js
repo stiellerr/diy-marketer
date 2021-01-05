@@ -29,6 +29,7 @@ import image from "./inc/image";
 import benefit from "./inc/benefit";
 import offer from "./inc/offer";
 import countdown from "./inc/countdown";
+import button from "./inc/button";
 //import font_awesome_picker from "./inc/font-awesome-picker";
 
 //import "./inc/meta";
@@ -140,7 +141,7 @@ subscribe(() => {
     }
 });
 */
-
+/*
 import { select, withDispatch, dispatch, subscribe } from "@wordpress/data";
 const { isSavingPost } = select("core/editor");
 
@@ -153,15 +154,16 @@ subscribe(() => {
             console.log("saving post...");
             dispatch("core/editor").editPost({ meta: { _diym_fa: [{ name: "fas fa-reece" }] } });
         }
+        */
 
-        //console.log("saving post...");
-        //dispatch("core/editor").editPost({ meta: [{ _diym_fa: { hello: "1" } }] });
-        //withDispatch(dispatch => {
-        //console.log("aaaa");
-        //dispatch("core/editor").editPost({ meta: { _diym_fa: icons } });
-        //dispatch("core/editor").editPost({ meta: { _diym_fa: "hello world!!!" } });
-        //});
+//console.log("saving post...");
+//dispatch("core/editor").editPost({ meta: [{ _diym_fa: { hello: "1" } }] });
+//withDispatch(dispatch => {
+//console.log("aaaa");
+//dispatch("core/editor").editPost({ meta: { _diym_fa: icons } });
+//dispatch("core/editor").editPost({ meta: { _diym_fa: "hello world!!!" } });
+//});
 
-        //checked = false;
-    }
-});
+//checked = false;
+//    }
+//});
