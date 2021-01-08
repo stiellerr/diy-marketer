@@ -66,8 +66,18 @@ export default class IconPicker2 extends Component {
             $(".diym-icon-picker__items").children().hide();
 
             // add click event listener
-            $(".diym-icon-picker__items > i").on("click", e => {
-                console.log(e);
+            $(".diym-icon-picker__items > i").on("click", ({ currentTarget }) => {
+                let e = $(currentTarget);
+
+                let icon = `<i class="${e.attr("class")}" data-content="${e.data(
+                    "content"
+                )}">&nbsp;</i>`;
+                this.props.onSelect(icon);
+                //var s = $(e.currentTarget).data("content");
+                //var c = $(e.currentTarget).data("content");
+                //var z = $(e.currentTarget).removeAttr("style");
+                //var z = $(e.currentTarget).attr("class");
+                //console.log(h);
             });
         });
 

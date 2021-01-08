@@ -74,7 +74,8 @@ registerFormatType("diym/icon", {
             onChange(
                 insert(
                     value,
-                    create({ html: `<i class='${v.name}' data-content='${v.unicode}'>&nbsp;</i>` })
+                    //create({ html: `<i class='${v.name}' data-content='${v.unicode}'>&nbsp;</i>` })
+                    create({ html: `<i class='fas fa-home'>&nbsp;</i>` })
                 )
             );
         };
@@ -105,7 +106,24 @@ registerFormatType("diym/icon", {
                 >
                     {/*}
                     <IconPicker onChange={onChangeIcon} value={{ unicode: "f033" }}></IconPicker> */}
-                    <IconPicker2></IconPicker2>
+                    <IconPicker2
+                        onSelect={icon => {
+                            //console.log("zzz");
+                            console.log(icon);
+                            //onChangeIcon(icon);
+
+                            onChange(
+                                insert(
+                                    value,
+                                    create({
+                                        html: icon
+                                    })
+                                )
+                            );
+
+                            //onChange(toggleFormat(value, { type: "diym/icon" }));
+                        }}
+                    ></IconPicker2>
                 </Popover>
             );
             //console.log("hello world!");
