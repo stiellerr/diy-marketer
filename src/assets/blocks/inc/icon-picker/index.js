@@ -51,7 +51,7 @@ export default class IconPicker extends Component {
 
     updatePostMeta = msg => {
         console.log(msg);
-
+        /*
         const blockList = select("core/block-editor").getBlocks();
 
         let icons = [];
@@ -70,6 +70,7 @@ export default class IconPicker extends Component {
 
         console.log(icons);
         dispatch("core/editor").editPost({ meta: { _diym_fa: icons } });
+        */
     };
 
     onChangeSelect2 = ({ target }) => {
@@ -121,6 +122,7 @@ export default class IconPicker extends Component {
         // init select2
         this.select.select2({
             placeholder: "Select an option",
+            dropdownParent: $(".diym-icon-popover"),
             width: "100%",
             theme: "classic",
             ajax: {
@@ -164,12 +166,13 @@ export default class IconPicker extends Component {
 
         //console.log(zzz);
         // attach on change event
-        this.select.on("change", this.onChangeSelect2);
+        //this.select.on("change", this.onChangeSelect2);
 
         let newOption = new Option(value.unicode, value.name, false, false);
         //let newOption = new Option("fa fa-b", "f307", false, false);
         this.select.append(newOption).trigger("change"); //.trigger("select2:select");
         //$('#mySelect2').val(data.id).trigger('change');
+        this.select.on("change", this.onChangeSelect2);
     };
 
     render = () => {

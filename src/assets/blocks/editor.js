@@ -20,6 +20,7 @@ import "./editor.scss";
 
 // block underline control.
 import underline from "./inc/underline";
+import icon from "./inc/icon";
 
 // register blocks.
 import heading from "./inc/heading";

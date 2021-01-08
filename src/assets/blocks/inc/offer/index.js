@@ -70,7 +70,12 @@ registerBlockType("diym/offer", {
                     <div>
                         <i className="fas fa-cut fa-2x"></i>
                         <InnerBlocks
-                            allowedBlocks={["diym/subhead", "diym/paragraph", "diym/countdown"]}
+                            allowedBlocks={[
+                                "diym/subhead",
+                                "diym/paragraph",
+                                "diym/countdown",
+                                "diym/button"
+                            ]}
                         />
                     </div>
                     <i className="fas fa-reply fa-flip-vertical fa-4x" data-content="f112"></i>

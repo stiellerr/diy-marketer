@@ -9,7 +9,9 @@ import {
 } from "@wordpress/block-editor";
 import { PanelBody } from "@wordpress/components";
 
-//import "./editor.scss";
+import "./editor.scss";
+
+import edit from "./edit.js";
 
 import classnames from "classnames";
 
@@ -23,8 +25,11 @@ registerBlockType("diym/button", {
     },
     keywords: [__("button", "diy-marketer")],
     supports: {
-        html: false,
+        anchor: true,
+        //align: true,
+        alignWide: false,
         reusable: false
+        //__experimentalSelector: ".wp-block-button > a"
         //
         //anchor: true,
         //className: false
@@ -48,94 +53,48 @@ registerBlockType("diym/button", {
         align: {
             type: "string"
         },
-        content: {
+        text: {
             type: "string",
             source: "html",
-            selector: "button"
+            selector: "a"
+        },
+        url: {
+            type: "string",
+            source: "attribute",
+            selector: "a",
+            attribute: "href"
+        },
+        linkTarget: {
+            type: "string",
+            source: "attribute",
+            selector: "a",
+            attribute: "target"
+        },
+        rel: {
+            type: "string",
+            source: "attribute",
+            selector: "a",
+            attribute: "rel"
         }
     },
+    style: "zzzz",
+    edit,
 
-    edit: withColors(
-        "iconColor",
-        "contentColor"
-    )(props => {
-        const {
-            className,
-            attributes,
-            setAttributes,
-            iconColor,
-            contentColor,
-            setIconColor,
-            setContentColor
-        } = props;
-
-        const { icon, content, align } = attributes;
-
-        const onChangeIcon = icon => {
-            //console.log(icon);
-            setAttributes({ icon });
-
-            //console.log("dispatch");
-            //}
-        };
-
-        const onChangeContent = content => {
-            setAttributes({ content });
-        };
-
-        const onChangeAlign = align => {
-            setAttributes({ align });
-        };
-
-        // set default icon value to be a check
-        //if (undefined == attributes.icon) {
-        //onChangeIcon("fas fa-check");
-        //}
-
-        return (
-            <>
-                <BlockControls>
-                    <AlignmentToolbar value={align} onChange={onChangeAlign} />
-                </BlockControls>
-                <div className={className} style={{ textAlign: align }}>
-                    <RichText
-                        tagName="button"
-                        //className={`has-text-align-${align}`}
-                        onChange={onChangeContent}
-                        value={content}
-                        allowedFormats={[
-                            "core/text-color",
-                            "diym/underline",
-                            "core/bold",
-                            "core/italic",
-                            "core/link",
-                            "core/strikethrough",
-                            "core/subscript",
-                            "core/superscript"
-                        ]}
-                        style={{ color: contentColor.color }}
-                        placeholder={__(
-                            "List a feature, benefit or unique selling proposition",
-                            "diy-marketer"
-                        )}
-                    />
-                </div>
-            </>
-        );
-    }),
     // save
     save: props => {
         const { attributes } = props;
 
-        const { content } = attributes;
+        const { text, url, linkTarget, rel } = attributes;
 
         return (
             <>
                 <RichText.Content
-                    tagName="button"
+                    tagName="a"
                     className={"btn btn-primary"}
-                    value={content}
-                    href="/"
+                    value={text}
+                    href={url}
+                    target={linkTarget}
+                    rel={rel}
                 />
             </>
         );
