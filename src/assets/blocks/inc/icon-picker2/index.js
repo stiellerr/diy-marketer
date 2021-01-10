@@ -12,7 +12,7 @@ import $ from "jquery";
 //import "select2";
 
 // styles
-//import "./editor.scss";
+import "./editor.scss";
 
 export default class IconPicker2 extends Component {
     iconData = [];
@@ -199,7 +199,12 @@ export default class IconPicker2 extends Component {
 
         itemsList.children().hide();
 
+        if (value && value.trim()) {
+            itemsList.children().filter(`[data-query*="${value.trim().toLowerCase()}"]`).show();
+        }
+
         // bail early if search term is <= 1 char
+        /*
         if (value.length <= 0) {
             return;
         }
@@ -208,6 +213,7 @@ export default class IconPicker2 extends Component {
 
         // query items...
         itemsList.children().filter(`[data-query*="${value.toLowerCase()}"]`).show();
+        */
     };
 
     render = () => {
