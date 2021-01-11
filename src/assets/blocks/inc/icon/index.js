@@ -69,13 +69,14 @@ registerFormatType("diym/icon", {
     // edit.
     edit({ isActive, value, onChange }) {
         const onChangeIcon = v => {
+            console.log(value);
             console.log(v);
             //wp.richText.create({ html: '<i class="fas fa-home"></i>' });
             onChange(
                 insert(
                     value,
-                    //create({ html: `<i class='${v.name}' data-content='${v.unicode}'>&nbsp;</i>` })
-                    create({ html: `<i class='fas fa-home'>&nbsp;</i>` })
+                    //create({ html: `<i class='${v.name}' data-content='${v.unicode}'>&nbsp;</i>&nbsp;</i` })
+                    create({ html: `<i class='fas fa-home' />` })
                 )
             );
         };
@@ -111,6 +112,7 @@ registerFormatType("diym/icon", {
                             //console.log("zzz");
                             console.log(icon);
                             //onChangeIcon(icon);
+                            console.log(value);
 
                             onChange(
                                 insert(

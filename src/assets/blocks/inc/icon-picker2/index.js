@@ -2,6 +2,7 @@
 
 import { Component } from "@wordpress/element";
 import { __experimentalInputControl as InputControl } from "@wordpress/components";
+
 //nputControl
 //import { select, dispatch } from "@wordpress/data";
 
@@ -62,7 +63,7 @@ export default class IconPicker2 extends Component {
                 });
             });
 
-            // hide children
+            // hide children&nbsp;</i>
             $(".diym-icon-picker__items").children().hide();
 
             // add click event listener

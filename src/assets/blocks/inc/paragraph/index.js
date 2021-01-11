@@ -1,6 +1,9 @@
 import { createBlock, registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
 import { RichText, BlockControls, AlignmentToolbar } from "@wordpress/block-editor";
+import { ToolbarGroup, ToolbarButton, Popover } from "@wordpress/components";
+import { create, insert, toHTMLString } from "@wordpress/rich-text";
+import { select, dispatch } from "@wordpress/data";
 
 //import "./editor.scss";
 
@@ -28,6 +31,62 @@ const DEFAULT_ALIGNMENT_CONTROLS = [
         align: "justify"
     }
 ];
+
+import { withState } from "@wordpress/compose";
+
+import IconPicker2 from "../icon-picker2";
+
+const MyPopover = withState({
+    isVisible: false
+})(({ isVisible, setState }) => {
+    const toggleVisible = () => {
+        setState(state => ({ isVisible: !state.isVisible }));
+    };
+    return (
+        <>
+            <ToolbarGroup>
+                <ToolbarButton icon={"wordpress"} onClick={toggleVisible}></ToolbarButton>
+            </ToolbarGroup>
+            {isVisible && (
+                <Popover>
+                    <IconPicker2
+                        onSelect={icon => {
+                            //
+                            let blockEditor = select("core/block-editor");
+                            let content = blockEditor.getSelectedBlock().attributes.content;
+
+                            let richTextValue = create({ html: content ? content : "" });
+
+                            richTextValue["start"] = blockEditor.getSelectionStart().offset;
+                            richTextValue["end"] = blockEditor.getSelectionEnd().offset;
+                            //console.log(richTextValue);
+                            /*
+                                richTextValue.push({
+                                    start: blockEditor.getSelectionStart().offset,
+                                    end: blockEditor.getSelectionEnd().offset
+                                });
+                                */
+                            //console.log(richTextValue);
+                            let updated = insert(richTextValue, create({ html: icon }));
+                            console.log(updated);
+                            let newHTML = toHTMLString({ value: updated });
+                            console.log(newHTML);
+
+                            dispatch("core/block-editor").updateBlock(
+                                blockEditor.getSelectedBlock().clientId,
+                                {
+                                    attributes: {
+                                        content: newHTML
+                                    }
+                                }
+                            );
+                        }}
+                    />
+                </Popover>
+            )}
+        </>
+    );
+});
 
 registerBlockType("diym/paragraph", {
     title: __("Paragraph", "diy-marketer"),
@@ -92,6 +151,7 @@ registerBlockType("diym/paragraph", {
                         alignmentControls={DEFAULT_ALIGNMENT_CONTROLS}
                         onChange={onChangeAlign}
                     />
+                    <MyPopover />
                 </BlockControls>
                 <RichText
                     tagName="p"
