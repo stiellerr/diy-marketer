@@ -1,8 +1,8 @@
 import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
 import { RichText, BlockControls, AlignmentToolbar } from "@wordpress/block-editor";
+//import IconPicker from "../icon-picker";
 import IconPicker from "../icon-picker";
-import IconPicker2 from "../icon-picker2";
 import {
     withColors,
     InspectorControls,
@@ -179,12 +179,12 @@ registerBlockType("diym/benefit", {
                         {/* 
                         <IconPicker onChange={onChangeIcon} value={icon}></IconPicker>
                         */}
-                        <IconPicker2
+                        <IconPicker
                             value={iconClass}
                             onChange={icon => {
                                 setAttributes(icon);
                             }}
-                        ></IconPicker2>
+                        ></IconPicker>
                     </PanelBody>
                 </InspectorControls>
                 <BlockControls>
