@@ -1,8 +1,8 @@
 import { createBlock, registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
 import { RichText, BlockControls, AlignmentToolbar } from "@wordpress/block-editor";
-import { ToolbarGroup, ToolbarButton, Popover } from "@wordpress/components";
-import { create, insert, toHTMLString } from "@wordpress/rich-text";
+import { ToolbarGroup, ToolbarButton, Popover, withFocusReturn } from "@wordpress/components";
+import { create, insert, toHTMLString, getActiveObject } from "@wordpress/rich-text";
 import { select, dispatch } from "@wordpress/data";
 
 //import "./editor.scss";
@@ -36,6 +36,8 @@ import { withState } from "@wordpress/compose";
 
 import IconPicker2 from "../icon-picker2";
 
+//const
+
 const MyPopover = withState({
     isVisible: false
 })(({ isVisible, setState }) => {
@@ -55,7 +57,13 @@ const MyPopover = withState({
                             let blockEditor = select("core/block-editor");
                             let content = blockEditor.getSelectedBlock().attributes.content;
 
-                            let richTextValue = create({ html: content ? content : "" });
+                            let richTextValue = create({
+                                html: content ? content : ""
+                            });
+
+                            //let v = getActiveObject(richTextValue);
+
+                            //console.log(richTextValue);
 
                             richTextValue["start"] = blockEditor.getSelectionStart().offset;
                             richTextValue["end"] = blockEditor.getSelectionEnd().offset;
@@ -66,8 +74,19 @@ const MyPopover = withState({
                                     end: blockEditor.getSelectionEnd().offset
                                 });
                                 */
-                            //console.log(richTextValue);
-                            let updated = insert(richTextValue, create({ html: icon }));
+                            //console.log(richTextValue); // range: {
+                            //   start: 50,
+                            //    end: 100,
+                            // },
+
+                            //console.log(y);
+
+                            let updated = insert(
+                                richTextValue,
+                                create({
+                                    html: icon
+                                })
+                            );
                             console.log(updated);
                             let newHTML = toHTMLString({ value: updated });
                             console.log(newHTML);
@@ -80,6 +99,7 @@ const MyPopover = withState({
                                     }
                                 }
                             );
+                            toggleVisible();
                         }}
                     />
                 </Popover>

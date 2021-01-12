@@ -63,23 +63,38 @@ export default class IconPicker2 extends Component {
                 });
             });
 
-            // hide children&nbsp;</i>
+            // hide children&nbsp;</i>&nbsp;</i>
             $(".diym-icon-picker__items").children().hide();
 
             // add click event listener
             $(".diym-icon-picker__items > i").on("click", ({ currentTarget }) => {
                 let e = $(currentTarget);
 
+                // &nbsp; &#x200b; &#xfeff;
                 let icon = `<i class="${e.attr("class")}" data-content="${e.data(
                     "content"
-                )}">&nbsp;</i>`;
-                this.props.onSelect(icon);
+                )}">&#x200b;</i>&#x200b;`;
+                //this.props.onSelect(icon);
+                //this.props.value = e.attr("class");
+                //console.log(e.attr("class"));
+                this.props.onChange({ className: e.attr("class"), dataContent: e.data("content") });
+
+                this.onChangeInput(e.attr("class"));
                 //var s = $(e.currentTarget).data("content");
                 //var c = $(e.currentTarget).data("content");
                 //var z = $(e.currentTarget).removeAttr("style");
                 //var z = $(e.currentTarget).attr("class");
                 //console.log(h);
             });
+
+            // set default value
+            if (this.props.value) {
+                this.onChangeInput(this.props.value);
+            }
+
+            // set default value
+            //console.log(props);
+            //this.onChangeInput("facebook");
         });
 
         //console.log("done...");
@@ -198,10 +213,19 @@ export default class IconPicker2 extends Component {
 
         let itemsList = $(".diym-icon-picker__items");
 
-        itemsList.children().hide();
+        let c = itemsList.children();
+
+        c.hide();
 
         if (value && value.trim()) {
-            itemsList.children().filter(`[data-query*="${value.trim().toLowerCase()}"]`).show();
+            //
+            if (c.filter(`[class="${value.trim().toLowerCase()}"]`).length) {
+                //console.log("found");
+                c.filter(`[class="${value.trim().toLowerCase()}"]`).show();
+            } else {
+                c.filter(`[data-query*="${value.trim().toLowerCase()}"]`).show();
+            }
+            //console.log(itemsList.children().filter(`[class="fas fa-check"]`).length);
         }
 
         // bail early if search term is <= 1 char
@@ -229,6 +253,8 @@ export default class IconPicker2 extends Component {
                             onChange={this.onChangeInput}
                             type="search"
                             placeholder="Type to filter"
+                            value={this.props.value}
+                            autocomplete="off"
                         />
                     </div>
                     <div className="diym-icon-picker__items"></div>

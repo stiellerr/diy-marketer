@@ -2,6 +2,7 @@ import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
 import { RichText, BlockControls, AlignmentToolbar } from "@wordpress/block-editor";
 import IconPicker from "../icon-picker";
+import IconPicker2 from "../icon-picker2";
 import {
     withColors,
     InspectorControls,
@@ -161,7 +162,15 @@ registerBlockType("diym/benefit", {
                         <ContrastChecker textColor={contentColor.color} backgroundColor="#FFF" />
                     </PanelColorSettings>
                     <PanelBody title={__("Icon Picker", "diy-marketer")}>
+                        {/* 
                         <IconPicker onChange={onChangeIcon} value={icon}></IconPicker>
+                        */}
+                        <IconPicker2
+                            onChange={({ className, dataContent }) => {
+                                console.log(className);
+                                console.log(dataContent);
+                            }}
+                        ></IconPicker2>
                     </PanelBody>
                 </InspectorControls>
                 <BlockControls>
