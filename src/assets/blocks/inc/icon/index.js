@@ -143,14 +143,15 @@ registerFormatType("diym/icon", {
                     {/*}
                     <IconPicker onChange={onChangeIcon} value={{ unicode: "f033" }}></IconPicker> */}
                     <IconPicker2
-                        onSelect={icon => {
+                        onChange={({ iconClass, iconContent }) => {
+                            let html = `<i class="${iconClass}" data-content="${iconContent}">&#x200b;</i>&#x200b;`;
                             //console.log("zzz");
                             //console.log(icon);
                             //onChangeIcon(icon);
                             //console.log(value);
                             //let y = getActiveFormat(value, "diym/icon");
                             //let y = getActiveObject(value);
-                            console.log(value);
+                            //console.log(value);
 
                             //getActiv
                             //onChange(toggleFormat(value, { type: "diym/icon" }));
@@ -159,7 +160,7 @@ registerFormatType("diym/icon", {
                                 insert(
                                     value,
                                     create({
-                                        html: icon
+                                        html
                                     })
                                 )
                             );

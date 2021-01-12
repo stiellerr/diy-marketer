@@ -73,7 +73,17 @@ registerBlockType("diym/benefit", {
                 unicode: "f00c"
             }
         },
-
+        iconClass: {
+            type: "string",
+            default: "fas fa-check"
+        },
+        iconContent: {
+            type: "string",
+            source: "attribute",
+            selector: "i",
+            attribute: "data-content",
+            default: "f00c"
+        },
         //icon: {
         //type: "string",
         //default: "fas fa-check" //Added default value
@@ -117,7 +127,7 @@ registerBlockType("diym/benefit", {
             setContentColor
         } = props;
 
-        const { icon, content, align } = attributes;
+        const { icon, iconClass, iconContent, content, align } = attributes;
 
         const onChangeIcon = icon => {
             //console.log(icon);
@@ -133,6 +143,10 @@ registerBlockType("diym/benefit", {
 
         const onChangeAlign = align => {
             setAttributes({ align });
+        };
+
+        const onChangeIconClass = iconClass => {
+            setAttributes({ iconClass });
         };
 
         // set default icon value to be a check
@@ -166,9 +180,9 @@ registerBlockType("diym/benefit", {
                         <IconPicker onChange={onChangeIcon} value={icon}></IconPicker>
                         */}
                         <IconPicker2
-                            onChange={({ className, dataContent }) => {
-                                console.log(className);
-                                console.log(dataContent);
+                            value={iconClass}
+                            onChange={icon => {
+                                setAttributes(icon);
                             }}
                         ></IconPicker2>
                     </PanelBody>
@@ -182,7 +196,8 @@ registerBlockType("diym/benefit", {
                 </BlockControls>
                 <div className={className}>
                     <i
-                        className={classnames(icon.name, "fa-lg")}
+                        className={classnames(iconClass, "fa-lg")}
+                        data-content={iconContent}
                         style={{ color: iconColor.color }}
                     ></i>
                     <RichText
@@ -217,6 +232,8 @@ registerBlockType("diym/benefit", {
         const {
             content,
             icon,
+            iconClass,
+            iconContent,
             align,
             contentColor,
             customContentColor,
@@ -224,8 +241,8 @@ registerBlockType("diym/benefit", {
             customIconColor
         } = attributes;
 
-        const iconClass = classnames(
-            icon.name,
+        const iClass = classnames(
+            iconClass,
             "mw-1",
             "fa-lg",
             "align-self-center",
@@ -244,7 +261,8 @@ registerBlockType("diym/benefit", {
             <>
                 <div className="d-flex pb-3">
                     <i
-                        className={classnames(iconClass)}
+                        className={iClass}
+                        data-content={iconContent}
                         style={{ color: iconColor ? undefined : customIconColor }}
                     ></i>
                     <RichText.Content

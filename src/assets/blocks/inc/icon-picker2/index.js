@@ -18,6 +18,8 @@ import "./editor.scss";
 export default class IconPicker2 extends Component {
     iconData = [];
 
+    itemList = {};
+
     //select = null;
 
     /*
@@ -63,23 +65,35 @@ export default class IconPicker2 extends Component {
                 });
             });
 
+            // init item list
+            this.itemList = $(".diym-icon-picker__items").children();
+
+            //console.log(this.itemList);
+
             // hide children&nbsp;</i>&nbsp;</i>
-            $(".diym-icon-picker__items").children().hide();
+            this.itemList.hide();
 
             // add click event listener
             $(".diym-icon-picker__items > i").on("click", ({ currentTarget }) => {
                 let e = $(currentTarget);
 
                 // &nbsp; &#x200b; &#xfeff;
-                let icon = `<i class="${e.attr("class")}" data-content="${e.data(
-                    "content"
-                )}">&#x200b;</i>&#x200b;`;
+                //let icon = `<i class="${e.attr("class")}" data-content="${e.data(
+                //    "content"
+                //)}">&#x200b;</i>&#x200b;`;
                 //this.props.onSelect(icon);
                 //this.props.value = e.attr("class");
                 //console.log(e.attr("class"));
-                this.props.onChange({ className: e.attr("class"), dataContent: e.data("content") });
+                //if ()
+                this.props.onChange({ iconClass: e.attr("class"), iconContent: e.data("content") });
 
-                this.onChangeInput(e.attr("class"));
+                this.itemList.hide();
+
+                this.itemList.filter(`[class="${e.attr("class")}"]`).show();
+
+                //let itemsList = $(".diym-icon-picker__items").show();
+
+                //this.onChangeInput(e.attr("class"));
                 //var s = $(e.currentTarget).data("content");
                 //var c = $(e.currentTarget).data("content");
                 //var z = $(e.currentTarget).removeAttr("style");
@@ -89,7 +103,7 @@ export default class IconPicker2 extends Component {
 
             // set default value
             if (this.props.value) {
-                this.onChangeInput(this.props.value);
+                this.itemList.filter(`[class="${this.props.value}"]`).show();
             }
 
             // set default value
@@ -208,23 +222,25 @@ export default class IconPicker2 extends Component {
         this.select.on("change", this.onChangeSelect2);
     };
 */
-    onChangeInput = value => {
+    onChange = value => {
         console.log("onChangeInput");
 
-        let itemsList = $(".diym-icon-picker__items");
+        //let itemsList = $(".diym-icon-picker__items");
 
-        let c = itemsList.children();
+        //console.log(itemsList);
 
-        c.hide();
+        //let c = itemsList.children();
+
+        this.itemList.hide();
 
         if (value && value.trim()) {
             //
-            if (c.filter(`[class="${value.trim().toLowerCase()}"]`).length) {
-                //console.log("found");
-                c.filter(`[class="${value.trim().toLowerCase()}"]`).show();
-            } else {
-                c.filter(`[data-query*="${value.trim().toLowerCase()}"]`).show();
-            }
+            //if (c.filter(`[class="${value.trim().toLowerCase()}"]`).length) {
+            //console.log("found");
+            //c.filter(`[class="${value.trim().toLowerCase()}"]`).show();
+            //} else {
+            this.itemList.filter(`[data-query*="${value.trim().toLowerCase()}"]`).show();
+            //}
             //console.log(itemsList.children().filter(`[class="fas fa-check"]`).length);
         }
 
@@ -250,7 +266,7 @@ export default class IconPicker2 extends Component {
                     <div className="diym-icon-picker__search">
                         {/*<input type="search" placeholder="Type to filter" />*/}
                         <InputControl
-                            onChange={this.onChangeInput}
+                            onChange={this.onChange}
                             type="search"
                             placeholder="Type to filter"
                             value={this.props.value}
