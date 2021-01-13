@@ -1,7 +1,6 @@
 import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
 import { RichText, BlockControls, AlignmentToolbar } from "@wordpress/block-editor";
-//import IconPicker from "../icon-picker";
 import IconPicker from "../icon-picker";
 import {
     withColors,
@@ -66,13 +65,6 @@ registerBlockType("diym/benefit", {
     },
 
     attributes: {
-        icon: {
-            type: "object",
-            default: {
-                name: "fas fa-check",
-                unicode: "f00c"
-            }
-        },
         iconClass: {
             type: "string",
             default: "fas fa-check"
@@ -84,15 +76,8 @@ registerBlockType("diym/benefit", {
             attribute: "data-content",
             default: "f00c"
         },
-        //icon: {
-        //type: "string",
-        //default: "fas fa-check" //Added default value
-        //source: "meta",
-        //meta: "_diym_fa"
-        //},
         iconColor: {
-            type: "string",
-            default: "accent"
+            type: "string"
         },
         contentColor: {
             type: "string"
@@ -127,15 +112,7 @@ registerBlockType("diym/benefit", {
             setContentColor
         } = props;
 
-        const { icon, iconClass, iconContent, content, align } = attributes;
-
-        const onChangeIcon = icon => {
-            //console.log(icon);
-            setAttributes({ icon });
-
-            //console.log("dispatch");
-            //}
-        };
+        const { iconClass, iconContent, content, align } = attributes;
 
         const onChangeContent = content => {
             setAttributes({ content });
@@ -144,15 +121,6 @@ registerBlockType("diym/benefit", {
         const onChangeAlign = align => {
             setAttributes({ align });
         };
-
-        const onChangeIconClass = iconClass => {
-            setAttributes({ iconClass });
-        };
-
-        // set default icon value to be a check
-        //if (undefined == attributes.icon) {
-        //onChangeIcon("fas fa-check");
-        //}
 
         return (
             <>
@@ -176,9 +144,6 @@ registerBlockType("diym/benefit", {
                         <ContrastChecker textColor={contentColor.color} backgroundColor="#FFF" />
                     </PanelColorSettings>
                     <PanelBody title={__("Icon Picker", "diy-marketer")}>
-                        {/* 
-                        <IconPicker onChange={onChangeIcon} value={icon}></IconPicker>
-                        */}
                         <IconPicker
                             value={iconClass}
                             onChange={icon => {
@@ -202,12 +167,12 @@ registerBlockType("diym/benefit", {
                     ></i>
                     <RichText
                         tagName="p"
-                        //className={`has-text-align-${align}`}
                         onChange={onChangeContent}
                         value={content}
                         allowedFormats={[
                             "core/text-color",
                             "diym/underline",
+                            "diym/icon",
                             "core/bold",
                             "core/italic",
                             "core/link",
@@ -231,7 +196,6 @@ registerBlockType("diym/benefit", {
 
         const {
             content,
-            icon,
             iconClass,
             iconContent,
             align,

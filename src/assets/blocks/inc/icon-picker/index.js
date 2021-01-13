@@ -12,6 +12,8 @@ export default class IconPicker2 extends Component {
     // globals...
     itemList = {};
 
+    self = null;
+
     // onChange
     onChange = value => {
         console.log("onChange");
@@ -36,16 +38,18 @@ export default class IconPicker2 extends Component {
                 }
                 arr.push(name);
                 _.each(data.free, suffix => {
-                    $(".diym-icon-picker__items").append(
-                        `<i class="fa${suffix[0]} fa-${name}" data-content="${
-                            data.unicode
-                        }" data-query="${arr.join(" ")}"></i>`
-                    );
+                    this.self
+                        .find(".diym-icon-picker__items")
+                        .append(
+                            `<i class="fa${suffix[0]} fa-${name}" data-content="${
+                                data.unicode
+                            }" data-query="${arr.join(" ")}"></i>`
+                        );
                 });
             });
 
             // init item list
-            this.itemList = $(".diym-icon-picker__items").children();
+            this.itemList = this.self.find(".diym-icon-picker__items").children();
 
             this.itemList.hide();
 
@@ -55,7 +59,7 @@ export default class IconPicker2 extends Component {
             }
 
             // add click event listener
-            $(".diym-icon-picker__items > i").on("click", ({ currentTarget }) => {
+            this.self.find(".diym-icon-picker__items > i").on("click", ({ currentTarget }) => {
                 let e = $(currentTarget);
 
                 this.props.onChange({ iconClass: e.attr("class"), iconContent: e.data("content") });
@@ -68,14 +72,17 @@ export default class IconPicker2 extends Component {
         });
     }
 
-    componentWillUnmount() {}
-
     render = () => {
         console.log("render");
 
         return (
             <>
-                <div className="diym-icon-picker">
+                <div
+                    className="diym-icon-picker"
+                    ref={node => {
+                        this.self = $(node);
+                    }}
+                >
                     <div className="diym-icon-picker__search">
                         <InputControl
                             onChange={this.onChange}
