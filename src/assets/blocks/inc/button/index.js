@@ -84,19 +84,25 @@ registerBlockType("diym/button", {
     save: props => {
         const { attributes } = props;
 
-        const { text, url, linkTarget, rel } = attributes;
+        const { text, url, linkTarget, rel, align } = attributes;
 
         return (
-            <>
+            <div
+                className={"justify" !== align && undefined !== align ? `text-${align}` : undefined}
+            >
                 <RichText.Content
                     tagName="a"
-                    className={"btn btn-primary"}
+                    className={classnames(
+                        "btn",
+                        "btn-primary",
+                        "justify" === align ? "w-100" : undefined
+                    )}
                     value={text}
                     href={url}
                     target={linkTarget}
                     rel={rel}
                 />
-            </>
+            </div>
         );
     }
 });

@@ -23,6 +23,7 @@ import underline from "./inc/underline";
 import icon from "./inc/icon";
 
 // register blocks.
+import test from "./inc/aaatest";
 import heading from "./inc/heading";
 import subhead from "./inc/subhead";
 import paragraph from "./inc/paragraph";

@@ -1,40 +1,14 @@
-import { createBlock, registerBlockType } from "@wordpress/blocks";
+import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
-import { RichText, BlockControls, AlignmentToolbar } from "@wordpress/block-editor";
+import { RichText, useBlockProps, BlockControls, AlignmentToolbar } from "@wordpress/block-editor";
 
 import classnames from "classnames";
 
 //import "./editor.scss";
 
-const DEFAULT_ALIGNMENT_CONTROLS = [
-    {
-        icon: "editor-alignleft",
-        title: __("Align text left"),
-        align: "left"
-    },
-    {
-        icon: "editor-aligncenter",
-        title: __("Align text center"),
-        align: "center"
-    },
-    {
-        icon: "editor-alignright",
-        title: __("Align text right"),
-        align: "right"
-    },
-    {
-        icon: "editor-justify",
-        title: __("Align text justify"),
-        align: "justify"
-    }
-];
-
-registerBlockType("diym/heading", {
-    title: __("Heading", "diy-marketer"),
-    description: __(
-        "Introduce the page with a main headline to help visitors (and search engines) understand what your page is about.",
-        "diy-marketer"
-    ),
+registerBlockType("diym/test", {
+    title: __("test", "diy-marketer"),
+    description: __("test block...", "diy-marketer"),
     supports: {
         html: false,
         reusable: false,
@@ -48,6 +22,7 @@ registerBlockType("diym/heading", {
         //defaultStylePicker: true
     },
     attributes: {
+        /*
         content: {
             type: "string",
             source: "html",
@@ -56,13 +31,14 @@ registerBlockType("diym/heading", {
         align: {
             type: "string"
         }
+        */
     },
     category: "diy-marketer",
     icon: {
         foreground: "#007bff",
-        src: "heading"
+        src: "sos"
     },
-    keywords: [__("heading", "diymarketer"), __("h1", "diymarketer")],
+    keywords: [__("test", "diymarketer")],
     /*
     transforms: {
         from: [
@@ -87,8 +63,14 @@ registerBlockType("diym/heading", {
             setAttributes({ align });
         };
 
+        const blockProps = useBlockProps();
+
+        console.log(blockProps);
+
         return (
             <>
+                <div {...blockProps} className="zzz">
+                    {/*
                 <BlockControls>
                     <AlignmentToolbar
                         value={align}
@@ -96,27 +78,29 @@ registerBlockType("diym/heading", {
                         onChange={onChangeAlign}
                     />
                 </BlockControls>
-                <RichText
-                    tagName="h1"
-                    className={classnames(className, `has-text-align-${align}`)}
-                    onChange={onChangeContent}
-                    value={content}
-                    //style={{ whiteSpace: "normal", backgroundColor: "blue" }}
-                    //style={{ "background-color": "blue;" }}
-                    preserveWhiteSpace={false}
-                    allowedFormats={[
-                        "core/text-color",
-                        "diym/underline",
-                        "diym/icon",
-                        "core/bold",
-                        "core/italic",
-                        "core/link",
-                        "core/strikethrough",
-                        "core/subscript",
-                        "core/superscript"
-                    ]}
-                    placeholder={__("Write heading…", "diy-marketer")}
-                />
+        */}
+                    <RichText
+                        tagName="h1"
+                        className={classnames(className, `has-text-align-${align}`)}
+                        onChange={onChangeContent}
+                        value={content}
+                        //style={{ whiteSpace: "normal", backgroundColor: "blue" }}
+                        //style={{ "background-color": "blue;" }}
+                        preserveWhiteSpace={false}
+                        allowedFormats={[
+                            "core/text-color",
+                            "diym/underline",
+                            "diym/icon",
+                            "core/bold",
+                            "core/italic",
+                            "core/link",
+                            "core/strikethrough",
+                            "core/subscript",
+                            "core/superscript"
+                        ]}
+                        placeholder={__("Write heading…", "diy-marketer")}
+                    />
+                </div>
             </>
         );
     },

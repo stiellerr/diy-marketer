@@ -74,7 +74,8 @@ registerBlockType("diym/offer", {
                                 "diym/subhead",
                                 "diym/paragraph",
                                 "diym/countdown",
-                                "diym/button"
+                                "diym/button",
+                                "diym/test"
                             ]}
                         />
                     </div>
@@ -90,13 +91,13 @@ registerBlockType("diym/offer", {
 
         //const className = classnames(   )
 
-        const pClass = classnames("rounded", "flex-grow-1", align ? `text-${align}` : undefined);
+        //const pClass = classnames("rounded", "flex-grow-1", align ? `text-${align}` : undefined);
 
         return (
             <>
                 <div className="d-flex flex-column flex-lg-row">
                     <i
-                        className="fas fa-share fa-4x fa-rotate-90 align-self-center m-1"
+                        className="fas fa-share fa-4x lg-rotate-90 align-self-center m-1"
                         data-content="f064"
                     ></i>
                     <div className="flex-grow-1 position-relative border-dashed">
@@ -109,7 +110,7 @@ registerBlockType("diym/offer", {
                         </div>
                     </div>
                     <i
-                        className="fas fa-reply fa-4x fa-flip-vertical align-self-center m-1"
+                        className="fas fa-reply fa-4x lg-rotate-90 align-self-center m-1"
                         data-content="f3e5"
                     ></i>
                 </div>

@@ -128,13 +128,15 @@ registerBlockType("diym/subhead", {
                     />
                 </BlockControls>
                 <RichText
-                    tagName={Block[tagName]}
+                    tagName={tagName}
+                    //tagName="h2"
                     className={classnames(className, `has-text-align-${align}`)}
                     onChange={onChangeContent}
                     value={content}
                     allowedFormats={[
                         "core/text-color",
                         "diym/underline",
+                        "diym/icon",
                         "core/bold",
                         "core/italic",
                         "core/link",
