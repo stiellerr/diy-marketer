@@ -48,9 +48,6 @@ $enable-responsive-font-sizes: true;
 @import "../../../node_modules/bootstrap/scss/utilities/api";
 */
 
-// DIYM Custom Styles
-@import "./components/style.scss";
-
 // Font Awesome
 //$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 //@import "../../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss";
@@ -59,6 +56,10 @@ $enable-responsive-font-sizes: true;
 @import "../../../node_modules/@fortawesome/fontawesome-free/scss/_mixins.scss";
 @import "../../../node_modules/@fortawesome/fontawesome-free/scss/_core.scss";
 @import "../../../node_modules/@fortawesome/fontawesome-free/scss/_larger.scss";
+
+.fa-flip-vertical {
+    transform: scale(1, -1);
+}
 
 //@import "../../../node_modules/@fortawesome/fontawesome-free/scss/_fixed-width";
 //@import "../../../node_modules/@fortawesome/fontawesome-free/scss/_list";
@@ -73,3 +74,6 @@ $enable-responsive-font-sizes: true;
 @import "../../../node_modules/@fortawesome/fontawesome-free/scss/regular.scss";
 @import "../../../node_modules/@fortawesome/fontawesome-free/scss/solid.scss";
 @import "../../../node_modules/@fortawesome/fontawesome-free/scss/brands.scss";
+
+// DIYM Custom Styles
+@import "./components/style.scss";

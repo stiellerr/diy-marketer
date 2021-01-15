@@ -110,7 +110,7 @@ registerBlockType("diym/offer", {
                         </div>
                     </div>
                     <i
-                        className="fas fa-reply fa-4x lg-rotate-90 align-self-center m-1"
+                        className="fas fa-reply fa-4x lg-rotate-90 fa-flip-vertical align-self-center m-1"
                         data-content="f3e5"
                     ></i>
                 </div>
