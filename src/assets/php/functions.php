@@ -270,6 +270,9 @@ if ( ! function_exists( 'diym_setup' ) ) {
             )
 		);
 
+		//add_theme_support( 'custom-spacing' );
+		//add_theme_support('experimental-custom-spacing');
+
 		// Set content-width.
 		// TO DO
 		// this needs to be changed dynamically, dependant on wether a side bar is visible or not...
@@ -657,17 +660,34 @@ function diym_block_editor_settings() {
 		add_theme_support( 'editor-color-palette', $editor_color_palette );
 	}
 
+	//remove_theme_support( 'custom-units' );
+	add_theme_support( 'disable-custom-font-sizes' );
+
 	// Block Editor Font Sizes.
-	/*
 	add_theme_support(
 		'editor-font-sizes',
 		array(
 			array(
-				'name'      => _x( 'Small', 'Name of the small font size in the block editor', 'twentytwenty' ),
-				'shortName' => _x( 'S', 'Short name of the small font size in the block editor.', 'twentytwenty' ),
-				'size'      => 18,
-				'slug'      => 'small',
+				'name'      => __( 'L3', 'diy-marketer' ),
+				'shortName' => __( 'l3', 'diy-marketer' ),
+				'size'      => 28,
+				'slug'      => 'display-3',
 			),
+			array(
+				'name'      => __( 'L2', 'diy-marketer' ),
+				'shortName' => __( '12', 'diy-marketer' ),
+				'size'      => 32,
+				'slug'      => 'display-2',
+			),
+			array(
+				'name'      => __( 'L1', 'diy-marketer' ),
+				'shortName' => __( 'l1', 'diy-marketer' ),
+				'size'      => 40,
+				'slug'      => 'display-1',
+			)
+
+
+			/*
 			array(
 				'name'      => _x( 'Regular', 'Name of the regular font size in the block editor', 'twentytwenty' ),
 				'shortName' => _x( 'M', 'Short name of the regular font size in the block editor.', 'twentytwenty' ),
@@ -686,17 +706,17 @@ function diym_block_editor_settings() {
 				'size'      => 32,
 				'slug'      => 'larger',
 			),
+			*/
 		)
 	);
 
-	add_theme_support( 'editor-styles' );
+	//add_theme_support( 'editor-styles' );
 
 	// If we have a dark background color then add support for dark editor style.
 	// We can determine if the background color is dark by checking if the text-color is white.
-	if ( '#ffffff' === strtolower( twentytwenty_get_color_for_area( 'content', 'text' ) ) ) {
-		add_theme_support( 'dark-editor-style' );
-	}
-	*/
+	//if ( '#ffffff' === strtolower( twentytwenty_get_color_for_area( 'content', 'text' ) ) ) {
+		//add_theme_support( 'dark-editor-style' );
+	//}
 }
 
 add_action( 'after_setup_theme', 'diym_block_editor_settings' );

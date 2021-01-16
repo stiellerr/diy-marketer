@@ -37,6 +37,30 @@ import button from "./inc/button";
 //import "./inc/meta";
 import "./plugins/sidebar";
 
+import { addFilter } from "@wordpress/hooks";
+
+const replaceDefaultClassNames = (props, blockType, attributes) => {
+    //console.log(blockType);
+    //
+    if ("diym/test" === blockType.name) {
+        if (props.className) {
+            //props.className = props.className.replace(/has-(display-1)-font-size/, "$&");
+            props.className = props.className.replace(/has-(display-[1-6])-font-size/, "$1");
+        }
+        console.log(props);
+        console.log(blockType);
+        console.log(attributes);
+    }
+
+    return props;
+};
+
+wp.hooks.addFilter(
+    "blocks.getSaveContent.extraProps",
+    "diym/replace-default-classnames",
+    replaceDefaultClassNames
+);
+
 /*
 import { addFilter } from "@wordpress/hooks";
 

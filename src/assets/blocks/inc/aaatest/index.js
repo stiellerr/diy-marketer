@@ -14,15 +14,33 @@ registerBlockType("diym/test", {
         reusable: false,
         multiple: false,
         className: false,
-        __experimentalColor: {
-            linkColor: true
-        }
+        //color: true
+
+        // color
+        color: {
+            background: false,
+            gradients: true,
+            text: true
+        },
+        //
+        spacing: {
+            padding: true
+        },
+        //font size
+        fontSize: true
+        //padding: true
         //__experimentalFontSize: true,
         // Remove the Default Style picker.
         //defaultStylePicker: true
     },
     attributes: {
-        /*
+        attributes: {
+            fontSize: {
+                type: "string"
+                //default: 'some-value',
+            }
+        },
+
         content: {
             type: "string",
             source: "html",
@@ -31,7 +49,6 @@ registerBlockType("diym/test", {
         align: {
             type: "string"
         }
-        */
     },
     category: "diy-marketer",
     icon: {
@@ -65,7 +82,7 @@ registerBlockType("diym/test", {
 
         const blockProps = useBlockProps();
 
-        console.log(blockProps);
+        //console.log(blockProps);
 
         return (
             <>
@@ -105,7 +122,9 @@ registerBlockType("diym/test", {
         );
     },
     save: ({ attributes }) => {
-        const { content, align } = attributes;
+        const { content, align, fontSize } = attributes;
+
+        //console.log(fontSize);
 
         const className = align ? `text-${align}` : false;
 
