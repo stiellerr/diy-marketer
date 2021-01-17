@@ -663,6 +663,10 @@ function diym_block_editor_settings() {
 	//remove_theme_support( 'custom-units' );
 	add_theme_support( 'disable-custom-font-sizes' );
 
+	add_theme_support( 'align-wide' );
+
+	add_theme_support( 'custom-spacing' );
+
 	// Block Editor Font Sizes.
 	add_theme_support(
 		'editor-font-sizes',

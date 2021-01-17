@@ -15,6 +15,11 @@ registerBlockType("diym/test", {
         multiple: false,
         className: false,
         //color: true
+        // align
+        supports: {
+            align: true
+            //align: ["left", "right"]
+        },
 
         // color
         color: {
@@ -22,7 +27,7 @@ registerBlockType("diym/test", {
             gradients: true,
             text: true
         },
-        //
+        // cant get this to work
         spacing: {
             padding: true
         },
@@ -45,10 +50,12 @@ registerBlockType("diym/test", {
             type: "string",
             source: "html",
             selector: "h1"
-        },
+        }
+        /*
         align: {
             type: "string"
         }
+        */
     },
     category: "diy-marketer",
     icon: {
@@ -70,15 +77,18 @@ registerBlockType("diym/test", {
     },
     */
     edit: ({ className, attributes, setAttributes }) => {
-        const { content, align } = attributes;
+        //const { content, align } = attributes;
+        const { content } = attributes;
 
         const onChangeContent = content => {
             setAttributes({ content });
         };
 
+        /*
         const onChangeAlign = align => {
             setAttributes({ align });
         };
+        */
 
         const blockProps = useBlockProps();
 
@@ -86,7 +96,7 @@ registerBlockType("diym/test", {
 
         return (
             <>
-                <div {...blockProps} className="zzz">
+                <div>
                     {/*
                 <BlockControls>
                     <AlignmentToolbar
@@ -98,7 +108,8 @@ registerBlockType("diym/test", {
         */}
                     <RichText
                         tagName="h1"
-                        className={classnames(className, `has-text-align-${align}`)}
+                        //className={classnames(className, `has-text-align-${align}`)}
+                        className={className}
                         onChange={onChangeContent}
                         value={content}
                         //style={{ whiteSpace: "normal", backgroundColor: "blue" }}
@@ -116,6 +127,7 @@ registerBlockType("diym/test", {
                             "core/superscript"
                         ]}
                         placeholder={__("Write heading…", "diy-marketer")}
+                        {...blockProps}
                     />
                 </div>
             </>
@@ -126,13 +138,13 @@ registerBlockType("diym/test", {
 
         //console.log(fontSize);
 
-        const className = align ? `text-${align}` : false;
+        //const className = align ? `text-${align}` : false;
 
         return (
             <RichText.Content
                 tagName="h1"
                 value={content}
-                className={className ? className : undefined}
+                //className={className ? className : undefined}
                 //style={("white-space": "pre-wrap;")}
                 //style={{
                 //"white-space": "initial"
