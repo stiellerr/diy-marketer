@@ -4,6 +4,8 @@ import { RichText, useBlockProps, BlockControls, AlignmentToolbar } from "@wordp
 
 import classnames from "classnames";
 
+import positionLeft from "@wordpress/icons";
+
 import "./editor.scss";
 
 registerBlockType("diym/test", {
@@ -53,12 +55,10 @@ registerBlockType("diym/test", {
             type: "string",
             source: "html",
             selector: "a"
-        }
-        /*
+        },
         align: {
             type: "string"
         }
-        */
     },
     category: "diy-marketer",
     icon: {
@@ -87,11 +87,9 @@ registerBlockType("diym/test", {
             setAttributes({ content });
         };
 
-        /*
         const onChangeAlign = align => {
             setAttributes({ align });
         };
-        */
 
         const blockProps = useBlockProps();
 
@@ -136,21 +134,39 @@ registerBlockType("diym/test", {
                 </div>
                         */}
                 {/* new button */}
-                <div {...blockProps} style={{}}>
-                    <RichText
-                        aria-label={__("Button text")}
-                        //placeholder={placeholder || __("Add text…")}
-                        placeholder={__("Add text…")}
-                        //value={text}
-                        onChange={content => setAttributes({ content })}
-                        withoutInteractiveFormatting
-                        //className={classnames(className)}
-                        //className={className}
-                        //style={"justify" === align ? { width: "100%" } : undefined}
-                        style={{ ...blockProps.style }}
-                        identifier="text"
-                    />
-                </div>
+
+                <RichText
+                    aria-label={__("Button text")}
+                    //placeholder={placeholder || __("Add text…")}
+                    placeholder={__("Add text…")}
+                    //value={text}
+                    onChange={content => setAttributes({ content })}
+                    withoutInteractiveFormatting
+                    //className={classnames(className)}
+                    //className={className}
+                    //style={"justify" === align ? { width: "100%" } : undefined}
+                    style={{ ...blockProps.style }}
+                    identifier="text"
+                    textAlign="left"
+                    {...blockProps}
+                />
+                <RichText
+                    value="high..."
+                    //aria-label={__("Button text")}
+                    //placeholder={placeholder || __("Add text…")}
+                    //placeholder={__("Add text…")}
+                    //value={text}
+                    //onChange={content => setAttributes({ content })}
+                    //withoutInteractiveFormatting
+                    className={"xx"}
+                    //className={className}
+                    //style={"justify" === align ? { width: "100%" } : undefined}
+                    //style={{ ...blockProps.style }}
+                    //identifier="text"
+                    textAlign="left"
+                    {...blockProps}
+                    //{...blockProps}
+                />
             </>
         );
     },

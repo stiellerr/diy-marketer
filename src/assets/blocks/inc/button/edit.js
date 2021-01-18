@@ -24,7 +24,15 @@ import {
     Popover
 } from "@wordpress/components";
 import { rawShortcut, displayShortcut } from "@wordpress/keycodes";
-import { link, linkOff } from "@wordpress/icons";
+import {
+    link,
+    linkOff,
+    positionLeft,
+    positionRight,
+    positionCenter,
+    stretchWide,
+    stretchFullWidth
+} from "@wordpress/icons";
 
 import "./editor.scss";
 
@@ -34,23 +42,23 @@ const NEW_TAB_REL = "noreferrer noopener";
 
 const DEFAULT_ALIGNMENT_CONTROLS = [
     {
-        icon: "editor-alignleft",
+        icon: positionLeft,
         title: __("Align button left"),
         align: "left"
     },
     {
-        icon: "editor-aligncenter",
+        icon: positionCenter,
         title: __("Align button center"),
         align: "center"
     },
     {
-        icon: "editor-alignright",
+        icon: positionRight,
         title: __("Align button right"),
         align: "right"
     },
     {
-        icon: "editor-justify",
-        title: __("Align button justify"),
+        icon: stretchWide,
+        title: __("Align button wide"),
         align: "justify"
     }
 ];
@@ -171,29 +179,33 @@ function ButtonEdit(props) {
 
     //let style = align === "justify" ? { width: "100%" } : { textAlign: align };
 
-    //console.log(style);
+    //console.log(style);<div {...blockProps} style={"justify" !== align ? { textAlign: align } : undefined}>
+
+    const blockProps = useBlockProps();
+
+    console.log(blockProps);
 
     return (
         <>
-            <div style={"justify" !== align ? { textAlign: align } : undefined}>
-                <BlockControls>
-                    <AlignmentToolbar
-                        value={align}
-                        alignmentControls={DEFAULT_ALIGNMENT_CONTROLS}
-                        onChange={onChangeAlign}
-                    />
-                </BlockControls>
-                <RichText
-                    aria-label={__("Button text")}
-                    placeholder={placeholder || __("Add text…")}
-                    value={text}
-                    onChange={value => setAttributes({ text: value })}
-                    withoutInteractiveFormatting
-                    className={classnames(className)}
-                    style={"justify" === align ? { width: "100%" } : undefined}
-                    identifier="text"
+            <BlockControls>
+                <AlignmentToolbar
+                    value={align}
+                    alignmentControls={DEFAULT_ALIGNMENT_CONTROLS}
+                    onChange={onChangeAlign}
                 />
-            </div>
+            </BlockControls>
+            <RichText
+                aria-label={__("Button text")}
+                placeholder={placeholder || __("Add text…")}
+                value={text}
+                onChange={value => setAttributes({ text: value })}
+                withoutInteractiveFormatting
+                className={classnames(className)}
+                style={"justify" === align ? { width: "100%" } : undefined}
+                identifier="text"
+                textAlign={align}
+                {...blockProps}
+            />
             <URLPicker
                 url={url}
                 setAttributes={setAttributes}

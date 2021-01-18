@@ -1,6 +1,6 @@
 import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
-import { RichText, BlockControls, AlignmentToolbar } from "@wordpress/block-editor";
+import { RichText, useBlockProps, BlockControls, AlignmentToolbar } from "@wordpress/block-editor";
 import {
     withColors,
     InspectorControls,
@@ -16,6 +16,7 @@ import edit from "./edit.js";
 import classnames from "classnames";
 
 registerBlockType("diym/button", {
+    apiVersion: 2,
     title: __("Button", "diy-marketer"),
     description: __("Add a button to your web page", "diy-marketer"),
     category: "diy-marketer",
@@ -27,8 +28,9 @@ registerBlockType("diym/button", {
     supports: {
         anchor: true,
         //align: true,
-        alignWide: false,
-        reusable: false
+        //alignWide: false,
+        reusable: false,
+        color: true
         //__experimentalSelector: ".wp-block-button > a"
         //
         //anchor: true,
@@ -51,7 +53,8 @@ registerBlockType("diym/button", {
             type: "string"
         },
         align: {
-            type: "string"
+            type: "string",
+            default: "left"
         },
         text: {
             type: "string",
@@ -85,6 +88,8 @@ registerBlockType("diym/button", {
         const { attributes } = props;
 
         const { text, url, linkTarget, rel, align } = attributes;
+
+        //const blockProps = useBlockProps();
 
         return (
             <div
