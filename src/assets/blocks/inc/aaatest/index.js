@@ -4,29 +4,31 @@ import { RichText, useBlockProps, BlockControls, AlignmentToolbar } from "@wordp
 
 import classnames from "classnames";
 
-//import "./editor.scss";
+import "./editor.scss";
 
 registerBlockType("diym/test", {
+    apiVersion: 2,
     title: __("test", "diy-marketer"),
     description: __("test block...", "diy-marketer"),
     supports: {
         html: false,
         reusable: false,
         multiple: false,
-        className: false,
+        className: true,
         //color: true
         // align
         supports: {
             align: true
             //align: ["left", "right"]
         },
+        color: true,
 
         // color
-        color: {
-            background: false,
-            gradients: true,
-            text: true
-        },
+        //color: {
+        //background: false,
+        //gradients: true,
+        //text: true
+        //},
         // cant get this to work
         spacing: {
             padding: true
@@ -39,17 +41,18 @@ registerBlockType("diym/test", {
         //defaultStylePicker: true
     },
     attributes: {
-        attributes: {
-            fontSize: {
-                type: "string"
-                //default: 'some-value',
-            }
+        fontSize: {
+            type: "string"
+            //default: 'some-value',
         },
-
+        backgroundColor: {
+            type: "string",
+            default: "accent"
+        },
         content: {
             type: "string",
             source: "html",
-            selector: "h1"
+            selector: "a"
         }
         /*
         align: {
@@ -76,7 +79,7 @@ registerBlockType("diym/test", {
         ]
     },
     */
-    edit: ({ className, attributes, setAttributes }) => {
+    edit: ({ attributes, setAttributes }) => {
         //const { content, align } = attributes;
         const { content } = attributes;
 
@@ -92,12 +95,13 @@ registerBlockType("diym/test", {
 
         const blockProps = useBlockProps();
 
-        //console.log(blockProps);
+        //console.log(className);
 
         return (
             <>
+                {/*
                 <div>
-                    {/*
+                    
                 <BlockControls>
                     <AlignmentToolbar
                         value={align}
@@ -105,7 +109,7 @@ registerBlockType("diym/test", {
                         onChange={onChangeAlign}
                     />
                 </BlockControls>
-        */}
+
                     <RichText
                         tagName="h1"
                         //className={classnames(className, `has-text-align-${align}`)}
@@ -130,28 +134,47 @@ registerBlockType("diym/test", {
                         {...blockProps}
                     />
                 </div>
+                        */}
+                {/* new button */}
+                <div {...blockProps} style={{}}>
+                    <RichText
+                        aria-label={__("Button text")}
+                        //placeholder={placeholder || __("Add text…")}
+                        placeholder={__("Add text…")}
+                        //value={text}
+                        onChange={content => setAttributes({ content })}
+                        withoutInteractiveFormatting
+                        //className={classnames(className)}
+                        //className={className}
+                        //style={"justify" === align ? { width: "100%" } : undefined}
+                        style={{ ...blockProps.style }}
+                        identifier="text"
+                    />
+                </div>
             </>
         );
     },
     save: ({ attributes }) => {
-        const { content, align, fontSize } = attributes;
+        const { content, align, fontSize, backgroundColor } = attributes;
 
-        //console.log(fontSize);
+        const blockProps = useBlockProps.save();
 
         //const className = align ? `text-${align}` : false;
+        const className = classnames(
+            "btn",
+            "btn-primary",
+            backgroundColor ? `btn-${backgroundColor}` : false,
+            fontSize ? fontSize : false
+        );
+
+        console.log(fontSize);
 
         return (
-            <RichText.Content
-                tagName="h1"
-                value={content}
-                //className={className ? className : undefined}
-                //style={("white-space": "pre-wrap;")}
-                //style={{
-                //"white-space": "initial"
-                // backgroundColor: backgroundColor,
-                //color: textColor
-                //}}
-            />
+            <div>
+                <a className={className} style={{ ...blockProps.style }}>
+                    <RichText.Content value={content} />
+                </a>
+            </div>
         );
     }
 });
