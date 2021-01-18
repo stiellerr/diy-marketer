@@ -150,6 +150,8 @@ function ButtonEdit(props) {
     const { attributes, setAttributes, className, isSelected, onReplace, mergeBlocks } = props;
     const { borderRadius, linkTarget, placeholder, rel, text, url, width, align } = attributes;
 
+    console.log(className);
+
     const onToggleOpenInNewTab = useCallback(
         value => {
             const newLinkTarget = value ? "_blank" : undefined;
@@ -194,18 +196,19 @@ function ButtonEdit(props) {
                     onChange={onChangeAlign}
                 />
             </BlockControls>
-            <RichText
-                aria-label={__("Button text")}
-                placeholder={placeholder || __("Add text…")}
-                value={text}
-                onChange={value => setAttributes({ text: value })}
-                withoutInteractiveFormatting
-                className={classnames(className)}
-                style={"justify" === align ? { width: "100%" } : undefined}
-                identifier="text"
-                textAlign={align}
-                {...blockProps}
-            />
+            <div {...blockProps}>
+                <RichText
+                    aria-label={__("Button text")}
+                    placeholder={placeholder || __("Add text…")}
+                    value={text}
+                    onChange={value => setAttributes({ text: value })}
+                    withoutInteractiveFormatting
+                    className={classnames(className)}
+                    style={"justify" === align ? { width: "100%" } : undefined}
+                    identifier="text"
+                    textAlign={align}
+                />
+            </div>
             <URLPicker
                 url={url}
                 setAttributes={setAttributes}

@@ -31,10 +31,11 @@ registerBlockType("diym/button", {
         //alignWide: false,
         reusable: false,
         color: true
+
         //__experimentalSelector: ".wp-block-button > a"
         //
         //anchor: true,
-        //className: false
+        //className: true
         //__experimentalColor: {
         //    linkColor: true
         //},
@@ -43,7 +44,6 @@ registerBlockType("diym/button", {
         //__experimentalSelector: "p",
         //__unstablePasteTextInline: true
     },
-
     attributes: {
         buttonColor: {
             type: "string",
@@ -80,7 +80,7 @@ registerBlockType("diym/button", {
             attribute: "rel"
         }
     },
-    style: "zzzz",
+    //style: "zzzz",
     edit,
 
     // save
