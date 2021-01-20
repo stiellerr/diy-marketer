@@ -1,0 +1,17 @@
+.diym-spacing-control {
+    display: flex;
+    //justify-content: space-between;
+    > div {
+        flex: 1;
+        margin-bottom: 0.5em !important;
+        &:first-child {
+            margin-right: 5px;
+        }
+        &:last-child {
+            margin-left: 5px;
+        }
+    }
+}
+.diym-spacing-control__button {
+    text-align: right;
+}

@@ -1,15 +1,24 @@
 import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
-import { RichText, useBlockProps, BlockControls, AlignmentToolbar } from "@wordpress/block-editor";
+import {
+    RichText,
+    useBlockProps,
+    InspectorControls,
+    PanelBody,
+    BlockControls,
+    AlignmentToolbar
+} from "@wordpress/block-editor";
+
+import { CustomSelectControl } from "@wordpress/components";
 
 import classnames from "classnames";
 
-import positionLeft from "@wordpress/icons";
+//import positionLeft from "@wordpress/icons";
 
 import "./editor.scss";
 
 registerBlockType("diym/test", {
-    apiVersion: 2,
+    //apiVersion: 2,
     title: __("test", "diy-marketer"),
     description: __("test block...", "diy-marketer"),
     supports: {
@@ -87,109 +96,42 @@ registerBlockType("diym/test", {
             setAttributes({ content });
         };
 
-        const onChangeAlign = align => {
-            setAttributes({ align });
-        };
-
-        const blockProps = useBlockProps();
-
-        //console.log(className);
-
         return (
             <>
-                {/*
-                <div>
-                    
-                <BlockControls>
-                    <AlignmentToolbar
-                        value={align}
-                        alignmentControls={DEFAULT_ALIGNMENT_CONTROLS}
-                        onChange={onChangeAlign}
-                    />
-                </BlockControls>
-
-                    <RichText
-                        tagName="h1"
-                        //className={classnames(className, `has-text-align-${align}`)}
-                        className={className}
-                        onChange={onChangeContent}
-                        value={content}
-                        //style={{ whiteSpace: "normal", backgroundColor: "blue" }}
-                        //style={{ "background-color": "blue;" }}
-                        preserveWhiteSpace={false}
-                        allowedFormats={[
-                            "core/text-color",
-                            "diym/underline",
-                            "diym/icon",
-                            "core/bold",
-                            "core/italic",
-                            "core/link",
-                            "core/strikethrough",
-                            "core/subscript",
-                            "core/superscript"
-                        ]}
-                        placeholder={__("Write heading…", "diy-marketer")}
-                        {...blockProps}
-                    />
-                </div>
-                        */}
-                {/* new button */}
-
+                <InspectorControls>
+                    <PanelBody title={__("Size Controls", "diy-marketer")}></PanelBody>
+                </InspectorControls>
                 <RichText
-                    aria-label={__("Button text")}
-                    //placeholder={placeholder || __("Add text…")}
-                    placeholder={__("Add text…")}
-                    //value={text}
-                    onChange={content => setAttributes({ content })}
-                    withoutInteractiveFormatting
-                    //className={classnames(className)}
+                    tagName="h1"
+                    //className={classnames(className, `has-text-align-${align}`)}
                     //className={className}
-                    //style={"justify" === align ? { width: "100%" } : undefined}
-                    style={{ ...blockProps.style }}
-                    identifier="text"
-                    textAlign="left"
-                    {...blockProps}
-                />
-                <RichText
-                    value="high..."
-                    //aria-label={__("Button text")}
-                    //placeholder={placeholder || __("Add text…")}
-                    //placeholder={__("Add text…")}
-                    //value={text}
-                    //onChange={content => setAttributes({ content })}
-                    //withoutInteractiveFormatting
-                    className={"xx"}
-                    //className={className}
-                    //style={"justify" === align ? { width: "100%" } : undefined}
-                    //style={{ ...blockProps.style }}
-                    //identifier="text"
-                    textAlign="left"
-                    {...blockProps}
-                    //{...blockProps}
+                    onChange={onChangeContent}
+                    value={content}
+                    //style={{ whiteSpace: "normal", backgroundColor: "blue" }}
+                    //style={{ "background-color": "blue;" }}
+                    preserveWhiteSpace={false}
+                    allowedFormats={[
+                        "core/text-color",
+                        "diym/underline",
+                        "diym/icon",
+                        "core/bold",
+                        "core/italic",
+                        "core/link",
+                        "core/strikethrough",
+                        "core/subscript",
+                        "core/superscript"
+                    ]}
+                    placeholder={__("Write heading…", "diy-marketer")}
                 />
             </>
         );
     },
     save: ({ attributes }) => {
-        const { content, align, fontSize, backgroundColor } = attributes;
-
-        const blockProps = useBlockProps.save();
-
-        //const className = align ? `text-${align}` : false;
-        const className = classnames(
-            "btn",
-            "btn-primary",
-            backgroundColor ? `btn-${backgroundColor}` : false,
-            fontSize ? fontSize : false
-        );
-
-        console.log(fontSize);
+        const { content } = attributes;
 
         return (
             <div>
-                <a className={className} style={{ ...blockProps.style }}>
-                    <RichText.Content value={content} />
-                </a>
+                <RichText.Content tagName="a" value={content} />
             </div>
         );
     }

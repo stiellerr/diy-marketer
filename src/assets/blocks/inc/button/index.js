@@ -11,6 +11,8 @@ import { PanelBody } from "@wordpress/components";
 
 import "./editor.scss";
 
+import { getMarginClass } from "../spacing-control";
+
 import edit from "./edit.js";
 
 import classnames from "classnames";
@@ -78,6 +80,19 @@ registerBlockType("diym/button", {
             source: "attribute",
             selector: "a",
             attribute: "rel"
+        },
+        buttonSize: {
+            type: "string",
+            default: "normal"
+        },
+        paddingSize: {
+            type: "string"
+        },
+        marginTop: {
+            type: "number"
+        },
+        marginBottom: {
+            type: "number"
         }
     },
     //style: "zzzz",
@@ -87,21 +102,29 @@ registerBlockType("diym/button", {
     save: props => {
         const { attributes } = props;
 
-        const { text, url, linkTarget, rel, align } = attributes;
+        const {
+            text,
+            url,
+            linkTarget,
+            rel,
+            align,
+            buttonSize,
+            marginBottom,
+            marginTop
+        } = attributes;
 
-        //const blockProps = useBlockProps();
+        let wrapperClass = classnames(getMarginClass(marginTop, marginBottom), {
+            [`text-${align}`]: "center" === align || "right" === align
+        });
 
         return (
-            <div
-                className={"justify" !== align && undefined !== align ? `text-${align}` : undefined}
-            >
+            <div className={wrapperClass ? wrapperClass : null}>
                 <RichText.Content
                     tagName="a"
-                    className={classnames(
-                        "btn",
-                        "btn-primary",
-                        "justify" === align ? "w-100" : undefined
-                    )}
+                    className={classnames("btn", "btn-primary", {
+                        "w-100": "full" === align,
+                        [`btn-${buttonSize}`]: "sm" === buttonSize || "lg" === buttonSize
+                    })}
                     value={text}
                     href={url}
                     target={linkTarget}

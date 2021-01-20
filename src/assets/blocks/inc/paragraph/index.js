@@ -47,7 +47,8 @@ registerBlockType("diym/paragraph", {
         __experimentalColor: {
             linkColor: true
         },
-        __experimentalFontSize: true
+        //__experimentalFontSize: true
+        fontSize: true
         //__experimentalLineHeight: true,
         //__experimentalSelector: "p",
         //__unstablePasteTextInline: true
@@ -113,10 +114,12 @@ registerBlockType("diym/paragraph", {
             </>
         );
     },
-    save: ({ attributes }) => {
+    save: ({ attributes, className }) => {
         const { content, align } = attributes;
 
-        const className = align ? `text-${align}` : false;
+        console.log(className);
+
+        className = align ? `text-${align}` : false;
 
         return (
             <RichText.Content

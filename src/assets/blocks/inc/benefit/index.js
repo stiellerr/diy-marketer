@@ -97,7 +97,6 @@ registerBlockType("diym/benefit", {
             selector: "p"
         }
     },
-
     edit: withColors(
         "iconColor",
         "contentColor"
