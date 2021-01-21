@@ -667,50 +667,60 @@ function diym_block_editor_settings() {
 
 	add_theme_support( 'custom-spacing' );
 
+	//add_theme_support( 'custom-units', 'rem', 'em' );
+
 	// Block Editor Font Sizes.
 	add_theme_support(
 		'editor-font-sizes',
 		array(
 			array(
-				'name'      => __( 'L3', 'diy-marketer' ),
-				'shortName' => __( 'l3', 'diy-marketer' ),
-				'size'      => 28,
+				'name'      => esc_html__( 'Small', 'diy-marketer' ),
+				'shortName' => esc_html_x( 'S', 'Font size', 'diy-marketer' ),
+				'size'      => 14,
+				'slug'      => 'small',
+			),
+			array(
+				'name'      => esc_html__( 'Regular', 'diy-marketer' ),
+				'shortName' => esc_html_x( 'N', 'Font size', 'diy-marketer' ),
+				'size'      => 20,
+				'slug'      => 'lead',
+			),
+			array(
+				'name'      => __( 'Medium', 'diy-marketer' ),
+				'shortName' => __( 'M', 'diy-marketer' ),
+				'size'      => 40,
+				'slug'      => 'display-6',
+			),
+			array(
+				'name'      => __( 'Medium Large', 'diy-marketer' ),
+				'shortName' => __( 'ML', 'diy-marketer' ),
+				'size'      => 48,
+				'slug'      => 'display-5',
+			),
+			array(
+				'name'      => _x( 'Large', 'Name of the regular font size in the block editor', 'diy-marketer' ),
+				'shortName' => _x( 'L', 'Short name of the regular font size in the block editor.', 'diy-marketer' ),
+				'size'      => 56,
+				'slug'      => 'display-4',
+			),
+			array(
+				'name'      => _x( 'Extra Large', 'Name of the large font size in the block editor', 'diy-marketer' ),
+				'shortName' => _x( 'XL', 'Short name of the large font size in the block editor.', 'diy-marketer' ),
+				'size'      => 64,
 				'slug'      => 'display-3',
 			),
 			array(
-				'name'      => __( 'L2', 'diy-marketer' ),
-				'shortName' => __( '12', 'diy-marketer' ),
-				'size'      => 32,
+				'name'      => _x( 'Huge', 'Name of the larger font size in the block editor', 'diy-marketer' ),
+				'shortName' => _x( 'XXL', 'Short name of the larger font size in the block editor.', 'diy-marketer' ),
+				'size'      => 72,
 				'slug'      => 'display-2',
 			),
 			array(
-				'name'      => __( 'L1', 'diy-marketer' ),
-				'shortName' => __( 'l1', 'diy-marketer' ),
-				'size'      => 40,
+				'name'      => _x( 'Gigantic', 'Name of the larger font size in the block editor', 'diy-marketer' ),
+				'shortName' => _x( 'XXXL', 'Short name of the larger font size in the block editor.', 'diy-marketer' ),
+				'size'      => 80,
 				'slug'      => 'display-1',
-			)
-
-
-			/*
-			array(
-				'name'      => _x( 'Regular', 'Name of the regular font size in the block editor', 'twentytwenty' ),
-				'shortName' => _x( 'M', 'Short name of the regular font size in the block editor.', 'twentytwenty' ),
-				'size'      => 21,
-				'slug'      => 'normal',
 			),
-			array(
-				'name'      => _x( 'Large', 'Name of the large font size in the block editor', 'twentytwenty' ),
-				'shortName' => _x( 'L', 'Short name of the large font size in the block editor.', 'twentytwenty' ),
-				'size'      => 26.25,
-				'slug'      => 'large',
-			),
-			array(
-				'name'      => _x( 'Larger', 'Name of the larger font size in the block editor', 'twentytwenty' ),
-				'shortName' => _x( 'XL', 'Short name of the larger font size in the block editor.', 'twentytwenty' ),
-				'size'      => 32,
-				'slug'      => 'larger',
-			),
-			*/
 		)
 	);
 

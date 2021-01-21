@@ -7,22 +7,31 @@ import { __ } from "@wordpress/i18n";
 import "./editor.scss";
 
 export function getMarginClass(marginTop, marginBottom) {
-    if (undefined === marginTop && undefined === marginBottom) {
+    //
+    if (undefined === marginTop && undefined == marginBottom) {
         return null;
     }
+
     if (marginTop === marginBottom) {
         return `my-${marginTop}`;
     }
+
+    if (marginTop === marginBottom) {
+        return `my-${marginTop}`;
+    }
+
     if (undefined === marginTop) {
         return `mb-${marginBottom}`;
     }
+
     if (undefined === marginBottom) {
         return `mt-${marginTop}`;
     }
+
     return `mt-${marginTop} mb-${marginBottom}`;
 }
 
-export default function SpacingControl({ marginTop, marginBottom, onChange }) {
+export function SpacingControl({ marginTop, marginBottom, onChange }) {
     const updateSpacing = (newMarginTop, newMarginBottom) => {
         return () => {
             onChange({ marginTop: newMarginTop, marginBottom: newMarginBottom });
@@ -38,7 +47,7 @@ export default function SpacingControl({ marginTop, marginBottom, onChange }) {
                     onChange={value => onChange({ marginTop: parseInt(value, 10) })}
                     min={0}
                     max={5}
-                    value={marginTop}
+                    value={Number.isInteger(marginTop) ? marginTop : ""}
                     autoComplete="off"
                 ></TextControl>
                 <TextControl
@@ -47,7 +56,7 @@ export default function SpacingControl({ marginTop, marginBottom, onChange }) {
                     onChange={value => onChange({ marginBottom: parseInt(value, 10) })}
                     min={0}
                     max={5}
-                    value={marginBottom}
+                    value={Number.isInteger(marginBottom) ? marginBottom : ""}
                     autoComplete="off"
                 ></TextControl>
             </div>

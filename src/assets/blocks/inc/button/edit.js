@@ -12,7 +12,8 @@ import {
     DimensionControl
 } from "@wordpress/block-editor";
 
-import { __experimentalNumberControl as NumberControl } from "@wordpress/components";
+//import { __experimentalNumberControl as NumberControl } from "@wordpress/components";
+//import { NumberControl } from "@wordpress/components";
 
 import { partialRight } from "lodash";
 

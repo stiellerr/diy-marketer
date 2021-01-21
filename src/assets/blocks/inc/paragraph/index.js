@@ -1,35 +1,36 @@
 import { createBlock, registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
-import { RichText, BlockControls, AlignmentToolbar } from "@wordpress/block-editor";
+import {
+    RichText,
+    BlockControls,
+    AlignmentToolbar,
+    InspectorControls,
+    useBlockProps
+} from "@wordpress/block-editor";
+import { FontSizePicker, PanelBody } from "@wordpress/components";
 
 //import "./editor.scss";
 
 import classnames from "classnames";
 
-const DEFAULT_ALIGNMENT_CONTROLS = [
+import { TEXT_ALIGNMENT_CONTROLS, getSelectValueFromFontSize } from "../helper";
+import { getMarginClass, SpacingControl } from "../spacing-control";
+
+const fontSizes = [
     {
-        icon: "editor-alignleft",
-        title: __("Align text left"),
-        align: "left"
+        name: __("Small", "diy-marketer"),
+        slug: "small",
+        size: 14
     },
     {
-        icon: "editor-aligncenter",
-        title: __("Align text center"),
-        align: "center"
-    },
-    {
-        icon: "editor-alignright",
-        title: __("Align text right"),
-        align: "right"
-    },
-    {
-        icon: "editor-justify",
-        title: __("Align text justify"),
-        align: "justify"
+        name: __("Lead", "diy-marketer"),
+        slug: "lead",
+        size: 20
     }
 ];
 
 registerBlockType("diym/paragraph", {
+    //apiVersion: 2,
     title: __("Paragraph", "diy-marketer"),
     description: __("Start with the building block of all narrative.", "diy-marketer"),
     category: "diy-marketer",
@@ -46,9 +47,9 @@ registerBlockType("diym/paragraph", {
         className: false,
         __experimentalColor: {
             linkColor: true
-        },
+        }
         //__experimentalFontSize: true
-        fontSize: true
+        //fontSize: true
         //__experimentalLineHeight: true,
         //__experimentalSelector: "p",
         //__unstablePasteTextInline: true
@@ -61,6 +62,15 @@ registerBlockType("diym/paragraph", {
         },
         align: {
             type: "string"
+        },
+        fontSize: {
+            type: "number"
+        },
+        marginTop: {
+            type: "number"
+        },
+        marginBottom: {
+            type: "number"
         }
     },
     transforms: {
@@ -74,8 +84,8 @@ registerBlockType("diym/paragraph", {
             }
         ]
     },
-    edit: ({ className, attributes, setAttributes }) => {
-        const { content, align } = attributes;
+    edit: ({ attributes, setAttributes }) => {
+        const { content, align, fontSize, marginBottom, marginTop } = attributes;
 
         const onChangeContent = content => {
             setAttributes({ content });
@@ -85,18 +95,47 @@ registerBlockType("diym/paragraph", {
             setAttributes({ align });
         };
 
+        const padding = ["0rem", "0.25rem", "0.5rem", "1rem", "1.5rem", "3rem"];
+
         return (
             <>
+                <InspectorControls>
+                    <PanelBody title={__("Typography", "diy-marketer")}>
+                        <FontSizePicker
+                            fontSizes={fontSizes}
+                            value={fontSize}
+                            disableCustomFontSizes={true}
+                            onChange={fontSize => {
+                                setAttributes({ fontSize });
+                            }}
+                        />
+                    </PanelBody>
+                    <PanelBody title={__("Spacing", "diy-marketer")}>
+                        <SpacingControl
+                            onChange={value => {
+                                console.log(value);
+                                setAttributes(value);
+                            }}
+                            marginTop={marginTop}
+                            marginBottom={marginBottom}
+                        ></SpacingControl>
+                    </PanelBody>
+                </InspectorControls>
                 <BlockControls>
                     <AlignmentToolbar
                         value={align}
-                        alignmentControls={DEFAULT_ALIGNMENT_CONTROLS}
+                        alignmentControls={TEXT_ALIGNMENT_CONTROLS}
                         onChange={onChangeAlign}
                     />
                 </BlockControls>
                 <RichText
                     tagName="p"
-                    className={classnames(className, `has-text-align-${align}`)}
+                    style={{
+                        textAlign: align,
+                        fontSize: fontSize || null,
+                        paddingTop: padding[marginTop],
+                        paddingBottom: padding[marginBottom]
+                    }}
                     onChange={onChangeContent}
                     value={content}
                     allowedFormats={[
@@ -115,17 +154,27 @@ registerBlockType("diym/paragraph", {
         );
     },
     save: ({ attributes, className }) => {
-        const { content, align } = attributes;
+        const { content, align, fontSize, marginTop, marginBottom } = attributes;
 
-        console.log(className);
+        //const size = fontSizes.find(element => {
+        //return element.size === fontSize;
+        //});
 
-        className = align ? `text-${align}` : false;
+        const size = getSelectValueFromFontSize(fontSizes, fontSize);
+
+        console.log(size);
+
+        className = classnames(getMarginClass(marginTop, marginBottom), {
+            //size ? size.slug : null, {
+            [`text-${align}`]: align,
+            [size]: size
+        });
 
         return (
             <RichText.Content
                 tagName="p"
                 value={content}
-                className={className ? className : undefined}
+                className={className ? className : null}
             />
         );
     }
