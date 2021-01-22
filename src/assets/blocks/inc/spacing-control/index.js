@@ -62,7 +62,7 @@ export function SpacingControl({ marginTop, marginBottom, onChange }) {
             </div>
             <div className="diym-spacing-control__button">
                 <Button isSmall isSecondary onClick={updateSpacing()}>
-                    {__("Reset")}
+                    {__("Reset", "diy-marketer")}
                 </Button>
             </div>
         </>

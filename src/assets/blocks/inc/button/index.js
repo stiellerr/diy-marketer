@@ -54,7 +54,7 @@ registerBlockType("diym/button", {
         contentColor: {
             type: "string"
         },
-        align: {
+        textAlign: {
             type: "string",
             default: "left"
         },

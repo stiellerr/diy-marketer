@@ -1,4 +1,3 @@
-import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
 import { useCallback, useState } from "@wordpress/element";
 import { RichText, BlockControls, AlignmentToolbar } from "@wordpress/block-editor";
@@ -19,6 +18,7 @@ import { partialRight } from "lodash";
 
 import {
     CustomSelectControl,
+    FontSizePicker,
     RangeControl,
     AlignmentMatrixControl,
     Button,
@@ -32,47 +32,16 @@ import {
     Popover
 } from "@wordpress/components";
 import { rawShortcut, displayShortcut } from "@wordpress/keycodes";
-import {
-    link,
-    more,
-    linkOff,
-    positionLeft,
-    positionRight,
-    positionCenter,
-    stretchWide,
-    stretchFullWidth
-} from "@wordpress/icons";
+import { link, more, linkOff, stretchFullWidth } from "@wordpress/icons";
 
 import "./editor.scss";
 
 import classnames from "classnames";
 
-import SpacingControl from "../spacing-control";
+import { SpacingControl } from "../spacing-control";
+import { BLOCK_ALIGNMENT_CONTROLS, MARGINS } from "../helper";
 
 const NEW_TAB_REL = "noreferrer noopener";
-
-const DEFAULT_ALIGNMENT_CONTROLS = [
-    {
-        icon: positionLeft,
-        title: __("Align button left"),
-        align: "left"
-    },
-    {
-        icon: positionCenter,
-        title: __("Align button center"),
-        align: "center"
-    },
-    {
-        icon: positionRight,
-        title: __("Align button right"),
-        align: "right"
-    },
-    {
-        icon: stretchWide,
-        title: __("Align button full"),
-        align: "full"
-    }
-];
 
 function URLPicker({
     isSelected,
@@ -158,29 +127,18 @@ function URLPicker({
 function ButtonEdit(props) {
     console.log(props);
 
-    const { attributes, setAttributes, className, isSelected, onReplace, mergeBlocks } = props;
+    const { attributes, setAttributes, isSelected, onReplace, mergeBlocks } = props;
     const {
-        borderRadius,
         linkTarget,
-        placeholder,
         rel,
         text,
         url,
         width,
-        align,
+        textAlign,
         buttonSize,
-        paddingSize,
         marginTop,
         marginBottom
     } = attributes;
-
-    const updateSpacing = (dimension, size, device = "") => {
-        setAttributes({
-            [`${dimension}${device}`]: size
-        });
-    };
-
-    console.log(className);
 
     const onToggleOpenInNewTab = useCallback(
         value => {
@@ -201,37 +159,23 @@ function ButtonEdit(props) {
         [rel, setAttributes]
     );
 
-    console.log(url);
+    const blockProps = useBlockProps({
+        style: {
+            width: "full" === textAlign ? "100%" : null,
+            fontSize: buttonSize || null
+        }
+    });
 
-    const onChangeAlign = align => {
-        setAttributes({ align });
-    };
-    //const blockProps = useBlockProps();
-    //console.log(blockProps.className);
-
-    //let style = align === "justify" ? { width: "100%" } : { textAlign: align };
-
-    //console.log(style);<div {...blockProps} style={"justify" !== align ? { textAlign: align } : undefined}>
-
-    const blockProps = useBlockProps();
-
-    //console.log(blockProps.style);
-
-    const options = [
+    const buttonSizes = [
         {
-            key: "sm",
-            name: "Small",
-            style: { fontSize: "75%" }
+            name: __("Small", "diy-marketer"),
+            slug: "btn-sm",
+            size: 14
         },
         {
-            key: "normal",
-            name: "Normal",
-            style: { fontSize: "100%" }
-        },
-        {
-            key: "lg",
-            name: "Large",
-            style: { fontSize: "200%" }
+            name: __("Large", "diy-marketer"),
+            slug: "btn-lg",
+            size: 20
         }
     ];
 
@@ -239,44 +183,51 @@ function ButtonEdit(props) {
         <>
             <InspectorControls>
                 <PanelBody title={__("Size", "diy-marketer")}>
-                    <CustomSelectControl
-                        label="Button Size"
-                        options={options}
-                        onChange={({ selectedItem }) =>
-                            setAttributes({ buttonSize: selectedItem.key })
-                        }
-                        value={options.find(option => option.key === buttonSize)}
+                    <FontSizePicker
+                        fontSizes={buttonSizes}
+                        value={buttonSize}
+                        disableCustomFontSizes={true}
+                        onChange={buttonSize => {
+                            setAttributes({ buttonSize });
+                        }}
                     />
                 </PanelBody>
-                <PanelBody title={__("Spacing", "diy-marketer")}>
+                <PanelBody title={__("Spacing", "diy-marketer")} initialOpen={false}>
                     <SpacingControl
                         onChange={value => {
                             setAttributes(value);
                         }}
-                        marginTop={marginTop || 0}
-                        marginBottom={marginBottom || 0}
+                        marginTop={marginTop}
+                        marginBottom={marginBottom}
                     ></SpacingControl>
                 </PanelBody>
             </InspectorControls>
             <BlockControls>
                 <AlignmentToolbar
-                    value={align}
-                    alignmentControls={DEFAULT_ALIGNMENT_CONTROLS}
-                    onChange={onChangeAlign}
+                    value={textAlign}
+                    alignmentControls={BLOCK_ALIGNMENT_CONTROLS}
+                    onChange={textAlign => {
+                        setAttributes({ textAlign });
+                    }}
                 />
             </BlockControls>
-            <div {...blockProps} style={"justify" !== align ? { textAlign: align } : undefined}>
+            <div
+                {...blockProps}
+                style={{
+                    textAlign: "center" === textAlign || "right" === textAlign ? textAlign : null,
+                    paddingTop: MARGINS[marginTop],
+                    paddingBottom: MARGINS[marginBottom]
+                }}
+            >
                 <RichText
-                    aria-label={__("Button text")}
-                    placeholder={placeholder || __("Add text…")}
+                    aria-label={__("Button text", "diy-marketer")}
+                    placeholder={__("Add text…", "diy-marketer")}
                     value={text}
-                    onChange={value => setAttributes({ text: value })}
+                    onChange={text => setAttributes({ text })}
                     withoutInteractiveFormatting
-                    //className={classnames(className)}
                     style={{ ...blockProps.style }}
-                    //style={"justify" === align ? { width: "100%" } : undefined}
                     identifier="text"
-                    //textAlign={align}
+                    textAlign={textAlign}
                 />
             </div>
             <URLPicker
