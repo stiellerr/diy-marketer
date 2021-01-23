@@ -2,41 +2,23 @@ import { __ } from "@wordpress/i18n";
 import { useCallback, useState } from "@wordpress/element";
 import { RichText, BlockControls, AlignmentToolbar } from "@wordpress/block-editor";
 import {
-    withColors,
     InspectorControls,
-    PanelColorSettings,
-    ContrastChecker,
     useBlockProps,
-    __experimentalLinkControl as LinkControl,
-    DimensionControl
+    __experimentalLinkControl as LinkControl
 } from "@wordpress/block-editor";
 
-//import { __experimentalNumberControl as NumberControl } from "@wordpress/components";
-//import { NumberControl } from "@wordpress/components";
-
-import { partialRight } from "lodash";
-
 import {
-    CustomSelectControl,
     FontSizePicker,
-    RangeControl,
-    AlignmentMatrixControl,
-    Button,
-    ButtonGroup,
     KeyboardShortcuts,
     PanelBody,
-    TextControl,
-    ToggleControl,
     ToolbarButton,
     ToolbarGroup,
     Popover
 } from "@wordpress/components";
 import { rawShortcut, displayShortcut } from "@wordpress/keycodes";
-import { link, more, linkOff, stretchFullWidth } from "@wordpress/icons";
+import { link, linkOff } from "@wordpress/icons";
 
 import "./editor.scss";
-
-import classnames from "classnames";
 
 import { SpacingControl } from "../spacing-control";
 import { BLOCK_ALIGNMENT_CONTROLS, MARGINS } from "../helper";
@@ -127,13 +109,12 @@ function URLPicker({
 function ButtonEdit(props) {
     console.log(props);
 
-    const { attributes, setAttributes, isSelected, onReplace, mergeBlocks } = props;
+    const { attributes, setAttributes, isSelected } = props;
     const {
         linkTarget,
         rel,
         text,
         url,
-        width,
         textAlign,
         buttonSize,
         marginTop,

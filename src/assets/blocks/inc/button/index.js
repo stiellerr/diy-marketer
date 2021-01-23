@@ -1,13 +1,6 @@
 import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
-import { RichText, useBlockProps, BlockControls, AlignmentToolbar } from "@wordpress/block-editor";
-import {
-    withColors,
-    InspectorControls,
-    PanelColorSettings,
-    ContrastChecker
-} from "@wordpress/block-editor";
-import { PanelBody } from "@wordpress/components";
+import { RichText } from "@wordpress/block-editor";
 
 import "./editor.scss";
 
@@ -28,32 +21,13 @@ registerBlockType("diym/button", {
     },
     keywords: [__("button", "diy-marketer")],
     supports: {
-        anchor: true,
-        //align: true,
-        //alignWide: false,
+        html: false,
         reusable: false,
-        color: true
-
-        //__experimentalSelector: ".wp-block-button > a"
-        //
-        //anchor: true,
-        //className: true
-        //__experimentalColor: {
-        //    linkColor: true
-        //},
-        //__experimentalFontSize: true
-        //__experimentalLineHeight: true,
-        //__experimentalSelector: "p",
-        //__unstablePasteTextInline: true
+        //className: false,
+        color: true,
+        customClassName: false
     },
     attributes: {
-        buttonColor: {
-            type: "string",
-            default: "accent"
-        },
-        contentColor: {
-            type: "string"
-        },
         textAlign: {
             type: "string",
             default: "left"
@@ -63,6 +37,16 @@ registerBlockType("diym/button", {
             source: "html",
             selector: "a"
         },
+        buttonSize: {
+            type: "string"
+        },
+        marginTop: {
+            type: "number"
+        },
+        marginBottom: {
+            type: "number"
+        },
+        //
         url: {
             type: "string",
             source: "attribute",
@@ -80,41 +64,26 @@ registerBlockType("diym/button", {
             source: "attribute",
             selector: "a",
             attribute: "rel"
-        },
-        buttonSize: {
-            type: "string",
-            default: "normal"
-        },
-        paddingSize: {
-            type: "string"
-        },
-        marginTop: {
-            type: "number"
-        },
-        marginBottom: {
-            type: "number"
         }
     },
-    //style: "zzzz",
     edit,
-
-    // save
     save: props => {
+        console.log(props);
         const { attributes } = props;
 
         const {
             text,
-            url,
-            linkTarget,
-            rel,
-            align,
+            textAlign,
             buttonSize,
             marginBottom,
-            marginTop
+            marginTop,
+            url,
+            linkTarget,
+            rel
         } = attributes;
 
         let wrapperClass = classnames(getMarginClass(marginTop, marginBottom), {
-            [`text-${align}`]: "center" === align || "right" === align
+            [`text-${textAlign}`]: "center" === textAlign || "right" === textAlign
         });
 
         return (
@@ -122,8 +91,8 @@ registerBlockType("diym/button", {
                 <RichText.Content
                     tagName="a"
                     className={classnames("btn", "btn-primary", {
-                        "w-100": "full" === align,
-                        [`btn-${buttonSize}`]: "sm" === buttonSize || "lg" === buttonSize
+                        "w-100": "full" === textAlign,
+                        [buttonSize]: buttonSize
                     })}
                     value={text}
                     href={url}

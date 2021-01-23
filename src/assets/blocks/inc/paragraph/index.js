@@ -142,10 +142,10 @@ registerBlockType("diym/paragraph", {
             </>
         );
     },
-    save: ({ attributes, className }) => {
+    save: ({ attributes }) => {
         const { content, textAlign, fontSize, marginTop, marginBottom, textColor } = attributes;
 
-        className = classnames(
+        let className = classnames(
             getMarginClass(marginTop, marginBottom),
             getSelectValueFromFontSize(fontSizes, fontSize),
             {
