@@ -28,7 +28,7 @@ import { link, linkOff } from "@wordpress/icons";
 import "./editor.scss";
 
 import { SpacingControl } from "../spacing-control";
-import { BLOCK_ALIGNMENT_CONTROLS, MARGINS } from "../helper";
+import { BLOCK_ALIGNMENT_CONTROLS, MARGINS, BUTTON_SIZES } from "../helper";
 
 const NEW_TAB_REL = "noreferrer noopener";
 
@@ -162,25 +162,12 @@ function ButtonEdit(props) {
         }
     });
 
-    const buttonSizes = [
-        {
-            name: __("Small", "diy-marketer"),
-            slug: "btn-sm",
-            size: 14
-        },
-        {
-            name: __("Large", "diy-marketer"),
-            slug: "btn-lg",
-            size: 20
-        }
-    ];
-
     return (
         <>
             <InspectorControls>
                 <PanelBody title={__("Size", "diy-marketer")}>
                     <FontSizePicker
-                        fontSizes={buttonSizes}
+                        fontSizes={BUTTON_SIZES}
                         value={buttonSize}
                         disableCustomFontSizes={true}
                         onChange={buttonSize => {

@@ -52,6 +52,19 @@ export const BLOCK_ALIGNMENT_CONTROLS = [
     }
 ];
 
+export const BUTTON_SIZES = [
+    {
+        name: __("Small", "diy-marketer"),
+        slug: "btn-sm",
+        size: 14
+    },
+    {
+        name: __("Large", "diy-marketer"),
+        slug: "btn-lg",
+        size: 20
+    }
+];
+
 export function getSelectValueFromFontSize(fontSizes, value) {
     if (value) {
         const fontSizeValue = fontSizes.find(font => font.size === value);

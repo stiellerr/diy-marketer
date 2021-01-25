@@ -5,7 +5,7 @@ import { RichText, useBlockProps } from "@wordpress/block-editor";
 import "./editor.scss";
 
 import { getMarginClass } from "../spacing-control";
-
+import { BUTTON_SIZES, getSelectValueFromFontSize } from "../helper";
 import edit from "./edit.js";
 
 import classnames from "classnames";
@@ -21,7 +21,6 @@ registerBlockType("diym/button", {
     },
     keywords: [__("button", "diy-marketer")],
     styles: [
-        // Mark style as default.
         {
             name: "fill",
             label: __("Fill", "diy-marketer"),
@@ -35,12 +34,8 @@ registerBlockType("diym/button", {
     supports: {
         html: false,
         reusable: false,
-        //className: false,
-        //color: true,
         customClassName: false
     },
-    //wp-block-diym-button
-    //style: "wp-block-diym-button",
     attributes: {
         textAlign: {
             type: "string",
@@ -104,16 +99,22 @@ registerBlockType("diym/button", {
         //console.log(useBlockProps);
         console.log(blockProps);
 
+        let className = classnames(
+            "btn",
+            "btn-primary",
+            getSelectValueFromFontSize(BUTTON_SIZES, buttonSize),
+            {
+                "w-100": "full" === textAlign
+            }
+        );
+
         return (
             <>
                 <div {...blockProps}></div>
                 <div className={wrapperClass ? wrapperClass : null}>
                     <RichText.Content
                         tagName="a"
-                        className={classnames("btn", "btn-primary", {
-                            "w-100": "full" === textAlign,
-                            [buttonSize]: buttonSize
-                        })}
+                        className={className}
                         value={text}
                         href={url}
                         target={linkTarget}
