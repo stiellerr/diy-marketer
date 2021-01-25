@@ -158,10 +158,12 @@ function ButtonEdit(props) {
         style: {
             textAlign: "center" === textAlign || "right" === textAlign ? textAlign : undefined,
             paddingTop: marginTop ? MARGINS[marginTop] : undefined,
-            paddingBottom: marginBottom ? MARGINS[marginBottom] : undefined,
-            zzz: className.search("outline") ? "true" : "false"
+            paddingBottom: marginBottom ? MARGINS[marginBottom] : undefined
+            //backgroundColor: className?.indexOf("outline") ? "#99b3ff" : "#000000"
         }
     });
+
+    //if
     //.indexOf("cheddar")
     //className.indexOf("cheddar")
     //console.log(className);
