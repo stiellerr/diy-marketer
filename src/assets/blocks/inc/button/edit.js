@@ -159,22 +159,8 @@ function ButtonEdit(props) {
             textAlign: "center" === textAlign || "right" === textAlign ? textAlign : undefined,
             paddingTop: marginTop ? MARGINS[marginTop] : undefined,
             paddingBottom: marginBottom ? MARGINS[marginBottom] : undefined
-            //backgroundColor: className?.indexOf("outline") ? "#99b3ff" : "#000000"
         }
     });
-
-    //if
-    //.indexOf("cheddar")
-    //className.indexOf("cheddar")
-    //console.log(className);
-    //if (className && className.search("outline")) {
-    //console.log("true");
-    //} else {
-    //console.log("false");
-    //}
-
-    //console.log(blockProps);
-    //console.log(className);
 
     const buttonSizes = [
         {
@@ -227,7 +213,10 @@ function ButtonEdit(props) {
                         }
                     ]}
                 ></PanelColorSettings>
-                <ContrastChecker textColor={textColor.color} backgroundColor={buttonColor.color} />
+                <ContrastChecker
+                    textColor={textColor.color}
+                    backgroundColor={className !== "is-style-outline" ? buttonColor.color : "#fff"}
+                />
             </InspectorControls>
             <BlockControls>
                 <AlignmentToolbar
@@ -245,10 +234,10 @@ function ButtonEdit(props) {
                     value={text}
                     onChange={text => setAttributes({ text })}
                     withoutInteractiveFormatting
-                    //style={{ ...blockProps.style }}
                     style={{
                         color: textColor.color,
                         backgroundColor: buttonColor.color,
+                        borderColor: buttonColor.color,
                         width: "full" === textAlign ? "100%" : null,
                         fontSize: buttonSize || null
                     }}
@@ -268,5 +257,4 @@ function ButtonEdit(props) {
     );
 }
 
-//export default ButtonEdit;"textColor",
 export default withColors("textColor", "buttonColor")(ButtonEdit);
