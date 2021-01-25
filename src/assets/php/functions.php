@@ -623,6 +623,11 @@ function diym_block_editor_settings() {
 			'name'  => __( 'Content Color', 'diy-marketer' ),
 			'slug'  => 'content',
 			'color' => diym_get_color_for_area( 'body', 'content' ),
+		),
+		array(
+			'name'  => __( 'White', 'diy-marketer' ),
+			'slug'  => 'white',
+			'color' => '#fff',
 		)
 		/*
 		array(

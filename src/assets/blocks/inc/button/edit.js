@@ -1,6 +1,13 @@
 import { __ } from "@wordpress/i18n";
 import { useCallback, useState } from "@wordpress/element";
-import { RichText, BlockControls, AlignmentToolbar } from "@wordpress/block-editor";
+import {
+    RichText,
+    withColors,
+    BlockControls,
+    AlignmentToolbar,
+    PanelColorSettings,
+    ContrastChecker
+} from "@wordpress/block-editor";
 import {
     InspectorControls,
     useBlockProps,
@@ -107,9 +114,15 @@ function URLPicker({
 }
 
 function ButtonEdit(props) {
-    console.log(props);
-
-    const { attributes, setAttributes, isSelected } = props;
+    const {
+        attributes,
+        setAttributes,
+        isSelected,
+        textColor,
+        buttonColor,
+        setTextColor,
+        setButtonColor
+    } = props;
     const {
         linkTarget,
         rel,
@@ -118,7 +131,8 @@ function ButtonEdit(props) {
         textAlign,
         buttonSize,
         marginTop,
-        marginBottom
+        marginBottom,
+        className
     } = attributes;
 
     const onToggleOpenInNewTab = useCallback(
@@ -142,10 +156,23 @@ function ButtonEdit(props) {
 
     const blockProps = useBlockProps({
         style: {
-            width: "full" === textAlign ? "100%" : null,
-            fontSize: buttonSize || null
+            textAlign: "center" === textAlign || "right" === textAlign ? textAlign : undefined,
+            paddingTop: marginTop ? MARGINS[marginTop] : undefined,
+            paddingBottom: marginBottom ? MARGINS[marginBottom] : undefined,
+            zzz: className.search("outline") ? "true" : "false"
         }
     });
+    //.indexOf("cheddar")
+    //className.indexOf("cheddar")
+    //console.log(className);
+    //if (className && className.search("outline")) {
+    //console.log("true");
+    //} else {
+    //console.log("false");
+    //}
+
+    //console.log(blockProps);
+    //console.log(className);
 
     const buttonSizes = [
         {
@@ -182,6 +209,23 @@ function ButtonEdit(props) {
                         marginBottom={marginBottom}
                     ></SpacingControl>
                 </PanelBody>
+                <PanelColorSettings
+                    title={__("Color settings", "diy-marketer")}
+                    colorSettings={[
+                        {
+                            label: __("Text Color", "diy-marketer"),
+                            value: textColor.color,
+                            onChange: setTextColor
+                        },
+                        {
+                            label: __("Button Color", "diy-marketer"),
+                            disableCustomColors: true,
+                            value: buttonColor.color,
+                            onChange: setButtonColor
+                        }
+                    ]}
+                ></PanelColorSettings>
+                <ContrastChecker textColor={textColor.color} backgroundColor={buttonColor.color} />
             </InspectorControls>
             <BlockControls>
                 <AlignmentToolbar
@@ -192,21 +236,20 @@ function ButtonEdit(props) {
                     }}
                 />
             </BlockControls>
-            <div
-                {...blockProps}
-                style={{
-                    textAlign: "center" === textAlign || "right" === textAlign ? textAlign : null,
-                    paddingTop: MARGINS[marginTop],
-                    paddingBottom: MARGINS[marginBottom]
-                }}
-            >
+            <div {...blockProps}>
                 <RichText
                     aria-label={__("Button text", "diy-marketer")}
                     placeholder={__("Add text…", "diy-marketer")}
                     value={text}
                     onChange={text => setAttributes({ text })}
                     withoutInteractiveFormatting
-                    style={{ ...blockProps.style }}
+                    //style={{ ...blockProps.style }}
+                    style={{
+                        color: textColor.color,
+                        backgroundColor: buttonColor.color,
+                        width: "full" === textAlign ? "100%" : null,
+                        fontSize: buttonSize || null
+                    }}
                     identifier="text"
                     textAlign={textAlign}
                 />
@@ -223,4 +266,5 @@ function ButtonEdit(props) {
     );
 }
 
-export default ButtonEdit;
+//export default ButtonEdit;"textColor",
+export default withColors("textColor", "buttonColor")(ButtonEdit);

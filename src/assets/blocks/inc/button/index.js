@@ -1,6 +1,6 @@
 import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
-import { RichText } from "@wordpress/block-editor";
+import { RichText, useBlockProps } from "@wordpress/block-editor";
 
 import "./editor.scss";
 
@@ -20,13 +20,27 @@ registerBlockType("diym/button", {
         src: "button"
     },
     keywords: [__("button", "diy-marketer")],
+    styles: [
+        // Mark style as default.
+        {
+            name: "fill",
+            label: __("Fill", "diy-marketer"),
+            isDefault: true
+        },
+        {
+            name: "outline",
+            label: __("Outline", "diy-marketer")
+        }
+    ],
     supports: {
         html: false,
         reusable: false,
         //className: false,
-        color: true,
+        //color: true,
         customClassName: false
     },
+    //wp-block-diym-button
+    //style: "wp-block-diym-button",
     attributes: {
         textAlign: {
             type: "string",
@@ -86,20 +100,27 @@ registerBlockType("diym/button", {
             [`text-${textAlign}`]: "center" === textAlign || "right" === textAlign
         });
 
+        const blockProps = useBlockProps.save();
+        //console.log(useBlockProps);
+        console.log(blockProps);
+
         return (
-            <div className={wrapperClass ? wrapperClass : null}>
-                <RichText.Content
-                    tagName="a"
-                    className={classnames("btn", "btn-primary", {
-                        "w-100": "full" === textAlign,
-                        [buttonSize]: buttonSize
-                    })}
-                    value={text}
-                    href={url}
-                    target={linkTarget}
-                    rel={rel}
-                />
-            </div>
+            <>
+                <div {...blockProps}></div>
+                <div className={wrapperClass ? wrapperClass : null}>
+                    <RichText.Content
+                        tagName="a"
+                        className={classnames("btn", "btn-primary", {
+                            "w-100": "full" === textAlign,
+                            [buttonSize]: buttonSize
+                        })}
+                        value={text}
+                        href={url}
+                        target={linkTarget}
+                        rel={rel}
+                    />
+                </div>
+            </>
         );
     }
 });
