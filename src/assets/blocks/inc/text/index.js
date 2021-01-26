@@ -23,11 +23,29 @@ import "./editor.scss";
 import HeadingLevelDropdown from "./heading-level-dropdown";
 
 const options = [
-    { key: "small", name: "Small", style: { fontSize: "87.5%" } },
-    { key: "lead", name: "Lead", style: { fontSize: "125%" } },
-    { key: "h1", name: "H6", style: { fontSize: "125%" } },
-    { key: "h2", name: "H5", style: { fontSize: "125%" } },
-    { key: "h3", name: "H4", style: { fontSize: "125%", fontWeight: "bold" } }
+    { key: "small", name: "Small", style: { fontSize: "0.875em" } },
+    { key: "lead", name: "Lead", style: { fontSize: "1.25rem", fontWeight: "300!important" } },
+    { key: "h6", name: "H6", style: { fontSize: "1rem", fontWeight: 500 } },
+    { key: "h5", name: "H5", style: { fontSize: "1.25rem", fontWeight: 500 } },
+    { key: "h4", name: "H4", style: { fontSize: "1.5rem", fontWeight: 500 } },
+    { key: "h3", name: "H3", style: { fontSize: "1.75rem", fontWeight: 500 } },
+    { key: "h2", name: "H2", style: { fontSize: "2rem", fontWeight: 500 } },
+    /*
+    { key: "h1", name: "H1", style: { fontSize: "2.5rem", fontWeight: 500 } },
+    { key: "display-6", name: "D6", style: { fontSize: "2.5rem", fontWeight: 300 } },
+    { key: "display-5", name: "D5", style: { fontSize: "3rem", fontWeight: 300 } },
+    { key: "display-4", name: "D4", style: { fontSize: "3.5rem", fontWeight: 300 } },
+    { key: "display-3", name: "D3", style: { fontSize: "4rem", fontWeight: 300 } },
+    { key: "display-2", name: "D2", style: { fontSize: "4.5rem", fontWeight: 300 } },
+    { key: "display-1", name: "D1", style: { fontSize: "5rem", fontWeight: 300 } }
+    */
+    { key: "h1", name: "H1", style: { fontSize: "2.25rem", fontWeight: 500 } },
+    { key: "display-6", name: "D6", style: { fontSize: "2.25rem", fontWeight: 300 } },
+    { key: "display-5", name: "D5", style: { fontSize: "2.5rem", fontWeight: 300 } },
+    { key: "display-4", name: "D4", style: { fontSize: "2.75rem", fontWeight: 300 } },
+    { key: "display-3", name: "D3", style: { fontSize: "3rem", fontWeight: 300 } },
+    { key: "display-2", name: "D2", style: { fontSize: "3.25rem", fontWeight: 300 } },
+    { key: "display-1", name: "D1", style: { fontSize: "3.5rem", fontWeight: 300 } }
 ];
 
 const fontSizes = [
@@ -145,10 +163,14 @@ registerBlockType("diym/text", {
 
         const tagName = level ? "h" + level : "p";
 
+        //const value = ...options.find(option => option.key === size)
+        //console;
+
         const blockProps = useBlockProps({
             style: {
+                ...options.find(option => option.key === size)?.style,
                 textAlign: textAlign,
-                fontSize: fontSize || null,
+                //fontSize: fontSize || null,
                 paddingTop: MARGINS[marginTop],
                 paddingBottom: MARGINS[marginBottom]
             }
@@ -176,6 +198,7 @@ registerBlockType("diym/text", {
                                 options={options}
                                 value={size ? options.find(option => option.key === size) : []}
                                 onChange={({ selectedItem }) => {
+                                    console.log(selectedItem);
                                     setAttributes({ size: selectedItem.key });
                                 }}
                             />
