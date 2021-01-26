@@ -55,6 +55,12 @@ registerBlockType("diym/button", {
         marginBottom: {
             type: "number"
         },
+        textColor: {
+            type: "string"
+        },
+        buttonColor: {
+            type: "string"
+        },
         //
         url: {
             type: "string",
@@ -86,6 +92,8 @@ registerBlockType("diym/button", {
             buttonSize,
             marginBottom,
             marginTop,
+            textColor,
+            buttonColor,
             url,
             linkTarget,
             rel
@@ -95,22 +103,20 @@ registerBlockType("diym/button", {
             [`text-${textAlign}`]: "center" === textAlign || "right" === textAlign
         });
 
-        const blockProps = useBlockProps.save();
+        //const blockProps = useBlockProps.save();
         //console.log(useBlockProps);
-        console.log(blockProps);
+        //console.log(blockProps);
 
-        let className = classnames(
-            "btn",
-            "btn-primary",
-            getSelectValueFromFontSize(BUTTON_SIZES, buttonSize),
-            {
-                "w-100": "full" === textAlign
-            }
-        );
+        let className = classnames("btn", getSelectValueFromFontSize(BUTTON_SIZES, buttonSize), {
+            [`text-${textColor}`]: textColor,
+            [`btn-${buttonColor}`]: buttonColor,
+            "w-100": "full" === textAlign
+        });
 
         return (
             <>
-                <div {...blockProps}></div>
+                {/*<div {...blockProps}
+                ></div>*/}
                 <div className={wrapperClass ? wrapperClass : null}>
                     <RichText.Content
                         tagName="a"

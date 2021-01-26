@@ -8,7 +8,7 @@ import $ from "jquery";
 // styles
 import "./editor.scss";
 
-export default class IconPicker2 extends Component {
+export default class IconPicker extends Component {
     // globals...
     itemList = {};
 

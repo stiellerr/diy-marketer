@@ -26,7 +26,8 @@ import icon from "./inc/icon";
 import test from "./inc/aaatest";
 import heading from "./inc/heading";
 import subhead from "./inc/subhead";
-import paragraph from "./inc/paragraph";
+//import paragraph from "./inc/paragraph";
+import text from "./inc/text";
 import image from "./inc/image";
 import benefit from "./inc/benefit";
 import offer from "./inc/offer";
@@ -37,6 +38,7 @@ import button from "./inc/button";
 //import "./inc/meta";
 import "./plugins/sidebar";
 
+/*
 import { addFilter } from "@wordpress/hooks";
 
 const replaceDefaultClassNames = (props, blockType, attributes) => {
@@ -60,6 +62,7 @@ wp.hooks.addFilter(
     "diym/replace-default-classnames",
     replaceDefaultClassNames
 );
+*/
 
 /*
 import { addFilter } from "@wordpress/hooks";
