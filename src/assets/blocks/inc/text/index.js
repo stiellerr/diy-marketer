@@ -172,6 +172,7 @@ registerBlockType("diym/text", {
                     <PanelBody title={__("Typography", "diy-marketer")}>
                         <div style={{ display: "flex", alignItems: "center" }}>
                             <CustomSelectControl
+                                label={__("font size", "diy-marketer")}
                                 options={options}
                                 value={size ? options.find(option => option.key === size) : []}
                                 onChange={({ selectedItem }) => {
@@ -182,7 +183,7 @@ registerBlockType("diym/text", {
                                 disabled={size === undefined}
                                 isSmall
                                 isSecondary
-                                style={{ marginLeft: "8px" }}
+                                style={{ marginTop: "26px", marginLeft: "8px" }}
                                 onClick={() => {
                                     setAttributes({ size: undefined });
                                 }}
