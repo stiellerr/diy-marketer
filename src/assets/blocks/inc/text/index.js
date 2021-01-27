@@ -16,22 +16,29 @@ import {
 } from "@wordpress/components";
 
 import classnames from "classnames";
-import { TEXT_ALIGNMENT_CONTROLS, getSelectValueFromFontSize, MARGINS } from "../helper";
+import { TEXT_ALIGNMENT_CONTROLS, getSelectValueFromFontSize, SPACING_LEVELS } from "../helper";
 import { getMarginClass, SpacingControl } from "../spacing-control";
 import "./editor.scss";
 
 import HeadingLevelDropdown from "./heading-level-dropdown";
 
 const options = [
+    //
     { key: "small", name: "Small", style: { fontSize: "0.875em" } },
-    { key: "lead", name: "Lead", style: { fontSize: "1.25rem", fontWeight: "300!important" } },
+    { key: "lead", name: "Lead", style: { fontSize: "1.25rem", fontWeight: 300 } },
+    //{ key: "lead", name: "Lead", style: { fontSize: "1.25rem" } },
     { key: "h6", name: "H6", style: { fontSize: "1rem", fontWeight: 500 } },
+    //{ key: "h6", name: "H6", style: { fontSize: "1rem", fontWeight: "bold" } },
     { key: "h5", name: "H5", style: { fontSize: "1.25rem", fontWeight: 500 } },
+    //{ key: "h5", name: "H5", style: { fontSize: "1.25rem", fontWeight: "bold" } },
     { key: "h4", name: "H4", style: { fontSize: "1.5rem", fontWeight: 500 } },
+    //{ key: "h4", name: "H4", style: { fontSize: "1.5rem", fontWeight: "bold" } },
     { key: "h3", name: "H3", style: { fontSize: "1.75rem", fontWeight: 500 } },
+    //{ key: "h3", name: "H3", style: { fontSize: "1.75rem", fontWeight: "bold" } },
     { key: "h2", name: "H2", style: { fontSize: "2rem", fontWeight: 500 } },
-    /*
+    //{ key: "h2", name: "H2", style: { fontSize: "2rem", fontWeight: "bold" } },
     { key: "h1", name: "H1", style: { fontSize: "2.5rem", fontWeight: 500 } },
+    /*
     { key: "display-6", name: "D6", style: { fontSize: "2.5rem", fontWeight: 300 } },
     { key: "display-5", name: "D5", style: { fontSize: "3rem", fontWeight: 300 } },
     { key: "display-4", name: "D4", style: { fontSize: "3.5rem", fontWeight: 300 } },
@@ -39,15 +46,18 @@ const options = [
     { key: "display-2", name: "D2", style: { fontSize: "4.5rem", fontWeight: 300 } },
     { key: "display-1", name: "D1", style: { fontSize: "5rem", fontWeight: 300 } }
     */
-    { key: "h1", name: "H1", style: { fontSize: "2.25rem", fontWeight: 500 } },
+    //{ key: "h1", name: "H1", style: { fontSize: "2.25rem", fontWeight: 500 } },
+    //{ key: "h1", name: "H1", style: { fontSize: "2.25rem", fontWeight: "bold" } },
     { key: "display-6", name: "D6", style: { fontSize: "2.25rem", fontWeight: 300 } },
     { key: "display-5", name: "D5", style: { fontSize: "2.5rem", fontWeight: 300 } },
     { key: "display-4", name: "D4", style: { fontSize: "2.75rem", fontWeight: 300 } },
     { key: "display-3", name: "D3", style: { fontSize: "3rem", fontWeight: 300 } },
     { key: "display-2", name: "D2", style: { fontSize: "3.25rem", fontWeight: 300 } },
     { key: "display-1", name: "D1", style: { fontSize: "3.5rem", fontWeight: 300 } }
+    //{ key: "display-1", name: "D1", style: { fontSize: 56, fontWeight: 300 } }
 ];
 
+/*
 const fontSizes = [
     {
         name: __("Small", "diy-marketer"),
@@ -95,6 +105,22 @@ const fontSizes = [
         size: 56
     }
 ];
+*/
+
+const fontSizes = [
+    {
+        name: __("Small", "diy-marketer"),
+        slug: "small",
+        size: "0.875em"
+    },
+    {
+        name: __("Lead", "diy-marketer"),
+        slug: "lead",
+        size: "1.25rem",
+        style: { fontSize: "3.5rem", fontWeight: 300 },
+        className: "zzz"
+    }
+];
 
 registerBlockType("diym/text", {
     apiVersion: 2,
@@ -115,7 +141,7 @@ registerBlockType("diym/text", {
     supports: {
         html: false,
         reusable: false,
-        className: false,
+        //className: false,
         color: {
             background: false
         },
@@ -137,10 +163,10 @@ registerBlockType("diym/text", {
         fontSize: {
             type: "number"
         },
-        marginTop: {
+        spacingTop: {
             type: "number"
         },
-        marginBottom: {
+        spacingBottom: {
             type: "number"
         },
         size: {
@@ -159,7 +185,7 @@ registerBlockType("diym/text", {
         ]
     },
     edit: ({ attributes, setAttributes }) => {
-        const { content, textAlign, fontSize, marginBottom, marginTop, level, size } = attributes;
+        const { content, textAlign, fontSize, spacingBottom, spacingTop, level, size } = attributes;
 
         const tagName = level ? "h" + level : "p";
 
@@ -170,17 +196,18 @@ registerBlockType("diym/text", {
             style: {
                 ...options.find(option => option.key === size)?.style,
                 textAlign: textAlign,
-                //fontSize: fontSize || null,
-                paddingTop: MARGINS[marginTop],
-                paddingBottom: MARGINS[marginBottom]
+                paddingTop: spacingTop ? SPACING_LEVELS[spacingTop] : 0,
+                paddingBottom: spacingBottom ? SPACING_LEVELS[spacingBottom] : 0
             }
         });
+
+        console.log(blockProps);
 
         return (
             <>
                 <InspectorControls>
                     {/*
-                    <PanelBody title={__("Typography", "diy-marketer")}>
+                    <PanelBody title={__("Typography zzz", "diy-marketer")}>
                         <FontSizePicker
                             fontSizes={fontSizes}
                             value={options}
@@ -190,9 +217,20 @@ registerBlockType("diym/text", {
                             }}
                         />
                     </PanelBody>
+                    
+                    <PanelBody title={__("Typography", "diy-marketer")}>
+                        <FontSizePicker
+                            fontSizes={fontSizes}
+                            value={options}
+                            disableCustomFontSizes={true}
+                            onChange={fontSize => {
+                                setAttributes({ fontSize });
+                            }}
+                        /> alignItems: "center"
+                    </PanelBody>
                         */}
                     <PanelBody title={__("Typography", "diy-marketer")}>
-                        <div style={{ display: "flex", alignItems: "center" }}>
+                        <div style={{ display: "flex" }}>
                             <CustomSelectControl
                                 label={__("font size", "diy-marketer")}
                                 options={options}
@@ -220,8 +258,8 @@ registerBlockType("diym/text", {
                             onChange={value => {
                                 setAttributes(value);
                             }}
-                            marginTop={marginTop}
-                            marginBottom={marginBottom}
+                            spacingTop={spacingTop}
+                            spacingBottom={spacingBottom}
                         ></SpacingControl>
                     </PanelBody>
                 </InspectorControls>
@@ -268,17 +306,19 @@ registerBlockType("diym/text", {
             content,
             textAlign,
             fontSize,
-            marginTop,
-            marginBottom,
+            spacingTop,
+            spacingBottom,
             textColor,
-            level
+            level,
+            size
         } = attributes;
 
         const TagName = level ? "h" + level : "p";
 
         let className = classnames(
-            getMarginClass(marginTop, marginBottom),
-            getSelectValueFromFontSize(fontSizes, fontSize),
+            size,
+            getMarginClass(spacingTop, spacingBottom),
+            //getSelectValueFromFontSize(fontSizes, fontSize),
             {
                 [`text-${textColor}`]: textColor,
                 [`text-${textAlign}`]: textAlign

@@ -4,7 +4,7 @@
 import { __ } from "@wordpress/i18n";
 import { positionLeft, positionRight, positionCenter, stretchWide } from "@wordpress/icons";
 
-export const MARGINS = ["0rem", "0.25rem", "0.5rem", "1rem", "1.5rem", "3rem"];
+export const SPACING_LEVELS = ["0rem", "0.25rem", "0.5rem", "1rem", "1.5rem", "3rem"];
 
 export const TEXT_ALIGNMENT_CONTROLS = [
     {
