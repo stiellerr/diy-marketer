@@ -196,12 +196,13 @@ registerBlockType("diym/text", {
             style: {
                 ...options.find(option => option.key === size)?.style,
                 textAlign: textAlign,
-                paddingTop: spacingTop ? SPACING_LEVELS[spacingTop] : 0,
-                paddingBottom: spacingBottom ? SPACING_LEVELS[spacingBottom] : 0
+                paddingTop: spacingTop !== undefined ? SPACING_LEVELS[spacingTop] : undefined,
+                paddingBottom:
+                    spacingBottom !== undefined ? SPACING_LEVELS[spacingBottom] : undefined
             }
         });
 
-        console.log(blockProps);
+        //console.log(blockProps);
 
         return (
             <>
@@ -315,15 +316,16 @@ registerBlockType("diym/text", {
 
         const TagName = level ? "h" + level : "p";
 
-        let className = classnames(
-            size,
-            getMarginClass(spacingTop, spacingBottom),
-            //getSelectValueFromFontSize(fontSizes, fontSize),
-            {
-                [`text-${textColor}`]: textColor,
-                [`text-${textAlign}`]: textAlign
-            }
-        );
+        let className =
+            classnames(
+                size,
+                getMarginClass(spacingTop, spacingBottom),
+                //getSelectValueFromFontSize(fontSizes, fontSize),
+                {
+                    [`text-${textColor}`]: textColor,
+                    [`text-${textAlign}`]: textAlign
+                }
+            ) || undefined;
 
         return (
             <TagName {...useBlockProps.save()} className={className}>

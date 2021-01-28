@@ -28,7 +28,7 @@ import { link, linkOff } from "@wordpress/icons";
 import "./editor.scss";
 
 import { SpacingControl } from "../spacing-control";
-import { BLOCK_ALIGNMENT_CONTROLS, MARGINS, BUTTON_SIZES } from "../helper";
+import { BLOCK_ALIGNMENT_CONTROLS, SPACING_LEVELS, BUTTON_SIZES } from "../helper";
 
 const NEW_TAB_REL = "noreferrer noopener";
 
@@ -130,8 +130,8 @@ function ButtonEdit(props) {
         url,
         textAlign,
         buttonSize,
-        marginTop,
-        marginBottom,
+        spacingTop,
+        spacingBottom,
         className
     } = attributes;
 
@@ -157,8 +157,8 @@ function ButtonEdit(props) {
     const blockProps = useBlockProps({
         style: {
             textAlign: "center" === textAlign || "right" === textAlign ? textAlign : undefined,
-            paddingTop: marginTop ? MARGINS[marginTop] : undefined,
-            paddingBottom: marginBottom ? MARGINS[marginBottom] : undefined
+            paddingTop: spacingTop ? SPACING_LEVELS[spacingTop] : undefined,
+            paddingBottom: spacingBottom ? SPACING_LEVELS[spacingBottom] : undefined
         }
     });
 
@@ -180,8 +180,8 @@ function ButtonEdit(props) {
                         onChange={value => {
                             setAttributes(value);
                         }}
-                        marginTop={marginTop}
-                        marginBottom={marginBottom}
+                        spacingTop={spacingTop}
+                        spacingBottom={spacingBottom}
                     ></SpacingControl>
                 </PanelBody>
                 <PanelColorSettings

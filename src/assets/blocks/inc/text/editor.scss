@@ -18,12 +18,9 @@
 //
 .editor-styles-wrapper {
     p.wp-block-diym-text {
-        margin: 0 auto;
+        margin: 1px auto;
         line-height: 1.5;
-        //
-        &.is-selected {
-            margin: 0 auto 28px;
-        }
+        padding-bottom: 1rem;
     }
     h6.wp-block-diym-text {
         font-size: 1rem;
@@ -45,12 +42,9 @@
     h4.wp-block-diym-text,
     h5.wp-block-diym-text,
     h6.wp-block-diym-text {
-        margin: 0 auto;
+        margin: 1px auto;
         line-height: 1.2;
+        padding-bottom: 0.5rem;
         font-weight: 500;
-        //
-        &.is-selected {
-            margin: 0 auto 28px;
-        }
     }
 }

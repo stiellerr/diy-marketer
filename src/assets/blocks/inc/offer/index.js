@@ -71,11 +71,11 @@ registerBlockType("diym/offer", {
                         <i className="fas fa-cut fa-2x"></i>
                         <InnerBlocks
                             allowedBlocks={[
-                                "diym/subhead",
-                                "diym/paragraph",
+                                //"diym/subhead",
+                                //"diym/paragraph",
                                 "diym/countdown",
                                 "diym/button",
-                                "diym/test"
+                                "diym/text"
                             ]}
                         />
                     </div>
