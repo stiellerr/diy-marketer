@@ -3,7 +3,7 @@ import "./editor.scss";
 import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
 import { InnerBlocks } from "@wordpress/block-editor";
-import { PanelBody } from "@wordpress/components";
+import { PanelBody, Button } from "@wordpress/components";
 
 import { InspectorControls, MediaPlaceholder } from "@wordpress/block-editor";
 
@@ -35,7 +35,21 @@ registerBlockType("diym/offer", {
             <>
                 <InspectorControls>
                     <PanelBody title={__("Background image", "diy-marketer")}>
-                        {url && <img src={url} style={{ width: "100%", height: "auto" }} />}
+                        {url && (
+                            <>
+                                <img src={url} />
+                                <div style={{ marginTop: "2px", textAlign: "right" }}>
+                                    <Button
+                                        isSecondary
+                                        onClick={() => {
+                                            setAttributes({ url: undefined });
+                                        }}
+                                    >
+                                        Remove
+                                    </Button>
+                                </div>
+                            </>
+                        )}
                         <MediaPlaceholder
                             onSelect={({ url }) => {
                                 setAttributes({ url });
