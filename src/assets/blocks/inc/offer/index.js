@@ -2,34 +2,10 @@ import "./editor.scss";
 
 import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
-//import { InnerBiocks } from "@wordpress/block-editor";
 import { InnerBlocks } from "@wordpress/block-editor";
-import { RichText, BlockControls, AlignmentToolbar } from "@wordpress/block-editor";
-//import "./inner";
-import classnames from "classnames";
+import { PanelBody } from "@wordpress/components";
 
-const DEFAULT_ALIGNMENT_CONTROLS = [
-    {
-        icon: "editor-alignleft",
-        title: __("Align text left"),
-        align: "left"
-    },
-    {
-        icon: "editor-aligncenter",
-        title: __("Align text center"),
-        align: "center"
-    },
-    {
-        icon: "editor-alignright",
-        title: __("Align text right"),
-        align: "right"
-    },
-    {
-        icon: "editor-justify",
-        title: __("Align text justify"),
-        align: "justify"
-    }
-];
+import { InspectorControls, MediaPlaceholder } from "@wordpress/block-editor";
 
 registerBlockType("diym/offer", {
     title: __("Offer", "diy-marketer"),
@@ -42,41 +18,40 @@ registerBlockType("diym/offer", {
     keywords: [__("offer", "diy-marketer")],
     supports: {
         html: false,
-        reusable: false
-        //className: false
+        reusable: false,
+        customClassName: false
+    },
+    attributes: {
+        url: {
+            type: "string"
+        }
     },
     edit: ({ className, attributes, setAttributes }) => {
-        const { content, align } = attributes;
+        const { url } = attributes;
 
-        const onChangeContent = content => {
-            setAttributes({ content });
-        };
-
-        const onChangeAlign = align => {
-            setAttributes({ align });
-        };
+        console.log(url);
 
         return (
             <>
-                <BlockControls>
-                    <AlignmentToolbar
-                        value={align}
-                        alignmentControls={DEFAULT_ALIGNMENT_CONTROLS}
-                        onChange={onChangeAlign}
-                    />
-                </BlockControls>
+                <InspectorControls>
+                    <PanelBody title={__("Background image", "diy-marketer")}>
+                        {url && <img src={url} style={{ width: "100%", height: "auto" }} />}
+                        <MediaPlaceholder
+                            onSelect={({ url }) => {
+                                setAttributes({ url });
+                                console.log(url);
+                            }}
+                            disableMediaButtons={url}
+                        ></MediaPlaceholder>
+                    </PanelBody>
+                </InspectorControls>
                 <div className={className}>
                     <i className="fas fa-share fa-4x"></i>
                     <div>
                         <i className="fas fa-cut fa-2x"></i>
                         <InnerBlocks
-                            allowedBlocks={[
-                                //"diym/subhead",
-                                //"diym/paragraph",
-                                "diym/countdown",
-                                "diym/button",
-                                "diym/text"
-                            ]}
+                            allowedBlocks={["diym/text", "diym/countdown", "diym/button"]}
+                            renderAppender={() => <InnerBlocks.ButtonBlockAppender />}
                         />
                     </div>
                     <i className="fas fa-reply fa-flip-vertical fa-4x" data-content="f112"></i>
@@ -84,15 +59,7 @@ registerBlockType("diym/offer", {
             </>
         );
     },
-    save: ({ attributes }) => {
-        const { content, align } = attributes;
-
-        //const className = align ? `text-${align}` : false;fa-rotate-90
-
-        //const className = classnames(   )
-
-        //const pClass = classnames("rounded", "flex-grow-1", align ? `text-${align}` : undefined);
-
+    save: () => {
         return (
             <>
                 <div className="d-flex flex-column flex-lg-row">

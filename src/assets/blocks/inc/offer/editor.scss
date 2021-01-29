@@ -18,6 +18,7 @@
             align-self: center;
         }
 
+        /*
         .block-editor-block-list__block {
             margin: 1px 0;
             &:not(:nth-last-of-type(2)).is-selected {
@@ -27,9 +28,16 @@
                 margin: 0;
             }
         }
+        
         button.block-editor-button-block-appender {
             margin-left: 0;
         }
+         */
+        /*
+        .block-editor-default-block-appender__content {
+            margin: 5px;
+        }
+        */
     }
     // xxx
     //.components-dropdown.block-editor-inserter {

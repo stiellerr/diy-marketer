@@ -38,6 +38,16 @@ import button from "./inc/button";
 //import "./inc/meta";
 import "./plugins/sidebar";
 
+// set default block for editor...
+import { setDefaultBlockName } from "@wordpress/blocks";
+import domReady from "@wordpress/dom-ready";
+
+domReady(() => {
+    setDefaultBlockName("diym/text");
+});
+
+//wp.blocks.setDefaultBlockName("diym/text");
+
 /*
 import { addFilter } from "@wordpress/hooks";
 
