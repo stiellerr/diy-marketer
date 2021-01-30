@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { Button, TextControl } from "@wordpress/components";
+import { Button, TextControl, Flex, FlexItem } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 
 import "./editor.scss";
@@ -40,6 +40,29 @@ export function SpacingControl({ spacingTop, spacingBottom, onChange }) {
 
     return (
         <>
+            <Flex>
+                <FlexItem>
+                    <TextControl
+                        type="number"
+                        label={__("Top", "diy-marketer")}
+                        onChange={value => onChange({ spacingTop: parseInt(value, 10) })}
+                        min={0}
+                        max={5}
+                        value={Number.isInteger(spacingTop) ? spacingTop : ""}
+                        autoComplete="off"
+                    ></TextControl>
+                    <TextControl
+                        type="number"
+                        label={__("Bottom", "diy-marketer")}
+                        onChange={value => onChange({ spacingBottom: parseInt(value, 10) })}
+                        min={0}
+                        max={5}
+                        value={Number.isInteger(spacingBottom) ? spacingBottom : ""}
+                        autoComplete="off"
+                    ></TextControl>
+                </FlexItem>
+            </Flex>
+            {/*
             <div className="diym-spacing-control">
                 <TextControl
                     type="number"
@@ -65,6 +88,7 @@ export function SpacingControl({ spacingTop, spacingBottom, onChange }) {
                     {__("Reset", "diy-marketer")}
                 </Button>
             </div>
+        */}
         </>
     );
 }
