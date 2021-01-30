@@ -25,10 +25,15 @@ import {
 
 function OfferEdit(props) {
     const { className, attributes, setAttributes, offerColor, setOfferColor } = props;
-    const { url } = attributes;
+    const { url, backgroundColor } = attributes;
 
-    const renderCustomColorPicker = () => (
-        <ColorPicker color={""} onChangeComplete={color => console.log(color)} />
+    const backgroundColorPicker = () => (
+        <ColorPicker
+            color={backgroundColor ? backgroundColor : "fff"}
+            onChangeComplete={({ color }) =>
+                setAttributes({ backgroundColor: color.toRgbString() })
+            }
+        />
     );
 
     const placeholderIcon = <BlockIcon icon={icon} />;
@@ -73,40 +78,49 @@ function OfferEdit(props) {
                         }
                     ]}
                 >
-                    <span>Background Color</span>
-                    <>
-                        <ColorIndicator
-                            //color="#fff"
-                            style={{ verticalAlign: "text-bottom" }}
-                        ></ColorIndicator>
-                        <Flex justify={"flex-end"} style={{ minHeight: "36px" }}>
-                            <Dropdown
-                                renderToggle={({ isOpen, onToggle }) => (
-                                    <Button
-                                        aria-expanded={isOpen}
-                                        aria-haspopup="true"
-                                        onClick={onToggle}
-                                        isLink
-                                        style={{ marginRight: "8px" }}
-                                    >
-                                        {__("Custom colour", "diy-marketer")}
-                                    </Button>
-                                )}
-                                renderContent={renderCustomColorPicker}
-                            ></Dropdown>
-                            <Button onClick={{}} isSecondary isSmall>
-                                {__("Clear", "diy-marketer")}
-                            </Button>
-                        </Flex>
-                    </>
+                    {__("Background Color", "diy-marketer")}
+                    <ColorIndicator
+                        style={{ verticalAlign: "text-bottom", backgroundColor }}
+                    ></ColorIndicator>
+                    <Flex justify={"flex-end"} style={{ minHeight: "36px" }}>
+                        <Dropdown
+                            renderToggle={({ isOpen, onToggle }) => (
+                                <Button
+                                    aria-expanded={isOpen}
+                                    aria-haspopup="true"
+                                    onClick={onToggle}
+                                    isLink
+                                    style={{ marginRight: "8px" }}
+                                >
+                                    {__("Custom color", "diy-marketer")}
+                                </Button>
+                            )}
+                            renderContent={backgroundColorPicker}
+                        ></Dropdown>
+                        <Button
+                            onClick={() => {
+                                setAttributes({ backgroundColor: undefined });
+                            }}
+                            isSecondary
+                            isSmall
+                        >
+                            {__("Clear", "diy-marketer")}
+                        </Button>
+                    </Flex>
                 </PanelColorSettings>
             </InspectorControls>
             <Flex>
                 <FlexItem>
-                    <i className={"fas fa-share fa-4x"}></i>
+                    <i className={"fas fa-share fa-4x"} style={{ color: offerColor.color }}></i>
                 </FlexItem>
                 <FlexBlock
-                    style={{ borderStyle: "dashed", padding: "0.5rem", position: "relative" }}
+                    style={{
+                        backgroundColor: backgroundColor,
+                        borderStyle: "dashed",
+                        borderColor: offerColor.color,
+                        padding: "0.5rem",
+                        position: "relative"
+                    }}
                 >
                     <i
                         className={"fas fa-cut fa-2x"}
@@ -114,7 +128,8 @@ function OfferEdit(props) {
                             position: "absolute",
                             top: 0,
                             left: "10%",
-                            transform: "translate(-50%, -50%)"
+                            transform: "translate(-50%, -50%)",
+                            color: offerColor.color
                         }}
                     ></i>
                     <InnerBlocks
@@ -123,7 +138,10 @@ function OfferEdit(props) {
                     />
                 </FlexBlock>
                 <FlexItem>
-                    <i className={"fas fa-reply fa-flip-vertical fa-4x"}></i>
+                    <i
+                        className={"fas fa-reply fa-flip-vertical fa-4x"}
+                        style={{ color: offerColor.color }}
+                    ></i>
                 </FlexItem>
             </Flex>
         </>

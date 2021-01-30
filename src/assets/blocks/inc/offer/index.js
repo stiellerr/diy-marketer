@@ -23,6 +23,9 @@ registerBlockType("diym/offer", {
     attributes: {
         url: {
             type: "string"
+        },
+        backgroundColor: {
+            type: "string"
         }
     },
     edit,
