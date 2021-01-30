@@ -23,7 +23,7 @@
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
-<div class="container shadow bg-white d-flex flex-column min-vh-100">
+<div class="container d-flex flex-column min-vh-100 bg-white shadow">
 	<!-- HEADER
 	================================================== -->
 	<header role="banner">
@@ -54,35 +54,41 @@
 			</div>
 		</div>
 		<!-- NAVBAR
-		================================================== -->
-		<nav class="navbar navbar-expand-sm flex-sm-column flex-md-row px-0" role="navigation">
-			<div class="d-flex flex-fill">
-				<div class="flex-grow-1 text-center text-md-left align-self-center">
-					<?php 
-						if ( has_custom_logo() ) {
-							the_custom_logo();
-						} else {
-							echo '<h2 class="my-3">'. get_bloginfo( 'name' ) .'</h2>';
-						}
+		================================================== 
+		30/01/2020 - removed px-0 form nav class... unsure why it was there...
+		-->
+		<div class="row border-bottom">
+			<div class="col">
+				<nav class="navbar navbar-expand-sm flex-sm-column flex-md-row" role="navigation">
+					<div class="d-flex flex-fill">
+						<div class="flex-grow-1 text-center text-md-left align-self-center">
+							<?php 
+								if ( has_custom_logo() ) {
+									the_custom_logo();
+								} else {
+									echo '<h2 class="my-3">'. get_bloginfo( 'name' ) .'</h2>';
+								}
+							?>
+						</div>
+						<button class="navbar-toggler px-0" type="button" data-toggle="collapse" data-target="#menu-navbar" aria-controls="menu-navbar" aria-expanded="false" aria-label="<?php _e( 'Toggle Navigation', 'diy-marketer' ) ?>">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+					</div>
+					<?php
+						wp_nav_menu(
+							array(
+								'theme_location'	=> 'primary',
+								'depth'			=> 2,
+								'container_id'		=> 'menu-navbar',
+								'container_class'	=> 'collapse navbar-collapse w-md-auto',
+								//'menu_id'			=> 'main-nav',  mr-auto justify-content-end
+								//'menu_class'		=> 'navbar-nav nav-pills text-center bg-light bg-md-none',
+								'menu_class'		=> 'navbar-nav nav-pills text-center',
+								'fallback_cb'		=> false
+							)
+						);
 					?>
-				</div>
-				<button class="navbar-toggler px-0" type="button" data-toggle="collapse" data-target="#menu-navbar" aria-controls="menu-navbar" aria-expanded="false" aria-label="<?php _e( 'Toggle Navigation', 'diy-marketer' ) ?>">
-					<span class="navbar-toggler-icon"></span>
-				</button>
+				</nav>
 			</div>
-			<?php
-				wp_nav_menu(
-					array(
-						'theme_location'	=> 'primary',
-						'depth'			=> 2,
-						'container_id'		=> 'menu-navbar',
-						'container_class'	=> 'collapse navbar-collapse w-md-auto',
-						//'menu_id'			=> 'main-nav',  mr-auto justify-content-end
-						//'menu_class'		=> 'navbar-nav nav-pills text-center bg-light bg-md-none',
-						'menu_class'		=> 'navbar-nav nav-pills text-center',
-						'fallback_cb'		=> false
-					)
-				);
-			?>
-		</nav>
+		</div>
 	</header>

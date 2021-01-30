@@ -20,7 +20,8 @@ import {
     PanelBody,
     ToolbarButton,
     ToolbarGroup,
-    Popover
+    Popover,
+    PanelRow
 } from "@wordpress/components";
 import { rawShortcut, displayShortcut } from "@wordpress/keycodes";
 import { link, linkOff } from "@wordpress/icons";
@@ -190,7 +191,8 @@ function ButtonEdit(props) {
                         {
                             label: __("Text Color", "diy-marketer"),
                             value: textColor.color,
-                            onChange: setTextColor
+                            onChange: setTextColor,
+                            disableAlpha: false
                         },
                         {
                             label: __("Button Color", "diy-marketer"),

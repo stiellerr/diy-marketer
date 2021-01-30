@@ -301,6 +301,8 @@ export const blocks = () => {
                     ]
                 },
                 externals: {
+                    react: "React",
+                    "react-dom": "ReactDom",
                     jquery: "jQuery",
                     lodash: "lodash",
                     //"@wordpress/hooks": ["wp", "hooks"],

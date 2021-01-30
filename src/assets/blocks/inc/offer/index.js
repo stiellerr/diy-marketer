@@ -3,9 +3,8 @@ import "./editor.scss";
 import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
 import { InnerBlocks } from "@wordpress/block-editor";
-import { PanelBody, Button } from "@wordpress/components";
 
-import { InspectorControls, MediaPlaceholder } from "@wordpress/block-editor";
+import edit from "./edit";
 
 registerBlockType("diym/offer", {
     title: __("Offer", "diy-marketer"),
@@ -26,53 +25,7 @@ registerBlockType("diym/offer", {
             type: "string"
         }
     },
-    edit: ({ className, attributes, setAttributes }) => {
-        const { url } = attributes;
-
-        console.log(url);
-
-        return (
-            <>
-                <InspectorControls>
-                    <PanelBody title={__("Background image", "diy-marketer")}>
-                        {url && (
-                            <>
-                                <img src={url} />
-                                <div style={{ marginTop: "2px", textAlign: "right" }}>
-                                    <Button
-                                        isSecondary
-                                        onClick={() => {
-                                            setAttributes({ url: undefined });
-                                        }}
-                                    >
-                                        Remove
-                                    </Button>
-                                </div>
-                            </>
-                        )}
-                        <MediaPlaceholder
-                            onSelect={({ url }) => {
-                                setAttributes({ url });
-                                console.log(url);
-                            }}
-                            disableMediaButtons={url}
-                        ></MediaPlaceholder>
-                    </PanelBody>
-                </InspectorControls>
-                <div className={className}>
-                    <i className="fas fa-share fa-4x"></i>
-                    <div>
-                        <i className="fas fa-cut fa-2x"></i>
-                        <InnerBlocks
-                            allowedBlocks={["diym/text", "diym/countdown", "diym/button"]}
-                            renderAppender={() => <InnerBlocks.ButtonBlockAppender />}
-                        />
-                    </div>
-                    <i className="fas fa-reply fa-flip-vertical fa-4x" data-content="f112"></i>
-                </div>
-            </>
-        );
-    },
+    edit,
     save: () => {
         return (
             <>

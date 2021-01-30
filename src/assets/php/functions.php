@@ -619,6 +619,7 @@ function diym_block_editor_settings() {
 			'slug'  => 'accent',
 			'color' => diym_get_color_for_area( 'body', 'accent' ),
 		),
+		/*
 		array(
 			'name'  => __( 'Content Color', 'diy-marketer' ),
 			'slug'  => 'content',
@@ -629,7 +630,7 @@ function diym_block_editor_settings() {
 			'slug'  => 'white',
 			'color' => '#fff',
 		)
-		/*
+		
 		array(
 			'name'  => __( 'Secondary', 'twentytwenty' ),
 			'slug'  => 'secondary',

@@ -15,6 +15,8 @@ import {
     CustomSelectControl
 } from "@wordpress/components";
 
+import { typography } from "@wordpress/icons";
+
 import classnames from "classnames";
 import { TEXT_ALIGNMENT_CONTROLS, getSelectValueFromFontSize, SPACING_LEVELS } from "../helper";
 import { getMarginClass, SpacingControl } from "../spacing-control";
@@ -129,8 +131,7 @@ registerBlockType("diym/text", {
     category: "diy-marketer",
     icon: {
         foreground: "#007bff",
-        //src: "editor-paragraph"
-        src: "text-page"
+        src: typography
     },
     keywords: [
         __("heading", "diy-marketer"),
