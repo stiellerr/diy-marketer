@@ -1,10 +1,10 @@
 /**
  * WordPress dependencies
  */
-import { Button, TextControl, Flex, FlexItem } from "@wordpress/components";
+import { Button, TextControl, Flex, FlexItem, FlexBlock } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 
-import "./editor.scss";
+//import "./editor.scss";
 
 export function getMarginClass(spacingTop, spacingBottom) {
     //
@@ -41,7 +41,7 @@ export function SpacingControl({ spacingTop, spacingBottom, onChange }) {
     return (
         <>
             <Flex>
-                <FlexItem>
+                <FlexItem style={{ flex: 1 }}>
                     <TextControl
                         type="number"
                         label={__("Top", "diy-marketer")}
@@ -49,8 +49,10 @@ export function SpacingControl({ spacingTop, spacingBottom, onChange }) {
                         min={0}
                         max={5}
                         value={Number.isInteger(spacingTop) ? spacingTop : ""}
-                        autoComplete="off"
+                        autoComplete="ogitff"
                     ></TextControl>
+                </FlexItem>
+                <FlexItem style={{ flex: 1 }}>
                     <TextControl
                         type="number"
                         label={__("Bottom", "diy-marketer")}
@@ -60,6 +62,13 @@ export function SpacingControl({ spacingTop, spacingBottom, onChange }) {
                         value={Number.isInteger(spacingBottom) ? spacingBottom : ""}
                         autoComplete="off"
                     ></TextControl>
+                </FlexItem>
+            </Flex>
+            <Flex justify={"flex-end"}>
+                <FlexItem>
+                    <Button isSmall isSecondary onClick={updateSpacing()}>
+                        {__("Reset", "diy-marketer")}
+                    </Button>
                 </FlexItem>
             </Flex>
             {/*

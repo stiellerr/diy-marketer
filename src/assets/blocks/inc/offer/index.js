@@ -26,21 +26,39 @@ registerBlockType("diym/offer", {
         },
         backgroundColor: {
             type: "string"
+        },
+        offerColor: {
+            type: "string"
+        },
+        customOfferColor: {
+            type: "string"
         }
     },
     edit,
-    save: () => {
+    save: props => {
+        const { attributes } = props;
+        const { backgroundColor, offerColor, customOfferColor } = attributes;
+
+        console.log(offerColor);
+        console.log(customOfferColor);
+
         return (
             <>
                 <div className="d-flex flex-column flex-lg-row">
                     <i
                         className="fas fa-share fa-4x lg-rotate-90 align-self-center m-1"
+                        //className={'fas', ...{   }}
                         data-content="f064"
+                        style={{ color: customOfferColor }}
                     ></i>
-                    <div className="flex-grow-1 position-relative border-dashed">
+                    <div
+                        className="flex-grow-1 position-relative border-dashed"
+                        style={{ backgroundColor, borderColor: customOfferColor }}
+                    >
                         <i
                             className="fas fa-cut fa-2x position-absolute translate-middle left-10"
                             data-content="f0c4"
+                            style={{ color: customOfferColor }}
                         ></i>
                         <div className="p-2">
                             <InnerBlocks.Content />
@@ -49,6 +67,7 @@ registerBlockType("diym/offer", {
                     <i
                         className="fas fa-reply fa-4x lg-rotate-90 fa-flip-vertical align-self-center m-1"
                         data-content="f3e5"
+                        style={{ color: customOfferColor }}
                     ></i>
                 </div>
             </>
