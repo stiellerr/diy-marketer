@@ -21,9 +21,18 @@ registerBlockType("diym/offer", {
         customClassName: false
     },
     attributes: {
-        url: {
-            type: "string"
+        postMeta: {
+            type: "object",
+            source: "meta",
+            meta: "_diym_post_meta"
         },
+        /*
+        meta_test: {
+            type: "string",
+            source: "meta",
+            meta: "_diym_meta_test"
+        },
+        */
         backgroundColor: {
             type: "string"
         },
@@ -38,9 +47,6 @@ registerBlockType("diym/offer", {
     save: props => {
         const { attributes } = props;
         const { backgroundColor, offerColor, customOfferColor } = attributes;
-
-        console.log(offerColor);
-        console.log(customOfferColor);
 
         return (
             <>

@@ -108,7 +108,7 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
                 }
             ));
             */
-
+        
             // fa meta data
             register_meta( 'post', '_diym_fa', array(
                 'type' => 'array',
@@ -146,7 +146,10 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
                                 'description'  => array(
                                     'type' => 'string',
                                 ),
-                            ),
+                                'background_image'  => array(
+                                    'type' => 'string',
+                                )
+                            )
                         )
                     ),
                     //),
@@ -155,6 +158,7 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
                     'default' => array(
                         'title' => '',
                         'description' => '',
+                        'background_image' => '',
                     ),
                     'sanitize_callback' => 'diym_sanitize_text',
                     // needed if meta field starts with _ note: starting with _ hides the field from custom fields in classic editor. (which is why we do it)

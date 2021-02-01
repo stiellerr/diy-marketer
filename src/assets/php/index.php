@@ -14,7 +14,7 @@
 
 get_header(); ?>
     <!--<main id="primary" class="site-main"> border-top -->
-    <div class="row flex-grow-1 py-3" style="background-image: url('http://localhost/upload/resize-images-online-1.jpg'); background-position: center; background-size: cover;">
+    <div class="cover row flex-grow-1 py-3">
         <main id="primary" class="col">
             <?php
                 if ( have_posts() ) {

@@ -20,12 +20,16 @@ import {
     Dropdown,
     FlexItem,
     FlexBlock,
-    ColorPicker
+    ColorPicker,
+    RangeControl
 } from "@wordpress/components";
 
 function OfferEdit(props) {
     const { className, attributes, setAttributes, offerColor, setOfferColor } = props;
-    const { url, backgroundColor } = attributes;
+    const { backgroundColor } = attributes;
+
+    //make a copy of the post meta to manipulate
+    const postMeta = { ...attributes.postMeta };
 
     const backgroundColorPicker = () => (
         <ColorPicker
@@ -42,30 +46,38 @@ function OfferEdit(props) {
         <>
             <InspectorControls>
                 <PanelBody title={__("Background image", "diy-marketer")}>
-                    {url && (
+                    {postMeta.background_image && (
                         <>
-                            <img src={url} />
+                            <img src={postMeta.background_image} />
                             <PanelRow>
                                 <Button
                                     isSecondary
                                     isSmall
                                     onClick={() => {
-                                        setAttributes({ url: undefined });
+                                        postMeta.background_image = "";
+                                        setAttributes({ postMeta });
                                     }}
                                     style={{ marginLeft: "auto" }}
                                 >
                                     {__("Clear Image", "diy-marketer")}
                                 </Button>
                             </PanelRow>
+                            <RangeControl
+                                label={__("Opactiy")}
+                                min={0.0}
+                                max={1.0}
+                                step={0.01}
+                            ></RangeControl>
                         </>
                     )}
                     <MediaPlaceholder
                         labels={{ title: __("Image", "diy-marketer") }}
                         icon={placeholderIcon}
                         onSelect={({ url }) => {
-                            setAttributes({ url });
+                            postMeta.background_image = url;
+                            setAttributes({ postMeta });
                         }}
-                        disableMediaButtons={url}
+                        disableMediaButtons={postMeta.background_image}
                     ></MediaPlaceholder>
                 </PanelBody>
                 <PanelColorSettings

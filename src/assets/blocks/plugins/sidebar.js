@@ -9,12 +9,17 @@ import { compose } from "@wordpress/compose";
 import "./sidebar.scss";
 
 let PluginMetaFields = ({ onMetaChange, meta }) => {
+    const metaNew = { ...meta };
+
     return (
         <>
             <TextControl
                 value={meta.title}
                 label={__("Page Title", "diy-marketer")}
-                onChange={value => onMetaChange(value, meta.description)}
+                onChange={value => {
+                    metaNew.title = value;
+                    onMetaChange(metaNew);
+                }}
             />
             <p>
                 Max 70 characters, <span className="diym-seo-count">{meta.title.length}</span>
@@ -22,7 +27,10 @@ let PluginMetaFields = ({ onMetaChange, meta }) => {
             <TextareaControl
                 value={meta.description}
                 label={__("Page Description", "diy-marketer")}
-                onChange={value => onMetaChange(meta.title, value)}
+                onChange={value => {
+                    metaNew.description = value;
+                    onMetaChange(metaNew);
+                }}
             />
             <p>
                 Max 144 characters,{" "}
@@ -44,9 +52,9 @@ PluginMetaFields = compose([
     }),
     withDispatch(dispatch => {
         return {
-            onMetaChange: (title, description) => {
+            onMetaChange: metaNew => {
                 dispatch("core/editor").editPost({
-                    meta: { _diym_post_meta: { title, description } }
+                    meta: { _diym_post_meta: metaNew }
                 });
             }
         };

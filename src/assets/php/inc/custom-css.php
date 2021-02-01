@@ -141,6 +141,18 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 				diym_generate_css( 'body', 'font-family', $font );
 			}
 
+			// bg image
+			$background_image = get_post_meta( get_the_ID(), '_diym_post_meta', true )[ 'background_image' ];
+
+			if ( $background_image ) {
+				//diym_generate_css( '.cover', 'background', 'url("' . $background_image . '") center' );
+				diym_generate_css( '.cover', 'background', $background_image, 'url("', '") center' );
+				diym_generate_css( '.cover', 'background-size', 'cover' );
+			}
+
+			//write_log( 'Reece' );
+			//write_log( $background_image );
+
 			/*
 			// font awesome
 			$post_meta_fa = get_post_meta( get_the_ID(), '_diym_fa', true );
