@@ -10,8 +10,9 @@ import {
 import { InspectorControls } from "@wordpress/block-editor";
 
 import { cover as icon } from "@wordpress/icons";
-
 import {
+    __experimentalRadio as Radio,
+    Panel,
     PanelBody,
     PanelRow,
     Button,
@@ -21,14 +22,19 @@ import {
     FlexItem,
     FlexBlock,
     ColorPicker,
-    RangeControl
+    RangeControl,
+    SelectControl,
+    RadioControl,
+    __experimentalRadioGroup as RadioGroup,
+    CheckboxControl,
+    ButtonGroup
 } from "@wordpress/components";
 
 function OfferEdit(props) {
     const { className, attributes, setAttributes, offerColor, setOfferColor } = props;
     const { backgroundColor } = attributes;
 
-    //make a copy of the post meta to manipulate
+    //make a copy of the post meta so it can be manipulated
     const postMeta = { ...attributes.postMeta };
 
     const backgroundColorPicker = () => (
@@ -45,10 +51,33 @@ function OfferEdit(props) {
     return (
         <>
             <InspectorControls>
-                <PanelBody title={__("Background image", "diy-marketer")}>
+                <PanelBody title={__("Alignment", "diy-marketer")} initialOpen={false}>
+                    <PanelRow>
+                        <div style={{ marginTop: "12px" }}>
+                            <SelectControl
+                                label={__("Vertical Align", "diy-marketer")}
+                                labelPosition="Right"
+                                value={postMeta.verticalAlign}
+                                options={[
+                                    { label: "Top", value: "" },
+                                    { label: "Middle", value: "middle" },
+                                    { label: "Bottom", value: "bottom" }
+                                ]}
+                                onChange={value => {
+                                    postMeta.verticalAlign = value;
+                                    setAttributes({ postMeta });
+                                }}
+                            ></SelectControl>
+                        </div>
+                    </PanelRow>
+                </PanelBody>
+                <PanelBody title={__("Background image", "diy-marketer")} initialOpen={false}>
                     {postMeta.background_image && (
                         <>
-                            <img src={postMeta.background_image} />
+                            <img
+                                src={postMeta.background_image}
+                                style={{ opacity: postMeta.opacity }}
+                            />
                             <PanelRow>
                                 <Button
                                     isSecondary
@@ -64,6 +93,11 @@ function OfferEdit(props) {
                             </PanelRow>
                             <RangeControl
                                 label={__("Opactiy")}
+                                value={postMeta.opacity}
+                                onChange={value => {
+                                    postMeta.opacity = value;
+                                    setAttributes({ postMeta });
+                                }}
                                 min={0.0}
                                 max={1.0}
                                 step={0.01}

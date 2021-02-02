@@ -130,6 +130,9 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 					}
 				}
 			}
+			
+			
+			
 			/*
 			if ( $cover && $cover !== $cover_default ) {
 				diym_generate_css( '.overlay-header .header-inner', 'color', $cover );
@@ -142,12 +145,25 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 			}
 
 			// bg image
-			$background_image = get_post_meta( get_the_ID(), '_diym_post_meta', true )[ 'background_image' ];
+			$postMeta = get_post_meta( get_the_ID(), '_diym_post_meta', true );
 
-			if ( $background_image ) {
-				//diym_generate_css( '.cover', 'background', 'url("' . $background_image . '") center' );
-				diym_generate_css( '.cover', 'background', $background_image, 'url("', '") center' );
-				diym_generate_css( '.cover', 'background-size', 'cover' );
+			if ( $postMeta[ 'background_image' ] ) {
+				//
+				diym_generate_css( '.cover', 'position', 'relative' );
+				diym_generate_css( '.cover', 'z-index', 1 );
+				//
+				diym_generate_css( '.cover:before', 'content', '""' );
+				diym_generate_css( '.cover:before', 'background', $postMeta[ 'background_image' ], 'url("', '") center' );
+				diym_generate_css( '.cover:before', 'background-size', 'cover' );
+				diym_generate_css( '.cover:before', 'position', 'absolute' );
+				diym_generate_css( '.cover:before', 'top', '0px' );
+				diym_generate_css( '.cover:before', 'right', '0px' );
+				diym_generate_css( '.cover:before', 'bottom', '0px' );
+				diym_generate_css( '.cover:before', 'left', '0px' );
+				diym_generate_css( '.cover:before', 'z-index', -1 );
+				diym_generate_css( '.cover:before', 'opacity', $postMeta[ 'opacity' ] );
+
+				
 			}
 
 			//write_log( 'Reece' );

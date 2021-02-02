@@ -148,6 +148,12 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
                                 ),
                                 'background_image'  => array(
                                     'type' => 'string',
+                                ),
+                                'opacity'  => array(
+                                    'type' => 'number',
+                                ),
+                                'verticalAlign'  => array(
+                                    'type' => 'string',
                                 )
                             )
                         )
@@ -159,8 +165,10 @@ if ( ! class_exists( 'DIYM_Block_Editor' ) ) {
                         'title' => '',
                         'description' => '',
                         'background_image' => '',
+                        'opacity' => 1,
+                        'verticalAlign' => ""
                     ),
-                    'sanitize_callback' => 'diym_sanitize_text',
+                    //'sanitize_callback' => 'diym_sanitize_text',
                     // needed if meta field starts with _ note: starting with _ hides the field from custom fields in classic editor. (which is why we do it)
                     'auth_callback' => function() {
                         return current_user_can( 'edit_posts' );
