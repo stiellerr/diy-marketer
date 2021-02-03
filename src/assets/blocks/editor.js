@@ -33,6 +33,9 @@ import benefit from "./inc/benefit";
 import offer from "./inc/offer";
 import countdown from "./inc/countdown";
 import button from "./inc/button";
+import modal from "./inc/modal";
+import form from "./inc/form";
+import "./inc/input";
 //import font_awesome_picker from "./inc/font-awesome-picker";
 
 //import "./inc/meta";

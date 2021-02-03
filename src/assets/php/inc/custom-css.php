@@ -144,8 +144,16 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 				diym_generate_css( 'body', 'font-family', $font );
 			}
 
+
+
 			// bg image
 			$postMeta = get_post_meta( get_the_ID(), '_diym_post_meta', true );
+
+			if ( $postMeta[ 'verticalAlign' ] ) {
+				//
+				diym_generate_css( '#primary', 'align-self', $postMeta[ 'verticalAlign' ] );
+			}
+
 
 			if ( $postMeta[ 'background_image' ] ) {
 				//
@@ -163,8 +171,9 @@ if ( ! function_exists( 'diym_get_customizer_css' ) ) {
 				diym_generate_css( '.cover:before', 'z-index', -1 );
 				diym_generate_css( '.cover:before', 'opacity', $postMeta[ 'opacity' ] );
 
-				
 			}
+
+
 
 			//write_log( 'Reece' );
 			//write_log( $background_image );

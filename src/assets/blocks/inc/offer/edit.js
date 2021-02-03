@@ -60,8 +60,8 @@ function OfferEdit(props) {
                                 value={postMeta.verticalAlign}
                                 options={[
                                     { label: "Top", value: "" },
-                                    { label: "Middle", value: "middle" },
-                                    { label: "Bottom", value: "bottom" }
+                                    { label: "Middle", value: "center" },
+                                    { label: "Bottom", value: "flex-end" }
                                 ]}
                                 onChange={value => {
                                     postMeta.verticalAlign = value;
