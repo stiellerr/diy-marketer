@@ -1,3 +1,4 @@
+/* global diymBgColors, _ */
 //import "./editor.scss";
 
 import { registerBlockType } from "@wordpress/blocks";
@@ -45,10 +46,6 @@ registerBlockType("diym/form", {
         const { attributes, setAttributes } = props;
         const { spacing } = attributes;
 
-        const zzz = value => {
-            return value.split("px")[0];
-        };
-
         return (
             <>
                 <InspectorControls>
@@ -64,8 +61,20 @@ registerBlockType("diym/form", {
                             units={false}
                             values={spacing}
                             onChange={values => {
+                                // mainuplate keys
+                                //console.log(values);
+                                Object.entries(values).map(([k, v]) => {
+                                    //console.log(k);
+                                    //console.log(v);
+                                    //console.log(i);
+                                    values[k] = v.split("px")[0];
+                                });
+
                                 console.log(values);
-                                setAttributes({ spacing: values });
+
+                                setAttributes({
+                                    spacing: values
+                                });
                             }}
                         />
                     </PanelBody>
