@@ -61,17 +61,9 @@ registerBlockType("diym/form", {
                             units={false}
                             values={spacing}
                             onChange={values => {
-                                // mainuplate keys
-                                //console.log(values);
                                 Object.entries(values).map(([k, v]) => {
-                                    //console.log(k);
-                                    //console.log(v);
-                                    //console.log(i);
                                     values[k] = v.split("px")[0];
                                 });
-
-                                console.log(values);
-
                                 setAttributes({
                                     spacing: values
                                 });
@@ -79,9 +71,9 @@ registerBlockType("diym/form", {
                         />
                     </PanelBody>
                 </InspectorControls>
-                <div>
+                <div style={{ padding: "1rem" }}>
                     <InnerBlocks
-                        allowedBlocks={["diym/input"]}
+                        allowedBlocks={["diym/input", "diym/text"]}
                         renderAppender={() => <InnerBlocks.ButtonBlockAppender />}
                     />
                 </div>
@@ -93,7 +85,7 @@ registerBlockType("diym/form", {
         //const { backgroundColor, offerColor, customOfferColor } = attributes;
 
         return (
-            <form>
+            <form className={"p-3"}>
                 <InnerBlocks.Content />
             </form>
         );

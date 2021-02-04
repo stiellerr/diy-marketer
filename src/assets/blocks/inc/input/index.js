@@ -38,6 +38,7 @@ registerBlockType("diym/input", {
             <div>
                 <PlainText
                     value={label}
+                    style={{ backgroundColor: "transparent" }}
                     onChange={label => {
                         setAttributes({ label });
                     }}
