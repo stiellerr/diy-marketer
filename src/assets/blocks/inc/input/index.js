@@ -9,12 +9,13 @@ import {
     PanelBody,
     CheckboxControl,
     TextareaControl,
-    SelectControl
+    SelectControl,
+    CustomSelectControl
 } from "@wordpress/components";
 
 //import "./editor.scss";
 
-//import classnames from "classnames";
+import classnames from "classnames";
 
 //import edit from "./edit";
 
@@ -35,25 +36,76 @@ registerBlockType("diym/input", {
         customClassName: false
     },
     attributes: {
+        inputSize: {
+            type: "string"
+        },
         required: {
-            type: "boolean"
+            type: "boolean",
+            source: "attribute",
+            selector: "input,textarea",
+            attribute: "required"
         },
         feedback: {
-            type: "string"
+            type: "string",
+            source: "text",
+            selector: ".invalid-feedback"
         },
         type: {
-            type: "string"
+            type: "string",
+            source: "attribute",
+            selector: "input,textarea",
+            attribute: "type"
         },
         label: {
-            type: "string"
+            type: "string",
+            source: "text",
+            selector: "label"
         },
         placeholder: {
-            type: "string"
+            type: "string",
+            source: "attribute",
+            selector: "input,textarea",
+            attribute: "placeholder"
         }
     },
     edit: props => {
         const { attributes, setAttributes, isSelected } = props;
-        const { label, placeholder, required, feedback, type } = attributes;
+        const { label, placeholder, required, feedback, type, inputSize } = attributes;
+
+        const sizes = [
+            {
+                key: "form-control-sm",
+                name: "Small",
+                style: { fontSize: "50%" }
+            },
+            {
+                name: "Default",
+                style: { fontSize: "100%" }
+            },
+            {
+                key: "form-control-lg",
+                name: "Large",
+                style: { fontSize: "200%" }
+            }
+        ];
+
+        // props
+        const inputProps = {
+            style: {
+                fontSize:
+                    "form-control-sm" === inputSize
+                        ? "0.875em"
+                        : "form-control-lg" === inputSize
+                        ? "1.25em"
+                        : undefined
+            },
+            type,
+            value: placeholder,
+            onChange: placeholder => {
+                setAttributes({ placeholder });
+            }
+        };
+
         return (
             <>
                 <InspectorControls>
@@ -63,8 +115,11 @@ registerBlockType("diym/input", {
                             value={type}
                             options={[
                                 { label: "text", value: "text" },
+                                { label: "number", value: "number" },
+                                { label: "email", value: "email" },
                                 { label: "url", value: "url" },
-                                { label: "number", value: "number" }
+                                { label: "tel", value: "tel" },
+                                { label: "textarea", value: "textarea" }
                             ]}
                             onChange={type => {
                                 setAttributes({ type });
@@ -79,13 +134,23 @@ registerBlockType("diym/input", {
                         />
                         {required && (
                             <TextControl
-                                label={__("Invalid feedback", "diy-marketer")}
+                                label={__("Invalid feedback message", "diy-marketer")}
                                 value={feedback}
                                 onChange={feedback => {
                                     setAttributes({ feedback });
                                 }}
                             ></TextControl>
                         )}
+                    </PanelBody>
+                    <PanelBody title={__("Size", "diy-marketer")}>
+                        <CustomSelectControl
+                            label={__("Size", "diy-marketer")}
+                            options={sizes}
+                            value={sizes.find(size => size.key === inputSize)}
+                            onChange={({ selectedItem }) => {
+                                setAttributes({ inputSize: selectedItem.key });
+                            }}
+                        ></CustomSelectControl>
                     </PanelBody>
                 </InspectorControls>
                 {(isSelected || label?.length > 0) && (
@@ -97,18 +162,25 @@ registerBlockType("diym/input", {
                         }}
                     ></PlainText>
                 )}
-                <TextControl
-                    value={placeholder}
-                    onChange={placeholder => {
-                        setAttributes({ placeholder });
-                    }}
-                />
+                {"textarea" === type ? (
+                    <TextareaControl {...inputProps} />
+                ) : (
+                    <TextControl {...inputProps} />
+                )}
             </>
         );
     },
     save: props => {
         const { attributes } = props;
-        const { label, placeholder, feedback, required, type } = attributes;
+        const { label, placeholder, feedback, required, type, inputSize } = attributes;
+        // default tag
+        let TagName = "input";
+
+        if ("textarea" == type) {
+            TagName = type;
+        }
+
+        const inputClass = classnames("form-control", inputSize);
 
         return (
             <>
@@ -116,10 +188,10 @@ registerBlockType("diym/input", {
                     {label}
                 </label>
                 <div className={"input-group"}>
-                    <input
+                    <TagName
                         id={label}
                         type={type}
-                        className={"form-control"}
+                        className={inputClass}
                         name={label}
                         placeholder={placeholder}
                         required={required}
