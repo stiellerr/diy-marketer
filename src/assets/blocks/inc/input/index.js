@@ -39,6 +39,9 @@ registerBlockType("diym/input", {
         inputSize: {
             type: "string"
         },
+        labelPosition: {
+            type: "string"
+        },
         required: {
             type: "boolean",
             source: "attribute",
@@ -70,7 +73,15 @@ registerBlockType("diym/input", {
     },
     edit: props => {
         const { attributes, setAttributes, isSelected } = props;
-        const { label, placeholder, required, feedback, type, inputSize } = attributes;
+        const {
+            label,
+            placeholder,
+            labelPosition,
+            required,
+            feedback,
+            type,
+            inputSize
+        } = attributes;
 
         const sizes = [
             {
@@ -110,6 +121,27 @@ registerBlockType("diym/input", {
             <>
                 <InspectorControls>
                     <PanelBody title={__("Settings", "diy-marketer")}>
+                        <SelectControl
+                            label={__("Label position", "diy-marketer")}
+                            value={labelPosition}
+                            options={[
+                                { label: "top", value: "top" },
+                                { label: "inside", value: "inside" },
+                                { label: "hidden", value: "hidden" }
+                            ]}
+                            onChange={labelPosition => {
+                                setAttributes({ labelPosition });
+                            }}
+                        ></SelectControl>
+                        {labelPosition !== "top" && (
+                            <TextControl
+                                label={__("Label value", "diy-marketer")}
+                                value={label}
+                                onChange={label => {
+                                    setAttributes({ label });
+                                }}
+                            ></TextControl>
+                        )}
                         <SelectControl
                             label={__("Field Type", "diy-marketer")}
                             value={type}
