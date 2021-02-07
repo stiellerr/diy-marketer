@@ -52,17 +52,27 @@ if ( ! class_exists( 'DIYM_Send_Mail' ) ) {
             // check form submit has been done from a valid source.
             check_ajax_referer( 'secure_nonce_name', 'security' );
 
-            $allowed = array( 'name', 'email', 'phone', 'message' );
+            //$allowed = array( 'name', 'email', 'phone', 'message' );
+            $ignore = array( 'action', 'security' );
+            
             $body = '';
 
             // retrieve form post vars
+            write_log( $_POST );
+
             foreach ( $_POST as $key => $value ) {
-                if ( in_array( $key, $allowed ) ) {
-                    if ( $value ) {
-                        $body .= ucfirst($key) . ': ' . $value . "\n";
-                    }
+                if ( in_array( $key, $ignore ) ) {
+                    continue;
                 }
+
+                //if ( in_array( $key, $allowed ) ) {
+                if ( $value ) {
+                    $body .= ucfirst($key) . ': ' . $value . "\n";
+                }
+                //}
             }
+
+            write_log( $body );
 
             $to = get_bloginfo( 'admin_email' );
 
@@ -71,7 +81,7 @@ if ( ! class_exists( 'DIYM_Send_Mail' ) ) {
                 wp_send_json_error( null, 400 );
             }
             
-            $subject = __( 'New Website Enquiry.', 'diy-marketer' );
+            $subject = __( 'New Website Lead.', 'diy-marketer' );
             
             // get domain name...
             $domain = parse_url( home_url(), PHP_URL_HOST );

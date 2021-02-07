@@ -14,6 +14,7 @@ registerBlockType("diym/button", {
     apiVersion: 2,
     title: __("Button", "diy-marketer"),
     description: __("Add a button to your web page", "diy-marketer"),
+    usesContext: ["diym/buttonType"],
     category: "diy-marketer",
     icon: {
         foreground: "#007bff",
@@ -31,20 +32,35 @@ registerBlockType("diym/button", {
             label: __("Outline", "diy-marketer")
         }
     ],
+    variations: [
+        {
+            name: "diym/submit",
+            title: __("Submit", "diy-marketer"),
+            description: __("Add a submit button to your form", "diy-marketer")
+            //scope: ["block"]
+            //parent: ["diym/form"]
+        }
+    ],
     supports: {
         html: false,
         reusable: false,
         customClassName: false
     },
+
+    //usesContext: ["diym/buttonType"],
     attributes: {
         textAlign: {
             type: "string",
             default: "left"
         },
+        type: {
+            type: "string",
+            default: "link"
+        },
         text: {
             type: "string",
             source: "html",
-            selector: "a"
+            selector: "a,button"
         },
         buttonSize: {
             type: "string"
@@ -83,7 +99,7 @@ registerBlockType("diym/button", {
     },
     edit,
     save: props => {
-        console.log(props);
+        //console.log(props);
         const { attributes } = props;
 
         const {
@@ -94,10 +110,15 @@ registerBlockType("diym/button", {
             marginTop,
             textColor,
             buttonColor,
+            type,
             url,
             linkTarget,
             rel
         } = attributes;
+
+        //console.log(type);
+
+        //con;
 
         let wrapperClass = classnames(getMarginClass(marginTop, marginBottom), {
             [`text-${textAlign}`]: "center" === textAlign || "right" === textAlign
@@ -106,6 +127,7 @@ registerBlockType("diym/button", {
         //const blockProps = useBlockProps.save();
         //console.log(useBlockProps);
         //console.log(blockProps);
+        //const parentClientId = select( 'core/block-editor' ).getBlockHierarchyRootClientId( this.props.clientId ); //Pass Child's Client Id.
 
         let className = classnames("btn", getSelectValueFromFontSize(BUTTON_SIZES, buttonSize), {
             [`text-${textColor}`]: textColor,
@@ -113,18 +135,26 @@ registerBlockType("diym/button", {
             "w-100": "full" === textAlign
         });
 
+        const buttonProps =
+            type === "link"
+                ? { tagName: "a", href: url, target: linkTarget, rel }
+                : { tagName: "button", type: "submit" };
+
+        //console.log(buttonProps);
+
         return (
             <>
                 {/*<div {...blockProps}
                 ></div>*/}
                 <div className={wrapperClass ? wrapperClass : null}>
                     <RichText.Content
-                        tagName="a"
+                        {...buttonProps}
+                        //tagName="a"
                         className={className}
                         value={text}
-                        href={url}
-                        target={linkTarget}
-                        rel={rel}
+                        //href={url}
+                        //target={linkTarget}
+                        //rel={rel}
                     />
                 </div>
             </>

@@ -14,6 +14,8 @@ import {
     __experimentalLinkControl as LinkControl
 } from "@wordpress/block-editor";
 
+import { select, useSelect, withSelect } from "@wordpress/data";
+
 import {
     FontSizePicker,
     KeyboardShortcuts,
@@ -114,17 +116,37 @@ function URLPicker({
     );
 }
 
+// return parents
+/*
+const getParents = clientId => {
+    //
+    const parents = useSelect(
+        select => select("core/block-editor").getBlockParentsByBlockName(clientId, "diym/form"),
+        []
+    );
+
+    if (parents.length) {
+        return true;
+    }
+
+    return false;
+};
+*/
+
 function ButtonEdit(props) {
     const {
+        //context,
         attributes,
         setAttributes,
         isSelected,
         textColor,
         buttonColor,
         setTextColor,
-        setButtonColor
+        setButtonColor,
+        clientId
     } = props;
     const {
+        type,
         linkTarget,
         rel,
         text,
@@ -135,6 +157,8 @@ function ButtonEdit(props) {
         spacingBottom,
         className
     } = attributes;
+
+    //console.log(hasParents(clientId));
 
     const onToggleOpenInNewTab = useCallback(
         value => {
@@ -162,6 +186,19 @@ function ButtonEdit(props) {
             paddingBottom: spacingBottom ? SPACING_LEVELS[spacingBottom] : undefined
         }
     });
+
+    const setType = () => {
+        const parents = useSelect(
+            select => select("core/block-editor").getBlockParentsByBlockName(clientId, "diym/form"),
+            []
+        );
+        //
+        if (parents.length) {
+            setAttributes({ type: "submit" });
+        }
+    };
+    //
+    setType();
 
     return (
         <>
@@ -234,14 +271,16 @@ function ButtonEdit(props) {
                     textAlign={textAlign}
                 />
             </div>
-            <URLPicker
-                url={url}
-                setAttributes={setAttributes}
-                isSelected={isSelected}
-                opensInNewTab={linkTarget === "_blank"}
-                onToggleOpenInNewTab={onToggleOpenInNewTab}
-                anchorRef={blockProps.ref}
-            />
+            {"submit" !== type && (
+                <URLPicker
+                    url={url}
+                    setAttributes={setAttributes}
+                    isSelected={isSelected}
+                    opensInNewTab={linkTarget === "_blank"}
+                    onToggleOpenInNewTab={onToggleOpenInNewTab}
+                    anchorRef={blockProps.ref}
+                />
+            )}
         </>
     );
 }

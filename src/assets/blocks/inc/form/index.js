@@ -38,9 +38,16 @@ registerBlockType("diym/form", {
         color: true
     },
     attributes: {
+        buttonType: {
+            type: "number",
+            default: 12
+        },
         spacing: {
             type: "object"
         }
+    },
+    providesContext: {
+        "diym/buttonType": "buttonType"
     },
     edit: props => {
         const { attributes, setAttributes } = props;
@@ -73,7 +80,7 @@ registerBlockType("diym/form", {
                 </InspectorControls>
                 <div style={{ padding: "1rem" }}>
                     <InnerBlocks
-                        allowedBlocks={["diym/input", "diym/text"]}
+                        allowedBlocks={["diym/input", "diym/text", "diym/button"]}
                         renderAppender={() => <InnerBlocks.ButtonBlockAppender />}
                     />
                 </div>
@@ -85,7 +92,7 @@ registerBlockType("diym/form", {
         //const { backgroundColor, offerColor, customOfferColor } = attributes;
 
         return (
-            <form className={"p-3"}>
+            <form className={"p-3 needs-validation"} noValidate>
                 <InnerBlocks.Content />
             </form>
         );

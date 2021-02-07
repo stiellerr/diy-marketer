@@ -121,6 +121,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // grab all the forms
     let forms = document.querySelectorAll(".needs-validation");
+
+    console.log(forms);
+
     Array.prototype.slice.call(forms).forEach(form => {
         form.addEventListener(
             "submit",
@@ -135,10 +138,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     form.parentNode.removeChild(div);
                 }
 
+                console.log(form);
+
+                console.log(event.target);
                 // check if form is valid
                 if (form.checkValidity()) {
                     let formData = new FormData(event.target);
                     const XHR = new XMLHttpRequest();
+
+                    console.log(formData.get("label"));
 
                     formData.append("action", "send_form");
                     formData.append("security", diymMailVars.ajax_nonce);
@@ -186,6 +194,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     XHR.onloadend = () => {
                         // re enable button
                         form.querySelector(".btn").removeAttribute("disabled");
+
+                        console.log(formData);
 
                         // reset the form...
                         form.reset();

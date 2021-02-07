@@ -2,9 +2,19 @@
 
 import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
-import { InnerBlocks, RichText, PlainText } from "@wordpress/block-editor";
+import { InnerBlocks, RichText, PlainText, InspectorControls } from "@wordpress/block-editor";
 
-import { TextControl } from "@wordpress/components";
+import {
+    TextControl,
+    PanelBody,
+    CheckboxControl,
+    TextareaControl,
+    SelectControl
+} from "@wordpress/components";
+
+//import "./editor.scss";
+
+//import classnames from "classnames";
 
 //import edit from "./edit";
 
@@ -12,6 +22,7 @@ registerBlockType("diym/input", {
     title: __("Input", "diy-marketer"),
     description: __("Add an input field to your form.", "diy-marketer"),
     category: "diy-marketer",
+    parent: ["diym/form"],
     icon: {
         foreground: "#007bff",
         src: "edit-large"
@@ -20,10 +31,19 @@ registerBlockType("diym/input", {
     supports: {
         html: false,
         reusable: false,
-        className: false,
+        //className: true,
         customClassName: false
     },
     attributes: {
+        required: {
+            type: "boolean"
+        },
+        feedback: {
+            type: "string"
+        },
+        type: {
+            type: "string"
+        },
         label: {
             type: "string"
         },
@@ -32,29 +52,63 @@ registerBlockType("diym/input", {
         }
     },
     edit: props => {
-        const { attributes, setAttributes } = props;
-        const { label, placeholder } = attributes;
+        const { attributes, setAttributes, isSelected } = props;
+        const { label, placeholder, required, feedback, type } = attributes;
         return (
-            <div>
-                <PlainText
-                    value={label}
-                    style={{ backgroundColor: "transparent" }}
-                    onChange={label => {
-                        setAttributes({ label });
-                    }}
-                ></PlainText>
+            <>
+                <InspectorControls>
+                    <PanelBody title={__("Settings", "diy-marketer")}>
+                        <SelectControl
+                            label={__("Field Type", "diy-marketer")}
+                            value={type}
+                            options={[
+                                { label: "text", value: "text" },
+                                { label: "url", value: "url" },
+                                { label: "number", value: "number" }
+                            ]}
+                            onChange={type => {
+                                setAttributes({ type });
+                            }}
+                        ></SelectControl>
+                        <CheckboxControl
+                            label={__("Required field?", "diy-marketer")}
+                            checked={required}
+                            onChange={required => {
+                                setAttributes({ required });
+                            }}
+                        />
+                        {required && (
+                            <TextControl
+                                label={__("Invalid feedback", "diy-marketer")}
+                                value={feedback}
+                                onChange={feedback => {
+                                    setAttributes({ feedback });
+                                }}
+                            ></TextControl>
+                        )}
+                    </PanelBody>
+                </InspectorControls>
+                {(isSelected || label?.length > 0) && (
+                    <PlainText
+                        value={label}
+                        style={{ backgroundColor: "transparent" }}
+                        onChange={label => {
+                            setAttributes({ label });
+                        }}
+                    ></PlainText>
+                )}
                 <TextControl
                     value={placeholder}
                     onChange={placeholder => {
                         setAttributes({ placeholder });
                     }}
                 />
-            </div>
+            </>
         );
     },
     save: props => {
         const { attributes } = props;
-        const { label, placeholder } = attributes;
+        const { label, placeholder, feedback, required, type } = attributes;
 
         return (
             <>
@@ -62,7 +116,17 @@ registerBlockType("diym/input", {
                     {label}
                 </label>
                 <div className={"input-group"}>
-                    <input id={label} className={"form-control"} placeholder={placeholder} />
+                    <input
+                        id={label}
+                        type={type}
+                        className={"form-control"}
+                        name={label}
+                        placeholder={placeholder}
+                        required={required}
+                    />
+                    {feedback && (
+                        <div className={__("invalid-feedback", "diy-marketer")}>{feedback}</div>
+                    )}
                 </div>
             </>
         );
