@@ -20,6 +20,7 @@ import { typography } from "@wordpress/icons";
 import classnames from "classnames";
 import { TEXT_ALIGNMENT_CONTROLS, getSelectValueFromFontSize, SPACING_LEVELS } from "../helper";
 import { getMarginClass, SpacingControl } from "../spacing-control";
+import { SpaceControl } from "../space-control";
 import "./editor.scss";
 
 import HeadingLevelDropdown from "./heading-level-dropdown";
@@ -172,6 +173,12 @@ registerBlockType("diym/text", {
         },
         size: {
             type: "string"
+        },
+        zzz1: {
+            type: "object",
+            default: {
+                bottom: undefined
+            }
         }
     },
     transforms: {
@@ -186,7 +193,16 @@ registerBlockType("diym/text", {
         ]
     },
     edit: ({ attributes, setAttributes }) => {
-        const { content, textAlign, fontSize, spacingBottom, spacingTop, level, size } = attributes;
+        const {
+            content,
+            textAlign,
+            fontSize,
+            spacingBottom,
+            spacingTop,
+            level,
+            size,
+            zzz1
+        } = attributes;
 
         const tagName = level ? "h" + level : "p";
 
@@ -231,6 +247,15 @@ registerBlockType("diym/text", {
                         /> alignItems: "center"
                     </PanelBody>
                         */}
+                    <PanelBody title={__("zzzz", "diy-marketer")}>
+                        <SpaceControl
+                            values={zzz1}
+                            onChange={v => {
+                                setAttributes({ zzz1: v });
+                                console.log(zzz1);
+                            }}
+                        ></SpaceControl>
+                    </PanelBody>
                     <PanelBody title={__("Typography", "diy-marketer")}>
                         <div style={{ display: "flex" }}>
                             <CustomSelectControl

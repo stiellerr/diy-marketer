@@ -10,12 +10,22 @@ import {
     CheckboxControl,
     TextareaControl,
     SelectControl,
-    CustomSelectControl
+    CustomSelectControl,
+    Flex,
+    FlexItem,
+    PanelRow,
+    Button,
+    FlexBlock
 } from "@wordpress/components";
+
+import BoxControlIcon from "./icon";
+
+import InputControls from "./input-controls";
 
 //import "./editor.scss";
 
 import classnames from "classnames";
+import { useState } from "@wordpress/element";
 
 //import edit from "./edit";
 
@@ -61,8 +71,9 @@ registerBlockType("diym/input", {
         },
         label: {
             type: "string",
-            source: "text",
-            selector: "label"
+            source: "attribute",
+            selector: "input",
+            attribute: "id"
         },
         placeholder: {
             type: "string",
@@ -117,23 +128,48 @@ registerBlockType("diym/input", {
             }
         };
 
+        //const [side, setSide] = useState(isLinked ? "all" : "top");
+        const [side, setSide] = useState("top");
+
+        const handleOnFocus = (event, { side: nextSide }) => {
+            //console.log(event);
+            //console.log(nextSide);
+            setSide(nextSide);
+        };
+
         return (
             <>
                 <InspectorControls>
+                    <PanelBody title={__("Spacing", "diy-marketer")}>
+                        <Flex>
+                            <FlexItem>
+                                <BoxControlIcon side={side}></BoxControlIcon>
+                            </FlexItem>
+                            <FlexItem style={{ marginTop: "8px" }}>
+                                <TextControl
+                                    inputMode={"numeric"}
+                                    style={{ maxWidth: "58px" }}
+                                ></TextControl>
+                            </FlexItem>
+                            <FlexBlock style={{ textAlign: "right" }}>
+                                <Button isPrimary isSmall>
+                                    Click
+                                </Button>
+                            </FlexBlock>
+                        </Flex>
+                        <Flex gap={3}>
+                            <InputControls
+                                values={{ top: 0 }}
+                                onChange={v => {
+                                    console.log(v);
+                                    console.log("on change");
+                                }}
+                                onFocus={handleOnFocus}
+                            ></InputControls>
+                        </Flex>
+                    </PanelBody>
                     <PanelBody title={__("Settings", "diy-marketer")}>
-                        <SelectControl
-                            label={__("Label position", "diy-marketer")}
-                            value={labelPosition}
-                            options={[
-                                { label: "top", value: "top" },
-                                { label: "inside", value: "inside" },
-                                { label: "hidden", value: "hidden" }
-                            ]}
-                            onChange={labelPosition => {
-                                setAttributes({ labelPosition });
-                            }}
-                        ></SelectControl>
-                        {labelPosition !== "top" && (
+                        {labelPosition && (
                             <TextControl
                                 label={__("Label value", "diy-marketer")}
                                 value={label}
@@ -142,6 +178,18 @@ registerBlockType("diym/input", {
                                 }}
                             ></TextControl>
                         )}
+                        <SelectControl
+                            label={__("Label position", "diy-marketer")}
+                            value={labelPosition}
+                            options={[
+                                { label: "Top", value: "" },
+                                { label: "Floating", value: "floating" },
+                                { label: "Hidden", value: "hidden" }
+                            ]}
+                            onChange={labelPosition => {
+                                setAttributes({ labelPosition });
+                            }}
+                        ></SelectControl>
                         <SelectControl
                             label={__("Field Type", "diy-marketer")}
                             value={type}
@@ -185,11 +233,13 @@ registerBlockType("diym/input", {
                         ></CustomSelectControl>
                     </PanelBody>
                 </InspectorControls>
-                {(isSelected || label?.length > 0) && (
+                {!labelPosition && (isSelected || label?.length > 0) && (
                     <PlainText
                         value={label}
                         style={{ backgroundColor: "transparent" }}
                         onChange={label => {
+                            //
+
                             setAttributes({ label });
                         }}
                     ></PlainText>
@@ -204,7 +254,15 @@ registerBlockType("diym/input", {
     },
     save: props => {
         const { attributes } = props;
-        const { label, placeholder, feedback, required, type, inputSize } = attributes;
+        const {
+            label,
+            placeholder,
+            feedback,
+            required,
+            type,
+            inputSize,
+            labelPosition
+        } = attributes;
         // default tag
         let TagName = "input";
 
@@ -214,12 +272,27 @@ registerBlockType("diym/input", {
 
         const inputClass = classnames("form-control", inputSize);
 
-        return (
-            <>
+        // Label =>
+        const Label = () => {
+            return (
                 <label htmlFor={label} className={"form-label"}>
                     {label}
                 </label>
-                <div className={"input-group"}>
+            );
+        };
+
+        return (
+            <>
+                {!labelPosition && <Label></Label>}
+                <div
+                    className={
+                        !labelPosition
+                            ? "input-group"
+                            : "floating" === labelPosition
+                            ? "form-floating"
+                            : undefined
+                    }
+                >
                     <TagName
                         id={label}
                         type={type}
@@ -228,6 +301,7 @@ registerBlockType("diym/input", {
                         placeholder={placeholder}
                         required={required}
                     />
+                    {"floating" === labelPosition && <Label></Label>}
                     {feedback && (
                         <div className={__("invalid-feedback", "diy-marketer")}>{feedback}</div>
                     )}
