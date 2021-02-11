@@ -1,3 +1,8 @@
+/**
+ * External dependencies
+ */
+import { isNumber } from "lodash";
+
 import { createBlock, registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
 import {
@@ -7,20 +12,18 @@ import {
     InspectorControls,
     useBlockProps
 } from "@wordpress/block-editor";
-import {
-    FontSizePicker,
-    Button,
-    PanelBody,
-    ToolbarGroup,
-    CustomSelectControl
-} from "@wordpress/components";
+import { Button, PanelBody, ToolbarGroup, CustomSelectControl } from "@wordpress/components";
 
 import { typography } from "@wordpress/icons";
 
 import classnames from "classnames";
 import { TEXT_ALIGNMENT_CONTROLS, getSelectValueFromFontSize, SPACING_LEVELS } from "../helper";
-import { getMarginClass, SpacingControl } from "../spacing-control";
-import { SpaceControl } from "../space-control";
+import {
+    SpacingControl,
+    getMarginClass,
+    getEditorSpacing,
+    getFrontEndSpacing
+} from "../spacing-control";
 import "./editor.scss";
 
 import HeadingLevelDropdown from "./heading-level-dropdown";
@@ -58,71 +61,6 @@ const options = [
     { key: "display-2", name: "D2", style: { fontSize: "3.25rem", fontWeight: 300 } },
     { key: "display-1", name: "D1", style: { fontSize: "3.5rem", fontWeight: 300 } }
     //{ key: "display-1", name: "D1", style: { fontSize: 56, fontWeight: 300 } }
-];
-
-/*
-const fontSizes = [
-    {
-        name: __("Small", "diy-marketer"),
-        slug: "small",
-        size: 14
-    },
-    {
-        name: __("Lead", "diy-marketer"),
-        slug: "lead",
-        size: 18
-    },
-    {
-        name: __("h6", "diy-marketer"),
-        slug: "h6",
-        size: 16
-    },
-    {
-        name: __("h5", "diy-marketer"),
-        slug: "h5",
-        size: 20
-    },
-    {
-        name: __("h4", "diy-marketer"),
-        slug: "h4",
-        size: 24
-    },
-    {
-        name: __("h3", "diy-marketer"),
-        slug: "h3",
-        size: 28
-    },
-    {
-        name: __("h2", "diy-marketer"),
-        slug: "h2",
-        size: 32
-    },
-    {
-        name: __("h1", "diy-marketer"),
-        slug: "h1",
-        size: 40
-    },
-    {
-        name: __("d4", "diy-marketer"),
-        slug: "display-4",
-        size: 56
-    }
-];
-*/
-
-const fontSizes = [
-    {
-        name: __("Small", "diy-marketer"),
-        slug: "small",
-        size: "0.875em"
-    },
-    {
-        name: __("Lead", "diy-marketer"),
-        slug: "lead",
-        size: "1.25rem",
-        style: { fontSize: "3.5rem", fontWeight: 300 },
-        className: "zzz"
-    }
 ];
 
 registerBlockType("diym/text", {
@@ -173,12 +111,6 @@ registerBlockType("diym/text", {
         },
         size: {
             type: "string"
-        },
-        zzz1: {
-            type: "object",
-            default: {
-                bottom: undefined
-            }
         }
     },
     transforms: {
@@ -192,69 +124,42 @@ registerBlockType("diym/text", {
             }
         ]
     },
-    edit: ({ attributes, setAttributes }) => {
-        const {
-            content,
-            textAlign,
-            fontSize,
-            spacingBottom,
-            spacingTop,
-            level,
-            size,
-            zzz1
-        } = attributes;
+    edit: ({ attributes, setAttributes, isSelected }) => {
+        const { content, textAlign, spacingBottom, spacingTop, level, size } = attributes;
 
         const tagName = level ? "h" + level : "p";
 
-        //const value = ...options.find(option => option.key === size)
-        //console;
+        const spacingStyles = getEditorSpacing(
+            { top: spacingTop, bottom: spacingBottom },
+            isSelected
+        );
+
+        const frontEndStyles = getFrontEndSpacing({ top: 1, bottom: undefined });
+
+        console.log(frontEndStyles);
 
         const blockProps = useBlockProps({
             style: {
                 ...options.find(option => option.key === size)?.style,
                 textAlign: textAlign,
-                paddingTop: spacingTop !== undefined ? SPACING_LEVELS[spacingTop] : undefined,
-                paddingBottom:
-                    spacingBottom !== undefined ? SPACING_LEVELS[spacingBottom] : undefined
+                ...spacingStyles
+                //border: "0 solid",
+                //borderColor: isSelected ? "rgba(128, 128, 128, 0.1)" : "transparent",
+                //borderTopWidth: isNumber(spacingTop) ? SPACING_LEVELS[spacingTop] : 0,
+                //borderBottomWidth: isNumber(spacingBottom) ? SPACING_LEVELS[spacingBottom] : 0
             }
         });
-
-        //console.log(blockProps);
 
         return (
             <>
                 <InspectorControls>
-                    {/*
-                    <PanelBody title={__("Typography zzz", "diy-marketer")}>
-                        <FontSizePicker
-                            fontSizes={fontSizes}
-                            value={options}
-                            disableCustomFontSizes={true}
-                            onChange={fontSize => {
-                                setAttributes({ fontSize });
+                    <PanelBody title={__("Spacing", "diy-marketer")} initialOpen={false}>
+                        <SpacingControl
+                            values={{ top: spacingTop, bottom: spacingBottom }}
+                            onChange={({ top, bottom }) => {
+                                setAttributes({ spacingTop: top, spacingBottom: bottom });
                             }}
-                        />
-                    </PanelBody>
-                    
-                    <PanelBody title={__("Typography", "diy-marketer")}>
-                        <FontSizePicker
-                            fontSizes={fontSizes}
-                            value={options}
-                            disableCustomFontSizes={true}
-                            onChange={fontSize => {
-                                setAttributes({ fontSize });
-                            }}
-                        /> alignItems: "center"
-                    </PanelBody>
-                        */}
-                    <PanelBody title={__("zzzz", "diy-marketer")}>
-                        <SpaceControl
-                            values={zzz1}
-                            onChange={v => {
-                                setAttributes({ zzz1: v });
-                                console.log(zzz1);
-                            }}
-                        ></SpaceControl>
+                        ></SpacingControl>
                     </PanelBody>
                     <PanelBody title={__("Typography", "diy-marketer")}>
                         <div style={{ display: "flex" }}>
@@ -263,7 +168,6 @@ registerBlockType("diym/text", {
                                 options={options}
                                 value={size ? options.find(option => option.key === size) : []}
                                 onChange={({ selectedItem }) => {
-                                    console.log(selectedItem);
                                     setAttributes({ size: selectedItem.key });
                                 }}
                             />
@@ -279,15 +183,6 @@ registerBlockType("diym/text", {
                                 {__("Reset", "diy-marketer")}
                             </Button>
                         </div>
-                    </PanelBody>
-                    <PanelBody title={__("Spacing", "diy-marketer")} initialOpen={false}>
-                        <SpacingControl
-                            onChange={value => {
-                                setAttributes(value);
-                            }}
-                            spacingTop={spacingTop}
-                            spacingBottom={spacingBottom}
-                        ></SpacingControl>
                     </PanelBody>
                 </InspectorControls>
                 <BlockControls>
@@ -332,7 +227,6 @@ registerBlockType("diym/text", {
         const {
             content,
             textAlign,
-            fontSize,
             spacingTop,
             spacingBottom,
             textColor,
@@ -343,15 +237,10 @@ registerBlockType("diym/text", {
         const TagName = level ? "h" + level : "p";
 
         let className =
-            classnames(
-                size,
-                getMarginClass(spacingTop, spacingBottom),
-                //getSelectValueFromFontSize(fontSizes, fontSize),
-                {
-                    [`text-${textColor}`]: textColor,
-                    [`text-${textAlign}`]: textAlign
-                }
-            ) || undefined;
+            classnames(size, getMarginClass(spacingTop, spacingBottom), {
+                [`text-${textColor}`]: textColor,
+                [`text-${textAlign}`]: textAlign
+            }) || undefined;
 
         return (
             <TagName {...useBlockProps.save()} className={className}>
