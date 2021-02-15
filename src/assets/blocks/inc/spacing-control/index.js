@@ -269,9 +269,9 @@ export function getFrontEndSpacing(spacing = {}, pre = "m") {
             }
             arr = [...x, ...y];
         }
-        arr = [...x];
+        arr = x;
     } else if (y) {
-        arr = [...y];
+        arr = y;
     }
 
     console.log(arr);
