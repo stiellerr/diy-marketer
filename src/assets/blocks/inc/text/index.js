@@ -135,10 +135,10 @@ registerBlockType("diym/text", {
         );
 
         const frontEndStyles = getFrontEndSpacing({
-            top: 3,
+            top: 1,
             bottom: 1,
-            left: 1,
-            right: 1
+            left: undefined,
+            right: undefined
         });
         console.log("frontEndStyles");
         console.log(frontEndStyles);

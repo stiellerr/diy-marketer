@@ -254,32 +254,29 @@ export function getFrontEndSpacing(spacing = {}, pre = "m") {
     //
     const { top, bottom, left, right } = spacing;
 
-    const x = groupSpacing({ top, bottom });
-    const y = groupSpacing({ left, right });
+    let x = groupSpacing({ top, bottom });
+    let y = groupSpacing({ left, right });
 
-    if (x && y && x === y) {
-        return `${pre}-${x}`;
-    } else {
-        console.log(pre + x.join(` ${pre}`));
-        console.log(pre + y.join(` ${pre}`));
-    }
+    x = isArray(x) ? x : [`x-${1}`];
+    y = isArray(y) ? y : [`y-${y}`];
 
-    let str = "";
+    let arr = [];
 
     if (x) {
         if (y) {
-            if (x === y) {
+            if (isEqual(x, y)) {
                 return `${pre}-${x}`;
             }
-            if (isNumber(y)) {
-                str += `${pre}-y`;
-            } else {
-                str += pre + y.join(` ${pre}`);
-            }
+            arr = [...x, ...y];
         }
+        arr = [...x];
+    } else if (y) {
+        arr = [...y];
     }
 
-    return str;
+    console.log(arr);
+
+    //return str;
 
     //console.log(ttt);
     //const { top, bottom, left, right} = spacing;
