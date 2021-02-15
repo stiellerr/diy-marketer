@@ -1,8 +1,6 @@
 /**
  * External dependencies
  */
-import { isNumber } from "lodash";
-
 import { createBlock, registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
 import {
@@ -17,13 +15,8 @@ import { Button, PanelBody, ToolbarGroup, CustomSelectControl } from "@wordpress
 import { typography } from "@wordpress/icons";
 
 import classnames from "classnames";
-import { TEXT_ALIGNMENT_CONTROLS, getSelectValueFromFontSize, SPACING_LEVELS } from "../helper";
-import {
-    SpacingControl,
-    getMarginClass,
-    getEditorSpacing,
-    getFrontEndSpacing
-} from "../spacing-control";
+import { TEXT_ALIGNMENT_CONTROLS } from "../helper";
+import { SpacingControl, getEditorSpacing, getFrontEndSpacing } from "../spacing-control";
 import "./editor.scss";
 
 import HeadingLevelDropdown from "./heading-level-dropdown";
@@ -134,24 +127,11 @@ registerBlockType("diym/text", {
             isSelected
         );
 
-        const frontEndStyles = getFrontEndSpacing({
-            top: 1,
-            bottom: 1,
-            left: undefined,
-            right: undefined
-        });
-        console.log("frontEndStyles");
-        console.log(frontEndStyles);
-
         const blockProps = useBlockProps({
             style: {
                 ...options.find(option => option.key === size)?.style,
                 textAlign: textAlign,
                 ...spacingStyles
-                //border: "0 solid",
-                //borderColor: isSelected ? "rgba(128, 128, 128, 0.1)" : "transparent",
-                //borderTopWidth: isNumber(spacingTop) ? SPACING_LEVELS[spacingTop] : 0,
-                //borderBottomWidth: isNumber(spacingBottom) ? SPACING_LEVELS[spacingBottom] : 0
             }
         });
 
@@ -242,10 +222,20 @@ registerBlockType("diym/text", {
         const TagName = level ? "h" + level : "p";
 
         let className =
-            classnames(size, getMarginClass(spacingTop, spacingBottom), {
-                [`text-${textColor}`]: textColor,
-                [`text-${textAlign}`]: textAlign
-            }) || undefined;
+            classnames(
+                size,
+                getFrontEndSpacing(
+                    {
+                        top: spacingTop,
+                        bottom: spacingBottom
+                    },
+                    "m"
+                ),
+                {
+                    [`text-${textColor}`]: textColor,
+                    [`text-${textAlign}`]: textAlign
+                }
+            ) || undefined;
 
         return (
             <TagName {...useBlockProps.save()} className={className}>
