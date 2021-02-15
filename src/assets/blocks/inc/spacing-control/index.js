@@ -4,6 +4,7 @@
 import {
     noop,
     isNumber,
+    uniq,
     //keys,
     isArray,
     has,
@@ -14,7 +15,8 @@ import {
     isEmpty,
     size,
     uniqWith,
-    isEqual
+    isEqual,
+    uniqBy
     //keys
     //values
 } from "lodash";
@@ -22,7 +24,14 @@ import {
 /**
  * WordPress dependencies
  */
-import { Button, TextControl, Flex, FlexItem, FlexBlock } from "@wordpress/components";
+import {
+    Button,
+    TextControl,
+    Flex,
+    FlexItem,
+    FlexBlock,
+    withFocusReturn
+} from "@wordpress/components";
 import { link, linkOff } from "@wordpress/icons";
 import { useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
@@ -215,8 +224,142 @@ export function getEditorSpacing(borders = {}, isSelected = false) {
     return styles;
 }
 
-export function getFrontEndSpacing(spacing = {}) {
+function groupSpacing(spacing = {}) {
     //
+    spacing = pickBy(spacing, isNumber);
+
+    if (isEmpty(spacing)) {
+        return false;
+    }
+
+    const values = valuesIn(spacing);
+    const uniques = uniq(values);
+
+    if (values.length > 1 && uniques.length === 1) {
+        return uniques[0];
+    }
+
+    //let obj = {};
+    let arr = [];
+
+    forIn(spacing, (val, key) => {
+        //obj[key[0]] = val;
+        arr.push(`${key[0]}-${val}`);
+    });
+
+    return arr;
+}
+
+export function getFrontEndSpacing(spacing = {}, pre = "m") {
+    //
+    const { top, bottom, left, right } = spacing;
+
+    const x = groupSpacing({ top, bottom });
+    const y = groupSpacing({ left, right });
+
+    if (x && y && x === y) {
+        return `${pre}-${x}`;
+    } else {
+        console.log(pre + x.join(` ${pre}`));
+        console.log(pre + y.join(` ${pre}`));
+    }
+
+    let str = "";
+
+    if (x) {
+        if (y) {
+            if (x === y) {
+                return `${pre}-${x}`;
+            }
+            if (isNumber(y)) {
+                str += `${pre}-y`;
+            } else {
+                str += pre + y.join(` ${pre}`);
+            }
+        }
+    }
+
+    return str;
+
+    //console.log(ttt);
+    //const { top, bottom, left, right} = spacing;
+    //
+    //spacing = pickBy(spacing, isNumber);
+
+    //if (isEmpty(spacing)) {
+    //return;
+    //}
+    //const { top, bottom, left, right } = spacing;
+    //
+    //const x = { top, bottom };
+    //const y = { left, right };
+    /*
+
+    const values = valuesIn(spacing);
+    const uniques = uniq(values);
+
+    const { top, bottom, left, right } = spacing
+
+    if (1 === uniques.length) {
+        if ( 4 === values.length ) {
+            return `m-${uniques[0]}`;
+        }
+        if ( 2 === values.length ) {
+            if (top  )
+        }
+    }
+
+    let arr = [];
+
+    //const
+
+    if (4 === size(spacing)) {
+        
+        //const { top, bottom, left, right } = spacing
+        
+        // y axis...
+        arr.push(getFrontEndSpacing({top, bottom}));
+        arr.push(getFrontEndSpacing({left, right}));
+
+        return arr;
+    }
+*/
+    //}
+    //const { top, bottom, left, right } = spacing;
+    //if (top === bottom)
+    //if
+    //}
+    //uniques = uniqBy({ top, bottom }, isNumber);
+    //if (1 === uniques.length) {
+    //return `m-${uniques[0]}`;
+    //}
+    //console.log(size(spacing));
+    //console.log(spacing);
+    //if isEmpty(next2) {
+    //return;
+    //}
+    //console.log(next2);
+    //
+    //console.log(next);
+    //let margin = false;
+    //margin =
+    //
+    /*
+    if (getSpacingClass(valuesIn(next))) {
+        console.log("true");
+    } else {
+        console.log("false");
+    }
+
+    if (getSpacingClass([next.top, next.bottom])) {
+        console.log("true");
+    } else {
+        console.log("false");
+    }
+    */
+    //
+    //
+    /*
     const keys = [];
 
     // pick out valid keys from object
@@ -233,27 +376,21 @@ export function getFrontEndSpacing(spacing = {}) {
             return true;
         }
     });
-
-    console.log(uniqWith(nextSpacing, isEqual));
-
+*/
+    //console.log(uniqWith(nextSpacing, isEqual));
     //uniqBy();
-
     //console.log(nextSpacing.top);
-
     //if (isEmpty(nextSpacing)) {
     //return;
     //}
-
     //
-    if (4 === size(nextSpacing) && 1 === uniqBy(nextSpacing).length) {
-        console.log(11);
-    }
+    //if (4 === size(nextSpacing) && 1 === uniqBy(nextSpacing).length) {
+    //  console.log(11);
+    //}
     //if
     //if (spacing.top &&  )
-
     //if( nextSpacing.top == )
-
-    console.log(nextSpacing);
-
-    return;
+    //console.log(nextSpacing);
+    //console.log("efault exit");
+    //return;
 }

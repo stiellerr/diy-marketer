@@ -134,8 +134,13 @@ registerBlockType("diym/text", {
             isSelected
         );
 
-        const frontEndStyles = getFrontEndSpacing({ top: 1, bottom: undefined });
-
+        const frontEndStyles = getFrontEndSpacing({
+            top: 3,
+            bottom: 1,
+            left: 1,
+            right: 1
+        });
+        console.log("frontEndStyles");
         console.log(frontEndStyles);
 
         const blockProps = useBlockProps({
