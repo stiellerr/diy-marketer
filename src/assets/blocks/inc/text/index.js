@@ -145,6 +145,10 @@ registerBlockType("diym/text", {
                             onChange={({ top, bottom }) => {
                                 setAttributes({ spacingTop: top, spacingBottom: bottom });
                             }}
+                            onReset={() => {
+                                console.log("reset");
+                                setAttributes({ spacingTop: undefined, spacingBottom: undefined });
+                            }}
                         ></SpacingControl>
                     </PanelBody>
                     <PanelBody title={__("Typography", "diy-marketer")}>

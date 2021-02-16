@@ -5,7 +5,6 @@ import {
     noop,
     isNumber,
     uniq,
-    keys,
     isArray,
     has,
     valuesIn,
@@ -49,31 +48,27 @@ const DEFAULT_VALUES = {
 };
 */
 
-export function SpacingControl({ onChange = noop, values = [] }) {
+export function SpacingControl({ onChange = noop, onReset = noop, values = {} }) {
     //
     const KEYS = keysIn(values);
 
-    //console.log(sss);
-    //
-    //console.log(values);
-
-    //const [side, setSide] = useState("top");
     const [side, setSide] = useState(KEYS);
-
-    const [isLinked, setIsLinked] = useState(false);
 
     const { top, right, bottom, left } = values;
 
-    // zzz
-    const getAllValues = values => {
+    const isUnique = () => {
         const uniques = uniq(valuesIn(values));
 
         if (1 === uniques.length) {
             if (isNumber(uniques[0])) {
                 return uniques[0];
             }
+            return true;
         }
+        return false;
     };
+
+    const [isLinked, setIsLinked] = useState(isUnique);
 
     const createHandleOnFocus = side => () => {
         setSide(side);
@@ -104,6 +99,8 @@ export function SpacingControl({ onChange = noop, values = [] }) {
         inputMode: "numeric"
     };
 
+    // onClick={onReset()}
+
     return (
         <>
             <Flex style={{ paddingBottom: "8px" }}>
@@ -111,7 +108,14 @@ export function SpacingControl({ onChange = noop, values = [] }) {
                     <Text>Spacing Control</Text>
                 </FlexItem>
                 <FlexItem>
-                    <Button isSecondary isSmall>
+                    <Button
+                        isSecondary
+                        isSmall
+                        onClick={() => {
+                            onReset(null);
+                            //console.log("hi");
+                        }}
+                    >
                         Reset
                     </Button>
                 </FlexItem>
@@ -127,7 +131,7 @@ export function SpacingControl({ onChange = noop, values = [] }) {
                             onChange={createHandleOnChange(KEYS)}
                             onFocus={createHandleOnFocus(KEYS)}
                             style={{ maxWidth: "58px" }}
-                            value={getAllValues(values)}
+                            value={isUnique()}
                         ></TextControl>
                     </FlexBlock>
                 )}
@@ -193,17 +197,20 @@ export function SpacingControl({ onChange = noop, values = [] }) {
 }
 
 export function getEditorSpacing(borders = {}, isSelected = false) {
-    //
-    const styles = {
-        border: "0 solid",
-        borderColor: isSelected ? "rgba(128, 128, 128, 0.3)" : "transparent"
-    };
+    let styles = {};
 
     forIn(borders, (value, key) => {
         if (isNumber(value)) {
             styles[`border${capitalize(key)}Width`] = SPACING_LEVELS[value];
         }
     });
+
+    if (isEmpty(styles)) {
+        return;
+    }
+
+    styles.border = "0 solid";
+    styles.borderColor = isSelected ? "rgba(128, 128, 128, 0.3)" : "transparent";
 
     return styles;
 }
