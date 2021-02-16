@@ -29,8 +29,7 @@ import { rawShortcut, displayShortcut } from "@wordpress/keycodes";
 import { link, linkOff } from "@wordpress/icons";
 
 import "./editor.scss";
-
-import { SpacingControl } from "../spacing-control";
+import { SpacingControl, getEditorSpacing } from "../spacing-control";
 import { BLOCK_ALIGNMENT_CONTROLS, SPACING_LEVELS, BUTTON_SIZES } from "../helper";
 
 const NEW_TAB_REL = "noreferrer noopener";
@@ -179,11 +178,20 @@ function ButtonEdit(props) {
         [rel, setAttributes]
     );
 
+    console.log(spacingTop);
+    console.log(spacingBottom);
+
+    const spacingStyles = getEditorSpacing({ top: spacingTop, bottom: spacingBottom }, isSelected);
+
+    console.log("button");
+    console.log(spacingStyles);
+
     const blockProps = useBlockProps({
         style: {
             textAlign: "center" === textAlign || "right" === textAlign ? textAlign : undefined,
-            paddingTop: spacingTop ? SPACING_LEVELS[spacingTop] : undefined,
-            paddingBottom: spacingBottom ? SPACING_LEVELS[spacingBottom] : undefined
+            ...spacingStyles
+            //paddingTop: spacingTop ? SPACING_LEVELS[spacingTop] : undefined,
+            //paddingBottom: spacingBottom ? SPACING_LEVELS[spacingBottom] : undefined
         }
     });
 
@@ -215,11 +223,10 @@ function ButtonEdit(props) {
                 </PanelBody>
                 <PanelBody title={__("Spacing", "diy-marketer")} initialOpen={false}>
                     <SpacingControl
-                        onChange={value => {
-                            setAttributes(value);
+                        values={{ top: spacingTop, bottom: spacingBottom }}
+                        onChange={({ top, bottom }) => {
+                            setAttributes({ spacingTop: top, spacingBottom: bottom });
                         }}
-                        spacingTop={spacingTop}
-                        spacingBottom={spacingBottom}
                     ></SpacingControl>
                 </PanelBody>
                 <PanelColorSettings

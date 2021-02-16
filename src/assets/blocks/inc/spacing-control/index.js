@@ -12,13 +12,22 @@ import {
     capitalize,
     forIn,
     pickBy,
-    isEmpty
+    isEmpty,
+    keysIn
 } from "lodash";
 
 /**
  * WordPress dependencies
  */
-import { Button, TextControl, Flex, FlexItem, FlexBlock } from "@wordpress/components";
+import {
+    Button,
+    TextControl,
+    Flex,
+    FlexItem,
+    FlexBlock,
+    __experimentalText as Text
+} from "@wordpress/components";
+
 import { link, linkOff } from "@wordpress/icons";
 import { useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
@@ -31,33 +40,39 @@ import BoxControlIcon from "./icon";
 // constants
 const SPACING_LEVELS = ["0rem", "0.25rem", "0.5rem", "1rem", "1.5rem", "3rem"];
 
+/*
 const DEFAULT_VALUES = {
     top: null,
     bottom: null,
     left: null,
     right: null
 };
+*/
 
-export function SpacingControl({ onChange = noop, values = DEFAULT_VALUES }) {
+export function SpacingControl({ onChange = noop, values = [] }) {
+    //
+    const KEYS = keysIn(values);
+
+    //console.log(sss);
     //
     //console.log(values);
 
-    const [side, setSide] = useState("top");
+    //const [side, setSide] = useState("top");
+    const [side, setSide] = useState(KEYS);
 
     const [isLinked, setIsLinked] = useState(false);
 
     const { top, right, bottom, left } = values;
 
+    // zzz
     const getAllValues = values => {
-        //
-        //const allValues = Object.values(values);
-        const allValues = valuesIn(values);
+        const uniques = uniq(valuesIn(values));
 
-        const value = allValues.every(v => v === allValues[0]) ? allValues[0] : "";
-
-        const allValue = isNumber(value) ? value : null;
-
-        return allValue;
+        if (1 === uniques.length) {
+            if (isNumber(uniques[0])) {
+                return uniques[0];
+            }
+        }
     };
 
     const createHandleOnFocus = side => () => {
@@ -91,6 +106,16 @@ export function SpacingControl({ onChange = noop, values = DEFAULT_VALUES }) {
 
     return (
         <>
+            <Flex style={{ paddingBottom: "8px" }}>
+                <FlexItem>
+                    <Text>Spacing Control</Text>
+                </FlexItem>
+                <FlexItem>
+                    <Button isSecondary isSmall>
+                        Reset
+                    </Button>
+                </FlexItem>
+            </Flex>
             <Flex>
                 <FlexItem>
                     <BoxControlIcon side={side}></BoxControlIcon>
@@ -99,8 +124,8 @@ export function SpacingControl({ onChange = noop, values = DEFAULT_VALUES }) {
                     <FlexBlock style={{ marginTop: "8px" }}>
                         <TextControl
                             {...props}
-                            onChange={createHandleOnChange(keys(values))}
-                            onFocus={createHandleOnFocus(keys(values))}
+                            onChange={createHandleOnChange(KEYS)}
+                            onFocus={createHandleOnFocus(KEYS)}
                             style={{ maxWidth: "58px" }}
                             value={getAllValues(values)}
                         ></TextControl>
@@ -120,7 +145,7 @@ export function SpacingControl({ onChange = noop, values = DEFAULT_VALUES }) {
                 </FlexItem>
             </Flex>
             {!isLinked && (
-                <Flex>
+                <Flex style={{ paddingTop: "8px" }}>
                     <FlexBlock>
                         <TextControl
                             {...props}
@@ -194,7 +219,7 @@ function groupSpacing(spacing = {}) {
     const values = valuesIn(spacing);
     const uniques = uniq(values);
 
-    if (values.length > 1 && uniques.length === 1) {
+    if (values.length > 1 && 1 === uniques.length) {
         return `-${uniques[0]}`;
     }
 

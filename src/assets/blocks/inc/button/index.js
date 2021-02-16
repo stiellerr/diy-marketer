@@ -32,6 +32,7 @@ registerBlockType("diym/button", {
             label: __("Outline", "diy-marketer")
         }
     ],
+    /*
     variations: [
         {
             name: "diym/submit",
@@ -41,6 +42,7 @@ registerBlockType("diym/button", {
             //parent: ["diym/form"]
         }
     ],
+    */
     supports: {
         html: false,
         reusable: false,
@@ -65,10 +67,10 @@ registerBlockType("diym/button", {
         buttonSize: {
             type: "string"
         },
-        marginTop: {
+        spacingTop: {
             type: "number"
         },
-        marginBottom: {
+        spacingBottom: {
             type: "number"
         },
         textColor: {
