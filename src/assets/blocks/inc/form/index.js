@@ -1,26 +1,12 @@
-/* global diymBgColors, _ */
 //import "./editor.scss";
 
 import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
 import { InnerBlocks, InspectorControls } from "@wordpress/block-editor";
 
-import {
-    __experimentalBoxControl as BoxControl,
-    __experimentalInputControl as InputControl,
-    PanelBody,
-    TextControl,
-    Flex,
-    FlexItem,
-    PanelRow
-} from "@wordpress/components";
+import { PanelBody } from "@wordpress/components";
 
-const { __Visualizer } = BoxControl;
-
-//import edit from "./edit";
-const ddd = () => {
-    return <div>zzz</div>;
-};
+import { SpacingControl, getEditorSpacing, getFrontEndSpacing } from "../spacing-control";
 
 registerBlockType("diym/form", {
     title: __("Form", "diy-marketer"),
@@ -38,44 +24,56 @@ registerBlockType("diym/form", {
         color: true
     },
     attributes: {
-        buttonType: {
-            type: "number",
-            default: 12
+        spacingTop: {
+            type: "number"
         },
-        spacing: {
-            type: "object"
+        spacingBottom: {
+            type: "number"
+        },
+        spacingLeft: {
+            type: "number"
+        },
+        spacingRight: {
+            type: "number"
         }
     },
-    providesContext: {
-        "diym/buttonType": "buttonType"
-    },
     edit: props => {
-        const { attributes, setAttributes } = props;
-        const { spacing } = attributes;
+        const { attributes, setAttributes, isSelected } = props;
+        const { spacingTop, spacingBottom, spacingLeft, spacingRight } = attributes;
+
+        const spacingStyles = getEditorSpacing(
+            { top: spacingTop, bottom: spacingBottom, left: spacingLeft, right: spacingRight },
+            isSelected
+        );
 
         return (
             <>
                 <InspectorControls>
                     <PanelBody title={__("Spacing", "diy-marketer")} initialOpen={"false"}>
-                        <BoxControl
-                            inputProps={{
-                                min: 0,
-                                max: 5,
-                                type: "number",
-                                disableUnits: true,
-                                unit: ""
+                        <SpacingControl
+                            values={{
+                                top: spacingTop,
+                                bottom: spacingBottom,
+                                left: spacingLeft,
+                                right: spacingRight
                             }}
-                            units={false}
-                            values={spacing}
-                            onChange={values => {
-                                Object.entries(values).map(([k, v]) => {
-                                    values[k] = v.split("px")[0];
-                                });
+                            onChange={({ top, bottom, left, right }) => {
                                 setAttributes({
-                                    spacing: values
+                                    spacingTop: top,
+                                    spacingBottom: bottom,
+                                    spacingLeft: left,
+                                    spacingRight: right
                                 });
                             }}
-                        />
+                            onReset={() => {
+                                setAttributes({
+                                    spacingTop: undefined,
+                                    spacingBottom: undefined,
+                                    spacingLeft: undefined,
+                                    spacingRight: undefined
+                                });
+                            }}
+                        ></SpacingControl>
                     </PanelBody>
                 </InspectorControls>
                 <div style={{ padding: "1rem" }}>
