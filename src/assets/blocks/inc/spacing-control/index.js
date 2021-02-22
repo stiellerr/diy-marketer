@@ -37,16 +37,7 @@ import { __ } from "@wordpress/i18n";
 import BoxControlIcon from "./icon";
 
 // constants
-const SPACING_LEVELS = ["0rem", "0.25rem", "0.5rem", "1rem", "1.5rem", "3rem"];
-
-/*
-const DEFAULT_VALUES = {
-    top: null,
-    bottom: null,
-    left: null,
-    right: null
-};
-*/
+const SPACING_LEVELS = ["0", "0.25rem", "0.5rem", "1rem", "1.5rem", "3rem"];
 
 export function SpacingControl({ onChange = noop, onReset = noop, values = {} }) {
     //
@@ -56,22 +47,47 @@ export function SpacingControl({ onChange = noop, onReset = noop, values = {} })
 
     const { top, right, bottom, left } = values;
 
-    const isUnique = () => {
+    const isUnique = (includeUndef = false) => {
+        //
         const uniques = uniq(valuesIn(values));
 
         if (1 === uniques.length) {
+            if (includeUndef) {
+                return true;
+            }
             if (isNumber(uniques[0])) {
                 return uniques[0];
             }
-            return true;
         }
-        return false;
+        return "";
     };
 
-    const [isLinked, setIsLinked] = useState(isUnique);
+    var hasValues = () => {
+        let nextValue = { ...values };
+
+        hasValues = true;
+
+        forIn(nextValue, val => {
+            if (isNumber(val)) {
+                hasValues = false;
+            }
+        });
+        return hasValues;
+    };
+
+    const [isLinked, setIsLinked] = useState(isUnique(true));
 
     const createHandleOnFocus = side => () => {
         setSide(side);
+    };
+
+    const checkValue = (old, newValue) => {
+        const numb = parseInt(newValue, 10);
+
+        if (isNumber(numb) && numb >= 0 && numb <= 5) {
+            return numb;
+        }
+        return old;
     };
 
     const createHandleOnChange = side => next => {
@@ -80,10 +96,10 @@ export function SpacingControl({ onChange = noop, onReset = noop, values = {} })
 
         if (isArray(side)) {
             side.forEach(e => {
-                nextValue[e] = parseInt(next, 10);
+                nextValue[e] = checkValue(nextValue[e], next);
             });
         } else {
-            nextValue[side] = parseInt(next, 10);
+            nextValue[side] = checkValue(nextValue[side], next);
         }
 
         onChange(nextValue);
@@ -99,24 +115,23 @@ export function SpacingControl({ onChange = noop, onReset = noop, values = {} })
         inputMode: "numeric"
     };
 
-    // onClick={onReset()}
-
     return (
         <>
             <Flex style={{ paddingBottom: "8px" }}>
                 <FlexItem>
-                    <Text>Spacing Control</Text>
+                    <Text>{__("Spacing Control", "diy-marketer")}</Text>
                 </FlexItem>
                 <FlexItem>
                     <Button
                         isSecondary
                         isSmall
                         onClick={() => {
-                            onReset(null);
-                            //console.log("hi");
+                            onReset();
+                            setIsLinked(true);
                         }}
+                        disabled={hasValues()}
                     >
-                        Reset
+                        {__("Reset", "diy-marketer")}
                     </Button>
                 </FlexItem>
             </Flex>
@@ -199,18 +214,19 @@ export function SpacingControl({ onChange = noop, onReset = noop, values = {} })
 export function getEditorSpacing(borders = {}, isSelected = false) {
     let styles = {};
 
+    styles.borderTopWidth = 0;
+    styles.borderBottomWidth = 0;
+    styles.borderLeftWidth = 0;
+    styles.borderRightWidth = 0;
+
+    styles.borderStyle = "solid";
+    styles.borderColor = isSelected ? "rgba(128, 128, 128, 0.3)" : "transparent";
+
     forIn(borders, (value, key) => {
         if (isNumber(value)) {
             styles[`border${capitalize(key)}Width`] = SPACING_LEVELS[value];
         }
     });
-
-    if (isEmpty(styles)) {
-        return;
-    }
-
-    styles.border = "0 solid";
-    styles.borderColor = isSelected ? "rgba(128, 128, 128, 0.3)" : "transparent";
 
     return styles;
 }

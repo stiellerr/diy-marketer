@@ -146,7 +146,6 @@ registerBlockType("diym/text", {
                                 setAttributes({ spacingTop: top, spacingBottom: bottom });
                             }}
                             onReset={() => {
-                                console.log("reset");
                                 setAttributes({ spacingTop: undefined, spacingBottom: undefined });
                             }}
                         ></SpacingControl>
