@@ -27,16 +27,20 @@ registerBlockType("diym/form", {
     },
     attributes: {
         spacingTop: {
-            type: "number"
+            type: "number",
+            default: 3
         },
         spacingBottom: {
-            type: "number"
+            type: "number",
+            default: 3
         },
         spacingLeft: {
-            type: "number"
+            type: "number",
+            default: 3
         },
         spacingRight: {
-            type: "number"
+            type: "number",
+            default: 3
         }
     },
     edit: props => {
