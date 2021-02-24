@@ -21,7 +21,7 @@ import { SpacingControl, getEditorSpacing, getFrontEndSpacing } from "../spacing
 import "./editor.scss";
 
 import HeadingLevelDropdown from "./heading-level-dropdown";
-import { pickBy, isNumber } from "lodash";
+import { isNumber, pickBy } from "lodash";
 
 const options = [
     //
@@ -58,9 +58,9 @@ const options = [
     //{ key: "display-1", name: "D1", style: { fontSize: 56, fontWeight: 300 } }
 ];
 
-registerBlockType("diym/text", {
+registerBlockType("diym/subhead", {
     apiVersion: 2,
-    title: __("Text", "diy-marketer"),
+    title: __("Subhead", "diy-marketer"),
     description: __("Start with the building block of all narrative.", "diy-marketer"),
     category: "diy-marketer",
     icon: {
@@ -86,7 +86,7 @@ registerBlockType("diym/text", {
         content: {
             type: "string",
             source: "html",
-            selector: "h1,h2,h3,h4,h5,h6,p"
+            selector: "h1,h2,h3,h4,h5,h6"
         },
         level: {
             type: "number",
@@ -120,25 +120,14 @@ registerBlockType("diym/text", {
         ]
     },
     edit: ({ attributes, setAttributes, isSelected }) => {
-        //
         const { content, textAlign, spacingBottom, spacingTop, level, size } = attributes;
 
         const tagName = level ? "h" + level : "p";
 
-        const DEFAULTS = {
-            top: 0,
-            bottom: level ? 2 : 3
-            //bottom: 0
-        };
-
-        const SPACING = {
-            // defaults
-            ...DEFAULTS,
-            // pick out numbers only...
-            ...pickBy({ top: spacingTop, bottom: spacingBottom }, isNumber)
-        };
-
-        const spacingStyles = getEditorSpacing(SPACING, isSelected);
+        const spacingStyles = getEditorSpacing(
+            { top: spacingTop, bottom: spacingBottom === undefined ? (level ? 2 : 3) : 0 },
+            isSelected
+        );
 
         const blockProps = useBlockProps({
             style: {
@@ -153,7 +142,7 @@ registerBlockType("diym/text", {
                 <InspectorControls>
                     <PanelBody title={__("Spacing", "diy-marketer")} initialOpen={false}>
                         <SpacingControl
-                            values={SPACING}
+                            values={{ top: spacingTop, bottom: spacingBottom }}
                             onChange={({ top, bottom }) => {
                                 setAttributes({ spacingTop: top, spacingBottom: bottom });
                             }}

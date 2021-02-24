@@ -1,0 +1,50 @@
+// Remove padding in heading level control popover since the toolbar buttons already have padding.
+.diym-heading-level-dropdown .components-popover__content {
+    // TODO: Find a less hardcoded way of doing this. `max-content` works on
+    // Chromium, but it results in a scrollbar on Safari, and isn't supported
+    // at all in IE11.
+    min-width: 230px;
+    > div {
+        padding: 0;
+    }
+}
+
+// The dropdown already has a border, so we can remove the one on the heading
+// level toolbar.
+.diym-heading-level-toolbar {
+    border: none;
+}
+
+//
+.editor-styles-wrapper {
+    p.wp-block-diym-text {
+        margin: 1px auto;
+        line-height: 1.5;
+        //padding-bottom: 1rem;
+    }
+    h6.wp-block-diym-text {
+        font-size: 1rem;
+    }
+    h5.wp-block-diym-text {
+        font-size: 1.25rem;
+    }
+    h4.wp-block-diym-text {
+        font-size: 1.5rem;
+    }
+    h3.wp-block-diym-text {
+        font-size: 1.75rem;
+    }
+    h2.wp-block-diym-text {
+        font-size: 2rem;
+    }
+    h2.wp-block-diym-text,
+    h3.wp-block-diym-text,
+    h4.wp-block-diym-text,
+    h5.wp-block-diym-text,
+    h6.wp-block-diym-text {
+        margin: 1px auto;
+        line-height: 1.2;
+        //padding-bottom: 0.5rem;
+        font-weight: 500;
+    }
+}

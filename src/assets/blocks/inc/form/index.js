@@ -5,8 +5,10 @@ import { __ } from "@wordpress/i18n";
 import { InnerBlocks, InspectorControls } from "@wordpress/block-editor";
 
 import { PanelBody } from "@wordpress/components";
+import classnames from "classnames";
 
 import { SpacingControl, getEditorSpacing, getFrontEndSpacing } from "../spacing-control";
+import { pickBy, isNumber } from "lodash";
 
 registerBlockType("diym/form", {
     title: __("Form", "diy-marketer"),
@@ -41,22 +43,31 @@ registerBlockType("diym/form", {
         const { attributes, setAttributes, isSelected } = props;
         const { spacingTop, spacingBottom, spacingLeft, spacingRight } = attributes;
 
-        const spacingStyles = getEditorSpacing(
-            { top: spacingTop, bottom: spacingBottom, left: spacingLeft, right: spacingRight },
-            isSelected
-        );
+        const DEFAULTS = {
+            top: 3,
+            bottom: 3,
+            left: 3,
+            right: 3
+        };
+
+        const SPACING = {
+            // defaults
+            ...DEFAULTS,
+            // pick out the numbers
+            ...pickBy(
+                { top: spacingTop, bottom: spacingBottom, left: spacingLeft, right: spacingRight },
+                isNumber
+            )
+        };
+
+        const spacingStyles = getEditorSpacing(SPACING, isSelected);
 
         return (
             <>
                 <InspectorControls>
                     <PanelBody title={__("Spacing", "diy-marketer")} initialOpen={"false"}>
                         <SpacingControl
-                            values={{
-                                top: spacingTop,
-                                bottom: spacingBottom,
-                                left: spacingLeft,
-                                right: spacingRight
-                            }}
+                            values={SPACING}
                             onChange={({ top, bottom, left, right }) => {
                                 setAttributes({
                                     spacingTop: top,
@@ -76,7 +87,7 @@ registerBlockType("diym/form", {
                         ></SpacingControl>
                     </PanelBody>
                 </InspectorControls>
-                <div style={{ padding: "1rem" }}>
+                <div style={{ ...spacingStyles }}>
                     <InnerBlocks
                         allowedBlocks={["diym/input", "diym/text", "diym/button"]}
                         renderAppender={() => <InnerBlocks.ButtonBlockAppender />}
@@ -87,10 +98,23 @@ registerBlockType("diym/form", {
     },
     save: props => {
         const { attributes } = props;
+        const { spacingTop, spacingBottom, spacingLeft, spacingRight } = attributes;
         //const { backgroundColor, offerColor, customOfferColor } = attributes;
+        let className = classnames(
+            "needs-validation",
+            getFrontEndSpacing(
+                {
+                    top: spacingTop,
+                    bottom: spacingBottom,
+                    left: spacingLeft,
+                    right: spacingRight
+                },
+                "p"
+            )
+        );
 
         return (
-            <form className={"p-3 needs-validation"} noValidate>
+            <form className={className} noValidate>
                 <InnerBlocks.Content />
             </form>
         );

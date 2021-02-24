@@ -40,7 +40,6 @@ import BoxControlIcon from "./icon";
 const SPACING_LEVELS = ["0", "0.25rem", "0.5rem", "1rem", "1.5rem", "3rem"];
 
 export function SpacingControl({ onChange = noop, onReset = noop, values = {} }) {
-    //
     const KEYS = keysIn(values);
 
     const [side, setSide] = useState(KEYS);
@@ -50,6 +49,8 @@ export function SpacingControl({ onChange = noop, onReset = noop, values = {} })
     const isUnique = (includeUndef = false) => {
         //
         const uniques = uniq(valuesIn(values));
+
+        console.log(uniques);
 
         if (1 === uniques.length) {
             if (includeUndef) {
@@ -127,7 +128,13 @@ export function SpacingControl({ onChange = noop, onReset = noop, values = {} })
                         isSmall
                         onClick={() => {
                             onReset();
-                            setIsLinked(true);
+                            if (isUnique(true)) {
+                                console.log(1);
+                            } else {
+                                console.log(2);
+                            }
+                            //console.log(isUnique(true));
+                            setIsLinked(isUnique(true) || false);
                         }}
                         disabled={hasValues()}
                     >
@@ -223,7 +230,8 @@ export function getEditorSpacing(borders = {}, isSelected = false) {
     styles.borderColor = isSelected ? "rgba(128, 128, 128, 0.3)" : "transparent";
 
     forIn(borders, (value, key) => {
-        if (isNumber(value)) {
+        //if (isNumber(value)) {
+        if (value) {
             styles[`border${capitalize(key)}Width`] = SPACING_LEVELS[value];
         }
     });
@@ -232,8 +240,7 @@ export function getEditorSpacing(borders = {}, isSelected = false) {
 }
 
 function groupSpacing(spacing = {}) {
-    //
-    spacing = pickBy(spacing, isNumber);
+    spacing = pickBy(spacing);
 
     if (isEmpty(spacing)) {
         return false;
