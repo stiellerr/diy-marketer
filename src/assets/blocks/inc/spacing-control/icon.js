@@ -16,35 +16,32 @@ const BASE_ICON_SIZE = 24;
 
 export default function BoxControlIcon({
     size = 24,
-    side = ["top", "right", "bottom", "left"],
+    //side,
+    side = ["spaceTop", "spaceRight", "spaceBottom", "spaceLeft"],
     ...props
 }) {
-    //
-    const SIDES = {
-        top: undefined,
-        bottom: undefined,
-        left: undefined,
-        right: undefined
-    };
+    let sides = {};
 
     if (isArray(side)) {
         side.forEach(e => {
-            SIDES[e] = true;
+            sides[e] = true;
         });
     } else {
-        SIDES[side] = true;
+        sides[side] = true;
     }
 
     // Simulates SVG Icon scaling
     const scale = size / BASE_ICON_SIZE;
 
+    const { spaceTop, spaceBottom, spaceLeft, spaceRight } = sides;
+
     return (
         <Root style={{ transform: `scale(${scale})` }} {...props}>
             <Viewbox>
-                <TopStroke isFocused={SIDES.top} />
-                <RightStroke isFocused={SIDES.right} />
-                <BottomStroke isFocused={SIDES.bottom} />
-                <LeftStroke isFocused={SIDES.left} />
+                <TopStroke isFocused={spaceTop} />
+                <RightStroke isFocused={spaceRight} />
+                <BottomStroke isFocused={spaceBottom} />
+                <LeftStroke isFocused={spaceLeft} />
             </Viewbox>
         </Root>
     );

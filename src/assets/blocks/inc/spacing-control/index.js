@@ -6,13 +6,12 @@ import {
     isNumber,
     uniq,
     isArray,
-    has,
     valuesIn,
-    capitalize,
     forIn,
     pickBy,
     isEmpty,
-    keysIn
+    keysIn,
+    mapValues
 } from "lodash";
 
 /**
@@ -39,44 +38,65 @@ import BoxControlIcon from "./icon";
 // constants
 const SPACING_LEVELS = ["0", "0.25rem", "0.5rem", "1rem", "1.5rem", "3rem"];
 
-export function SpacingControl({ onChange = noop, onReset = noop, values = {} }) {
-    const KEYS = keysIn(values);
+export function SpacingControl({ onChange = noop, onReset = noop, values = {}, defaults = {} }) {
+    // merge values with defaults
 
-    const [side, setSide] = useState(KEYS);
+    defaults = {
+        ...mapValues(values, () => {
+            return 0;
+        }),
+        ...defaults
+    };
 
-    const { top, right, bottom, left } = values;
+    // merge defaults...
+    const mergedValues = {
+        ...defaults,
+        ...pickBy(values, isNumber)
+    };
 
-    const isUnique = (includeUndef = false) => {
+    const SIDES = keysIn(mergedValues);
+
+    const [side, setSide] = useState(SIDES);
+
+    const { spaceTop, spaceRight, spaceBottom, spaceLeft } = mergedValues;
+
+    const isDefault = () => {
         //
         const uniques = uniq(valuesIn(values));
 
-        console.log(uniques);
-
         if (1 === uniques.length) {
-            if (includeUndef) {
+            if (undefined === uniques[0]) {
                 return true;
             }
+        }
+
+        return false;
+    };
+
+    const isUnique2 = obj => {
+        //
+        const uniques = uniq(valuesIn(obj));
+
+        if (1 === uniques.length) {
+            return true;
+        }
+        return false;
+    };
+
+    const isUnique3 = () => {
+        //
+        const uniques = uniq(valuesIn(mergedValues));
+
+        if (1 === uniques.length) {
             if (isNumber(uniques[0])) {
                 return uniques[0];
             }
         }
-        return "";
+        return false;
     };
 
-    var hasValues = () => {
-        let nextValue = { ...values };
-
-        hasValues = true;
-
-        forIn(nextValue, val => {
-            if (isNumber(val)) {
-                hasValues = false;
-            }
-        });
-        return hasValues;
-    };
-
-    const [isLinked, setIsLinked] = useState(isUnique(true));
+    //
+    const [isLinked, setIsLinked] = useState(isUnique2(mergedValues));
 
     const createHandleOnFocus = side => () => {
         setSide(side);
@@ -128,15 +148,9 @@ export function SpacingControl({ onChange = noop, onReset = noop, values = {} })
                         isSmall
                         onClick={() => {
                             onReset();
-                            if (isUnique(true)) {
-                                console.log(1);
-                            } else {
-                                console.log(2);
-                            }
-                            //console.log(isUnique(true));
-                            setIsLinked(isUnique(true) || false);
+                            setIsLinked(isUnique2(defaults));
                         }}
-                        disabled={hasValues()}
+                        disabled={isDefault()}
                     >
                         {__("Reset", "diy-marketer")}
                     </Button>
@@ -150,10 +164,10 @@ export function SpacingControl({ onChange = noop, onReset = noop, values = {} })
                     <FlexBlock style={{ marginTop: "8px" }}>
                         <TextControl
                             {...props}
-                            onChange={createHandleOnChange(KEYS)}
-                            onFocus={createHandleOnFocus(KEYS)}
+                            onChange={createHandleOnChange(SIDES)}
+                            onFocus={createHandleOnFocus(SIDES)}
                             style={{ maxWidth: "58px" }}
-                            value={isUnique()}
+                            value={isUnique3() || ""}
                         ></TextControl>
                     </FlexBlock>
                 )}
@@ -166,6 +180,7 @@ export function SpacingControl({ onChange = noop, onReset = noop, values = {} })
                         iconSize={16}
                         onClick={() => {
                             setIsLinked(!isLinked);
+                            setSide(SIDES);
                         }}
                     ></Button>
                 </FlexItem>
@@ -176,40 +191,40 @@ export function SpacingControl({ onChange = noop, onReset = noop, values = {} })
                         <TextControl
                             {...props}
                             label={__("Top", "diy-marketer")}
-                            onChange={createHandleOnChange("top")}
-                            onFocus={createHandleOnFocus("top")}
-                            value={top}
-                            readOnly={!has(values, "top")}
+                            onChange={createHandleOnChange("spaceTop")}
+                            onFocus={createHandleOnFocus("spaceTop")}
+                            value={spaceTop}
+                            readOnly={!SIDES.includes("spaceTop")}
                         ></TextControl>
                     </FlexBlock>
                     <FlexBlock>
                         <TextControl
                             {...props}
                             label={__("Right", "diy-marketer")}
-                            onChange={createHandleOnChange("right")}
-                            onFocus={createHandleOnFocus("right")}
-                            value={right}
-                            readOnly={!has(values, "right")}
+                            onChange={createHandleOnChange("spaceRight")}
+                            onFocus={createHandleOnFocus("spaceRight")}
+                            value={spaceRight}
+                            readOnly={!SIDES.includes("spaceRight")}
                         ></TextControl>
                     </FlexBlock>
                     <FlexBlock>
                         <TextControl
                             {...props}
                             label={__("Bottom", "diy-marketer")}
-                            onChange={createHandleOnChange("bottom")}
-                            onFocus={createHandleOnFocus("bottom")}
-                            value={bottom}
-                            readOnly={!has(values, "bottom")}
+                            onChange={createHandleOnChange("spaceBottom")}
+                            onFocus={createHandleOnFocus("spaceBottom")}
+                            value={spaceBottom}
+                            readOnly={!SIDES.includes("spaceBottom")}
                         ></TextControl>
                     </FlexBlock>
                     <FlexBlock>
                         <TextControl
                             {...props}
                             label={__("Left", "diy-marketer")}
-                            onChange={createHandleOnChange("left")}
-                            onFocus={createHandleOnFocus("left")}
-                            value={left}
-                            readOnly={!has(values, "left")}
+                            onChange={createHandleOnChange("spaceLeft")}
+                            onFocus={createHandleOnFocus("spaceLeft")}
+                            value={spaceLeft}
+                            readOnly={!SIDES.includes("spaceLeft")}
                         ></TextControl>
                     </FlexBlock>
                 </Flex>
@@ -218,7 +233,7 @@ export function SpacingControl({ onChange = noop, onReset = noop, values = {} })
     );
 }
 
-export function getEditorSpacing(borders = {}, isSelected = false) {
+export function getEditorSpacing(isSelected = false, borders = {}, defaults = {}) {
     let styles = {};
 
     styles.borderTopWidth = 0;
@@ -229,10 +244,16 @@ export function getEditorSpacing(borders = {}, isSelected = false) {
     styles.borderStyle = "solid";
     styles.borderColor = isSelected ? "rgba(128, 128, 128, 0.3)" : "transparent";
 
+    // merge defaults...
+    borders = {
+        ...defaults,
+        ...pickBy(borders, isNumber)
+        //...pickBy(borders)
+    };
+
     forIn(borders, (value, key) => {
-        //if (isNumber(value)) {
         if (value) {
-            styles[`border${capitalize(key)}Width`] = SPACING_LEVELS[value];
+            styles[`border${key.replace("space", "")}Width`] = SPACING_LEVELS[value];
         }
     });
 
@@ -256,18 +277,23 @@ function groupSpacing(spacing = {}) {
     let arr = [];
 
     forIn(spacing, (val, key) => {
-        arr.push(`${key[0]}-${val}`);
+        arr.push(`${key.replace("space", "")[0].toLowerCase()}-${val}`);
     });
 
     return arr;
 }
 
-export function getFrontEndSpacing(spacing = {}, pre = "m") {
+export function getFrontEndSpacing(pre = "m", spacing = {}, defaults = {}) {
+    // merge defaults...
+    spacing = {
+        ...defaults,
+        ...pickBy(spacing)
+    };
     //
-    const { top, bottom, left, right } = spacing;
+    const { spaceTop, spaceBottom, spaceLeft, spaceRight } = spacing;
 
-    let y = groupSpacing({ top, bottom });
-    let x = groupSpacing({ left, right });
+    let y = groupSpacing({ spaceTop, spaceBottom });
+    let x = groupSpacing({ spaceLeft, spaceRight });
 
     let arr = [];
 
