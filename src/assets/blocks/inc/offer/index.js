@@ -4,6 +4,8 @@ import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
 import { InnerBlocks } from "@wordpress/block-editor";
 
+import { getFrontEndSpacing } from "../spacing-control";
+
 import edit from "./edit";
 
 registerBlockType("diym/offer", {
@@ -26,13 +28,18 @@ registerBlockType("diym/offer", {
             source: "meta",
             meta: "_diym_post_meta"
         },
-        /*
-        meta_test: {
-            type: "string",
-            source: "meta",
-            meta: "_diym_meta_test"
+        spaceTop: {
+            type: "number"
         },
-        */
+        spaceBottom: {
+            type: "number"
+        },
+        spaceLeft: {
+            type: "number"
+        },
+        spaceRight: {
+            type: "number"
+        },
         backgroundColor: {
             type: "string"
         },
@@ -46,7 +53,31 @@ registerBlockType("diym/offer", {
     edit,
     save: props => {
         const { attributes } = props;
-        const { backgroundColor, offerColor, customOfferColor } = attributes;
+        const {
+            backgroundColor,
+            offerColor,
+            customOfferColor,
+            spaceTop,
+            spaceBottom,
+            spaceLeft,
+            spaceRight
+        } = attributes;
+
+        const SPACING = {
+            spaceTop,
+            spaceBottom,
+            spaceLeft,
+            spaceRight
+        };
+
+        const DEFAULTS = {
+            spaceTop: 3,
+            spaceBottom: 3,
+            spaceLeft: 3,
+            spaceRight: 3
+        };
+
+        const wrapperClass = getFrontEndSpacing("m", SPACING, DEFAULTS);
 
         return (
             <>
@@ -66,7 +97,7 @@ registerBlockType("diym/offer", {
                             data-content="f0c4"
                             style={{ color: customOfferColor }}
                         ></i>
-                        <div className="p-2">
+                        <div className={wrapperClass}>
                             <InnerBlocks.Content />
                         </div>
                     </div>

@@ -9,10 +9,10 @@ import {
 } from "@wordpress/block-editor";
 import { InspectorControls } from "@wordpress/block-editor";
 
+import { SpacingControl, getEditorSpacing } from "../spacing-control";
+
 import { cover as icon } from "@wordpress/icons";
 import {
-    __experimentalRadio as Radio,
-    Panel,
     PanelBody,
     PanelRow,
     Button,
@@ -23,19 +23,31 @@ import {
     FlexBlock,
     ColorPicker,
     RangeControl,
-    SelectControl,
-    RadioControl,
-    __experimentalRadioGroup as RadioGroup,
-    CheckboxControl,
-    ButtonGroup
+    SelectControl
 } from "@wordpress/components";
 
 function OfferEdit(props) {
-    const { className, attributes, setAttributes, offerColor, setOfferColor } = props;
-    const { backgroundColor } = attributes;
+    const { attributes, setAttributes, offerColor, setOfferColor, isSelected } = props;
+    const { backgroundColor, spaceTop, spaceBottom, spaceLeft, spaceRight } = attributes;
 
     //make a copy of the post meta so it can be manipulated
     const postMeta = { ...attributes.postMeta };
+
+    const SPACING = {
+        spaceTop,
+        spaceBottom,
+        spaceLeft,
+        spaceRight
+    };
+
+    const DEFAULTS = {
+        spaceTop: 3,
+        spaceBottom: 3,
+        spaceLeft: 3,
+        spaceRight: 3
+    };
+
+    const spacingStyles = getEditorSpacing(isSelected, SPACING, DEFAULTS);
 
     const backgroundColorPicker = () => (
         <ColorPicker
@@ -154,6 +166,23 @@ function OfferEdit(props) {
                         </Button>
                     </Flex>
                 </PanelColorSettings>
+                <PanelBody title={__("Spacing", "diy-marketer")} initialOpen={false}>
+                    <SpacingControl
+                        defaults={DEFAULTS}
+                        values={SPACING}
+                        onChange={newSpacing => {
+                            setAttributes(newSpacing);
+                        }}
+                        onReset={() => {
+                            setAttributes({
+                                spaceTop: undefined,
+                                spaceBottom: undefined,
+                                spaceLeft: undefined,
+                                spaceRight: undefined
+                            });
+                        }}
+                    ></SpacingControl>
+                </PanelBody>
             </InspectorControls>
             <Flex>
                 <FlexItem>
@@ -164,7 +193,7 @@ function OfferEdit(props) {
                         backgroundColor: backgroundColor,
                         borderStyle: "dashed",
                         borderColor: offerColor.color,
-                        padding: "0.5rem",
+                        //padding: "0.5rem",
                         position: "relative"
                     }}
                 >
@@ -178,10 +207,12 @@ function OfferEdit(props) {
                             color: offerColor.color
                         }}
                     ></i>
-                    <InnerBlocks
-                        allowedBlocks={["diym/text", "diym/countdown", "diym/button"]}
-                        renderAppender={() => <InnerBlocks.ButtonBlockAppender />}
-                    />
+                    <div style={spacingStyles}>
+                        <InnerBlocks
+                            allowedBlocks={["diym/text", "diym/countdown", "diym/button"]}
+                            renderAppender={() => <InnerBlocks.ButtonBlockAppender />}
+                        />
+                    </div>
                 </FlexBlock>
                 <FlexItem>
                     <i

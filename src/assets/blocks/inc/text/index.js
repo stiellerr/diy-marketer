@@ -21,7 +21,7 @@ import { SpacingControl, getEditorSpacing, getFrontEndSpacing } from "../spacing
 import "./editor.scss";
 
 import HeadingLevelDropdown from "./heading-level-dropdown";
-import { pickBy, isNumber } from "lodash";
+//import { pickBy, isNumber } from "lodash";
 
 const options = [
     //
@@ -234,8 +234,6 @@ registerBlockType("diym/text", {
             spaceTop,
             spaceBottom
         };
-
-        //const DEFAULT =
 
         let className =
             classnames(size, getFrontEndSpacing("m", SPACING, DEFAULTS), {

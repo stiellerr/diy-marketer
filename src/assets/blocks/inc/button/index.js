@@ -4,7 +4,9 @@ import { RichText, useBlockProps } from "@wordpress/block-editor";
 
 import "./editor.scss";
 
-import { getMarginClass } from "../spacing-control";
+//import { getMarginClass } from "../spacing-control";
+//import { SpacingControl, getEditorSpacing, getFrontEndSpacing } from "../spacing-control";
+import { getFrontEndSpacing } from "../spacing-control";
 import { BUTTON_SIZES, getSelectValueFromFontSize } from "../helper";
 import edit from "./edit.js";
 
@@ -67,11 +69,12 @@ registerBlockType("diym/button", {
         buttonSize: {
             type: "string"
         },
-        spacingTop: {
-            type: "number"
-        },
-        spacingBottom: {
-            type: "number"
+        spacing: {
+            type: "object",
+            default: {
+                top: undefined,
+                bottom: undefined
+            }
         },
         textColor: {
             type: "string"
@@ -108,8 +111,7 @@ registerBlockType("diym/button", {
             text,
             textAlign,
             buttonSize,
-            marginBottom,
-            marginTop,
+            spacing,
             textColor,
             buttonColor,
             type,
@@ -118,11 +120,7 @@ registerBlockType("diym/button", {
             rel
         } = attributes;
 
-        //console.log(type);
-
-        //con;
-
-        let wrapperClass = classnames(getMarginClass(marginTop, marginBottom), {
+        let wrapperClass = classnames(getFrontEndSpacing("m", spacing), {
             [`text-${textAlign}`]: "center" === textAlign || "right" === textAlign
         });
 

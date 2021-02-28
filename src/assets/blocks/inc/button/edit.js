@@ -29,6 +29,7 @@ import { rawShortcut, displayShortcut } from "@wordpress/keycodes";
 import { link, linkOff } from "@wordpress/icons";
 
 import "./editor.scss";
+
 import { SpacingControl, getEditorSpacing } from "../spacing-control";
 import { BLOCK_ALIGNMENT_CONTROLS, SPACING_LEVELS, BUTTON_SIZES } from "../helper";
 
@@ -152,8 +153,7 @@ function ButtonEdit(props) {
         url,
         textAlign,
         buttonSize,
-        spacingTop,
-        spacingBottom,
+        spacing,
         className
     } = attributes;
 
@@ -178,13 +178,7 @@ function ButtonEdit(props) {
         [rel, setAttributes]
     );
 
-    console.log(spacingTop);
-    console.log(spacingBottom);
-
-    const spacingStyles = getEditorSpacing({ top: spacingTop, bottom: spacingBottom }, isSelected);
-
-    console.log("button");
-    console.log(spacingStyles);
+    const spacingStyles = getEditorSpacing(isSelected, spacing);
 
     const blockProps = useBlockProps({
         style: {
@@ -223,9 +217,19 @@ function ButtonEdit(props) {
                 </PanelBody>
                 <PanelBody title={__("Spacing", "diy-marketer")} initialOpen={false}>
                     <SpacingControl
-                        values={{ top: spacingTop, bottom: spacingBottom }}
-                        onChange={({ top, bottom }) => {
-                            setAttributes({ spacingTop: top, spacingBottom: bottom });
+                        values={spacing}
+                        onChange={spacing => {
+                            setAttributes(spacing);
+                        }}
+                        onReset={() => {
+                            setAttributes({
+                                spacing: {
+                                    top: undefined,
+                                    bottom: undefined,
+                                    left: undefined,
+                                    right: undefined
+                                }
+                            });
                         }}
                     ></SpacingControl>
                 </PanelBody>

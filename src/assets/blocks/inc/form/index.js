@@ -8,7 +8,6 @@ import { PanelBody } from "@wordpress/components";
 import classnames from "classnames";
 
 import { SpacingControl, getEditorSpacing, getFrontEndSpacing } from "../spacing-control";
-import { pickBy, isNumber } from "lodash";
 
 registerBlockType("diym/form", {
     title: __("Form", "diy-marketer"),
@@ -26,95 +25,99 @@ registerBlockType("diym/form", {
         color: true
     },
     attributes: {
-        spacingTop: {
-            type: "number",
-            default: 3
+        spacing: {
+            type: "object",
+            default: {
+                top: undefined,
+                bottom: undefined
+            }
         },
-        spacingBottom: {
-            type: "number",
-            default: 3
-        },
-        spacingLeft: {
-            type: "number",
-            default: 3
-        },
-        spacingRight: {
-            type: "number",
-            default: 3
+        spacingInside: {
+            type: "object",
+            default: {
+                top: undefined,
+                bottom: undefined,
+                left: undefined,
+                right: undefined
+            }
         }
     },
     edit: props => {
         const { attributes, setAttributes, isSelected } = props;
-        const { spacingTop, spacingBottom, spacingLeft, spacingRight } = attributes;
+        const { spacing, spacingInside } = attributes;
 
-        const DEFAULTS = {
+        const defaults = {
             top: 3,
             bottom: 3,
             left: 3,
             right: 3
         };
 
-        const SPACING = {
-            // defaults
-            ...DEFAULTS,
-            // pick out the numbers
-            ...pickBy(
-                { top: spacingTop, bottom: spacingBottom, left: spacingLeft, right: spacingRight },
-                isNumber
-            )
-        };
-
-        const spacingStyles = getEditorSpacing(SPACING, isSelected);
-
         return (
             <>
                 <InspectorControls>
                     <PanelBody title={__("Spacing", "diy-marketer")} initialOpen={"false"}>
                         <SpacingControl
-                            values={SPACING}
-                            onChange={({ top, bottom, left, right }) => {
-                                setAttributes({
-                                    spacingTop: top,
-                                    spacingBottom: bottom,
-                                    spacingLeft: left,
-                                    spacingRight: right
-                                });
+                            title={__("Space Control", "diy-marketer")}
+                            values={spacing}
+                            onChange={spacing => {
+                                setAttributes({ spacing });
                             }}
                             onReset={() => {
                                 setAttributes({
-                                    spacingTop: undefined,
-                                    spacingBottom: undefined,
-                                    spacingLeft: undefined,
-                                    spacingRight: undefined
+                                    spacing: {
+                                        top: undefined,
+                                        bottom: undefined
+                                    }
+                                });
+                            }}
+                        ></SpacingControl>
+                        <SpacingControl
+                            title={__("Space Control (inside)", "diy-marketer")}
+                            defaults={defaults}
+                            values={spacingInside}
+                            onChange={spacingInside => {
+                                setAttributes({ spacingInside });
+                            }}
+                            onReset={() => {
+                                setAttributes({
+                                    spacingInside: {
+                                        top: undefined,
+                                        bottom: undefined,
+                                        left: undefined,
+                                        right: undefined
+                                    }
                                 });
                             }}
                         ></SpacingControl>
                     </PanelBody>
                 </InspectorControls>
-                <div style={{ ...spacingStyles }}>
-                    <InnerBlocks
-                        allowedBlocks={["diym/input", "diym/text", "diym/button"]}
-                        renderAppender={() => <InnerBlocks.ButtonBlockAppender />}
-                    />
+                <div style={{ ...getEditorSpacing(isSelected, spacing) }}>
+                    <div style={{ ...getEditorSpacing(isSelected, spacingInside, defaults) }}>
+                        <InnerBlocks
+                            allowedBlocks={["diym/input", "diym/text", "diym/button"]}
+                            renderAppender={() => <InnerBlocks.ButtonBlockAppender />}
+                        />
+                    </div>
                 </div>
             </>
         );
     },
     save: props => {
         const { attributes } = props;
-        const { spacingTop, spacingBottom, spacingLeft, spacingRight } = attributes;
-        //const { backgroundColor, offerColor, customOfferColor } = attributes;
+        const { spacing, spacingInside } = attributes;
+
+        const defaults = {
+            top: 3,
+            bottom: 3,
+            left: 3,
+            right: 3
+        };
+
         let className = classnames(
             "needs-validation",
-            getFrontEndSpacing(
-                {
-                    top: spacingTop,
-                    bottom: spacingBottom,
-                    left: spacingLeft,
-                    right: spacingRight
-                },
-                "p"
-            )
+            getFrontEndSpacing("m", spacing),
+            getFrontEndSpacing("p", spacingInside, defaults)
         );
 
         return (
