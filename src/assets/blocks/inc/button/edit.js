@@ -31,7 +31,7 @@ import { link, linkOff } from "@wordpress/icons";
 import "./editor.scss";
 
 import { SpacingControl, getEditorSpacing } from "../spacing-control";
-import { BLOCK_ALIGNMENT_CONTROLS, SPACING_LEVELS, BUTTON_SIZES } from "../helper";
+import { BLOCK_ALIGNMENT_CONTROLS, BUTTON_SIZES } from "../helper";
 
 const NEW_TAB_REL = "noreferrer noopener";
 
@@ -178,12 +178,10 @@ function ButtonEdit(props) {
         [rel, setAttributes]
     );
 
-    const spacingStyles = getEditorSpacing(isSelected, spacing);
-
     const blockProps = useBlockProps({
         style: {
             textAlign: "center" === textAlign || "right" === textAlign ? textAlign : undefined,
-            ...spacingStyles
+            ...getEditorSpacing(isSelected, spacing)
             //paddingTop: spacingTop ? SPACING_LEVELS[spacingTop] : undefined,
             //paddingBottom: spacingBottom ? SPACING_LEVELS[spacingBottom] : undefined
         }
@@ -219,15 +217,13 @@ function ButtonEdit(props) {
                     <SpacingControl
                         values={spacing}
                         onChange={spacing => {
-                            setAttributes(spacing);
+                            setAttributes({ spacing });
                         }}
                         onReset={() => {
                             setAttributes({
                                 spacing: {
                                     top: undefined,
-                                    bottom: undefined,
-                                    left: undefined,
-                                    right: undefined
+                                    bottom: undefined
                                 }
                             });
                         }}

@@ -95,13 +95,14 @@ registerBlockType("diym/text", {
         textAlign: {
             type: "string"
         },
+        spacing: {
+            type: "object",
+            default: {
+                top: undefined,
+                bottom: undefined
+            }
+        },
         fontSize: {
-            type: "number"
-        },
-        spaceTop: {
-            type: "number"
-        },
-        spaceBottom: {
             type: "number"
         },
         size: {
@@ -121,26 +122,19 @@ registerBlockType("diym/text", {
     },
     edit: ({ attributes, setAttributes, isSelected }) => {
         //
-        const { content, textAlign, spaceBottom, spaceTop, level, size } = attributes;
+        const { content, textAlign, spacing, level, size } = attributes;
 
         const tagName = level ? "h" + level : "p";
 
-        const DEFAULTS = {
-            spaceBottom: level ? 2 : 3
+        const defaults = {
+            bottom: level ? 2 : 3
         };
-
-        const SPACING = {
-            spaceTop,
-            spaceBottom
-        };
-
-        const spacingStyles = getEditorSpacing(isSelected, SPACING, DEFAULTS);
 
         const blockProps = useBlockProps({
             style: {
                 ...options.find(option => option.key === size)?.style,
                 textAlign: textAlign,
-                ...spacingStyles
+                ...getEditorSpacing(isSelected, spacing, defaults)
             }
         });
 
@@ -149,13 +143,18 @@ registerBlockType("diym/text", {
                 <InspectorControls>
                     <PanelBody title={__("Spacing", "diy-marketer")} initialOpen={false}>
                         <SpacingControl
-                            defaults={DEFAULTS}
-                            values={SPACING}
-                            onChange={newSpacing => {
-                                setAttributes(newSpacing);
+                            defaults={defaults}
+                            values={spacing}
+                            onChange={spacing => {
+                                setAttributes({ spacing });
                             }}
                             onReset={() => {
-                                setAttributes({ spaceTop: undefined, spaceBottom: undefined });
+                                setAttributes({
+                                    spacing: {
+                                        top: undefined,
+                                        bottom: undefined
+                                    }
+                                });
                             }}
                         ></SpacingControl>
                     </PanelBody>
@@ -222,21 +221,16 @@ registerBlockType("diym/text", {
         );
     },
     save: ({ attributes }) => {
-        const { content, textAlign, spaceTop, spaceBottom, textColor, level, size } = attributes;
+        const { content, textAlign, spacing, textColor, level, size } = attributes;
 
         const TagName = level ? "h" + level : "p";
 
-        const DEFAULTS = {
-            spaceBottom: level ? 2 : 3
-        };
-
-        const SPACING = {
-            spaceTop,
-            spaceBottom
+        const defaults = {
+            bottom: level ? 2 : 3
         };
 
         let className =
-            classnames(size, getFrontEndSpacing("m", SPACING, DEFAULTS), {
+            classnames(size, getFrontEndSpacing("m", spacing, defaults), {
                 [`text-${textColor}`]: textColor,
                 [`text-${textAlign}`]: textAlign
             }) || undefined;

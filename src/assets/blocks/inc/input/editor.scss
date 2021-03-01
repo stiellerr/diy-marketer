@@ -1,3 +1,11 @@
+/*
 :not(.is-selected) > div > .label-hidden {
     display: none;
+}
+*/
+
+.editor-styles-wrapper {
+    .wp-block-diym-input {
+        margin: 1px auto;
+    }
 }

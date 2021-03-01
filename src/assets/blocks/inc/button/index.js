@@ -82,7 +82,6 @@ registerBlockType("diym/button", {
         buttonColor: {
             type: "string"
         },
-        //
         url: {
             type: "string",
             source: "attribute",
@@ -104,7 +103,6 @@ registerBlockType("diym/button", {
     },
     edit,
     save: props => {
-        //console.log(props);
         const { attributes } = props;
 
         const {

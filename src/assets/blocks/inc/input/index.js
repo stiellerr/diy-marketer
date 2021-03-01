@@ -1,8 +1,9 @@
 //import "./editor.scss";
 
+import { useRef } from "@wordpress/element";
 import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
-import { InnerBlocks, RichText, PlainText, InspectorControls } from "@wordpress/block-editor";
+import { PlainText, InspectorControls, useBlockProps } from "@wordpress/block-editor";
 
 import {
     TextControl,
@@ -10,26 +11,23 @@ import {
     CheckboxControl,
     TextareaControl,
     SelectControl,
-    CustomSelectControl,
-    Flex,
-    FlexItem,
-    PanelRow,
-    Button,
-    FlexBlock
+    CustomSelectControl
 } from "@wordpress/components";
 
-import BoxControlIcon from "./icon";
-
-import InputControls from "./input-controls";
-
-//import "./editor.scss";
+import "./editor.scss";
 
 import classnames from "classnames";
-import { useState } from "@wordpress/element";
 
-//import edit from "./edit";
+// Input field...
+const InputField = props => {
+    if ("textarea" === props.type) {
+        return <TextareaControl {...props} />;
+    }
+    return <TextControl {...props} />;
+};
 
 registerBlockType("diym/input", {
+    apiVersion: 2,
     title: __("Input", "diy-marketer"),
     description: __("Add an input field to your form.", "diy-marketer"),
     category: "diy-marketer",
@@ -42,7 +40,7 @@ registerBlockType("diym/input", {
     supports: {
         html: false,
         reusable: false,
-        //className: true,
+        className: true,
         customClassName: false
     },
     attributes: {
@@ -111,7 +109,9 @@ registerBlockType("diym/input", {
             }
         ];
 
-        // props
+        //const ref = useRef();
+        const blockProps = useBlockProps();
+
         const inputProps = {
             style: {
                 fontSize:
@@ -128,46 +128,9 @@ registerBlockType("diym/input", {
             }
         };
 
-        //const [side, setSide] = useState(isLinked ? "all" : "top");
-        const [side, setSide] = useState("top");
-
-        const handleOnFocus = (event, { side: nextSide }) => {
-            //console.log(event);
-            //console.log(nextSide);
-            setSide(nextSide);
-        };
-
         return (
             <>
                 <InspectorControls>
-                    <PanelBody title={__("Spacing", "diy-marketer")}>
-                        <Flex>
-                            <FlexItem>
-                                <BoxControlIcon side={side}></BoxControlIcon>
-                            </FlexItem>
-                            <FlexItem style={{ marginTop: "8px" }}>
-                                <TextControl
-                                    inputMode={"numeric"}
-                                    style={{ maxWidth: "58px" }}
-                                ></TextControl>
-                            </FlexItem>
-                            <FlexBlock style={{ textAlign: "right" }}>
-                                <Button isPrimary isSmall>
-                                    Click
-                                </Button>
-                            </FlexBlock>
-                        </Flex>
-                        <Flex gap={3}>
-                            <InputControls
-                                values={{ top: 0 }}
-                                onChange={v => {
-                                    console.log(v);
-                                    console.log("on change");
-                                }}
-                                onFocus={handleOnFocus}
-                            ></InputControls>
-                        </Flex>
-                    </PanelBody>
                     <PanelBody title={__("Settings", "diy-marketer")}>
                         {labelPosition && (
                             <TextControl
@@ -233,22 +196,18 @@ registerBlockType("diym/input", {
                         ></CustomSelectControl>
                     </PanelBody>
                 </InspectorControls>
-                {!labelPosition && (isSelected || label?.length > 0) && (
-                    <PlainText
-                        value={label}
-                        style={{ backgroundColor: "transparent" }}
-                        onChange={label => {
-                            //
-
-                            setAttributes({ label });
-                        }}
-                    ></PlainText>
-                )}
-                {"textarea" === type ? (
-                    <TextareaControl {...inputProps} />
-                ) : (
-                    <TextControl {...inputProps} />
-                )}
+                <div {...blockProps}>
+                    {!labelPosition && (isSelected || label?.length > 0) && (
+                        <PlainText
+                            value={label}
+                            style={{ backgroundColor: "transparent" }}
+                            onChange={label => {
+                                setAttributes({ label });
+                            }}
+                        ></PlainText>
+                    )}
+                    <InputField {...inputProps}></InputField>
+                </div>
             </>
         );
     },
