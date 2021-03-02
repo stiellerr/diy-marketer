@@ -1,6 +1,5 @@
 //import "./editor.scss";
 
-import { useRef } from "@wordpress/element";
 import { registerBlockType } from "@wordpress/blocks";
 import { __ } from "@wordpress/i18n";
 import { PlainText, InspectorControls, useBlockProps } from "@wordpress/block-editor";
@@ -17,6 +16,8 @@ import {
 import "./editor.scss";
 
 import classnames from "classnames";
+
+import { SpacingControl, getEditorSpacing, getFrontEndSpacing } from "../spacing-control";
 
 // Input field...
 const InputField = props => {
@@ -78,6 +79,13 @@ registerBlockType("diym/input", {
             source: "attribute",
             selector: "input,textarea",
             attribute: "placeholder"
+        },
+        spacing: {
+            type: "object",
+            default: {
+                top: undefined,
+                bottom: undefined
+            }
         }
     },
     edit: props => {
@@ -89,7 +97,8 @@ registerBlockType("diym/input", {
             required,
             feedback,
             type,
-            inputSize
+            inputSize,
+            spacing
         } = attributes;
 
         const sizes = [
@@ -110,7 +119,9 @@ registerBlockType("diym/input", {
         ];
 
         //const ref = useRef();
-        const blockProps = useBlockProps();
+        const blockProps = useBlockProps({
+            style: { ...getEditorSpacing(isSelected, spacing) }
+        });
 
         const inputProps = {
             style: {
@@ -131,6 +142,22 @@ registerBlockType("diym/input", {
         return (
             <>
                 <InspectorControls>
+                    <PanelBody title={__("Spacing", "diy-marketer")} initialOpen={false}>
+                        <SpacingControl
+                            values={spacing}
+                            onChange={spacing => {
+                                setAttributes({ spacing });
+                            }}
+                            onReset={() => {
+                                setAttributes({
+                                    spacing: {
+                                        top: undefined,
+                                        bottom: undefined
+                                    }
+                                });
+                            }}
+                        ></SpacingControl>
+                    </PanelBody>
                     <PanelBody title={__("Settings", "diy-marketer")}>
                         {labelPosition && (
                             <TextControl
@@ -220,7 +247,8 @@ registerBlockType("diym/input", {
             required,
             type,
             inputSize,
-            labelPosition
+            labelPosition,
+            spacing
         } = attributes;
         // default tag
         let TagName = "input";
@@ -242,28 +270,30 @@ registerBlockType("diym/input", {
 
         return (
             <>
-                {!labelPosition && <Label></Label>}
-                <div
-                    className={
-                        !labelPosition
-                            ? "input-group"
-                            : "floating" === labelPosition
-                            ? "form-floating"
-                            : undefined
-                    }
-                >
-                    <TagName
-                        id={label}
-                        type={type}
-                        className={inputClass}
-                        name={label}
-                        placeholder={placeholder}
-                        required={required}
-                    />
-                    {"floating" === labelPosition && <Label></Label>}
-                    {feedback && (
-                        <div className={__("invalid-feedback", "diy-marketer")}>{feedback}</div>
-                    )}
+                <div className={getFrontEndSpacing("m", spacing)}>
+                    {!labelPosition && <Label></Label>}
+                    <div
+                        className={
+                            !labelPosition
+                                ? "input-group"
+                                : "floating" === labelPosition
+                                ? "form-floating"
+                                : undefined
+                        }
+                    >
+                        <TagName
+                            id={label}
+                            type={type}
+                            className={inputClass}
+                            name={label}
+                            placeholder={placeholder}
+                            required={required}
+                        />
+                        {"floating" === labelPosition && <Label></Label>}
+                        {feedback && (
+                            <div className={__("invalid-feedback", "diy-marketer")}>{feedback}</div>
+                        )}
+                    </div>
                 </div>
             </>
         );

@@ -121,7 +121,7 @@ export function SpacingControl({
 
     const createHandleOnChange = side => next => {
         //
-        let nextValue = { ...values };
+        let nextValue = { ...mergedValues };
 
         if (isArray(side)) {
             side.forEach(e => {
