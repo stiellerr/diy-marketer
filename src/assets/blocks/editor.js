@@ -35,7 +35,11 @@ import countdown from "./inc/countdown";
 import button from "./inc/button";
 import modal from "./inc/modal";
 import form from "./inc/form";
+import "./inc/field";
 import "./inc/input";
+import "./inc/inputs";
+import "./inc/progress";
+import "./inc/container";
 //import font_awesome_picker from "./inc/font-awesome-picker";
 
 //import "./inc/meta";

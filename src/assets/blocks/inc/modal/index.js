@@ -6,6 +6,8 @@ import { InnerBlocks } from "@wordpress/block-editor";
 
 //import edit from "./edit";
 
+const TEMPLATE = [["diym/form"]];
+
 registerBlockType("diym/modal", {
     title: __("Modal", "diy-marketer"),
     description: __("Add a modal to your page.", "diy-marketer"),
@@ -46,7 +48,14 @@ registerBlockType("diym/modal", {
         */
     },
     edit: props => {
-        return <div>Modal</div>;
+        return (
+            <InnerBlocks
+                template={TEMPLATE}
+                //templateLock="all"
+                allowedBlocks={["diym/text"]}
+                renderAppender={() => <InnerBlocks.ButtonBlockAppender />}
+            />
+        );
     },
     save: props => {
         const { attributes } = props;
