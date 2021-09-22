@@ -2,8 +2,6 @@
 /**
  * Color Calculations.
  *
- * @since Twenty Twenty 1.0
- *
  * @param {string} backgroundColor - The background color.
  * @param {number} accentHue - The hue for our accent color.
  *
