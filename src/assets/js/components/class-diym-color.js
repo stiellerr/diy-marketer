@@ -1,6 +1,5 @@
 /* global Color */
 /**
- * Color Calculations.
  *
  * @param {string} backgroundColor - The background color.
  * @param {number} accentHue - The hue for our accent color.
