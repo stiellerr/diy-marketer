@@ -4,7 +4,6 @@
  *
  * Contains extra logic for our Customizer controls & settings.
  *
- * @since Twenty Twenty 1.0
  */
 
 import DIYM_Color from "./components/class-diym-color";
